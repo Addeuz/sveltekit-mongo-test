@@ -41,10 +41,6 @@
 	};
 
 	let input = '';
-
-	onMount(() => {
-		console.log(variables.mongoDbURI);
-	});
 </script>
 
 <h1>Welcome to SvelteKit</h1>
