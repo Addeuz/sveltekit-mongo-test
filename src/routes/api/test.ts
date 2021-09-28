@@ -1,38 +1,35 @@
-import { clientPromise } from '$lib/mongo-client';
+import { connect, disconnect } from '$lib/database/db';
+import { User } from '$lib/database/models';
 import type { RequestHandler } from '@sveltejs/kit';
 
-export const get: RequestHandler = async ({ body }) => {
-	const client = await clientPromise;
+// export const get: RequestHandler = async ({ body }) => {
+// 	connect();
+// 	// const client = await clientPromise;
 
-	console.log(client.db().databaseName);
+// 	// console.log(client.db().databaseName)
+// 	await disconnect();
+// 	return {
+// 		status: 200,
+// 		body: {
 
-	return {
-		status: 200,
-		body: {
-			message: 'JANNE'
-		}
-	};
-};
+// 		}
+// 	};
+// };
 
 export const post: RequestHandler = async ({ body }) => {
-	const client = await clientPromise;
+	await connect();
+
 	const req = JSON.parse(body as string);
-	console.log(JSON.parse(body as string));
-	// console.log(message);
-	console.log(client.db().databaseName);
 
-	await client.db().collection('test').insertOne({
-		message: req.message
-	});
-	console.log('message', req.message);
+	const user = new User({ username: req.message, password: 'janne123456789' });
+	const saved = await user.save();
+	console.log(saved);
 
-	const test = await client.db().collection('test').findOne({ message: req.message });
-
-	console.log(test);
+	await disconnect();
 	return {
 		status: 200,
 		body: {
-			message: req.message
+			saved
 		}
 	};
 };
