@@ -1,4 +1,4 @@
-import { connect, disconnect } from '$lib/database/db';
+import { connect } from '$lib/database/db';
 import { User } from '$lib/database/models';
 import type { RequestHandler } from '@sveltejs/kit';
 
@@ -21,7 +21,7 @@ export const post: RequestHandler = async ({ body }) => {
 
 	const req = JSON.parse(body as string);
 
-	const user = new User({ username: req.message, password: 'janne123456789' });
+	const user = new User({ username: req.message, password: 'janne123456789', type: 'researcher' });
 	const saved = await user.save();
 	console.log(saved);
 

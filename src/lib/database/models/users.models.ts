@@ -5,6 +5,7 @@ const { model } = mongoose;
 export interface IUser extends Document {
 	username: string;
 	password: string;
+	type: 'student' | 'teacher' | 'researcher';
 	completedRuns: string[];
 }
 
@@ -13,6 +14,9 @@ const UserSchema: Schema = new mongoose.Schema({
 		type: String
 	},
 	password: {
+		type: String
+	},
+	type: {
 		type: String
 	},
 	completedRuns: {

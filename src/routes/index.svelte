@@ -19,9 +19,6 @@
 </script>
 
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import { variables } from '$lib/environment';
-
 	const testMongo = async () => {
 		console.log('janne', input);
 		try {
@@ -47,4 +44,4 @@
 <p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
 <input type="text" bind:value={input} placeholder="Test" />
 <button on:click={testMongo}>Testa</button>
-<img src="/colorpatterns-01.jpeg" alt="Janne" />
+<img src="/color_pattern/colorpatterns-12.jpeg" alt="Janne" />

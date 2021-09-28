@@ -53726,9 +53726,9 @@ function init(settings = default_settings) {
     amp: false,
     dev: false,
     entry: {
-      file: assets + "/_app/start-11b96f33.js",
+      file: assets + "/_app/start-5e37127c.js",
       css: [assets + "/_app/assets/start-61d1577b.css"],
-      js: [assets + "/_app/start-11b96f33.js", assets + "/_app/chunks/vendor-99560833.js"]
+      js: [assets + "/_app/start-5e37127c.js", assets + "/_app/chunks/vendor-99560833.js"]
     },
     fetched: void 0,
     floc: false,
@@ -53757,7 +53757,7 @@ function init(settings = default_settings) {
 }
 var empty = () => ({});
 var manifest = {
-  assets: [{ "file": "colorpatterns-01.jpeg", "size": 108749, "type": "image/jpeg" }, { "file": "favicon.png", "size": 1571, "type": "image/png" }],
+  assets: [{ "file": "color_pattern/colorpatterns-01.jpeg", "size": 108749, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-02.jpeg", "size": 107432, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-03.jpeg", "size": 108640, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-04.jpeg", "size": 128423, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-05.jpeg", "size": 127671, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-06.jpeg", "size": 132346, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-07.jpeg", "size": 134224, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-08.jpeg", "size": 132075, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-09.jpeg", "size": 151786, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-10.jpeg", "size": 156422, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-11.jpeg", "size": 132107, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-12.jpeg", "size": 134763, "type": "image/jpeg" }, { "file": "colorpatterns-01.jpeg", "size": 108749, "type": "image/jpeg" }, { "file": "difference/difference-01.jpeg", "size": 71335, "type": "image/jpeg" }, { "file": "difference/difference-02.jpeg", "size": 83679, "type": "image/jpeg" }, { "file": "difference/difference-03.jpeg", "size": 86116, "type": "image/jpeg" }, { "file": "difference/difference-04.jpeg", "size": 70362, "type": "image/jpeg" }, { "file": "difference/difference-05.jpeg", "size": 75759, "type": "image/jpeg" }, { "file": "difference/difference-06.jpeg", "size": 82637, "type": "image/jpeg" }, { "file": "favicon.png", "size": 1571, "type": "image/png" }, { "file": "hidden_number/hiddennumber-01.jpeg", "size": 109072, "type": "image/jpeg" }, { "file": "hidden_number/hiddennumber-02.jpeg", "size": 108984, "type": "image/jpeg" }, { "file": "hidden_number/hiddennumber-03.jpeg", "size": 166768, "type": "image/jpeg" }, { "file": "hidden_number/hiddennumber-04.jpeg", "size": 126110, "type": "image/jpeg" }, { "file": "hidden_number/hiddennumber-05.jpeg", "size": 105489, "type": "image/jpeg" }, { "file": "minus/minus-01.jpeg", "size": 72783, "type": "image/jpeg" }, { "file": "minus/minus-02.jpeg", "size": 74413, "type": "image/jpeg" }, { "file": "minus/minus-03.jpeg", "size": 71339, "type": "image/jpeg" }, { "file": "minus/minus-04.jpeg", "size": 76861, "type": "image/jpeg" }, { "file": "number_comparison/numbercomparison-01.jpeg", "size": 67853, "type": "image/jpeg" }, { "file": "number_comparison/numbercomparison-02.jpeg", "size": 69583, "type": "image/jpeg" }, { "file": "number_comparison/numbercomparison-03.jpeg", "size": 71068, "type": "image/jpeg" }, { "file": "number_comparison/numbercomparison-04.jpeg", "size": 70527, "type": "image/jpeg" }, { "file": "number_comparison/numbercomparison-05.jpeg", "size": 74497, "type": "image/jpeg" }, { "file": "number_comparison/numbercomparison-06.jpeg", "size": 79549, "type": "image/jpeg" }, { "file": "number_line/numberline-01.jpeg", "size": 84538, "type": "image/jpeg" }, { "file": "number_line/numberline-02.jpeg", "size": 84400, "type": "image/jpeg" }, { "file": "number_line/numberline-03.jpeg", "size": 84498, "type": "image/jpeg" }, { "file": "number_line/numberline-04.jpeg", "size": 84475, "type": "image/jpeg" }, { "file": "number_line/numberline-05.jpeg", "size": 84564, "type": "image/jpeg" }, { "file": "number_line/numberline-06.jpeg", "size": 82270, "type": "image/jpeg" }, { "file": "number_line/numberline-07.jpeg", "size": 94270, "type": "image/jpeg" }, { "file": "number_line/numberline-08.jpeg", "size": 87322, "type": "image/jpeg" }, { "file": "number_line/numberline-09.jpeg", "size": 93478, "type": "image/jpeg" }, { "file": "number_line/numberline-10.jpeg", "size": 88423, "type": "image/jpeg" }, { "file": "number_pattern/.DS_Store", "size": 6148, "type": null }, { "file": "number_pattern/numberpattern-01.jpeg", "size": 101807, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-02.jpeg", "size": 111130, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-03.jpeg", "size": 102234, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-04.jpeg", "size": 111219, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-05.jpeg", "size": 103208, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-06.jpeg", "size": 120511, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-07.jpeg", "size": 106663, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-08.jpeg", "size": 128896, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-09.jpeg", "size": 137700, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-10.jpeg", "size": 99376, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-11.jpeg", "size": 99619, "type": "image/jpeg" }, { "file": "plus/plus-01.jpeg", "size": 74055, "type": "image/jpeg" }, { "file": "plus/plus-02.jpeg", "size": 74143, "type": "image/jpeg" }, { "file": "plus/plus-03.jpeg", "size": 77092, "type": "image/jpeg" }, { "file": "plus/plus-04.jpeg", "size": 74925, "type": "image/jpeg" }, { "file": "quantities/quantities-01.jpeg", "size": 81145, "type": "image/jpeg" }, { "file": "quantities/quantities-02.jpeg", "size": 75379, "type": "image/jpeg" }, { "file": "quantities/quantities-03.jpeg", "size": 99567, "type": "image/jpeg" }, { "file": "quantities/quantities-04.jpeg", "size": 81531, "type": "image/jpeg" }, { "file": "quantities/quantities-05.jpeg", "size": 119731, "type": "image/jpeg" }, { "file": "quantities/quantities-06.jpeg", "size": 87200, "type": "image/jpeg" }, { "file": "quantities/quantities-07.jpeg", "size": 68834, "type": "image/jpeg" }, { "file": "quantities/quantities-08.jpeg", "size": 94103, "type": "image/jpeg" }, { "file": "quantities/quantities-09.jpeg", "size": 94089, "type": "image/jpeg" }, { "file": "quantities/quantities-10.jpeg", "size": 68792, "type": "image/jpeg" }, { "file": "quantities/quantities-11.jpeg", "size": 87613, "type": "image/jpeg" }, { "file": "quantities/quantities-12.jpeg", "size": 106707, "type": "image/jpeg" }, { "file": "quantities/quantities-13.jpeg", "size": 81406, "type": "image/jpeg" }, { "file": "quantities/quantities-14.jpeg", "size": 112850, "type": "image/jpeg" }, { "file": "quantities/quantities-15.jpeg", "size": 74424, "type": "image/jpeg" }, { "file": "quantities/quantities-16.jpeg", "size": 101040, "type": "image/jpeg" }, { "file": "quantities/quantities-17.jpeg", "size": 88076, "type": "image/jpeg" }, { "file": "quantities/quantities-18.jpeg", "size": 68903, "type": "image/jpeg" }, { "file": "quantity_comparison/quantitiycomparison-01.jpeg", "size": 83932, "type": "image/jpeg" }, { "file": "quantity_comparison/quantitiycomparison-02.jpeg", "size": 108448, "type": "image/jpeg" }, { "file": "quantity_comparison/quantitiycomparison-03.jpeg", "size": 121295, "type": "image/jpeg" }, { "file": "quantity_comparison/quantitiycomparison-04.jpeg", "size": 104631, "type": "image/jpeg" }, { "file": "quantity_comparison/quantitiycomparison-05.jpeg", "size": 100515, "type": "image/jpeg" }, { "file": "quantity_comparison/quantitiycomparison-06.jpeg", "size": 93909, "type": "image/jpeg" }],
   layout: ".svelte-kit/build/components/layout.svelte",
   error: ".svelte-kit/build/components/error.svelte",
   routes: [
@@ -53795,7 +53795,7 @@ var module_lookup = {
     return index;
   })
 };
-var metadata_lookup = { ".svelte-kit/build/components/layout.svelte": { "entry": "layout.svelte-0eba2413.js", "css": [], "js": ["layout.svelte-0eba2413.js", "chunks/vendor-99560833.js"], "styles": [] }, ".svelte-kit/build/components/error.svelte": { "entry": "error.svelte-f7db2429.js", "css": [], "js": ["error.svelte-f7db2429.js", "chunks/vendor-99560833.js"], "styles": [] }, "src/routes/index.svelte": { "entry": "pages/index.svelte-571787da.js", "css": [], "js": ["pages/index.svelte-571787da.js", "chunks/vendor-99560833.js"], "styles": [] } };
+var metadata_lookup = { ".svelte-kit/build/components/layout.svelte": { "entry": "layout.svelte-0eba2413.js", "css": [], "js": ["layout.svelte-0eba2413.js", "chunks/vendor-99560833.js"], "styles": [] }, ".svelte-kit/build/components/error.svelte": { "entry": "error.svelte-f7db2429.js", "css": [], "js": ["error.svelte-f7db2429.js", "chunks/vendor-99560833.js"], "styles": [] }, "src/routes/index.svelte": { "entry": "pages/index.svelte-32cbac6b.js", "css": [], "js": ["pages/index.svelte-32cbac6b.js", "chunks/vendor-99560833.js"], "styles": [] } };
 async function load_component(file) {
   const { entry, css: css2, js, styles } = metadata_lookup[file];
   return {
@@ -53838,6 +53838,9 @@ var UserSchema = new import_mongoose.default.Schema({
   password: {
     type: String
   },
+  type: {
+    type: String
+  },
   completedRuns: {
     type: [String]
   }
@@ -53846,7 +53849,7 @@ var User = import_mongoose.default.models.User || model("User", UserSchema);
 var post = async ({ body }) => {
   await connect2();
   const req = JSON.parse(body);
-  const user = new User({ username: req.message, password: "janne123456789" });
+  const user = new User({ username: req.message, password: "janne123456789", type: "researcher" });
   const saved = await user.save();
   console.log(saved);
   return {
@@ -53927,7 +53930,7 @@ var Routes = create_ssr_component(($$result, $$props, $$bindings, slots) => {
 <p>Visit <a href="${"https://kit.svelte.dev"}">kit.svelte.dev</a> to read the documentation</p>
 <input type="${"text"}" placeholder="${"Test"}"${add_attribute("value", input, 0)}>
 <button>Testa</button>
-<img src="${"/colorpatterns-01.jpeg"}" alt="${"Janne"}">`;
+<img src="${"/color_pattern/colorpatterns-12.jpeg"}" alt="${"Janne"}">`;
 });
 var index = /* @__PURE__ */ Object.freeze({
   __proto__: null,
