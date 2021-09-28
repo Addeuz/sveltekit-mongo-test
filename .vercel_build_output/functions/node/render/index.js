@@ -53830,14 +53830,6 @@ var connect2 = async () => {
     console.log("Error connecting to database");
   });
 };
-var disconnect2 = async () => {
-  if (!database) {
-    return;
-  }
-  mongoose.disconnect().catch((e) => {
-    console.log("EERRRROOOOOORRR", e);
-  });
-};
 var { model } = import_mongoose.default;
 var UserSchema = new import_mongoose.default.Schema({
   username: {
@@ -53857,7 +53849,6 @@ var post = async ({ body }) => {
   const user = new User({ username: req.message, password: "janne123456789" });
   const saved = await user.save();
   console.log(saved);
-  await disconnect2();
   return {
     status: 200,
     body: {

@@ -25,7 +25,6 @@ export const post: RequestHandler = async ({ body }) => {
 	const saved = await user.save();
 	console.log(saved);
 
-	await disconnect();
 	return {
 		status: 200,
 		body: {
