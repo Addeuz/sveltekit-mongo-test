@@ -1,0 +1,26 @@
+<script lang="ts">
+	import '../app.postcss';
+</script>
+
+<slot />
+
+<!-- <style global lang="postcss">
+	@tailwind base;
+	@tailwind components;
+	@tailwind utilities;
+
+	@layer components {
+		h1 {
+			@apply text-3xl mb-3;
+		}
+
+		.nav-item {
+			@apply py-1 text-center hover:underline;
+		}
+
+		input,
+		select {
+			@apply w-full h-12 md:w-72 p-2 rounded-xl border-2;
+		}
+	}
+</style> -->
