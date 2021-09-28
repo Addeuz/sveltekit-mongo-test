@@ -1,4 +1,6 @@
-import mongoose, { Document, model, Model, Schema } from 'mongoose';
+import mongoose from 'mongoose';
+import type { Model, Schema, Document } from 'mongoose';
+const { model } = mongoose;
 
 export interface IUser extends Document {
 	username: string;
@@ -6,7 +8,7 @@ export interface IUser extends Document {
 	completedRuns: string[];
 }
 
-const UserSchema: Schema = new Schema({
+const UserSchema: Schema = new mongoose.Schema({
 	username: {
 		type: String
 	},
