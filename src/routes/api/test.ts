@@ -1,5 +1,6 @@
 import { connect } from '$lib/database/db';
 import { User } from '$lib/database/models';
+import bcrypt from 'bcryptjs';
 import type { RequestHandler } from '@sveltejs/kit';
 
 // export const get: RequestHandler = async ({ body }) => {
@@ -19,16 +20,21 @@ import type { RequestHandler } from '@sveltejs/kit';
 export const post: RequestHandler = async ({ body }) => {
 	await connect();
 
-	const req = JSON.parse(body as string);
+	const req = JSON.parse(body as string) as { username: string; password: string };
 
-	const user = new User({ username: req.message, password: 'janne123456789', type: 'researcher' });
-	const saved = await user.save();
-	console.log(saved);
+	// const user = new User({ username: req.message, password: 'janne123456789', type: 'researcher' });
+	// const saved = await user.save();
+	// console.log(saved);
+
+	const cryptPassword = bcrypt.hashSync(req.password);
+
+	const user = new User({ username: req.username, password: cryptPassword, type: 'researcher' });
+	await user.save();
 
 	return {
 		status: 200,
 		body: {
-			saved
+			message: 'User created'
 		}
 	};
 };

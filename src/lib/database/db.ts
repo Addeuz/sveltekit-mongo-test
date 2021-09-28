@@ -1,5 +1,5 @@
 import { variables } from '../environment';
-import * as mongoose from 'mongoose';
+import mongoose from 'mongoose';
 
 let database: mongoose.Connection;
 

@@ -235,8 +235,8 @@ async function fetch(url, options_) {
       request_.setTimeout(0);
       const headers = fromRawHeaders(response_.rawHeaders);
       if (isRedirect(response_.statusCode)) {
-        const location = headers.get("Location");
-        const locationURL = location === null ? null : new URL(location, request.url);
+        const location2 = headers.get("Location");
+        const locationURL = location2 === null ? null : new URL(location2, request.url);
         switch (request.redirect) {
           case "error":
             reject(new FetchError(`uri requested responds with a redirect, redirect mode is set to error: ${request.url}`, "no-redirect"));
@@ -1023,6 +1023,2447 @@ var init_shims = __esm({
   }
 });
 
+// node_modules/cookie/index.js
+var require_cookie = __commonJS({
+  "node_modules/cookie/index.js"(exports) {
+    init_shims();
+    "use strict";
+    exports.parse = parse3;
+    exports.serialize = serialize2;
+    var decode = decodeURIComponent;
+    var encode = encodeURIComponent;
+    var pairSplitRegExp = /; */;
+    var fieldContentRegExp = /^[\u0009\u0020-\u007e\u0080-\u00ff]+$/;
+    function parse3(str, options2) {
+      if (typeof str !== "string") {
+        throw new TypeError("argument str must be a string");
+      }
+      var obj = {};
+      var opt = options2 || {};
+      var pairs = str.split(pairSplitRegExp);
+      var dec = opt.decode || decode;
+      for (var i = 0; i < pairs.length; i++) {
+        var pair = pairs[i];
+        var eq_idx = pair.indexOf("=");
+        if (eq_idx < 0) {
+          continue;
+        }
+        var key = pair.substr(0, eq_idx).trim();
+        var val = pair.substr(++eq_idx, pair.length).trim();
+        if (val[0] == '"') {
+          val = val.slice(1, -1);
+        }
+        if (obj[key] == void 0) {
+          obj[key] = tryDecode(val, dec);
+        }
+      }
+      return obj;
+    }
+    function serialize2(name, val, options2) {
+      var opt = options2 || {};
+      var enc = opt.encode || encode;
+      if (typeof enc !== "function") {
+        throw new TypeError("option encode is invalid");
+      }
+      if (!fieldContentRegExp.test(name)) {
+        throw new TypeError("argument name is invalid");
+      }
+      var value = enc(val);
+      if (value && !fieldContentRegExp.test(value)) {
+        throw new TypeError("argument val is invalid");
+      }
+      var str = name + "=" + value;
+      if (opt.maxAge != null) {
+        var maxAge = opt.maxAge - 0;
+        if (isNaN(maxAge) || !isFinite(maxAge)) {
+          throw new TypeError("option maxAge is invalid");
+        }
+        str += "; Max-Age=" + Math.floor(maxAge);
+      }
+      if (opt.domain) {
+        if (!fieldContentRegExp.test(opt.domain)) {
+          throw new TypeError("option domain is invalid");
+        }
+        str += "; Domain=" + opt.domain;
+      }
+      if (opt.path) {
+        if (!fieldContentRegExp.test(opt.path)) {
+          throw new TypeError("option path is invalid");
+        }
+        str += "; Path=" + opt.path;
+      }
+      if (opt.expires) {
+        if (typeof opt.expires.toUTCString !== "function") {
+          throw new TypeError("option expires is invalid");
+        }
+        str += "; Expires=" + opt.expires.toUTCString();
+      }
+      if (opt.httpOnly) {
+        str += "; HttpOnly";
+      }
+      if (opt.secure) {
+        str += "; Secure";
+      }
+      if (opt.sameSite) {
+        var sameSite = typeof opt.sameSite === "string" ? opt.sameSite.toLowerCase() : opt.sameSite;
+        switch (sameSite) {
+          case true:
+            str += "; SameSite=Strict";
+            break;
+          case "lax":
+            str += "; SameSite=Lax";
+            break;
+          case "strict":
+            str += "; SameSite=Strict";
+            break;
+          case "none":
+            str += "; SameSite=None";
+            break;
+          default:
+            throw new TypeError("option sameSite is invalid");
+        }
+      }
+      return str;
+    }
+    function tryDecode(str, decode2) {
+      try {
+        return decode2(str);
+      } catch (e) {
+        return str;
+      }
+    }
+  }
+});
+
+// node_modules/bcryptjs/dist/bcrypt.js
+var require_bcrypt = __commonJS({
+  "node_modules/bcryptjs/dist/bcrypt.js"(exports, module2) {
+    init_shims();
+    (function(global2, factory) {
+      if (typeof define === "function" && define["amd"])
+        define([], factory);
+      else if (typeof require === "function" && typeof module2 === "object" && module2 && module2["exports"])
+        module2["exports"] = factory();
+      else
+        (global2["dcodeIO"] = global2["dcodeIO"] || {})["bcrypt"] = factory();
+    })(exports, function() {
+      "use strict";
+      var bcrypt2 = {};
+      var randomFallback = null;
+      function random(len) {
+        if (typeof module2 !== "undefined" && module2 && module2["exports"])
+          try {
+            return require("crypto")["randomBytes"](len);
+          } catch (e) {
+          }
+        try {
+          var a;
+          (self["crypto"] || self["msCrypto"])["getRandomValues"](a = new Uint32Array(len));
+          return Array.prototype.slice.call(a);
+        } catch (e) {
+        }
+        if (!randomFallback)
+          throw Error("Neither WebCryptoAPI nor a crypto module is available. Use bcrypt.setRandomFallback to set an alternative");
+        return randomFallback(len);
+      }
+      var randomAvailable = false;
+      try {
+        random(1);
+        randomAvailable = true;
+      } catch (e) {
+      }
+      randomFallback = null;
+      bcrypt2.setRandomFallback = function(random2) {
+        randomFallback = random2;
+      };
+      bcrypt2.genSaltSync = function(rounds, seed_length) {
+        rounds = rounds || GENSALT_DEFAULT_LOG2_ROUNDS;
+        if (typeof rounds !== "number")
+          throw Error("Illegal arguments: " + typeof rounds + ", " + typeof seed_length);
+        if (rounds < 4)
+          rounds = 4;
+        else if (rounds > 31)
+          rounds = 31;
+        var salt = [];
+        salt.push("$2a$");
+        if (rounds < 10)
+          salt.push("0");
+        salt.push(rounds.toString());
+        salt.push("$");
+        salt.push(base64_encode(random(BCRYPT_SALT_LEN), BCRYPT_SALT_LEN));
+        return salt.join("");
+      };
+      bcrypt2.genSalt = function(rounds, seed_length, callback) {
+        if (typeof seed_length === "function")
+          callback = seed_length, seed_length = void 0;
+        if (typeof rounds === "function")
+          callback = rounds, rounds = void 0;
+        if (typeof rounds === "undefined")
+          rounds = GENSALT_DEFAULT_LOG2_ROUNDS;
+        else if (typeof rounds !== "number")
+          throw Error("illegal arguments: " + typeof rounds);
+        function _async(callback2) {
+          nextTick(function() {
+            try {
+              callback2(null, bcrypt2.genSaltSync(rounds));
+            } catch (err) {
+              callback2(err);
+            }
+          });
+        }
+        if (callback) {
+          if (typeof callback !== "function")
+            throw Error("Illegal callback: " + typeof callback);
+          _async(callback);
+        } else
+          return new Promise(function(resolve2, reject) {
+            _async(function(err, res) {
+              if (err) {
+                reject(err);
+                return;
+              }
+              resolve2(res);
+            });
+          });
+      };
+      bcrypt2.hashSync = function(s2, salt) {
+        if (typeof salt === "undefined")
+          salt = GENSALT_DEFAULT_LOG2_ROUNDS;
+        if (typeof salt === "number")
+          salt = bcrypt2.genSaltSync(salt);
+        if (typeof s2 !== "string" || typeof salt !== "string")
+          throw Error("Illegal arguments: " + typeof s2 + ", " + typeof salt);
+        return _hash(s2, salt);
+      };
+      bcrypt2.hash = function(s2, salt, callback, progressCallback) {
+        function _async(callback2) {
+          if (typeof s2 === "string" && typeof salt === "number")
+            bcrypt2.genSalt(salt, function(err, salt2) {
+              _hash(s2, salt2, callback2, progressCallback);
+            });
+          else if (typeof s2 === "string" && typeof salt === "string")
+            _hash(s2, salt, callback2, progressCallback);
+          else
+            nextTick(callback2.bind(this, Error("Illegal arguments: " + typeof s2 + ", " + typeof salt)));
+        }
+        if (callback) {
+          if (typeof callback !== "function")
+            throw Error("Illegal callback: " + typeof callback);
+          _async(callback);
+        } else
+          return new Promise(function(resolve2, reject) {
+            _async(function(err, res) {
+              if (err) {
+                reject(err);
+                return;
+              }
+              resolve2(res);
+            });
+          });
+      };
+      function safeStringCompare(known, unknown) {
+        var right = 0, wrong = 0;
+        for (var i = 0, k = known.length; i < k; ++i) {
+          if (known.charCodeAt(i) === unknown.charCodeAt(i))
+            ++right;
+          else
+            ++wrong;
+        }
+        if (right < 0)
+          return false;
+        return wrong === 0;
+      }
+      bcrypt2.compareSync = function(s2, hash2) {
+        if (typeof s2 !== "string" || typeof hash2 !== "string")
+          throw Error("Illegal arguments: " + typeof s2 + ", " + typeof hash2);
+        if (hash2.length !== 60)
+          return false;
+        return safeStringCompare(bcrypt2.hashSync(s2, hash2.substr(0, hash2.length - 31)), hash2);
+      };
+      bcrypt2.compare = function(s2, hash2, callback, progressCallback) {
+        function _async(callback2) {
+          if (typeof s2 !== "string" || typeof hash2 !== "string") {
+            nextTick(callback2.bind(this, Error("Illegal arguments: " + typeof s2 + ", " + typeof hash2)));
+            return;
+          }
+          if (hash2.length !== 60) {
+            nextTick(callback2.bind(this, null, false));
+            return;
+          }
+          bcrypt2.hash(s2, hash2.substr(0, 29), function(err, comp) {
+            if (err)
+              callback2(err);
+            else
+              callback2(null, safeStringCompare(comp, hash2));
+          }, progressCallback);
+        }
+        if (callback) {
+          if (typeof callback !== "function")
+            throw Error("Illegal callback: " + typeof callback);
+          _async(callback);
+        } else
+          return new Promise(function(resolve2, reject) {
+            _async(function(err, res) {
+              if (err) {
+                reject(err);
+                return;
+              }
+              resolve2(res);
+            });
+          });
+      };
+      bcrypt2.getRounds = function(hash2) {
+        if (typeof hash2 !== "string")
+          throw Error("Illegal arguments: " + typeof hash2);
+        return parseInt(hash2.split("$")[2], 10);
+      };
+      bcrypt2.getSalt = function(hash2) {
+        if (typeof hash2 !== "string")
+          throw Error("Illegal arguments: " + typeof hash2);
+        if (hash2.length !== 60)
+          throw Error("Illegal hash length: " + hash2.length + " != 60");
+        return hash2.substring(0, 29);
+      };
+      var nextTick = typeof process !== "undefined" && process && typeof process.nextTick === "function" ? typeof setImmediate === "function" ? setImmediate : process.nextTick : setTimeout;
+      function stringToBytes(str) {
+        var out = [], i = 0;
+        utfx.encodeUTF16toUTF8(function() {
+          if (i >= str.length)
+            return null;
+          return str.charCodeAt(i++);
+        }, function(b) {
+          out.push(b);
+        });
+        return out;
+      }
+      var BASE64_CODE = "./ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789".split("");
+      var BASE64_INDEX = [
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        0,
+        1,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1
+      ];
+      var stringFromCharCode = String.fromCharCode;
+      function base64_encode(b, len) {
+        var off = 0, rs2 = [], c1, c2;
+        if (len <= 0 || len > b.length)
+          throw Error("Illegal len: " + len);
+        while (off < len) {
+          c1 = b[off++] & 255;
+          rs2.push(BASE64_CODE[c1 >> 2 & 63]);
+          c1 = (c1 & 3) << 4;
+          if (off >= len) {
+            rs2.push(BASE64_CODE[c1 & 63]);
+            break;
+          }
+          c2 = b[off++] & 255;
+          c1 |= c2 >> 4 & 15;
+          rs2.push(BASE64_CODE[c1 & 63]);
+          c1 = (c2 & 15) << 2;
+          if (off >= len) {
+            rs2.push(BASE64_CODE[c1 & 63]);
+            break;
+          }
+          c2 = b[off++] & 255;
+          c1 |= c2 >> 6 & 3;
+          rs2.push(BASE64_CODE[c1 & 63]);
+          rs2.push(BASE64_CODE[c2 & 63]);
+        }
+        return rs2.join("");
+      }
+      function base64_decode(s2, len) {
+        var off = 0, slen = s2.length, olen = 0, rs2 = [], c1, c2, c3, c4, o, code;
+        if (len <= 0)
+          throw Error("Illegal len: " + len);
+        while (off < slen - 1 && olen < len) {
+          code = s2.charCodeAt(off++);
+          c1 = code < BASE64_INDEX.length ? BASE64_INDEX[code] : -1;
+          code = s2.charCodeAt(off++);
+          c2 = code < BASE64_INDEX.length ? BASE64_INDEX[code] : -1;
+          if (c1 == -1 || c2 == -1)
+            break;
+          o = c1 << 2 >>> 0;
+          o |= (c2 & 48) >> 4;
+          rs2.push(stringFromCharCode(o));
+          if (++olen >= len || off >= slen)
+            break;
+          code = s2.charCodeAt(off++);
+          c3 = code < BASE64_INDEX.length ? BASE64_INDEX[code] : -1;
+          if (c3 == -1)
+            break;
+          o = (c2 & 15) << 4 >>> 0;
+          o |= (c3 & 60) >> 2;
+          rs2.push(stringFromCharCode(o));
+          if (++olen >= len || off >= slen)
+            break;
+          code = s2.charCodeAt(off++);
+          c4 = code < BASE64_INDEX.length ? BASE64_INDEX[code] : -1;
+          o = (c3 & 3) << 6 >>> 0;
+          o |= c4;
+          rs2.push(stringFromCharCode(o));
+          ++olen;
+        }
+        var res = [];
+        for (off = 0; off < olen; off++)
+          res.push(rs2[off].charCodeAt(0));
+        return res;
+      }
+      var utfx = function() {
+        "use strict";
+        var utfx2 = {};
+        utfx2.MAX_CODEPOINT = 1114111;
+        utfx2.encodeUTF8 = function(src2, dst) {
+          var cp = null;
+          if (typeof src2 === "number")
+            cp = src2, src2 = function() {
+              return null;
+            };
+          while (cp !== null || (cp = src2()) !== null) {
+            if (cp < 128)
+              dst(cp & 127);
+            else if (cp < 2048)
+              dst(cp >> 6 & 31 | 192), dst(cp & 63 | 128);
+            else if (cp < 65536)
+              dst(cp >> 12 & 15 | 224), dst(cp >> 6 & 63 | 128), dst(cp & 63 | 128);
+            else
+              dst(cp >> 18 & 7 | 240), dst(cp >> 12 & 63 | 128), dst(cp >> 6 & 63 | 128), dst(cp & 63 | 128);
+            cp = null;
+          }
+        };
+        utfx2.decodeUTF8 = function(src2, dst) {
+          var a, b, c, d2, fail = function(b2) {
+            b2 = b2.slice(0, b2.indexOf(null));
+            var err = Error(b2.toString());
+            err.name = "TruncatedError";
+            err["bytes"] = b2;
+            throw err;
+          };
+          while ((a = src2()) !== null) {
+            if ((a & 128) === 0)
+              dst(a);
+            else if ((a & 224) === 192)
+              (b = src2()) === null && fail([a, b]), dst((a & 31) << 6 | b & 63);
+            else if ((a & 240) === 224)
+              ((b = src2()) === null || (c = src2()) === null) && fail([a, b, c]), dst((a & 15) << 12 | (b & 63) << 6 | c & 63);
+            else if ((a & 248) === 240)
+              ((b = src2()) === null || (c = src2()) === null || (d2 = src2()) === null) && fail([a, b, c, d2]), dst((a & 7) << 18 | (b & 63) << 12 | (c & 63) << 6 | d2 & 63);
+            else
+              throw RangeError("Illegal starting byte: " + a);
+          }
+        };
+        utfx2.UTF16toUTF8 = function(src2, dst) {
+          var c1, c2 = null;
+          while (true) {
+            if ((c1 = c2 !== null ? c2 : src2()) === null)
+              break;
+            if (c1 >= 55296 && c1 <= 57343) {
+              if ((c2 = src2()) !== null) {
+                if (c2 >= 56320 && c2 <= 57343) {
+                  dst((c1 - 55296) * 1024 + c2 - 56320 + 65536);
+                  c2 = null;
+                  continue;
+                }
+              }
+            }
+            dst(c1);
+          }
+          if (c2 !== null)
+            dst(c2);
+        };
+        utfx2.UTF8toUTF16 = function(src2, dst) {
+          var cp = null;
+          if (typeof src2 === "number")
+            cp = src2, src2 = function() {
+              return null;
+            };
+          while (cp !== null || (cp = src2()) !== null) {
+            if (cp <= 65535)
+              dst(cp);
+            else
+              cp -= 65536, dst((cp >> 10) + 55296), dst(cp % 1024 + 56320);
+            cp = null;
+          }
+        };
+        utfx2.encodeUTF16toUTF8 = function(src2, dst) {
+          utfx2.UTF16toUTF8(src2, function(cp) {
+            utfx2.encodeUTF8(cp, dst);
+          });
+        };
+        utfx2.decodeUTF8toUTF16 = function(src2, dst) {
+          utfx2.decodeUTF8(src2, function(cp) {
+            utfx2.UTF8toUTF16(cp, dst);
+          });
+        };
+        utfx2.calculateCodePoint = function(cp) {
+          return cp < 128 ? 1 : cp < 2048 ? 2 : cp < 65536 ? 3 : 4;
+        };
+        utfx2.calculateUTF8 = function(src2) {
+          var cp, l = 0;
+          while ((cp = src2()) !== null)
+            l += utfx2.calculateCodePoint(cp);
+          return l;
+        };
+        utfx2.calculateUTF16asUTF8 = function(src2) {
+          var n = 0, l = 0;
+          utfx2.UTF16toUTF8(src2, function(cp) {
+            ++n;
+            l += utfx2.calculateCodePoint(cp);
+          });
+          return [n, l];
+        };
+        return utfx2;
+      }();
+      Date.now = Date.now || function() {
+        return +new Date();
+      };
+      var BCRYPT_SALT_LEN = 16;
+      var GENSALT_DEFAULT_LOG2_ROUNDS = 10;
+      var BLOWFISH_NUM_ROUNDS = 16;
+      var MAX_EXECUTION_TIME = 100;
+      var P_ORIG = [
+        608135816,
+        2242054355,
+        320440878,
+        57701188,
+        2752067618,
+        698298832,
+        137296536,
+        3964562569,
+        1160258022,
+        953160567,
+        3193202383,
+        887688300,
+        3232508343,
+        3380367581,
+        1065670069,
+        3041331479,
+        2450970073,
+        2306472731
+      ];
+      var S_ORIG = [
+        3509652390,
+        2564797868,
+        805139163,
+        3491422135,
+        3101798381,
+        1780907670,
+        3128725573,
+        4046225305,
+        614570311,
+        3012652279,
+        134345442,
+        2240740374,
+        1667834072,
+        1901547113,
+        2757295779,
+        4103290238,
+        227898511,
+        1921955416,
+        1904987480,
+        2182433518,
+        2069144605,
+        3260701109,
+        2620446009,
+        720527379,
+        3318853667,
+        677414384,
+        3393288472,
+        3101374703,
+        2390351024,
+        1614419982,
+        1822297739,
+        2954791486,
+        3608508353,
+        3174124327,
+        2024746970,
+        1432378464,
+        3864339955,
+        2857741204,
+        1464375394,
+        1676153920,
+        1439316330,
+        715854006,
+        3033291828,
+        289532110,
+        2706671279,
+        2087905683,
+        3018724369,
+        1668267050,
+        732546397,
+        1947742710,
+        3462151702,
+        2609353502,
+        2950085171,
+        1814351708,
+        2050118529,
+        680887927,
+        999245976,
+        1800124847,
+        3300911131,
+        1713906067,
+        1641548236,
+        4213287313,
+        1216130144,
+        1575780402,
+        4018429277,
+        3917837745,
+        3693486850,
+        3949271944,
+        596196993,
+        3549867205,
+        258830323,
+        2213823033,
+        772490370,
+        2760122372,
+        1774776394,
+        2652871518,
+        566650946,
+        4142492826,
+        1728879713,
+        2882767088,
+        1783734482,
+        3629395816,
+        2517608232,
+        2874225571,
+        1861159788,
+        326777828,
+        3124490320,
+        2130389656,
+        2716951837,
+        967770486,
+        1724537150,
+        2185432712,
+        2364442137,
+        1164943284,
+        2105845187,
+        998989502,
+        3765401048,
+        2244026483,
+        1075463327,
+        1455516326,
+        1322494562,
+        910128902,
+        469688178,
+        1117454909,
+        936433444,
+        3490320968,
+        3675253459,
+        1240580251,
+        122909385,
+        2157517691,
+        634681816,
+        4142456567,
+        3825094682,
+        3061402683,
+        2540495037,
+        79693498,
+        3249098678,
+        1084186820,
+        1583128258,
+        426386531,
+        1761308591,
+        1047286709,
+        322548459,
+        995290223,
+        1845252383,
+        2603652396,
+        3431023940,
+        2942221577,
+        3202600964,
+        3727903485,
+        1712269319,
+        422464435,
+        3234572375,
+        1170764815,
+        3523960633,
+        3117677531,
+        1434042557,
+        442511882,
+        3600875718,
+        1076654713,
+        1738483198,
+        4213154764,
+        2393238008,
+        3677496056,
+        1014306527,
+        4251020053,
+        793779912,
+        2902807211,
+        842905082,
+        4246964064,
+        1395751752,
+        1040244610,
+        2656851899,
+        3396308128,
+        445077038,
+        3742853595,
+        3577915638,
+        679411651,
+        2892444358,
+        2354009459,
+        1767581616,
+        3150600392,
+        3791627101,
+        3102740896,
+        284835224,
+        4246832056,
+        1258075500,
+        768725851,
+        2589189241,
+        3069724005,
+        3532540348,
+        1274779536,
+        3789419226,
+        2764799539,
+        1660621633,
+        3471099624,
+        4011903706,
+        913787905,
+        3497959166,
+        737222580,
+        2514213453,
+        2928710040,
+        3937242737,
+        1804850592,
+        3499020752,
+        2949064160,
+        2386320175,
+        2390070455,
+        2415321851,
+        4061277028,
+        2290661394,
+        2416832540,
+        1336762016,
+        1754252060,
+        3520065937,
+        3014181293,
+        791618072,
+        3188594551,
+        3933548030,
+        2332172193,
+        3852520463,
+        3043980520,
+        413987798,
+        3465142937,
+        3030929376,
+        4245938359,
+        2093235073,
+        3534596313,
+        375366246,
+        2157278981,
+        2479649556,
+        555357303,
+        3870105701,
+        2008414854,
+        3344188149,
+        4221384143,
+        3956125452,
+        2067696032,
+        3594591187,
+        2921233993,
+        2428461,
+        544322398,
+        577241275,
+        1471733935,
+        610547355,
+        4027169054,
+        1432588573,
+        1507829418,
+        2025931657,
+        3646575487,
+        545086370,
+        48609733,
+        2200306550,
+        1653985193,
+        298326376,
+        1316178497,
+        3007786442,
+        2064951626,
+        458293330,
+        2589141269,
+        3591329599,
+        3164325604,
+        727753846,
+        2179363840,
+        146436021,
+        1461446943,
+        4069977195,
+        705550613,
+        3059967265,
+        3887724982,
+        4281599278,
+        3313849956,
+        1404054877,
+        2845806497,
+        146425753,
+        1854211946,
+        1266315497,
+        3048417604,
+        3681880366,
+        3289982499,
+        290971e4,
+        1235738493,
+        2632868024,
+        2414719590,
+        3970600049,
+        1771706367,
+        1449415276,
+        3266420449,
+        422970021,
+        1963543593,
+        2690192192,
+        3826793022,
+        1062508698,
+        1531092325,
+        1804592342,
+        2583117782,
+        2714934279,
+        4024971509,
+        1294809318,
+        4028980673,
+        1289560198,
+        2221992742,
+        1669523910,
+        35572830,
+        157838143,
+        1052438473,
+        1016535060,
+        1802137761,
+        1753167236,
+        1386275462,
+        3080475397,
+        2857371447,
+        1040679964,
+        2145300060,
+        2390574316,
+        1461121720,
+        2956646967,
+        4031777805,
+        4028374788,
+        33600511,
+        2920084762,
+        1018524850,
+        629373528,
+        3691585981,
+        3515945977,
+        2091462646,
+        2486323059,
+        586499841,
+        988145025,
+        935516892,
+        3367335476,
+        2599673255,
+        2839830854,
+        265290510,
+        3972581182,
+        2759138881,
+        3795373465,
+        1005194799,
+        847297441,
+        406762289,
+        1314163512,
+        1332590856,
+        1866599683,
+        4127851711,
+        750260880,
+        613907577,
+        1450815602,
+        3165620655,
+        3734664991,
+        3650291728,
+        3012275730,
+        3704569646,
+        1427272223,
+        778793252,
+        1343938022,
+        2676280711,
+        2052605720,
+        1946737175,
+        3164576444,
+        3914038668,
+        3967478842,
+        3682934266,
+        1661551462,
+        3294938066,
+        4011595847,
+        840292616,
+        3712170807,
+        616741398,
+        312560963,
+        711312465,
+        1351876610,
+        322626781,
+        1910503582,
+        271666773,
+        2175563734,
+        1594956187,
+        70604529,
+        3617834859,
+        1007753275,
+        1495573769,
+        4069517037,
+        2549218298,
+        2663038764,
+        504708206,
+        2263041392,
+        3941167025,
+        2249088522,
+        1514023603,
+        1998579484,
+        1312622330,
+        694541497,
+        2582060303,
+        2151582166,
+        1382467621,
+        776784248,
+        2618340202,
+        3323268794,
+        2497899128,
+        2784771155,
+        503983604,
+        4076293799,
+        907881277,
+        423175695,
+        432175456,
+        1378068232,
+        4145222326,
+        3954048622,
+        3938656102,
+        3820766613,
+        2793130115,
+        2977904593,
+        26017576,
+        3274890735,
+        3194772133,
+        1700274565,
+        1756076034,
+        4006520079,
+        3677328699,
+        720338349,
+        1533947780,
+        354530856,
+        688349552,
+        3973924725,
+        1637815568,
+        332179504,
+        3949051286,
+        53804574,
+        2852348879,
+        3044236432,
+        1282449977,
+        3583942155,
+        3416972820,
+        4006381244,
+        1617046695,
+        2628476075,
+        3002303598,
+        1686838959,
+        431878346,
+        2686675385,
+        1700445008,
+        1080580658,
+        1009431731,
+        832498133,
+        3223435511,
+        2605976345,
+        2271191193,
+        2516031870,
+        1648197032,
+        4164389018,
+        2548247927,
+        300782431,
+        375919233,
+        238389289,
+        3353747414,
+        2531188641,
+        2019080857,
+        1475708069,
+        455242339,
+        2609103871,
+        448939670,
+        3451063019,
+        1395535956,
+        2413381860,
+        1841049896,
+        1491858159,
+        885456874,
+        4264095073,
+        4001119347,
+        1565136089,
+        3898914787,
+        1108368660,
+        540939232,
+        1173283510,
+        2745871338,
+        3681308437,
+        4207628240,
+        3343053890,
+        4016749493,
+        1699691293,
+        1103962373,
+        3625875870,
+        2256883143,
+        3830138730,
+        1031889488,
+        3479347698,
+        1535977030,
+        4236805024,
+        3251091107,
+        2132092099,
+        1774941330,
+        1199868427,
+        1452454533,
+        157007616,
+        2904115357,
+        342012276,
+        595725824,
+        1480756522,
+        206960106,
+        497939518,
+        591360097,
+        863170706,
+        2375253569,
+        3596610801,
+        1814182875,
+        2094937945,
+        3421402208,
+        1082520231,
+        3463918190,
+        2785509508,
+        435703966,
+        3908032597,
+        1641649973,
+        2842273706,
+        3305899714,
+        1510255612,
+        2148256476,
+        2655287854,
+        3276092548,
+        4258621189,
+        236887753,
+        3681803219,
+        274041037,
+        1734335097,
+        3815195456,
+        3317970021,
+        1899903192,
+        1026095262,
+        4050517792,
+        356393447,
+        2410691914,
+        3873677099,
+        3682840055,
+        3913112168,
+        2491498743,
+        4132185628,
+        2489919796,
+        1091903735,
+        1979897079,
+        3170134830,
+        3567386728,
+        3557303409,
+        857797738,
+        1136121015,
+        1342202287,
+        507115054,
+        2535736646,
+        337727348,
+        3213592640,
+        1301675037,
+        2528481711,
+        1895095763,
+        1721773893,
+        3216771564,
+        62756741,
+        2142006736,
+        835421444,
+        2531993523,
+        1442658625,
+        3659876326,
+        2882144922,
+        676362277,
+        1392781812,
+        170690266,
+        3921047035,
+        1759253602,
+        3611846912,
+        1745797284,
+        664899054,
+        1329594018,
+        3901205900,
+        3045908486,
+        2062866102,
+        2865634940,
+        3543621612,
+        3464012697,
+        1080764994,
+        553557557,
+        3656615353,
+        3996768171,
+        991055499,
+        499776247,
+        1265440854,
+        648242737,
+        3940784050,
+        980351604,
+        3713745714,
+        1749149687,
+        3396870395,
+        4211799374,
+        3640570775,
+        1161844396,
+        3125318951,
+        1431517754,
+        545492359,
+        4268468663,
+        3499529547,
+        1437099964,
+        2702547544,
+        3433638243,
+        2581715763,
+        2787789398,
+        1060185593,
+        1593081372,
+        2418618748,
+        4260947970,
+        69676912,
+        2159744348,
+        86519011,
+        2512459080,
+        3838209314,
+        1220612927,
+        3339683548,
+        133810670,
+        1090789135,
+        1078426020,
+        1569222167,
+        845107691,
+        3583754449,
+        4072456591,
+        1091646820,
+        628848692,
+        1613405280,
+        3757631651,
+        526609435,
+        236106946,
+        48312990,
+        2942717905,
+        3402727701,
+        1797494240,
+        859738849,
+        992217954,
+        4005476642,
+        2243076622,
+        3870952857,
+        3732016268,
+        765654824,
+        3490871365,
+        2511836413,
+        1685915746,
+        3888969200,
+        1414112111,
+        2273134842,
+        3281911079,
+        4080962846,
+        172450625,
+        2569994100,
+        980381355,
+        4109958455,
+        2819808352,
+        2716589560,
+        2568741196,
+        3681446669,
+        3329971472,
+        1835478071,
+        660984891,
+        3704678404,
+        4045999559,
+        3422617507,
+        3040415634,
+        1762651403,
+        1719377915,
+        3470491036,
+        2693910283,
+        3642056355,
+        3138596744,
+        1364962596,
+        2073328063,
+        1983633131,
+        926494387,
+        3423689081,
+        2150032023,
+        4096667949,
+        1749200295,
+        3328846651,
+        309677260,
+        2016342300,
+        1779581495,
+        3079819751,
+        111262694,
+        1274766160,
+        443224088,
+        298511866,
+        1025883608,
+        3806446537,
+        1145181785,
+        168956806,
+        3641502830,
+        3584813610,
+        1689216846,
+        3666258015,
+        3200248200,
+        1692713982,
+        2646376535,
+        4042768518,
+        1618508792,
+        1610833997,
+        3523052358,
+        4130873264,
+        2001055236,
+        3610705100,
+        2202168115,
+        4028541809,
+        2961195399,
+        1006657119,
+        2006996926,
+        3186142756,
+        1430667929,
+        3210227297,
+        1314452623,
+        4074634658,
+        4101304120,
+        2273951170,
+        1399257539,
+        3367210612,
+        3027628629,
+        1190975929,
+        2062231137,
+        2333990788,
+        2221543033,
+        2438960610,
+        1181637006,
+        548689776,
+        2362791313,
+        3372408396,
+        3104550113,
+        3145860560,
+        296247880,
+        1970579870,
+        3078560182,
+        3769228297,
+        1714227617,
+        3291629107,
+        3898220290,
+        166772364,
+        1251581989,
+        493813264,
+        448347421,
+        195405023,
+        2709975567,
+        677966185,
+        3703036547,
+        1463355134,
+        2715995803,
+        1338867538,
+        1343315457,
+        2802222074,
+        2684532164,
+        233230375,
+        2599980071,
+        2000651841,
+        3277868038,
+        1638401717,
+        4028070440,
+        3237316320,
+        6314154,
+        819756386,
+        300326615,
+        590932579,
+        1405279636,
+        3267499572,
+        3150704214,
+        2428286686,
+        3959192993,
+        3461946742,
+        1862657033,
+        1266418056,
+        963775037,
+        2089974820,
+        2263052895,
+        1917689273,
+        448879540,
+        3550394620,
+        3981727096,
+        150775221,
+        3627908307,
+        1303187396,
+        508620638,
+        2975983352,
+        2726630617,
+        1817252668,
+        1876281319,
+        1457606340,
+        908771278,
+        3720792119,
+        3617206836,
+        2455994898,
+        1729034894,
+        1080033504,
+        976866871,
+        3556439503,
+        2881648439,
+        1522871579,
+        1555064734,
+        1336096578,
+        3548522304,
+        2579274686,
+        3574697629,
+        3205460757,
+        3593280638,
+        3338716283,
+        3079412587,
+        564236357,
+        2993598910,
+        1781952180,
+        1464380207,
+        3163844217,
+        3332601554,
+        1699332808,
+        1393555694,
+        1183702653,
+        3581086237,
+        1288719814,
+        691649499,
+        2847557200,
+        2895455976,
+        3193889540,
+        2717570544,
+        1781354906,
+        1676643554,
+        2592534050,
+        3230253752,
+        1126444790,
+        2770207658,
+        2633158820,
+        2210423226,
+        2615765581,
+        2414155088,
+        3127139286,
+        673620729,
+        2805611233,
+        1269405062,
+        4015350505,
+        3341807571,
+        4149409754,
+        1057255273,
+        2012875353,
+        2162469141,
+        2276492801,
+        2601117357,
+        993977747,
+        3918593370,
+        2654263191,
+        753973209,
+        36408145,
+        2530585658,
+        25011837,
+        3520020182,
+        2088578344,
+        530523599,
+        2918365339,
+        1524020338,
+        1518925132,
+        3760827505,
+        3759777254,
+        1202760957,
+        3985898139,
+        3906192525,
+        674977740,
+        4174734889,
+        2031300136,
+        2019492241,
+        3983892565,
+        4153806404,
+        3822280332,
+        352677332,
+        2297720250,
+        60907813,
+        90501309,
+        3286998549,
+        1016092578,
+        2535922412,
+        2839152426,
+        457141659,
+        509813237,
+        4120667899,
+        652014361,
+        1966332200,
+        2975202805,
+        55981186,
+        2327461051,
+        676427537,
+        3255491064,
+        2882294119,
+        3433927263,
+        1307055953,
+        942726286,
+        933058658,
+        2468411793,
+        3933900994,
+        4215176142,
+        1361170020,
+        2001714738,
+        2830558078,
+        3274259782,
+        1222529897,
+        1679025792,
+        2729314320,
+        3714953764,
+        1770335741,
+        151462246,
+        3013232138,
+        1682292957,
+        1483529935,
+        471910574,
+        1539241949,
+        458788160,
+        3436315007,
+        1807016891,
+        3718408830,
+        978976581,
+        1043663428,
+        3165965781,
+        1927990952,
+        4200891579,
+        2372276910,
+        3208408903,
+        3533431907,
+        1412390302,
+        2931980059,
+        4132332400,
+        1947078029,
+        3881505623,
+        4168226417,
+        2941484381,
+        1077988104,
+        1320477388,
+        886195818,
+        18198404,
+        3786409e3,
+        2509781533,
+        112762804,
+        3463356488,
+        1866414978,
+        891333506,
+        18488651,
+        661792760,
+        1628790961,
+        3885187036,
+        3141171499,
+        876946877,
+        2693282273,
+        1372485963,
+        791857591,
+        2686433993,
+        3759982718,
+        3167212022,
+        3472953795,
+        2716379847,
+        445679433,
+        3561995674,
+        3504004811,
+        3574258232,
+        54117162,
+        3331405415,
+        2381918588,
+        3769707343,
+        4154350007,
+        1140177722,
+        4074052095,
+        668550556,
+        3214352940,
+        367459370,
+        261225585,
+        2610173221,
+        4209349473,
+        3468074219,
+        3265815641,
+        314222801,
+        3066103646,
+        3808782860,
+        282218597,
+        3406013506,
+        3773591054,
+        379116347,
+        1285071038,
+        846784868,
+        2669647154,
+        3771962079,
+        3550491691,
+        2305946142,
+        453669953,
+        1268987020,
+        3317592352,
+        3279303384,
+        3744833421,
+        2610507566,
+        3859509063,
+        266596637,
+        3847019092,
+        517658769,
+        3462560207,
+        3443424879,
+        370717030,
+        4247526661,
+        2224018117,
+        4143653529,
+        4112773975,
+        2788324899,
+        2477274417,
+        1456262402,
+        2901442914,
+        1517677493,
+        1846949527,
+        2295493580,
+        3734397586,
+        2176403920,
+        1280348187,
+        1908823572,
+        3871786941,
+        846861322,
+        1172426758,
+        3287448474,
+        3383383037,
+        1655181056,
+        3139813346,
+        901632758,
+        1897031941,
+        2986607138,
+        3066810236,
+        3447102507,
+        1393639104,
+        373351379,
+        950779232,
+        625454576,
+        3124240540,
+        4148612726,
+        2007998917,
+        544563296,
+        2244738638,
+        2330496472,
+        2058025392,
+        1291430526,
+        424198748,
+        50039436,
+        29584100,
+        3605783033,
+        2429876329,
+        2791104160,
+        1057563949,
+        3255363231,
+        3075367218,
+        3463963227,
+        1469046755,
+        985887462
+      ];
+      var C_ORIG = [
+        1332899944,
+        1700884034,
+        1701343084,
+        1684370003,
+        1668446532,
+        1869963892
+      ];
+      function _encipher(lr, off, P, S) {
+        var n, l = lr[off], r = lr[off + 1];
+        l ^= P[0];
+        n = S[l >>> 24];
+        n += S[256 | l >> 16 & 255];
+        n ^= S[512 | l >> 8 & 255];
+        n += S[768 | l & 255];
+        r ^= n ^ P[1];
+        n = S[r >>> 24];
+        n += S[256 | r >> 16 & 255];
+        n ^= S[512 | r >> 8 & 255];
+        n += S[768 | r & 255];
+        l ^= n ^ P[2];
+        n = S[l >>> 24];
+        n += S[256 | l >> 16 & 255];
+        n ^= S[512 | l >> 8 & 255];
+        n += S[768 | l & 255];
+        r ^= n ^ P[3];
+        n = S[r >>> 24];
+        n += S[256 | r >> 16 & 255];
+        n ^= S[512 | r >> 8 & 255];
+        n += S[768 | r & 255];
+        l ^= n ^ P[4];
+        n = S[l >>> 24];
+        n += S[256 | l >> 16 & 255];
+        n ^= S[512 | l >> 8 & 255];
+        n += S[768 | l & 255];
+        r ^= n ^ P[5];
+        n = S[r >>> 24];
+        n += S[256 | r >> 16 & 255];
+        n ^= S[512 | r >> 8 & 255];
+        n += S[768 | r & 255];
+        l ^= n ^ P[6];
+        n = S[l >>> 24];
+        n += S[256 | l >> 16 & 255];
+        n ^= S[512 | l >> 8 & 255];
+        n += S[768 | l & 255];
+        r ^= n ^ P[7];
+        n = S[r >>> 24];
+        n += S[256 | r >> 16 & 255];
+        n ^= S[512 | r >> 8 & 255];
+        n += S[768 | r & 255];
+        l ^= n ^ P[8];
+        n = S[l >>> 24];
+        n += S[256 | l >> 16 & 255];
+        n ^= S[512 | l >> 8 & 255];
+        n += S[768 | l & 255];
+        r ^= n ^ P[9];
+        n = S[r >>> 24];
+        n += S[256 | r >> 16 & 255];
+        n ^= S[512 | r >> 8 & 255];
+        n += S[768 | r & 255];
+        l ^= n ^ P[10];
+        n = S[l >>> 24];
+        n += S[256 | l >> 16 & 255];
+        n ^= S[512 | l >> 8 & 255];
+        n += S[768 | l & 255];
+        r ^= n ^ P[11];
+        n = S[r >>> 24];
+        n += S[256 | r >> 16 & 255];
+        n ^= S[512 | r >> 8 & 255];
+        n += S[768 | r & 255];
+        l ^= n ^ P[12];
+        n = S[l >>> 24];
+        n += S[256 | l >> 16 & 255];
+        n ^= S[512 | l >> 8 & 255];
+        n += S[768 | l & 255];
+        r ^= n ^ P[13];
+        n = S[r >>> 24];
+        n += S[256 | r >> 16 & 255];
+        n ^= S[512 | r >> 8 & 255];
+        n += S[768 | r & 255];
+        l ^= n ^ P[14];
+        n = S[l >>> 24];
+        n += S[256 | l >> 16 & 255];
+        n ^= S[512 | l >> 8 & 255];
+        n += S[768 | l & 255];
+        r ^= n ^ P[15];
+        n = S[r >>> 24];
+        n += S[256 | r >> 16 & 255];
+        n ^= S[512 | r >> 8 & 255];
+        n += S[768 | r & 255];
+        l ^= n ^ P[16];
+        lr[off] = r ^ P[BLOWFISH_NUM_ROUNDS + 1];
+        lr[off + 1] = l;
+        return lr;
+      }
+      function _streamtoword(data, offp) {
+        for (var i = 0, word = 0; i < 4; ++i)
+          word = word << 8 | data[offp] & 255, offp = (offp + 1) % data.length;
+        return { key: word, offp };
+      }
+      function _key(key, P, S) {
+        var offset = 0, lr = [0, 0], plen = P.length, slen = S.length, sw;
+        for (var i = 0; i < plen; i++)
+          sw = _streamtoword(key, offset), offset = sw.offp, P[i] = P[i] ^ sw.key;
+        for (i = 0; i < plen; i += 2)
+          lr = _encipher(lr, 0, P, S), P[i] = lr[0], P[i + 1] = lr[1];
+        for (i = 0; i < slen; i += 2)
+          lr = _encipher(lr, 0, P, S), S[i] = lr[0], S[i + 1] = lr[1];
+      }
+      function _ekskey(data, key, P, S) {
+        var offp = 0, lr = [0, 0], plen = P.length, slen = S.length, sw;
+        for (var i = 0; i < plen; i++)
+          sw = _streamtoword(key, offp), offp = sw.offp, P[i] = P[i] ^ sw.key;
+        offp = 0;
+        for (i = 0; i < plen; i += 2)
+          sw = _streamtoword(data, offp), offp = sw.offp, lr[0] ^= sw.key, sw = _streamtoword(data, offp), offp = sw.offp, lr[1] ^= sw.key, lr = _encipher(lr, 0, P, S), P[i] = lr[0], P[i + 1] = lr[1];
+        for (i = 0; i < slen; i += 2)
+          sw = _streamtoword(data, offp), offp = sw.offp, lr[0] ^= sw.key, sw = _streamtoword(data, offp), offp = sw.offp, lr[1] ^= sw.key, lr = _encipher(lr, 0, P, S), S[i] = lr[0], S[i + 1] = lr[1];
+      }
+      function _crypt(b, salt, rounds, callback, progressCallback) {
+        var cdata = C_ORIG.slice(), clen = cdata.length, err;
+        if (rounds < 4 || rounds > 31) {
+          err = Error("Illegal number of rounds (4-31): " + rounds);
+          if (callback) {
+            nextTick(callback.bind(this, err));
+            return;
+          } else
+            throw err;
+        }
+        if (salt.length !== BCRYPT_SALT_LEN) {
+          err = Error("Illegal salt length: " + salt.length + " != " + BCRYPT_SALT_LEN);
+          if (callback) {
+            nextTick(callback.bind(this, err));
+            return;
+          } else
+            throw err;
+        }
+        rounds = 1 << rounds >>> 0;
+        var P, S, i = 0, j;
+        if (Int32Array) {
+          P = new Int32Array(P_ORIG);
+          S = new Int32Array(S_ORIG);
+        } else {
+          P = P_ORIG.slice();
+          S = S_ORIG.slice();
+        }
+        _ekskey(salt, b, P, S);
+        function next() {
+          if (progressCallback)
+            progressCallback(i / rounds);
+          if (i < rounds) {
+            var start = Date.now();
+            for (; i < rounds; ) {
+              i = i + 1;
+              _key(b, P, S);
+              _key(salt, P, S);
+              if (Date.now() - start > MAX_EXECUTION_TIME)
+                break;
+            }
+          } else {
+            for (i = 0; i < 64; i++)
+              for (j = 0; j < clen >> 1; j++)
+                _encipher(cdata, j << 1, P, S);
+            var ret = [];
+            for (i = 0; i < clen; i++)
+              ret.push((cdata[i] >> 24 & 255) >>> 0), ret.push((cdata[i] >> 16 & 255) >>> 0), ret.push((cdata[i] >> 8 & 255) >>> 0), ret.push((cdata[i] & 255) >>> 0);
+            if (callback) {
+              callback(null, ret);
+              return;
+            } else
+              return ret;
+          }
+          if (callback)
+            nextTick(next);
+        }
+        if (typeof callback !== "undefined") {
+          next();
+        } else {
+          var res;
+          while (true)
+            if (typeof (res = next()) !== "undefined")
+              return res || [];
+        }
+      }
+      function _hash(s2, salt, callback, progressCallback) {
+        var err;
+        if (typeof s2 !== "string" || typeof salt !== "string") {
+          err = Error("Invalid string / salt: Not a string");
+          if (callback) {
+            nextTick(callback.bind(this, err));
+            return;
+          } else
+            throw err;
+        }
+        var minor, offset;
+        if (salt.charAt(0) !== "$" || salt.charAt(1) !== "2") {
+          err = Error("Invalid salt version: " + salt.substring(0, 2));
+          if (callback) {
+            nextTick(callback.bind(this, err));
+            return;
+          } else
+            throw err;
+        }
+        if (salt.charAt(2) === "$")
+          minor = String.fromCharCode(0), offset = 3;
+        else {
+          minor = salt.charAt(2);
+          if (minor !== "a" && minor !== "b" && minor !== "y" || salt.charAt(3) !== "$") {
+            err = Error("Invalid salt revision: " + salt.substring(2, 4));
+            if (callback) {
+              nextTick(callback.bind(this, err));
+              return;
+            } else
+              throw err;
+          }
+          offset = 4;
+        }
+        if (salt.charAt(offset + 2) > "$") {
+          err = Error("Missing salt rounds");
+          if (callback) {
+            nextTick(callback.bind(this, err));
+            return;
+          } else
+            throw err;
+        }
+        var r1 = parseInt(salt.substring(offset, offset + 1), 10) * 10, r2 = parseInt(salt.substring(offset + 1, offset + 2), 10), rounds = r1 + r2, real_salt = salt.substring(offset + 3, offset + 25);
+        s2 += minor >= "a" ? "\0" : "";
+        var passwordb = stringToBytes(s2), saltb = base64_decode(real_salt, BCRYPT_SALT_LEN);
+        function finish(bytes) {
+          var res = [];
+          res.push("$2");
+          if (minor >= "a")
+            res.push(minor);
+          res.push("$");
+          if (rounds < 10)
+            res.push("0");
+          res.push(rounds.toString());
+          res.push("$");
+          res.push(base64_encode(saltb, saltb.length));
+          res.push(base64_encode(bytes, C_ORIG.length * 4 - 1));
+          return res.join("");
+        }
+        if (typeof callback == "undefined")
+          return finish(_crypt(passwordb, saltb, rounds));
+        else {
+          _crypt(passwordb, saltb, rounds, function(err2, bytes) {
+            if (err2)
+              callback(err2, null);
+            else
+              callback(null, finish(bytes));
+          }, progressCallback);
+        }
+      }
+      bcrypt2.encodeBase64 = base64_encode;
+      bcrypt2.decodeBase64 = base64_decode;
+      return bcrypt2;
+    });
+  }
+});
+
+// node_modules/bcryptjs/index.js
+var require_bcryptjs = __commonJS({
+  "node_modules/bcryptjs/index.js"(exports, module2) {
+    init_shims();
+    module2.exports = require_bcrypt();
+  }
+});
+
+// node_modules/uuid/dist/rng.js
+var require_rng = __commonJS({
+  "node_modules/uuid/dist/rng.js"(exports) {
+    init_shims();
+    "use strict";
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+    exports.default = rng;
+    var _crypto = _interopRequireDefault(require("crypto"));
+    function _interopRequireDefault(obj) {
+      return obj && obj.__esModule ? obj : { default: obj };
+    }
+    var rnds8Pool = new Uint8Array(256);
+    var poolPtr = rnds8Pool.length;
+    function rng() {
+      if (poolPtr > rnds8Pool.length - 16) {
+        _crypto.default.randomFillSync(rnds8Pool);
+        poolPtr = 0;
+      }
+      return rnds8Pool.slice(poolPtr, poolPtr += 16);
+    }
+  }
+});
+
+// node_modules/uuid/dist/regex.js
+var require_regex = __commonJS({
+  "node_modules/uuid/dist/regex.js"(exports) {
+    init_shims();
+    "use strict";
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+    exports.default = void 0;
+    var _default = /^(?:[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}|00000000-0000-0000-0000-000000000000)$/i;
+    exports.default = _default;
+  }
+});
+
+// node_modules/uuid/dist/validate.js
+var require_validate = __commonJS({
+  "node_modules/uuid/dist/validate.js"(exports) {
+    init_shims();
+    "use strict";
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+    exports.default = void 0;
+    var _regex = _interopRequireDefault(require_regex());
+    function _interopRequireDefault(obj) {
+      return obj && obj.__esModule ? obj : { default: obj };
+    }
+    function validate2(uuid2) {
+      return typeof uuid2 === "string" && _regex.default.test(uuid2);
+    }
+    var _default = validate2;
+    exports.default = _default;
+  }
+});
+
+// node_modules/uuid/dist/stringify.js
+var require_stringify = __commonJS({
+  "node_modules/uuid/dist/stringify.js"(exports) {
+    init_shims();
+    "use strict";
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+    exports.default = void 0;
+    var _validate = _interopRequireDefault(require_validate());
+    function _interopRequireDefault(obj) {
+      return obj && obj.__esModule ? obj : { default: obj };
+    }
+    var byteToHex = [];
+    for (let i = 0; i < 256; ++i) {
+      byteToHex.push((i + 256).toString(16).substr(1));
+    }
+    function stringify2(arr, offset = 0) {
+      const uuid2 = (byteToHex[arr[offset + 0]] + byteToHex[arr[offset + 1]] + byteToHex[arr[offset + 2]] + byteToHex[arr[offset + 3]] + "-" + byteToHex[arr[offset + 4]] + byteToHex[arr[offset + 5]] + "-" + byteToHex[arr[offset + 6]] + byteToHex[arr[offset + 7]] + "-" + byteToHex[arr[offset + 8]] + byteToHex[arr[offset + 9]] + "-" + byteToHex[arr[offset + 10]] + byteToHex[arr[offset + 11]] + byteToHex[arr[offset + 12]] + byteToHex[arr[offset + 13]] + byteToHex[arr[offset + 14]] + byteToHex[arr[offset + 15]]).toLowerCase();
+      if (!(0, _validate.default)(uuid2)) {
+        throw TypeError("Stringified UUID is invalid");
+      }
+      return uuid2;
+    }
+    var _default = stringify2;
+    exports.default = _default;
+  }
+});
+
+// node_modules/uuid/dist/v1.js
+var require_v1 = __commonJS({
+  "node_modules/uuid/dist/v1.js"(exports) {
+    init_shims();
+    "use strict";
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+    exports.default = void 0;
+    var _rng = _interopRequireDefault(require_rng());
+    var _stringify = _interopRequireDefault(require_stringify());
+    function _interopRequireDefault(obj) {
+      return obj && obj.__esModule ? obj : { default: obj };
+    }
+    var _nodeId;
+    var _clockseq;
+    var _lastMSecs = 0;
+    var _lastNSecs = 0;
+    function v12(options2, buf, offset) {
+      let i = buf && offset || 0;
+      const b = buf || new Array(16);
+      options2 = options2 || {};
+      let node = options2.node || _nodeId;
+      let clockseq = options2.clockseq !== void 0 ? options2.clockseq : _clockseq;
+      if (node == null || clockseq == null) {
+        const seedBytes = options2.random || (options2.rng || _rng.default)();
+        if (node == null) {
+          node = _nodeId = [seedBytes[0] | 1, seedBytes[1], seedBytes[2], seedBytes[3], seedBytes[4], seedBytes[5]];
+        }
+        if (clockseq == null) {
+          clockseq = _clockseq = (seedBytes[6] << 8 | seedBytes[7]) & 16383;
+        }
+      }
+      let msecs = options2.msecs !== void 0 ? options2.msecs : Date.now();
+      let nsecs = options2.nsecs !== void 0 ? options2.nsecs : _lastNSecs + 1;
+      const dt = msecs - _lastMSecs + (nsecs - _lastNSecs) / 1e4;
+      if (dt < 0 && options2.clockseq === void 0) {
+        clockseq = clockseq + 1 & 16383;
+      }
+      if ((dt < 0 || msecs > _lastMSecs) && options2.nsecs === void 0) {
+        nsecs = 0;
+      }
+      if (nsecs >= 1e4) {
+        throw new Error("uuid.v1(): Can't create more than 10M uuids/sec");
+      }
+      _lastMSecs = msecs;
+      _lastNSecs = nsecs;
+      _clockseq = clockseq;
+      msecs += 122192928e5;
+      const tl = ((msecs & 268435455) * 1e4 + nsecs) % 4294967296;
+      b[i++] = tl >>> 24 & 255;
+      b[i++] = tl >>> 16 & 255;
+      b[i++] = tl >>> 8 & 255;
+      b[i++] = tl & 255;
+      const tmh = msecs / 4294967296 * 1e4 & 268435455;
+      b[i++] = tmh >>> 8 & 255;
+      b[i++] = tmh & 255;
+      b[i++] = tmh >>> 24 & 15 | 16;
+      b[i++] = tmh >>> 16 & 255;
+      b[i++] = clockseq >>> 8 | 128;
+      b[i++] = clockseq & 255;
+      for (let n = 0; n < 6; ++n) {
+        b[i + n] = node[n];
+      }
+      return buf || (0, _stringify.default)(b);
+    }
+    var _default = v12;
+    exports.default = _default;
+  }
+});
+
+// node_modules/uuid/dist/parse.js
+var require_parse = __commonJS({
+  "node_modules/uuid/dist/parse.js"(exports) {
+    init_shims();
+    "use strict";
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+    exports.default = void 0;
+    var _validate = _interopRequireDefault(require_validate());
+    function _interopRequireDefault(obj) {
+      return obj && obj.__esModule ? obj : { default: obj };
+    }
+    function parse3(uuid2) {
+      if (!(0, _validate.default)(uuid2)) {
+        throw TypeError("Invalid UUID");
+      }
+      let v;
+      const arr = new Uint8Array(16);
+      arr[0] = (v = parseInt(uuid2.slice(0, 8), 16)) >>> 24;
+      arr[1] = v >>> 16 & 255;
+      arr[2] = v >>> 8 & 255;
+      arr[3] = v & 255;
+      arr[4] = (v = parseInt(uuid2.slice(9, 13), 16)) >>> 8;
+      arr[5] = v & 255;
+      arr[6] = (v = parseInt(uuid2.slice(14, 18), 16)) >>> 8;
+      arr[7] = v & 255;
+      arr[8] = (v = parseInt(uuid2.slice(19, 23), 16)) >>> 8;
+      arr[9] = v & 255;
+      arr[10] = (v = parseInt(uuid2.slice(24, 36), 16)) / 1099511627776 & 255;
+      arr[11] = v / 4294967296 & 255;
+      arr[12] = v >>> 24 & 255;
+      arr[13] = v >>> 16 & 255;
+      arr[14] = v >>> 8 & 255;
+      arr[15] = v & 255;
+      return arr;
+    }
+    var _default = parse3;
+    exports.default = _default;
+  }
+});
+
+// node_modules/uuid/dist/v35.js
+var require_v35 = __commonJS({
+  "node_modules/uuid/dist/v35.js"(exports) {
+    init_shims();
+    "use strict";
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+    exports.default = _default;
+    exports.URL = exports.DNS = void 0;
+    var _stringify = _interopRequireDefault(require_stringify());
+    var _parse = _interopRequireDefault(require_parse());
+    function _interopRequireDefault(obj) {
+      return obj && obj.__esModule ? obj : { default: obj };
+    }
+    function stringToBytes(str) {
+      str = unescape(encodeURIComponent(str));
+      const bytes = [];
+      for (let i = 0; i < str.length; ++i) {
+        bytes.push(str.charCodeAt(i));
+      }
+      return bytes;
+    }
+    var DNS = "6ba7b810-9dad-11d1-80b4-00c04fd430c8";
+    exports.DNS = DNS;
+    var URL2 = "6ba7b811-9dad-11d1-80b4-00c04fd430c8";
+    exports.URL = URL2;
+    function _default(name, version2, hashfunc) {
+      function generateUUID(value, namespace, buf, offset) {
+        if (typeof value === "string") {
+          value = stringToBytes(value);
+        }
+        if (typeof namespace === "string") {
+          namespace = (0, _parse.default)(namespace);
+        }
+        if (namespace.length !== 16) {
+          throw TypeError("Namespace must be array-like (16 iterable integer values, 0-255)");
+        }
+        let bytes = new Uint8Array(16 + value.length);
+        bytes.set(namespace);
+        bytes.set(value, namespace.length);
+        bytes = hashfunc(bytes);
+        bytes[6] = bytes[6] & 15 | version2;
+        bytes[8] = bytes[8] & 63 | 128;
+        if (buf) {
+          offset = offset || 0;
+          for (let i = 0; i < 16; ++i) {
+            buf[offset + i] = bytes[i];
+          }
+          return buf;
+        }
+        return (0, _stringify.default)(bytes);
+      }
+      try {
+        generateUUID.name = name;
+      } catch (err) {
+      }
+      generateUUID.DNS = DNS;
+      generateUUID.URL = URL2;
+      return generateUUID;
+    }
+  }
+});
+
+// node_modules/uuid/dist/md5.js
+var require_md5 = __commonJS({
+  "node_modules/uuid/dist/md5.js"(exports) {
+    init_shims();
+    "use strict";
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+    exports.default = void 0;
+    var _crypto = _interopRequireDefault(require("crypto"));
+    function _interopRequireDefault(obj) {
+      return obj && obj.__esModule ? obj : { default: obj };
+    }
+    function md5(bytes) {
+      if (Array.isArray(bytes)) {
+        bytes = Buffer.from(bytes);
+      } else if (typeof bytes === "string") {
+        bytes = Buffer.from(bytes, "utf8");
+      }
+      return _crypto.default.createHash("md5").update(bytes).digest();
+    }
+    var _default = md5;
+    exports.default = _default;
+  }
+});
+
+// node_modules/uuid/dist/v3.js
+var require_v3 = __commonJS({
+  "node_modules/uuid/dist/v3.js"(exports) {
+    init_shims();
+    "use strict";
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+    exports.default = void 0;
+    var _v = _interopRequireDefault(require_v35());
+    var _md = _interopRequireDefault(require_md5());
+    function _interopRequireDefault(obj) {
+      return obj && obj.__esModule ? obj : { default: obj };
+    }
+    var v32 = (0, _v.default)("v3", 48, _md.default);
+    var _default = v32;
+    exports.default = _default;
+  }
+});
+
+// node_modules/uuid/dist/v4.js
+var require_v4 = __commonJS({
+  "node_modules/uuid/dist/v4.js"(exports) {
+    init_shims();
+    "use strict";
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+    exports.default = void 0;
+    var _rng = _interopRequireDefault(require_rng());
+    var _stringify = _interopRequireDefault(require_stringify());
+    function _interopRequireDefault(obj) {
+      return obj && obj.__esModule ? obj : { default: obj };
+    }
+    function v42(options2, buf, offset) {
+      options2 = options2 || {};
+      const rnds = options2.random || (options2.rng || _rng.default)();
+      rnds[6] = rnds[6] & 15 | 64;
+      rnds[8] = rnds[8] & 63 | 128;
+      if (buf) {
+        offset = offset || 0;
+        for (let i = 0; i < 16; ++i) {
+          buf[offset + i] = rnds[i];
+        }
+        return buf;
+      }
+      return (0, _stringify.default)(rnds);
+    }
+    var _default = v42;
+    exports.default = _default;
+  }
+});
+
+// node_modules/uuid/dist/sha1.js
+var require_sha1 = __commonJS({
+  "node_modules/uuid/dist/sha1.js"(exports) {
+    init_shims();
+    "use strict";
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+    exports.default = void 0;
+    var _crypto = _interopRequireDefault(require("crypto"));
+    function _interopRequireDefault(obj) {
+      return obj && obj.__esModule ? obj : { default: obj };
+    }
+    function sha1(bytes) {
+      if (Array.isArray(bytes)) {
+        bytes = Buffer.from(bytes);
+      } else if (typeof bytes === "string") {
+        bytes = Buffer.from(bytes, "utf8");
+      }
+      return _crypto.default.createHash("sha1").update(bytes).digest();
+    }
+    var _default = sha1;
+    exports.default = _default;
+  }
+});
+
+// node_modules/uuid/dist/v5.js
+var require_v5 = __commonJS({
+  "node_modules/uuid/dist/v5.js"(exports) {
+    init_shims();
+    "use strict";
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+    exports.default = void 0;
+    var _v = _interopRequireDefault(require_v35());
+    var _sha = _interopRequireDefault(require_sha1());
+    function _interopRequireDefault(obj) {
+      return obj && obj.__esModule ? obj : { default: obj };
+    }
+    var v52 = (0, _v.default)("v5", 80, _sha.default);
+    var _default = v52;
+    exports.default = _default;
+  }
+});
+
+// node_modules/uuid/dist/nil.js
+var require_nil = __commonJS({
+  "node_modules/uuid/dist/nil.js"(exports) {
+    init_shims();
+    "use strict";
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+    exports.default = void 0;
+    var _default = "00000000-0000-0000-0000-000000000000";
+    exports.default = _default;
+  }
+});
+
+// node_modules/uuid/dist/version.js
+var require_version = __commonJS({
+  "node_modules/uuid/dist/version.js"(exports) {
+    init_shims();
+    "use strict";
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+    exports.default = void 0;
+    var _validate = _interopRequireDefault(require_validate());
+    function _interopRequireDefault(obj) {
+      return obj && obj.__esModule ? obj : { default: obj };
+    }
+    function version2(uuid2) {
+      if (!(0, _validate.default)(uuid2)) {
+        throw TypeError("Invalid UUID");
+      }
+      return parseInt(uuid2.substr(14, 1), 16);
+    }
+    var _default = version2;
+    exports.default = _default;
+  }
+});
+
+// node_modules/uuid/dist/index.js
+var require_dist = __commonJS({
+  "node_modules/uuid/dist/index.js"(exports) {
+    init_shims();
+    "use strict";
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+    Object.defineProperty(exports, "v1", {
+      enumerable: true,
+      get: function() {
+        return _v.default;
+      }
+    });
+    Object.defineProperty(exports, "v3", {
+      enumerable: true,
+      get: function() {
+        return _v2.default;
+      }
+    });
+    Object.defineProperty(exports, "v4", {
+      enumerable: true,
+      get: function() {
+        return _v3.default;
+      }
+    });
+    Object.defineProperty(exports, "v5", {
+      enumerable: true,
+      get: function() {
+        return _v4.default;
+      }
+    });
+    Object.defineProperty(exports, "NIL", {
+      enumerable: true,
+      get: function() {
+        return _nil.default;
+      }
+    });
+    Object.defineProperty(exports, "version", {
+      enumerable: true,
+      get: function() {
+        return _version.default;
+      }
+    });
+    Object.defineProperty(exports, "validate", {
+      enumerable: true,
+      get: function() {
+        return _validate.default;
+      }
+    });
+    Object.defineProperty(exports, "stringify", {
+      enumerable: true,
+      get: function() {
+        return _stringify.default;
+      }
+    });
+    Object.defineProperty(exports, "parse", {
+      enumerable: true,
+      get: function() {
+        return _parse.default;
+      }
+    });
+    var _v = _interopRequireDefault(require_v1());
+    var _v2 = _interopRequireDefault(require_v3());
+    var _v3 = _interopRequireDefault(require_v4());
+    var _v4 = _interopRequireDefault(require_v5());
+    var _nil = _interopRequireDefault(require_nil());
+    var _version = _interopRequireDefault(require_version());
+    var _validate = _interopRequireDefault(require_validate());
+    var _stringify = _interopRequireDefault(require_stringify());
+    var _parse = _interopRequireDefault(require_parse());
+    function _interopRequireDefault(obj) {
+      return obj && obj.__esModule ? obj : { default: obj };
+    }
+  }
+});
+
 // node_modules/mongoose/lib/driver.js
 var require_driver = __commonJS({
   "node_modules/mongoose/lib/driver.js"(exports, module2) {
@@ -1797,20 +4238,20 @@ var require_utils = __commonJS({
       return Object.prototype.toString.call(value) === "[object BigUint64Array]";
     }
     exports.isBigUInt64Array = isBigUInt64Array;
-    function isRegExp(d) {
-      return Object.prototype.toString.call(d) === "[object RegExp]";
+    function isRegExp(d2) {
+      return Object.prototype.toString.call(d2) === "[object RegExp]";
     }
     exports.isRegExp = isRegExp;
-    function isMap(d) {
-      return Object.prototype.toString.call(d) === "[object Map]";
+    function isMap(d2) {
+      return Object.prototype.toString.call(d2) === "[object Map]";
     }
     exports.isMap = isMap;
     function haveBuffer() {
       return typeof global !== "undefined" && typeof global.Buffer !== "undefined";
     }
     exports.haveBuffer = haveBuffer;
-    function isDate(d) {
-      return isObjectLike(d) && Object.prototype.toString.call(d) === "[object Date]";
+    function isDate(d2) {
+      return isObjectLike(d2) && Object.prototype.toString.call(d2) === "[object Date]";
     }
     exports.isDate = isDate;
     function isObjectLike(candidate) {
@@ -3935,24 +6376,24 @@ var require_timestamp = __commonJS({
     init_shims();
     "use strict";
     var __extends = exports && exports.__extends || function() {
-      var extendStatics = function(d, b) {
-        extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d2, b2) {
-          d2.__proto__ = b2;
-        } || function(d2, b2) {
+      var extendStatics = function(d2, b) {
+        extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d3, b2) {
+          d3.__proto__ = b2;
+        } || function(d3, b2) {
           for (var p in b2)
             if (Object.prototype.hasOwnProperty.call(b2, p))
-              d2[p] = b2[p];
+              d3[p] = b2[p];
         };
-        return extendStatics(d, b);
+        return extendStatics(d2, b);
       };
-      return function(d, b) {
+      return function(d2, b) {
         if (typeof b !== "function" && b !== null)
           throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
-        extendStatics(d, b);
+        extendStatics(d2, b);
         function __() {
-          this.constructor = d;
+          this.constructor = d2;
         }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+        d2.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
       };
     }();
     Object.defineProperty(exports, "__esModule", { value: true });
@@ -4090,20 +6531,20 @@ var require_extended_json = __commonJS({
           return c.fromExtendedJSON(value, options2);
       }
       if (value.$date != null) {
-        var d = value.$date;
+        var d2 = value.$date;
         var date = new Date();
         if (options2.legacy) {
-          if (typeof d === "number")
-            date.setTime(d);
-          else if (typeof d === "string")
-            date.setTime(Date.parse(d));
+          if (typeof d2 === "number")
+            date.setTime(d2);
+          else if (typeof d2 === "string")
+            date.setTime(Date.parse(d2));
         } else {
-          if (typeof d === "string")
-            date.setTime(Date.parse(d));
-          else if (long_1.Long.isLong(d))
-            date.setTime(d.toNumber());
-          else if (typeof d === "number" && options2.relaxed)
-            date.setTime(d);
+          if (typeof d2 === "string")
+            date.setTime(Date.parse(d2));
+          else if (long_1.Long.isLong(d2))
+            date.setTime(d2.toNumber());
+          else if (typeof d2 === "number" && options2.relaxed)
+            date.setTime(d2);
         }
         return date;
       }
@@ -4284,7 +6725,7 @@ var require_extended_json = __commonJS({
     }
     var EJSON;
     (function(EJSON2) {
-      function parse(text, options2) {
+      function parse3(text, options2) {
         var finalOptions = Object.assign({}, { relaxed: true, legacy: false }, options2);
         if (typeof finalOptions.relaxed === "boolean")
           finalOptions.strict = !finalOptions.relaxed;
@@ -4294,8 +6735,8 @@ var require_extended_json = __commonJS({
           return deserializeValue(value, finalOptions);
         });
       }
-      EJSON2.parse = parse;
-      function stringify(value, replacer, space, options2) {
+      EJSON2.parse = parse3;
+      function stringify2(value, replacer, space, options2) {
         if (space != null && typeof space === "object") {
           options2 = space;
           space = 0;
@@ -4311,15 +6752,15 @@ var require_extended_json = __commonJS({
         var doc = serializeValue(value, serializeOptions);
         return JSON.stringify(doc, replacer, space);
       }
-      EJSON2.stringify = stringify;
-      function serialize(value, options2) {
+      EJSON2.stringify = stringify2;
+      function serialize2(value, options2) {
         options2 = options2 || {};
-        return JSON.parse(stringify(value, options2));
+        return JSON.parse(stringify2(value, options2));
       }
-      EJSON2.serialize = serialize;
+      EJSON2.serialize = serialize2;
       function deserialize(ejson, options2) {
         options2 = options2 || {};
-        return parse(JSON.stringify(ejson), options2);
+        return parse3(JSON.stringify(ejson), options2);
       }
       EJSON2.deserialize = deserialize;
     })(EJSON = exports.EJSON || (exports.EJSON = {}));
@@ -5050,18 +7491,18 @@ var require_float_parser = __commonJS({
       var eBias = eMax >> 1;
       var nBits = -7;
       var i = bBE ? 0 : nBytes - 1;
-      var d = bBE ? 1 : -1;
+      var d2 = bBE ? 1 : -1;
       var s2 = buffer[offset + i];
-      i += d;
+      i += d2;
       e = s2 & (1 << -nBits) - 1;
       s2 >>= -nBits;
       nBits += eLen;
-      for (; nBits > 0; e = e * 256 + buffer[offset + i], i += d, nBits -= 8)
+      for (; nBits > 0; e = e * 256 + buffer[offset + i], i += d2, nBits -= 8)
         ;
       m = e & (1 << -nBits) - 1;
       e >>= -nBits;
       nBits += mLen;
-      for (; nBits > 0; m = m * 256 + buffer[offset + i], i += d, nBits -= 8)
+      for (; nBits > 0; m = m * 256 + buffer[offset + i], i += d2, nBits -= 8)
         ;
       if (e === 0) {
         e = 1 - eBias;
@@ -5084,7 +7525,7 @@ var require_float_parser = __commonJS({
       var eBias = eMax >> 1;
       var rt = mLen === 23 ? Math.pow(2, -24) - Math.pow(2, -77) : 0;
       var i = bBE ? nBytes - 1 : 0;
-      var d = bBE ? -1 : 1;
+      var d2 = bBE ? -1 : 1;
       var s2 = value < 0 || value === 0 && 1 / value < 0 ? 1 : 0;
       value = Math.abs(value);
       if (isNaN(value) || value === Infinity) {
@@ -5120,7 +7561,7 @@ var require_float_parser = __commonJS({
         m = 0;
       while (mLen >= 8) {
         buffer[offset + i] = m & 255;
-        i += d;
+        i += d2;
         m /= 256;
         mLen -= 8;
       }
@@ -5130,11 +7571,11 @@ var require_float_parser = __commonJS({
       eLen += mLen;
       while (eLen > 0) {
         buffer[offset + i] = e & 255;
-        i += d;
+        i += d2;
         e /= 256;
         eLen -= 8;
       }
-      buffer[offset + i - d] |= s2 * 128;
+      buffer[offset + i - d2] |= s2 * 128;
     }
     exports.writeIEEE754 = writeIEEE754;
   }
@@ -5944,7 +8385,7 @@ var require_bson = __commonJS({
       }
     }
     exports.setInternalBufferSize = setInternalBufferSize;
-    function serialize(object, options2) {
+    function serialize2(object, options2) {
       if (options2 === void 0) {
         options2 = {};
       }
@@ -5960,7 +8401,7 @@ var require_bson = __commonJS({
       buffer.copy(finishedBuffer, 0, 0, finishedBuffer.length);
       return finishedBuffer;
     }
-    exports.serialize = serialize;
+    exports.serialize = serialize2;
     function serializeWithBufferAndIndex(object, finalBuffer, options2) {
       if (options2 === void 0) {
         options2 = {};
@@ -6023,7 +8464,7 @@ var require_bson = __commonJS({
       Timestamp: timestamp_1.Timestamp,
       EJSON: extended_json_1.EJSON,
       setInternalBufferSize,
-      serialize,
+      serialize: serialize2,
       serializeWithBufferAndIndex,
       deserialize,
       calculateObjectSize,
@@ -6602,24 +9043,24 @@ var require_utils2 = __commonJS({
       }
       options2 = options2 !== null && options2 !== void 0 ? options2 : {};
       let callback = args[args.length - 1];
-      let session;
+      let session2;
       let opOptions;
       let owner;
       if (!options2.skipSessions && topology.hasSessionSupport()) {
         opOptions = args[args.length - 2];
         if (opOptions == null || opOptions.session == null) {
           owner = Symbol();
-          session = topology.startSession({ owner });
+          session2 = topology.startSession({ owner });
           const optionsIndex = args.length - 2;
-          args[optionsIndex] = Object.assign({}, args[optionsIndex], { session });
+          args[optionsIndex] = Object.assign({}, args[optionsIndex], { session: session2 });
         } else if (opOptions.session && opOptions.session.hasEnded) {
           throw new error_1.MongoExpiredSessionError();
         }
       }
       function makeExecuteCallback(resolve2, reject) {
         return function(err, result) {
-          if (session && session.owner === owner && !(options2 === null || options2 === void 0 ? void 0 : options2.returnsCursor)) {
-            session.endSession(() => {
+          if (session2 && session2.owner === owner && !(options2 === null || options2 === void 0 ? void 0 : options2.returnsCursor)) {
+            session2.endSession(() => {
               delete opOptions.session;
               if (err)
                 return reject(err);
@@ -7083,8 +9524,8 @@ var require_utils2 = __commonJS({
     function resolveOptions(parent, options2) {
       var _a, _b, _c;
       const result = Object.assign({}, options2, bson_1.resolveBSONOptions(options2, parent));
-      const session = options2 === null || options2 === void 0 ? void 0 : options2.session;
-      if (!(session === null || session === void 0 ? void 0 : session.inTransaction())) {
+      const session2 = options2 === null || options2 === void 0 ? void 0 : options2.session;
+      if (!(session2 === null || session2 === void 0 ? void 0 : session2.inTransaction())) {
         const readConcern = (_a = read_concern_1.ReadConcern.fromOptions(options2)) !== null && _a !== void 0 ? _a : parent === null || parent === void 0 ? void 0 : parent.readConcern;
         if (readConcern) {
           result.readConcern = readConcern;
@@ -7306,8 +9747,8 @@ var require_utils2 = __commonJS({
       return !!server.loadBalanced || server.description.maxWireVersion >= 6 && !!server.description.logicalSessionTimeoutMinutes && server.description.type !== common_1.ServerType.Standalone;
     }
     exports.supportsRetryableWrites = supportsRetryableWrites;
-    function parsePackageVersion({ version }) {
-      const [major, minor, patch] = version.split(".").map((n) => Number.parseInt(n, 10));
+    function parsePackageVersion({ version: version2 }) {
+      const [major, minor, patch] = version2.split(".").map((n) => Number.parseInt(n, 10));
       return { major, minor, patch };
     }
     exports.parsePackageVersion = parsePackageVersion;
@@ -8011,30 +10452,30 @@ var require_execute_operation = __commonJS({
             executeOperation(topology, operation, cb);
           });
         }
-        let session = operation.session;
+        let session2 = operation.session;
         let owner;
         if (topology.hasSessionSupport()) {
-          if (session == null) {
+          if (session2 == null) {
             owner = Symbol();
-            session = topology.startSession({ owner, explicit: false });
-          } else if (session.hasEnded) {
+            session2 = topology.startSession({ owner, explicit: false });
+          } else if (session2.hasEnded) {
             return cb(new error_1.MongoExpiredSessionError("Use of expired sessions is not permitted"));
-          } else if (session.snapshotEnabled && !topology.capabilities.supportsSnapshotReads) {
+          } else if (session2.snapshotEnabled && !topology.capabilities.supportsSnapshotReads) {
             return cb(new error_1.MongoCompatibilityError("Snapshot reads require MongoDB 5.0 or later"));
           }
-        } else if (session) {
+        } else if (session2) {
           return cb(new error_1.MongoCompatibilityError("Current topology does not support sessions"));
         }
         try {
-          executeWithServerSelection(topology, session, operation, (err, result) => {
-            if (session && session.owner && session.owner === owner) {
-              return session.endSession((err2) => cb(err2 || err, result));
+          executeWithServerSelection(topology, session2, operation, (err, result) => {
+            if (session2 && session2.owner && session2.owner === owner) {
+              return session2.endSession((err2) => cb(err2 || err, result));
             }
             cb(err, result);
           });
         } catch (e) {
-          if (session && session.owner && session.owner === owner) {
-            session.endSession();
+          if (session2 && session2.owner && session2.owner === owner) {
+            session2.endSession();
           }
           throw e;
         }
@@ -8044,17 +10485,17 @@ var require_execute_operation = __commonJS({
     function supportsRetryableReads(server) {
       return utils_1.maxWireVersion(server) >= 6;
     }
-    function executeWithServerSelection(topology, session, operation, callback) {
+    function executeWithServerSelection(topology, session2, operation, callback) {
       const readPreference = operation.readPreference || read_preference_1.ReadPreference.primary;
-      const inTransaction = session && session.inTransaction();
+      const inTransaction = session2 && session2.inTransaction();
       if (inTransaction && !readPreference.equals(read_preference_1.ReadPreference.primary)) {
         callback(new error_1.MongoTransactionError(`Read preference in a transaction must be primary, not: ${readPreference.mode}`));
         return;
       }
-      if (session && session.isPinned && session.transaction.isCommitted && !operation.bypassPinningCheck) {
-        session.unpin();
+      if (session2 && session2.isPinned && session2.transaction.isCommitted && !operation.bypassPinningCheck) {
+        session2.unpin();
       }
-      const serverSelectionOptions = { session };
+      const serverSelectionOptions = { session: session2 };
       function callbackWithRetry(err, result) {
         if (err == null) {
           return callback(void 0, result);
@@ -8078,13 +10519,13 @@ var require_execute_operation = __commonJS({
             callback(e);
             return;
           }
-          if (err && err instanceof error_1.MongoNetworkError && server.loadBalanced && session && session.isPinned && !session.inTransaction() && operation.hasAspect(operation_1.Aspect.CURSOR_CREATING)) {
-            session.unpin({ force: true, forceClear: true });
+          if (err && err instanceof error_1.MongoNetworkError && server.loadBalanced && session2 && session2.isPinned && !session2.inTransaction() && operation.hasAspect(operation_1.Aspect.CURSOR_CREATING)) {
+            session2.unpin({ force: true, forceClear: true });
           }
-          operation.execute(server, session, callback);
+          operation.execute(server, session2, callback);
         });
       }
-      if (readPreference && !readPreference.equals(read_preference_1.ReadPreference.primary) && session && session.inTransaction()) {
+      if (readPreference && !readPreference.equals(read_preference_1.ReadPreference.primary) && session2 && session2.inTransaction()) {
         callback(new error_1.MongoTransactionError(`Read preference in a transaction must be primary, not: ${readPreference.mode}`));
         return;
       }
@@ -8093,7 +10534,7 @@ var require_execute_operation = __commonJS({
           callback(err);
           return;
         }
-        if (session && operation.hasAspect(operation_1.Aspect.RETRYABLE)) {
+        if (session2 && operation.hasAspect(operation_1.Aspect.RETRYABLE)) {
           const willRetryRead = topology.s.options.retryReads !== false && !inTransaction && supportsRetryableReads(server) && operation.canRetryRead;
           const willRetryWrite = topology.s.options.retryWrites === true && !inTransaction && utils_2.supportsRetryableWrites(server) && operation.canRetryWrite;
           const hasReadAspect = operation.hasAspect(operation_1.Aspect.READ_OPERATION);
@@ -8101,13 +10542,13 @@ var require_execute_operation = __commonJS({
           if (hasReadAspect && willRetryRead || hasWriteAspect && willRetryWrite) {
             if (hasWriteAspect && willRetryWrite) {
               operation.options.willRetryWrite = true;
-              session.incrementTransactionNumber();
+              session2.incrementTransactionNumber();
             }
-            operation.execute(server, session, callbackWithRetry);
+            operation.execute(server, session2, callbackWithRetry);
             return;
           }
         }
-        operation.execute(server, session, callback);
+        operation.execute(server, session2, callback);
       });
     }
     function shouldRetryWrite(err) {
@@ -8194,13 +10635,13 @@ var require_command = __commonJS({
         }
         return true;
       }
-      executeCommand(server, session, cmd, callback) {
+      executeCommand(server, session2, cmd, callback) {
         this.server = server;
         const options2 = {
           ...this.options,
           ...this.bsonOptions,
           readPreference: this.readPreference,
-          session
+          session: session2
         };
         const serverWireVersion = utils_1.maxWireVersion(server);
         const inTransaction = this.session && this.session.inTransaction();
@@ -8254,9 +10695,9 @@ var require_run_command = __commonJS({
         this.options = options2 !== null && options2 !== void 0 ? options2 : {};
         this.command = command;
       }
-      execute(server, session, callback) {
+      execute(server, session2, callback) {
         const command = this.command;
-        this.executeCommand(server, session, command, callback);
+        this.executeCommand(server, session2, command, callback);
       }
     };
     exports.RunCommandOperation = RunCommandOperation;
@@ -9409,10 +11850,10 @@ var require_command_monitoring_events = __commonJS({
     var commands_1 = require_commands();
     var utils_1 = require_utils2();
     var CommandStartedEvent = class {
-      constructor(connection2, command) {
+      constructor(connection, command) {
         const cmd = extractCommand(command);
         const commandName = extractCommandName(cmd);
-        const { address, connectionId, serviceId } = extractConnectionDetails(connection2);
+        const { address, connectionId, serviceId } = extractConnectionDetails(connection);
         if (SENSITIVE_COMMANDS.has(commandName)) {
           this.commandObj = {};
           this.commandObj[commandName] = true;
@@ -9431,10 +11872,10 @@ var require_command_monitoring_events = __commonJS({
     };
     exports.CommandStartedEvent = CommandStartedEvent;
     var CommandSucceededEvent = class {
-      constructor(connection2, command, reply, started) {
+      constructor(connection, command, reply, started) {
         const cmd = extractCommand(command);
         const commandName = extractCommandName(cmd);
-        const { address, connectionId, serviceId } = extractConnectionDetails(connection2);
+        const { address, connectionId, serviceId } = extractConnectionDetails(connection);
         this.address = address;
         this.connectionId = connectionId;
         this.serviceId = serviceId;
@@ -9449,10 +11890,10 @@ var require_command_monitoring_events = __commonJS({
     };
     exports.CommandSucceededEvent = CommandSucceededEvent;
     var CommandFailedEvent = class {
-      constructor(connection2, command, error2, started) {
+      constructor(connection, command, error2, started) {
         const cmd = extractCommand(command);
         const commandName = extractCommandName(cmd);
-        const { address, connectionId, serviceId } = extractConnectionDetails(connection2);
+        const { address, connectionId, serviceId } = extractConnectionDetails(connection);
         this.address = address;
         this.connectionId = connectionId;
         this.serviceId = serviceId;
@@ -9609,14 +12050,14 @@ var require_command_monitoring_events = __commonJS({
       }
       return utils_1.deepCopy(reply.result ? reply.result : reply);
     }
-    function extractConnectionDetails(connection2) {
+    function extractConnectionDetails(connection) {
       let connectionId;
-      if ("id" in connection2) {
-        connectionId = connection2.id;
+      if ("id" in connection) {
+        connectionId = connection.id;
       }
       return {
-        address: connection2.address,
-        serviceId: connection2.serviceId,
+        address: connection.address,
+        serviceId: connection.serviceId,
         connectionId
       };
     }
@@ -9814,22 +12255,22 @@ var require_connection = __commonJS({
         }
         const readPreference = shared_1.getReadPreference(cmd, options2);
         const shouldUseOpMsg = supportsOpMsg(this);
-        const session = options2 === null || options2 === void 0 ? void 0 : options2.session;
+        const session2 = options2 === null || options2 === void 0 ? void 0 : options2.session;
         let clusterTime = this.clusterTime;
         let finalCmd = Object.assign({}, cmd);
         if (this.serverApi) {
-          const { version, strict, deprecationErrors } = this.serverApi;
-          finalCmd.apiVersion = version;
+          const { version: version2, strict, deprecationErrors } = this.serverApi;
+          finalCmd.apiVersion = version2;
           if (strict != null)
             finalCmd.apiStrict = strict;
           if (deprecationErrors != null)
             finalCmd.apiDeprecationErrors = deprecationErrors;
         }
-        if (hasSessionSupport(this) && session) {
-          if (session.clusterTime && clusterTime && session.clusterTime.clusterTime.greaterThan(clusterTime.clusterTime)) {
-            clusterTime = session.clusterTime;
+        if (hasSessionSupport(this) && session2) {
+          if (session2.clusterTime && clusterTime && session2.clusterTime.clusterTime.greaterThan(clusterTime.clusterTime)) {
+            clusterTime = session2.clusterTime;
           }
-          const err = sessions_1.applySession(session, finalCmd, options2);
+          const err = sessions_1.applySession(session2, finalCmd, options2);
           if (err) {
             return callback(err);
           }
@@ -10055,9 +12496,9 @@ var require_connection = __commonJS({
         }
         if (message.documents[0]) {
           const document2 = message.documents[0];
-          const session = operationDescription.session;
-          if (session) {
-            sessions_1.updateSessionFromResponse(session, document2);
+          const session2 = operationDescription.session;
+          if (session2) {
+            sessions_1.updateSessionFromResponse(session2, document2);
           }
           if (document2.$clusterTime) {
             conn[kClusterTime] = document2.$clusterTime;
@@ -10225,8 +12666,8 @@ var require_sessions = __commonJS({
     var mongo_types_1 = require_mongo_types();
     var read_concern_1 = require_read_concern();
     var minWireVersionForShardedTransactions = 8;
-    function assertAlive(session, callback) {
-      if (session.serverSession == null) {
+    function assertAlive(session2, callback) {
+      if (session2.serverSession == null) {
         const error2 = new error_1.MongoExpiredSessionError();
         if (typeof callback === "function") {
           callback(error2);
@@ -10357,14 +12798,14 @@ var require_sessions = __commonJS({
         }
         common_1._advanceClusterTime(this, clusterTime);
       }
-      equals(session) {
-        if (!(session instanceof ClientSession)) {
+      equals(session2) {
+        if (!(session2 instanceof ClientSession)) {
           return false;
         }
-        if (this.id == null || session.id == null) {
+        if (this.id == null || session2.id == null) {
           return false;
         }
-        return this.id.id.buffer.equals(session.id.id.buffer);
+        return this.id.id.buffer.equals(session2.id.id.buffer);
       }
       incrementTransactionNumber() {
         if (this.serverSession) {
@@ -10428,23 +12869,23 @@ var require_sessions = __commonJS({
       const isNonDeterministicWriteConcernError = err instanceof error_1.MongoServerError && err.codeName && NON_DETERMINISTIC_WRITE_CONCERN_ERRORS.has(err.codeName);
       return isMaxTimeMSExpiredError(err) || !isNonDeterministicWriteConcernError && err.code !== error_1.MONGODB_ERROR_CODES.UnsatisfiableWriteConcern && err.code !== error_1.MONGODB_ERROR_CODES.UnknownReplWriteConcern;
     }
-    function maybeClearPinnedConnection(session, options2) {
-      const conn = session[kPinnedConnection];
+    function maybeClearPinnedConnection(session2, options2) {
+      const conn = session2[kPinnedConnection];
       const error2 = options2 === null || options2 === void 0 ? void 0 : options2.error;
-      if (session.inTransaction() && error2 && error2 instanceof error_1.MongoError && error2.hasErrorLabel("TransientTransactionError")) {
+      if (session2.inTransaction() && error2 && error2 instanceof error_1.MongoError && error2.hasErrorLabel("TransientTransactionError")) {
         return;
       }
       if (conn) {
-        const servers = Array.from(session.topology.s.servers.values());
+        const servers = Array.from(session2.topology.s.servers.values());
         const loadBalancer = servers[0];
         if ((options2 === null || options2 === void 0 ? void 0 : options2.error) == null || (options2 === null || options2 === void 0 ? void 0 : options2.force)) {
           loadBalancer.s.pool.checkIn(conn);
-          conn.emit(connection_1.Connection.UNPINNED, session.transaction.state !== transactions_1.TxnState.NO_TRANSACTION ? metrics_1.ConnectionPoolMetrics.TXN : metrics_1.ConnectionPoolMetrics.CURSOR);
+          conn.emit(connection_1.Connection.UNPINNED, session2.transaction.state !== transactions_1.TxnState.NO_TRANSACTION ? metrics_1.ConnectionPoolMetrics.TXN : metrics_1.ConnectionPoolMetrics.CURSOR);
           if (options2 === null || options2 === void 0 ? void 0 : options2.forceClear) {
             loadBalancer.s.pool.clear(conn.serviceId);
           }
         }
-        session[kPinnedConnection] = void 0;
+        session2[kPinnedConnection] = void 0;
       }
     }
     exports.maybeClearPinnedConnection = maybeClearPinnedConnection;
@@ -10454,14 +12895,14 @@ var require_sessions = __commonJS({
       }
       return err.code === error_1.MONGODB_ERROR_CODES.MaxTimeMSExpired || err.writeConcernError && err.writeConcernError.code === error_1.MONGODB_ERROR_CODES.MaxTimeMSExpired;
     }
-    function attemptTransactionCommit(session, startTime, fn, options2) {
-      return session.commitTransaction().catch((err) => {
+    function attemptTransactionCommit(session2, startTime, fn, options2) {
+      return session2.commitTransaction().catch((err) => {
         if (err instanceof error_1.MongoError && hasNotTimedOut(startTime, MAX_WITH_TRANSACTION_TIMEOUT) && !isMaxTimeMSExpiredError(err)) {
           if (err.hasErrorLabel("UnknownTransactionCommitResult")) {
-            return attemptTransactionCommit(session, startTime, fn, options2);
+            return attemptTransactionCommit(session2, startTime, fn, options2);
           }
           if (err.hasErrorLabel("TransientTransactionError")) {
-            return attemptTransaction(session, startTime, fn, options2);
+            return attemptTransaction(session2, startTime, fn, options2);
           }
         }
         throw err;
@@ -10472,55 +12913,55 @@ var require_sessions = __commonJS({
       transactions_1.TxnState.TRANSACTION_COMMITTED,
       transactions_1.TxnState.TRANSACTION_ABORTED
     ]);
-    function userExplicitlyEndedTransaction(session) {
-      return USER_EXPLICIT_TXN_END_STATES.has(session.transaction.state);
+    function userExplicitlyEndedTransaction(session2) {
+      return USER_EXPLICIT_TXN_END_STATES.has(session2.transaction.state);
     }
-    function attemptTransaction(session, startTime, fn, options2) {
+    function attemptTransaction(session2, startTime, fn, options2) {
       const Promise2 = promise_provider_1.PromiseProvider.get();
-      session.startTransaction(options2);
+      session2.startTransaction(options2);
       let promise;
       try {
-        promise = fn(session);
+        promise = fn(session2);
       } catch (err) {
         promise = Promise2.reject(err);
       }
       if (!utils_1.isPromiseLike(promise)) {
-        session.abortTransaction();
+        session2.abortTransaction();
         throw new error_1.MongoInvalidArgumentError("Function provided to `withTransaction` must return a Promise");
       }
       return promise.then(() => {
-        if (userExplicitlyEndedTransaction(session)) {
+        if (userExplicitlyEndedTransaction(session2)) {
           return;
         }
-        return attemptTransactionCommit(session, startTime, fn, options2);
+        return attemptTransactionCommit(session2, startTime, fn, options2);
       }, (err) => {
         function maybeRetryOrThrow(err2) {
           if (err2 instanceof error_1.MongoError && err2.hasErrorLabel("TransientTransactionError") && hasNotTimedOut(startTime, MAX_WITH_TRANSACTION_TIMEOUT)) {
-            return attemptTransaction(session, startTime, fn, options2);
+            return attemptTransaction(session2, startTime, fn, options2);
           }
           if (isMaxTimeMSExpiredError(err2)) {
             err2.addErrorLabel("UnknownTransactionCommitResult");
           }
           throw err2;
         }
-        if (session.transaction.isActive) {
-          return session.abortTransaction().then(() => maybeRetryOrThrow(err));
+        if (session2.transaction.isActive) {
+          return session2.abortTransaction().then(() => maybeRetryOrThrow(err));
         }
         return maybeRetryOrThrow(err);
       });
     }
-    function endTransaction(session, commandName, callback) {
-      if (!assertAlive(session, callback)) {
+    function endTransaction(session2, commandName, callback) {
+      if (!assertAlive(session2, callback)) {
         return;
       }
-      const txnState = session.transaction.state;
+      const txnState = session2.transaction.state;
       if (txnState === transactions_1.TxnState.NO_TRANSACTION) {
         callback(new error_1.MongoTransactionError("No transaction started"));
         return;
       }
       if (commandName === "commitTransaction") {
         if (txnState === transactions_1.TxnState.STARTING_TRANSACTION || txnState === transactions_1.TxnState.TRANSACTION_COMMITTED_EMPTY) {
-          session.transaction.transition(transactions_1.TxnState.TRANSACTION_COMMITTED_EMPTY);
+          session2.transaction.transition(transactions_1.TxnState.TRANSACTION_COMMITTED_EMPTY);
           callback();
           return;
         }
@@ -10530,7 +12971,7 @@ var require_sessions = __commonJS({
         }
       } else {
         if (txnState === transactions_1.TxnState.STARTING_TRANSACTION) {
-          session.transaction.transition(transactions_1.TxnState.TRANSACTION_ABORTED);
+          session2.transaction.transition(transactions_1.TxnState.TRANSACTION_ABORTED);
           callback();
           return;
         }
@@ -10545,10 +12986,10 @@ var require_sessions = __commonJS({
       }
       const command = { [commandName]: 1 };
       let writeConcern;
-      if (session.transaction.options.writeConcern) {
-        writeConcern = Object.assign({}, session.transaction.options.writeConcern);
-      } else if (session.clientOptions && session.clientOptions.writeConcern) {
-        writeConcern = { w: session.clientOptions.writeConcern.w };
+      if (session2.transaction.options.writeConcern) {
+        writeConcern = Object.assign({}, session2.transaction.options.writeConcern);
+      } else if (session2.clientOptions && session2.clientOptions.writeConcern) {
+        writeConcern = { w: session2.clientOptions.writeConcern.w };
       }
       if (txnState === transactions_1.TxnState.TRANSACTION_COMMITTED) {
         writeConcern = Object.assign({ wtimeout: 1e4 }, writeConcern, { w: "majority" });
@@ -10556,50 +12997,50 @@ var require_sessions = __commonJS({
       if (writeConcern) {
         Object.assign(command, { writeConcern });
       }
-      if (commandName === "commitTransaction" && session.transaction.options.maxTimeMS) {
-        Object.assign(command, { maxTimeMS: session.transaction.options.maxTimeMS });
+      if (commandName === "commitTransaction" && session2.transaction.options.maxTimeMS) {
+        Object.assign(command, { maxTimeMS: session2.transaction.options.maxTimeMS });
       }
       function commandHandler(e, r) {
         if (commandName !== "commitTransaction") {
-          session.transaction.transition(transactions_1.TxnState.TRANSACTION_ABORTED);
-          if (session.loadBalanced) {
-            maybeClearPinnedConnection(session, { force: false });
+          session2.transaction.transition(transactions_1.TxnState.TRANSACTION_ABORTED);
+          if (session2.loadBalanced) {
+            maybeClearPinnedConnection(session2, { force: false });
           }
           return callback();
         }
-        session.transaction.transition(transactions_1.TxnState.TRANSACTION_COMMITTED);
+        session2.transaction.transition(transactions_1.TxnState.TRANSACTION_COMMITTED);
         if (e) {
           if (e instanceof error_1.MongoNetworkError || e instanceof error_1.MongoWriteConcernError || error_1.isRetryableError(e) || isMaxTimeMSExpiredError(e)) {
             if (isUnknownTransactionCommitResult(e)) {
               e.addErrorLabel("UnknownTransactionCommitResult");
-              session.unpin({ error: e });
+              session2.unpin({ error: e });
             }
           } else if (e.hasErrorLabel("TransientTransactionError")) {
-            session.unpin({ error: e });
+            session2.unpin({ error: e });
           }
         }
         callback(e, r);
       }
-      if (session.transaction.recoveryToken) {
-        command.recoveryToken = session.transaction.recoveryToken;
+      if (session2.transaction.recoveryToken) {
+        command.recoveryToken = session2.transaction.recoveryToken;
       }
-      execute_operation_1.executeOperation(session.topology, new run_command_1.RunAdminCommandOperation(void 0, command, {
-        session,
+      execute_operation_1.executeOperation(session2.topology, new run_command_1.RunAdminCommandOperation(void 0, command, {
+        session: session2,
         readPreference: read_preference_1.ReadPreference.primary,
         bypassPinningCheck: true
       }), (err, reply) => {
         if (command.abortTransaction) {
-          session.unpin();
+          session2.unpin();
         }
         if (err && error_1.isRetryableError(err)) {
           if (command.commitTransaction) {
-            session.unpin({ force: true });
+            session2.unpin({ force: true });
             command.writeConcern = Object.assign({ wtimeout: 1e4 }, command.writeConcern, {
               w: "majority"
             });
           }
-          return execute_operation_1.executeOperation(session.topology, new run_command_1.RunAdminCommandOperation(void 0, command, {
-            session,
+          return execute_operation_1.executeOperation(session2.topology, new run_command_1.RunAdminCommandOperation(void 0, command, {
+            session: session2,
             readPreference: read_preference_1.ReadPreference.primary,
             bypassPinningCheck: true
           }), (_err, _reply) => commandHandler(_err, _reply));
@@ -10630,7 +13071,7 @@ var require_sessions = __commonJS({
       }
       endAllPooledSessions(callback) {
         if (this.sessions.length) {
-          this.topology.endSessions(this.sessions.map((session) => session.id), () => {
+          this.topology.endSessions(this.sessions.map((session2) => session2.id), () => {
             this.sessions = [];
             if (typeof callback === "function") {
               callback();
@@ -10645,17 +13086,17 @@ var require_sessions = __commonJS({
       acquire() {
         const sessionTimeoutMinutes = this.topology.logicalSessionTimeoutMinutes || 10;
         while (this.sessions.length) {
-          const session = this.sessions.shift();
-          if (session && (this.topology.loadBalanced || !session.hasTimedOut(sessionTimeoutMinutes))) {
-            return session;
+          const session2 = this.sessions.shift();
+          if (session2 && (this.topology.loadBalanced || !session2.hasTimedOut(sessionTimeoutMinutes))) {
+            return session2;
           }
         }
         return new ServerSession();
       }
-      release(session) {
+      release(session2) {
         const sessionTimeoutMinutes = this.topology.logicalSessionTimeoutMinutes;
         if (this.topology.loadBalanced && !sessionTimeoutMinutes) {
-          this.sessions.unshift(session);
+          this.sessions.unshift(session2);
         }
         if (!sessionTimeoutMinutes) {
           return;
@@ -10668,11 +13109,11 @@ var require_sessions = __commonJS({
             break;
           }
         }
-        if (!session.hasTimedOut(sessionTimeoutMinutes)) {
-          if (session.isDirty) {
+        if (!session2.hasTimedOut(sessionTimeoutMinutes)) {
+          if (session2.isDirty) {
             return;
           }
-          this.sessions.unshift(session);
+          this.sessions.unshift(session2);
         }
       }
     };
@@ -10687,73 +13128,73 @@ var require_sessions = __commonJS({
       return false;
     }
     exports.commandSupportsReadConcern = commandSupportsReadConcern;
-    function applySession(session, command, options2) {
+    function applySession(session2, command, options2) {
       var _b;
-      if (session.hasEnded) {
+      if (session2.hasEnded) {
         return new error_1.MongoExpiredSessionError();
       }
-      const serverSession = session.serverSession;
+      const serverSession = session2.serverSession;
       if (serverSession == null) {
         return new error_1.MongoRuntimeError("Unable to acquire server session");
       }
       if (options2 && options2.writeConcern && options2.writeConcern.w === 0) {
-        if (session && session.explicit) {
+        if (session2 && session2.explicit) {
           return new error_1.MongoAPIError("Cannot have explicit session with unacknowledged writes");
         }
         return;
       }
       serverSession.lastUse = utils_1.now();
       command.lsid = serverSession.id;
-      const inTransaction = session.inTransaction() || transactions_1.isTransactionCommand(command);
+      const inTransaction = session2.inTransaction() || transactions_1.isTransactionCommand(command);
       const isRetryableWrite = (options2 === null || options2 === void 0 ? void 0 : options2.willRetryWrite) || false;
       if (serverSession.txnNumber && (isRetryableWrite || inTransaction)) {
         command.txnNumber = bson_1.Long.fromNumber(serverSession.txnNumber);
       }
       if (!inTransaction) {
-        if (session.transaction.state !== transactions_1.TxnState.NO_TRANSACTION) {
-          session.transaction.transition(transactions_1.TxnState.NO_TRANSACTION);
+        if (session2.transaction.state !== transactions_1.TxnState.NO_TRANSACTION) {
+          session2.transaction.transition(transactions_1.TxnState.NO_TRANSACTION);
         }
-        if (session.supports.causalConsistency && session.operationTime && commandSupportsReadConcern(command, options2)) {
+        if (session2.supports.causalConsistency && session2.operationTime && commandSupportsReadConcern(command, options2)) {
           command.readConcern = command.readConcern || {};
-          Object.assign(command.readConcern, { afterClusterTime: session.operationTime });
-        } else if (session[kSnapshotEnabled]) {
+          Object.assign(command.readConcern, { afterClusterTime: session2.operationTime });
+        } else if (session2[kSnapshotEnabled]) {
           command.readConcern = command.readConcern || { level: read_concern_1.ReadConcernLevel.snapshot };
-          if (session[kSnapshotTime] != null) {
-            Object.assign(command.readConcern, { atClusterTime: session[kSnapshotTime] });
+          if (session2[kSnapshotTime] != null) {
+            Object.assign(command.readConcern, { atClusterTime: session2[kSnapshotTime] });
           }
         }
         return;
       }
       command.autocommit = false;
-      if (session.transaction.state === transactions_1.TxnState.STARTING_TRANSACTION) {
-        session.transaction.transition(transactions_1.TxnState.TRANSACTION_IN_PROGRESS);
+      if (session2.transaction.state === transactions_1.TxnState.STARTING_TRANSACTION) {
+        session2.transaction.transition(transactions_1.TxnState.TRANSACTION_IN_PROGRESS);
         command.startTransaction = true;
-        const readConcern = session.transaction.options.readConcern || ((_b = session === null || session === void 0 ? void 0 : session.clientOptions) === null || _b === void 0 ? void 0 : _b.readConcern);
+        const readConcern = session2.transaction.options.readConcern || ((_b = session2 === null || session2 === void 0 ? void 0 : session2.clientOptions) === null || _b === void 0 ? void 0 : _b.readConcern);
         if (readConcern) {
           command.readConcern = readConcern;
         }
-        if (session.supports.causalConsistency && session.operationTime) {
+        if (session2.supports.causalConsistency && session2.operationTime) {
           command.readConcern = command.readConcern || {};
-          Object.assign(command.readConcern, { afterClusterTime: session.operationTime });
+          Object.assign(command.readConcern, { afterClusterTime: session2.operationTime });
         }
       }
     }
     exports.applySession = applySession;
-    function updateSessionFromResponse(session, document2) {
+    function updateSessionFromResponse(session2, document2) {
       var _b;
       if (document2.$clusterTime) {
-        common_1._advanceClusterTime(session, document2.$clusterTime);
+        common_1._advanceClusterTime(session2, document2.$clusterTime);
       }
-      if (document2.operationTime && session && session.supports.causalConsistency) {
-        session.advanceOperationTime(document2.operationTime);
+      if (document2.operationTime && session2 && session2.supports.causalConsistency) {
+        session2.advanceOperationTime(document2.operationTime);
       }
-      if (document2.recoveryToken && session && session.inTransaction()) {
-        session.transaction._recoveryToken = document2.recoveryToken;
+      if (document2.recoveryToken && session2 && session2.inTransaction()) {
+        session2.transaction._recoveryToken = document2.recoveryToken;
       }
-      if ((session === null || session === void 0 ? void 0 : session[kSnapshotEnabled]) && session[kSnapshotTime] == null) {
+      if ((session2 === null || session2 === void 0 ? void 0 : session2[kSnapshotEnabled]) && session2[kSnapshotTime] == null) {
         const atClusterTime = ((_b = document2.cursor) === null || _b === void 0 ? void 0 : _b.atClusterTime) || document2.atClusterTime;
         if (atClusterTime) {
-          session[kSnapshotTime] = atClusterTime;
+          session2[kSnapshotTime] = atClusterTime;
         }
       }
     }
@@ -11060,10 +13501,10 @@ var require_abstract_cursor = __commonJS({
         this[kClosed] = false;
         this[kKilled] = false;
         this[kInitialized] = false;
-        const session = this[kSession];
-        if (session) {
-          if (session.explicit === false && !session.hasEnded) {
-            session.endSession();
+        const session2 = this[kSession];
+        if (session2) {
+          if (session2.explicit === false && !session2.hasEnded) {
+            session2.endSession();
           }
           this[kSession] = void 0;
         }
@@ -11172,7 +13613,7 @@ var require_abstract_cursor = __commonJS({
       const cursorId = cursor[kId];
       const cursorNs = cursor[kNamespace];
       const server = cursor[kServer];
-      const session = cursor[kSession];
+      const session2 = cursor[kSession];
       const error2 = options2 === null || options2 === void 0 ? void 0 : options2.error;
       const needsToEmitClosed = (_a = options2 === null || options2 === void 0 ? void 0 : options2.needsToEmitClosed) !== null && _a !== void 0 ? _a : cursor[kDocuments].length === 0;
       if (error2) {
@@ -11186,33 +13627,33 @@ var require_abstract_cursor = __commonJS({
           cursor[kId] = bson_1.Long.ZERO;
           cursor.emit(AbstractCursor.CLOSE);
         }
-        if (session) {
-          if (session.owner === cursor) {
-            return session.endSession({ error: error2 }, callback);
+        if (session2) {
+          if (session2.owner === cursor) {
+            return session2.endSession({ error: error2 }, callback);
           }
-          if (!session.inTransaction()) {
-            sessions_1.maybeClearPinnedConnection(session, { error: error2 });
+          if (!session2.inTransaction()) {
+            sessions_1.maybeClearPinnedConnection(session2, { error: error2 });
           }
         }
         return callback();
       }
       function completeCleanup() {
-        if (session) {
-          if (session.owner === cursor) {
-            return session.endSession({ error: error2 }, () => {
+        if (session2) {
+          if (session2.owner === cursor) {
+            return session2.endSession({ error: error2 }, () => {
               cursor.emit(AbstractCursor.CLOSE);
               callback();
             });
           }
-          if (!session.inTransaction()) {
-            sessions_1.maybeClearPinnedConnection(session, { error: error2 });
+          if (!session2.inTransaction()) {
+            sessions_1.maybeClearPinnedConnection(session2, { error: error2 });
           }
         }
         cursor.emit(AbstractCursor.CLOSE);
         return callback();
       }
       cursor[kKilled] = true;
-      server.killCursors(cursorNs, [cursorId], { ...bson_1.pluckBSONSerializeOptions(cursor[kOptions]), session }, () => completeCleanup());
+      server.killCursors(cursorNs, [cursorId], { ...bson_1.pluckBSONSerializeOptions(cursor[kOptions]), session: session2 }, () => completeCleanup());
     }
     function assertUninitialized(cursor) {
       if (cursor[kInitialized]) {
@@ -11323,7 +13764,7 @@ var require_aggregate = __commonJS({
       addToPipeline(stage) {
         this.pipeline.push(stage);
       }
-      execute(server, session, callback) {
+      execute(server, session2, callback) {
         const options2 = this.options;
         const serverWireVersion = utils_1.maxWireVersion(server);
         const command = { aggregate: this.target, pipeline: this.pipeline };
@@ -11351,7 +13792,7 @@ var require_aggregate = __commonJS({
         if (options2.batchSize && !this.hasWriteStage) {
           command.cursor.batchSize = options2.batchSize;
         }
-        super.executeCommand(server, session, command, callback);
+        super.executeCommand(server, session2, command, callback);
       }
     };
     exports.AggregateOperation = AggregateOperation;
@@ -11396,16 +13837,16 @@ var require_aggregation_cursor = __commonJS({
       map(transform) {
         return super.map(transform);
       }
-      _initialize(session, callback) {
+      _initialize(session2, callback) {
         const aggregateOperation = new aggregate_1.AggregateOperation(this.namespace, this[kPipeline], {
           ...this[kOptions],
           ...this.cursorOptions,
-          session
+          session: session2
         });
         execute_operation_1.executeOperation(this.topology, aggregateOperation, (err, response) => {
           if (err || response == null)
             return callback(err);
-          callback(void 0, { server: aggregateOperation.server, session, response });
+          callback(void 0, { server: aggregateOperation.server, session: session2, response });
         });
       }
       explain(verbosity, callback) {
@@ -11495,7 +13936,7 @@ var require_count = __commonJS({
         this.collectionName = namespace.collection;
         this.query = filter;
       }
-      execute(server, session, callback) {
+      execute(server, session2, callback) {
         const options2 = this.options;
         const cmd = {
           count: this.collectionName,
@@ -11513,7 +13954,7 @@ var require_count = __commonJS({
         if (typeof options2.maxTimeMS === "number") {
           cmd.maxTimeMS = options2.maxTimeMS;
         }
-        super.executeCommand(server, session, cmd, (err, result) => {
+        super.executeCommand(server, session2, cmd, (err, result) => {
           callback(err, result ? result.n : 0);
         });
       }
@@ -11647,7 +14088,7 @@ var require_find = __commonJS({
         }
         this.filter = filter != null && filter._bsontype === "ObjectID" ? { _id: filter } : filter;
       }
-      execute(server, session, callback) {
+      execute(server, session2, callback) {
         this.server = server;
         const serverWireVersion = utils_1.maxWireVersion(server);
         const options2 = this.options;
@@ -11684,7 +14125,7 @@ var require_find = __commonJS({
           ...this.options,
           ...this.bsonOptions,
           documentsReturnedIn: "firstBatch",
-          session
+          session: session2
         }, callback);
       }
     };
@@ -11867,11 +14308,11 @@ var require_find_cursor = __commonJS({
       map(transform) {
         return super.map(transform);
       }
-      _initialize(session, callback) {
+      _initialize(session2, callback) {
         const findOperation = new find_1.FindOperation(void 0, this.namespace, this[kFilter], {
           ...this[kBuiltOptions],
           ...this.cursorOptions,
-          session
+          session: session2
         });
         execute_operation_1.executeOperation(this.topology, findOperation, (err, response) => {
           if (err || response == null)
@@ -11881,7 +14322,7 @@ var require_find_cursor = __commonJS({
           } else {
             this[kNumReturned] = response.documents ? response.documents.length : 0;
           }
-          callback(void 0, { server: findOperation.server, session, response });
+          callback(void 0, { server: findOperation.server, session: session2, response });
         });
       }
       _getMore(batchSize, callback) {
@@ -12185,10 +14626,10 @@ var require_indexes = __commonJS({
         this.options = options2;
         this.collection = collection;
       }
-      execute(server, session, callback) {
+      execute(server, session2, callback) {
         const coll = this.collection;
         const options2 = this.options;
-        common_functions_1.indexInformation(coll.s.db, coll.collectionName, { full: true, ...options2, readPreference: this.readPreference, session }, callback);
+        common_functions_1.indexInformation(coll.s.db, coll.collectionName, { full: true, ...options2, readPreference: this.readPreference, session: session2 }, callback);
       }
     };
     exports.IndexesOperation = IndexesOperation;
@@ -12199,7 +14640,7 @@ var require_indexes = __commonJS({
         this.collectionName = collectionName;
         this.indexes = indexes;
       }
-      execute(server, session, callback) {
+      execute(server, session2, callback) {
         const options2 = this.options;
         const indexes = this.indexes;
         const serverWireVersion = utils_1.maxWireVersion(server);
@@ -12225,7 +14666,7 @@ var require_indexes = __commonJS({
           cmd.commitQuorum = options2.commitQuorum;
         }
         this.options.collation = void 0;
-        super.executeCommand(server, session, cmd, (err) => {
+        super.executeCommand(server, session2, cmd, (err) => {
           if (err) {
             callback(err);
             return;
@@ -12240,8 +14681,8 @@ var require_indexes = __commonJS({
       constructor(parent, collectionName, indexSpec, options2) {
         super(parent, collectionName, [makeIndexSpec(indexSpec, options2)], options2);
       }
-      execute(server, session, callback) {
-        super.execute(server, session, (err, indexNames) => {
+      execute(server, session2, callback) {
+        super.execute(server, session2, (err, indexNames) => {
           if (err || !indexNames)
             return callback(err);
           return callback(void 0, indexNames[0]);
@@ -12256,9 +14697,9 @@ var require_indexes = __commonJS({
         this.db = db;
         this.collectionName = collectionName;
       }
-      execute(server, session, callback) {
+      execute(server, session2, callback) {
         const indexName = this.indexes[0].name;
-        const cursor = this.db.collection(this.collectionName).listIndexes({ session });
+        const cursor = this.db.collection(this.collectionName).listIndexes({ session: session2 });
         cursor.toArray((err, indexes) => {
           if (err && err.code !== error_1.MONGODB_ERROR_CODES.NamespaceNotFound) {
             return callback(err);
@@ -12270,7 +14711,7 @@ var require_indexes = __commonJS({
               return;
             }
           }
-          super.execute(server, session, callback);
+          super.execute(server, session2, callback);
         });
       }
     };
@@ -12282,9 +14723,9 @@ var require_indexes = __commonJS({
         this.collection = collection;
         this.indexName = indexName;
       }
-      execute(server, session, callback) {
+      execute(server, session2, callback) {
         const cmd = { dropIndexes: this.collection.collectionName, index: this.indexName };
-        super.executeCommand(server, session, cmd, callback);
+        super.executeCommand(server, session2, cmd, callback);
       }
     };
     exports.DropIndexOperation = DropIndexOperation;
@@ -12292,8 +14733,8 @@ var require_indexes = __commonJS({
       constructor(collection, options2) {
         super(collection, "*", options2);
       }
-      execute(server, session, callback) {
-        super.execute(server, session, (err) => {
+      execute(server, session2, callback) {
+        super.execute(server, session2, (err) => {
           if (err)
             return callback(err, false);
           callback(void 0, true);
@@ -12307,7 +14748,7 @@ var require_indexes = __commonJS({
         this.options = options2 !== null && options2 !== void 0 ? options2 : {};
         this.collectionNamespace = collection.s.namespace;
       }
-      execute(server, session, callback) {
+      execute(server, session2, callback) {
         const serverWireVersion = utils_1.maxWireVersion(server);
         if (serverWireVersion < LIST_INDEXES_WIRE_VERSION) {
           const systemIndexesNS = this.collectionNamespace.withCollection("system.indexes");
@@ -12316,7 +14757,7 @@ var require_indexes = __commonJS({
           return;
         }
         const cursor = this.options.batchSize ? { batchSize: this.options.batchSize } : {};
-        super.executeCommand(server, session, { listIndexes: this.collectionNamespace.collection, cursor }, callback);
+        super.executeCommand(server, session2, { listIndexes: this.collectionNamespace.collection, cursor }, callback);
       }
     };
     exports.ListIndexesOperation = ListIndexesOperation;
@@ -12332,16 +14773,16 @@ var require_indexes = __commonJS({
           ...this.cursorOptions
         });
       }
-      _initialize(session, callback) {
+      _initialize(session2, callback) {
         const operation = new ListIndexesOperation(this.parent, {
           ...this.cursorOptions,
           ...this.options,
-          session
+          session: session2
         });
         execute_operation_1.executeOperation(utils_1.getTopology(this.parent), operation, (err, response) => {
           if (err || response == null)
             return callback(err);
-          callback(void 0, { server: operation.server, session, response });
+          callback(void 0, { server: operation.server, session: session2, response });
         });
       }
     };
@@ -12353,10 +14794,10 @@ var require_indexes = __commonJS({
         this.collection = collection;
         this.indexes = indexes;
       }
-      execute(server, session, callback) {
+      execute(server, session2, callback) {
         const coll = this.collection;
         const indexes = this.indexes;
-        common_functions_1.indexInformation(coll.s.db, coll.collectionName, { ...this.options, readPreference: this.readPreference, session }, (err, indexInformation) => {
+        common_functions_1.indexInformation(coll.s.db, coll.collectionName, { ...this.options, readPreference: this.readPreference, session: session2 }, (err, indexInformation) => {
           if (err != null)
             return callback(err);
           if (!Array.isArray(indexes))
@@ -12378,10 +14819,10 @@ var require_indexes = __commonJS({
         this.db = db;
         this.name = name;
       }
-      execute(server, session, callback) {
+      execute(server, session2, callback) {
         const db = this.db;
         const name = this.name;
-        common_functions_1.indexInformation(db, name, { ...this.options, readPreference: this.readPreference, session }, callback);
+        common_functions_1.indexInformation(db, name, { ...this.options, readPreference: this.readPreference, session: session2 }, callback);
       }
     };
     exports.IndexInformationOperation = IndexInformationOperation;
@@ -12439,7 +14880,7 @@ var require_list_collections = __commonJS({
           this.batchSize = this.options.batchSize;
         }
       }
-      execute(server, session, callback) {
+      execute(server, session2, callback) {
         if (utils_1.maxWireVersion(server) < LIST_COLLECTIONS_WIRE_VERSION) {
           let filter = this.filter;
           const databaseName = this.db.s.namespace.db;
@@ -12477,7 +14918,7 @@ var require_list_collections = __commonJS({
           cursor: this.batchSize ? { batchSize: this.batchSize } : {},
           nameOnly: this.nameOnly
         };
-        return super.executeCommand(server, session, command, callback);
+        return super.executeCommand(server, session2, command, callback);
       }
     };
     exports.ListCollectionsOperation = ListCollectionsOperation;
@@ -12494,16 +14935,16 @@ var require_list_collections = __commonJS({
           ...this.cursorOptions
         });
       }
-      _initialize(session, callback) {
+      _initialize(session2, callback) {
         const operation = new ListCollectionsOperation(this.parent, this.filter, {
           ...this.cursorOptions,
           ...this.options,
-          session
+          session: session2
         });
         execute_operation_1.executeOperation(utils_1.getTopology(this.parent), operation, (err, response) => {
           if (err || response == null)
             return callback(err);
-          callback(void 0, { server: operation.server, session, response });
+          callback(void 0, { server: operation.server, session: session2, response });
         });
       }
     };
@@ -12536,7 +14977,7 @@ var require_add_user = __commonJS({
         this.password = password;
         this.options = options2 !== null && options2 !== void 0 ? options2 : {};
       }
-      execute(server, session, callback) {
+      execute(server, session2, callback) {
         const db = this.db;
         const username = this.username;
         const password = this.password;
@@ -12571,7 +15012,7 @@ var require_add_user = __commonJS({
         if (typeof password === "string") {
           command.pwd = userPassword;
         }
-        super.executeCommand(server, session, command, callback);
+        super.executeCommand(server, session2, command, callback);
       }
     };
     exports.AddUserOperation = AddUserOperation;
@@ -12594,8 +15035,8 @@ var require_remove_user = __commonJS({
         this.options = options2;
         this.username = username;
       }
-      execute(server, session, callback) {
-        super.executeCommand(server, session, { dropUser: this.username }, (err) => {
+      execute(server, session2, callback) {
+        super.executeCommand(server, session2, { dropUser: this.username }, (err) => {
           callback(err, err ? false : true);
         });
       }
@@ -12628,9 +15069,9 @@ var require_validate_collection = __commonJS({
         this.command = command;
         this.collectionName = collectionName;
       }
-      execute(server, session, callback) {
+      execute(server, session2, callback) {
         const collectionName = this.collectionName;
-        super.executeCommand(server, session, this.command, (err, doc) => {
+        super.executeCommand(server, session2, this.command, (err, doc) => {
           if (err != null)
             return callback(err);
           if (doc.ok === 0)
@@ -12665,7 +15106,7 @@ var require_list_databases = __commonJS({
         this.options = options2 !== null && options2 !== void 0 ? options2 : {};
         this.ns = new utils_1.MongoDBNamespace("admin", "$cmd");
       }
-      execute(server, session, callback) {
+      execute(server, session2, callback) {
         const cmd = { listDatabases: 1 };
         if (this.options.nameOnly) {
           cmd.nameOnly = Number(cmd.nameOnly);
@@ -12676,7 +15117,7 @@ var require_list_databases = __commonJS({
         if (typeof this.options.authorizedDatabases === "boolean") {
           cmd.authorizedDatabases = this.options.authorizedDatabases;
         }
-        super.executeCommand(server, session, cmd, callback);
+        super.executeCommand(server, session2, cmd, callback);
       }
     };
     exports.ListDatabasesOperation = ListDatabasesOperation;
@@ -12792,7 +15233,7 @@ var require_bulk_write = __commonJS({
         this.collection = collection;
         this.operations = operations;
       }
-      execute(server, session, callback) {
+      execute(server, session2, callback) {
         const coll = this.collection;
         const operations = this.operations;
         const options2 = { ...this.options, ...this.bsonOptions, readPreference: this.readPreference };
@@ -12804,7 +15245,7 @@ var require_bulk_write = __commonJS({
         } catch (err) {
           return callback(err);
         }
-        bulk.execute({ ...options2, session }, (err, r) => {
+        bulk.execute({ ...options2, session: session2 }, (err, r) => {
           if (!r && err) {
             return callback(err);
           }
@@ -12838,7 +15279,7 @@ var require_insert = __commonJS({
         this.ns = ns;
         this.documents = documents;
       }
-      execute(server, session, callback) {
+      execute(server, session2, callback) {
         var _a;
         const options2 = (_a = this.options) !== null && _a !== void 0 ? _a : {};
         const ordered = typeof options2.ordered === "boolean" ? options2.ordered : true;
@@ -12853,7 +15294,7 @@ var require_insert = __commonJS({
         if (options2.comment != null) {
           command.comment = options2.comment;
         }
-        super.executeCommand(server, session, command, callback);
+        super.executeCommand(server, session2, command, callback);
       }
     };
     exports.InsertOperation = InsertOperation;
@@ -12861,8 +15302,8 @@ var require_insert = __commonJS({
       constructor(collection, doc, options2) {
         super(collection.s.namespace, common_functions_1.prepareDocs(collection, [doc], options2), options2);
       }
-      execute(server, session, callback) {
-        super.execute(server, session, (err, res) => {
+      execute(server, session2, callback) {
+        super.execute(server, session2, (err, res) => {
           var _a, _b;
           if (err || res == null)
             return callback(err);
@@ -12889,12 +15330,12 @@ var require_insert = __commonJS({
         this.collection = collection;
         this.docs = docs;
       }
-      execute(server, session, callback) {
+      execute(server, session2, callback) {
         const coll = this.collection;
         const options2 = { ...this.options, ...this.bsonOptions, readPreference: this.readPreference };
         const writeConcern = write_concern_1.WriteConcern.fromOptions(options2);
         const bulkWriteOperation = new bulk_write_1.BulkWriteOperation(coll, common_functions_1.prepareDocs(coll, this.docs, options2).map((document2) => ({ insertOne: { document: document2 } })), options2);
-        bulkWriteOperation.execute(server, session, (err, res) => {
+        bulkWriteOperation.execute(server, session2, (err, res) => {
           var _a;
           if (err || res == null)
             return callback(err);
@@ -12937,7 +15378,7 @@ var require_update = __commonJS({
         }
         return this.statements.every((op) => op.multi == null || op.multi === false);
       }
-      execute(server, session, callback) {
+      execute(server, session2, callback) {
         var _a;
         const options2 = (_a = this.options) !== null && _a !== void 0 ? _a : {};
         const ordered = typeof options2.ordered === "boolean" ? options2.ordered : true;
@@ -12972,7 +15413,7 @@ var require_update = __commonJS({
           callback(new error_1.MongoCompatibilityError('Option "arrayFilters" is only supported on MongoDB 3.6+'));
           return;
         }
-        super.executeCommand(server, session, command, callback);
+        super.executeCommand(server, session2, command, callback);
       }
     };
     exports.UpdateOperation = UpdateOperation;
@@ -12983,8 +15424,8 @@ var require_update = __commonJS({
           throw new error_1.MongoInvalidArgumentError("Update document requires atomic operators");
         }
       }
-      execute(server, session, callback) {
-        super.execute(server, session, (err, res) => {
+      execute(server, session2, callback) {
+        super.execute(server, session2, (err, res) => {
           var _a, _b;
           if (err || !res)
             return callback(err);
@@ -13012,8 +15453,8 @@ var require_update = __commonJS({
           throw new error_1.MongoInvalidArgumentError("Update document requires atomic operators");
         }
       }
-      execute(server, session, callback) {
-        super.execute(server, session, (err, res) => {
+      execute(server, session2, callback) {
+        super.execute(server, session2, (err, res) => {
           var _a, _b;
           if (err || !res)
             return callback(err);
@@ -13041,8 +15482,8 @@ var require_update = __commonJS({
           throw new error_1.MongoInvalidArgumentError("Replacement document must not contain atomic operators");
         }
       }
-      execute(server, session, callback) {
-        super.execute(server, session, (err, res) => {
+      execute(server, session2, callback) {
+        super.execute(server, session2, (err, res) => {
           var _a, _b;
           if (err || !res)
             return callback(err);
@@ -13133,7 +15574,7 @@ var require_delete = __commonJS({
         }
         return this.statements.every((op) => op.limit != null ? op.limit > 0 : true);
       }
-      execute(server, session, callback) {
+      execute(server, session2, callback) {
         var _a;
         const options2 = (_a = this.options) !== null && _a !== void 0 ? _a : {};
         const ordered = typeof options2.ordered === "boolean" ? options2.ordered : true;
@@ -13160,7 +15601,7 @@ var require_delete = __commonJS({
           callback(new error_1.MongoCompatibilityError(`Server ${server.name} does not support collation`));
           return;
         }
-        super.executeCommand(server, session, command, callback);
+        super.executeCommand(server, session2, command, callback);
       }
     };
     exports.DeleteOperation = DeleteOperation;
@@ -13168,8 +15609,8 @@ var require_delete = __commonJS({
       constructor(collection, filter, options2) {
         super(collection.s.namespace, [makeDeleteStatement(filter, { ...options2, limit: 1 })], options2);
       }
-      execute(server, session, callback) {
-        super.execute(server, session, (err, res) => {
+      execute(server, session2, callback) {
+        super.execute(server, session2, (err, res) => {
           var _a, _b;
           if (err || res == null)
             return callback(err);
@@ -13191,8 +15632,8 @@ var require_delete = __commonJS({
       constructor(collection, filter, options2) {
         super(collection.s.namespace, [makeDeleteStatement(filter, options2)], options2);
       }
-      execute(server, session, callback) {
-        super.execute(server, session, (err, res) => {
+      execute(server, session2, callback) {
+        super.execute(server, session2, (err, res) => {
           var _a, _b;
           if (err || res == null)
             return callback(err);
@@ -14606,11 +17047,11 @@ var require_change_stream = __commonJS({
           ...this.cursorOptions
         });
       }
-      _initialize(session, callback) {
+      _initialize(session2, callback) {
         const aggregateOperation = new aggregate_1.AggregateOperation(this.namespace, this.pipeline, {
           ...this.cursorOptions,
           ...this.options,
-          session
+          session: session2
         });
         execute_operation_1.executeOperation(this.topology, aggregateOperation, (err, response) => {
           if (err || response == null) {
@@ -14623,7 +17064,7 @@ var require_change_stream = __commonJS({
           this._processBatch("firstBatch", response);
           this.emit(ChangeStream.INIT, response);
           this.emit(ChangeStream.RESPONSE);
-          callback(void 0, { server, session, response });
+          callback(void 0, { server, session: session2, response });
         });
       }
       _getMore(batchSize, callback) {
@@ -14827,8 +17268,8 @@ var require_count_documents = __commonJS({
         pipeline2.push({ $group: { _id: 1, n: { $sum: 1 } } });
         super(collection.s.namespace, pipeline2, options2);
       }
-      execute(server, session, callback) {
-        super.execute(server, session, (err, result) => {
+      execute(server, session2, callback) {
+        super.execute(server, session2, (err, result) => {
           if (err || !result) {
             callback(err);
             return;
@@ -14866,7 +17307,7 @@ var require_distinct = __commonJS({
         this.key = key;
         this.query = query;
       }
-      execute(server, session, callback) {
+      execute(server, session2, callback) {
         const coll = this.collection;
         const key = this.key;
         const query = this.query;
@@ -14889,7 +17330,7 @@ var require_distinct = __commonJS({
           callback(new error_1.MongoCompatibilityError(`Server ${server.name} does not support explain on distinct`));
           return;
         }
-        super.executeCommand(server, session, cmd, (err, result) => {
+        super.executeCommand(server, session2, cmd, (err, result) => {
           if (err) {
             callback(err);
             return;
@@ -14918,8 +17359,8 @@ var require_drop = __commonJS({
         this.options = options2;
         this.name = name;
       }
-      execute(server, session, callback) {
-        super.executeCommand(server, session, { drop: this.name }, (err, result) => {
+      execute(server, session2, callback) {
+        super.executeCommand(server, session2, { drop: this.name }, (err, result) => {
           if (err)
             return callback(err);
           if (result.ok)
@@ -14934,8 +17375,8 @@ var require_drop = __commonJS({
         super(db, options2);
         this.options = options2;
       }
-      execute(server, session, callback) {
-        super.executeCommand(server, session, { dropDatabase: 1 }, (err, result) => {
+      execute(server, session2, callback) {
+        super.executeCommand(server, session2, { dropDatabase: 1 }, (err, result) => {
           if (err)
             return callback(err);
           if (result.ok)
@@ -14966,16 +17407,16 @@ var require_estimated_document_count = __commonJS({
         this.options = options2;
         this.collectionName = collection.collectionName;
       }
-      execute(server, session, callback) {
+      execute(server, session2, callback) {
         if (utils_1.maxWireVersion(server) < 12) {
-          return this.executeLegacy(server, session, callback);
+          return this.executeLegacy(server, session2, callback);
         }
         const pipeline2 = [{ $collStats: { count: {} } }, { $group: { _id: 1, n: { $sum: "$count" } } }];
         const cmd = { aggregate: this.collectionName, pipeline: pipeline2, cursor: {} };
         if (typeof this.options.maxTimeMS === "number") {
           cmd.maxTimeMS = this.options.maxTimeMS;
         }
-        super.executeCommand(server, session, cmd, (err, response) => {
+        super.executeCommand(server, session2, cmd, (err, response) => {
           var _a, _b;
           if (err && err.code !== 26) {
             callback(err);
@@ -14984,12 +17425,12 @@ var require_estimated_document_count = __commonJS({
           callback(void 0, ((_b = (_a = response === null || response === void 0 ? void 0 : response.cursor) === null || _a === void 0 ? void 0 : _a.firstBatch[0]) === null || _b === void 0 ? void 0 : _b.n) || 0);
         });
       }
-      executeLegacy(server, session, callback) {
+      executeLegacy(server, session2, callback) {
         const cmd = { count: this.collectionName };
         if (typeof this.options.maxTimeMS === "number") {
           cmd.maxTimeMS = this.options.maxTimeMS;
         }
-        super.executeCommand(server, session, cmd, (err, response) => {
+        super.executeCommand(server, session2, cmd, (err, response) => {
           if (err) {
             callback(err);
             return;
@@ -15061,7 +17502,7 @@ var require_find_and_modify = __commonJS({
         this.collection = collection;
         this.query = query;
       }
-      execute(server, session, callback) {
+      execute(server, session2, callback) {
         var _a;
         const coll = this.collection;
         const query = this.query;
@@ -15088,7 +17529,7 @@ var require_find_and_modify = __commonJS({
           callback(new error_1.MongoCompatibilityError(`Server ${server.name} does not support explain on findAndModify`));
           return;
         }
-        super.executeCommand(server, session, cmd, (err, result) => {
+        super.executeCommand(server, session2, cmd, (err, result) => {
           if (err)
             return callback(err);
           return callback(void 0, result);
@@ -15165,9 +17606,9 @@ var require_is_capped = __commonJS({
         this.options = options2;
         this.collection = collection;
       }
-      execute(server, session, callback) {
+      execute(server, session2, callback) {
         const coll = this.collection;
-        coll.s.db.listCollections({ name: coll.collectionName }, { ...this.options, nameOnly: false, readPreference: this.readPreference, session }).toArray((err, collections) => {
+        coll.s.db.listCollections({ name: coll.collectionName }, { ...this.options, nameOnly: false, readPreference: this.readPreference, session: session2 }).toArray((err, collections) => {
           if (err || !collections)
             return callback(err);
           if (collections.length === 0) {
@@ -15221,7 +17662,7 @@ var require_map_reduce = __commonJS({
         this.map = map;
         this.reduce = reduce;
       }
-      execute(server, session, callback) {
+      execute(server, session2, callback) {
         const coll = this.collection;
         const map = this.map;
         const reduce = this.reduce;
@@ -15258,7 +17699,7 @@ var require_map_reduce = __commonJS({
           callback(new error_1.MongoCompatibilityError(`Server ${server.name} does not support explain on mapReduce`));
           return;
         }
-        super.executeCommand(server, session, mapCommandHash, (err, result) => {
+        super.executeCommand(server, session2, mapCommandHash, (err, result) => {
           if (err)
             return callback(err);
           if (result.ok !== 1 || result.err || result.errmsg) {
@@ -15329,9 +17770,9 @@ var require_options_operation = __commonJS({
         this.options = options2;
         this.collection = collection;
       }
-      execute(server, session, callback) {
+      execute(server, session2, callback) {
         const coll = this.collection;
-        coll.s.db.listCollections({ name: coll.collectionName }, { ...this.options, nameOnly: false, readPreference: this.readPreference, session }).toArray((err, collections) => {
+        coll.s.db.listCollections({ name: coll.collectionName }, { ...this.options, nameOnly: false, readPreference: this.readPreference, session: session2 }).toArray((err, collections) => {
           if (err || !collections)
             return callback(err);
           if (collections.length === 0) {
@@ -15369,9 +17810,9 @@ var require_rename = __commonJS({
         this.collection = collection;
         this.newName = newName;
       }
-      execute(server, session, callback) {
+      execute(server, session2, callback) {
         const coll = this.collection;
-        super.execute(server, session, (err, doc) => {
+        super.execute(server, session2, (err, doc) => {
           if (err)
             return callback(err);
           if (doc.errmsg) {
@@ -15407,12 +17848,12 @@ var require_stats = __commonJS({
         this.options = options2 !== null && options2 !== void 0 ? options2 : {};
         this.collectionName = collection.collectionName;
       }
-      execute(server, session, callback) {
+      execute(server, session2, callback) {
         const command = { collStats: this.collectionName };
         if (this.options.scale != null) {
           command.scale = this.options.scale;
         }
-        super.executeCommand(server, session, command, callback);
+        super.executeCommand(server, session2, command, callback);
       }
     };
     exports.CollStatsOperation = CollStatsOperation;
@@ -15421,12 +17862,12 @@ var require_stats = __commonJS({
         super(db, options2);
         this.options = options2;
       }
-      execute(server, session, callback) {
+      execute(server, session2, callback) {
         const command = { dbStats: true };
         if (this.options.scale != null) {
           command.scale = this.options.scale;
         }
-        super.executeCommand(server, session, command, callback);
+        super.executeCommand(server, session2, command, callback);
       }
     };
     exports.DbStatsOperation = DbStatsOperation;
@@ -15974,14 +18415,14 @@ var require_collections = __commonJS({
         this.options = options2;
         this.db = db;
       }
-      execute(server, session, callback) {
+      execute(server, session2, callback) {
         const db = this.db;
-        db.listCollections({}, { ...this.options, nameOnly: true, readPreference: this.readPreference, session }).toArray((err, documents) => {
+        db.listCollections({}, { ...this.options, nameOnly: true, readPreference: this.readPreference, session: session2 }).toArray((err, documents) => {
           if (err || !documents)
             return callback(err);
           documents = documents.filter((doc) => doc.name.indexOf("$") === -1);
-          callback(void 0, documents.map((d) => {
-            return new collection_1.Collection(db, d.name, db.s.options);
+          callback(void 0, documents.map((d2) => {
+            return new collection_1.Collection(db, d2.name, db.s.options);
           }));
         });
       }
@@ -16028,7 +18469,7 @@ var require_create_collection = __commonJS({
         this.db = db;
         this.name = name;
       }
-      execute(server, session, callback) {
+      execute(server, session2, callback) {
         const db = this.db;
         const name = this.name;
         const options2 = this.options;
@@ -16044,7 +18485,7 @@ var require_create_collection = __commonJS({
             cmd[n] = options2[n];
           }
         }
-        super.executeCommand(server, session, cmd, done);
+        super.executeCommand(server, session2, cmd, done);
       }
     };
     exports.CreateCollectionOperation = CreateCollectionOperation;
@@ -16066,8 +18507,8 @@ var require_profiling_level = __commonJS({
         super(db, options2);
         this.options = options2;
       }
-      execute(server, session, callback) {
-        super.executeCommand(server, session, { profile: -1 }, (err, doc) => {
+      execute(server, session2, callback) {
+        super.executeCommand(server, session2, { profile: -1 }, (err, doc) => {
           if (err == null && doc.ok === 1) {
             const was = doc.was;
             if (was === 0)
@@ -16123,12 +18564,12 @@ var require_set_profiling_level = __commonJS({
         }
         this.level = level;
       }
-      execute(server, session, callback) {
+      execute(server, session2, callback) {
         const level = this.level;
         if (!levelValues.has(level)) {
           return callback(new error_1.MongoInvalidArgumentError(`Profiling level must be one of "${utils_1.enumToString(exports.ProfilingLevel)}"`));
         }
-        super.executeCommand(server, session, { profile: this.profile }, (err, doc) => {
+        super.executeCommand(server, session2, { profile: this.profile }, (err, doc) => {
           if (err == null && doc.ok === 1)
             return callback(void 0, level);
           return err != null ? callback(err) : callback(new error_1.MongoRuntimeError("Error with profile command"));
@@ -16391,8 +18832,8 @@ var require_auth_provider = __commonJS({
     exports.AuthProvider = exports.AuthContext = void 0;
     var error_1 = require_error();
     var AuthContext = class {
-      constructor(connection2, credentials, options2) {
-        this.connection = connection2;
+      constructor(connection, credentials, options2) {
+        this.connection = connection;
         this.credentials = credentials;
         this.options = options2;
       }
@@ -16423,14 +18864,14 @@ var require_mongocr = __commonJS({
     var error_1 = require_error();
     var MongoCR = class extends auth_provider_1.AuthProvider {
       auth(authContext, callback) {
-        const { connection: connection2, credentials } = authContext;
+        const { connection, credentials } = authContext;
         if (!credentials) {
           return callback(new error_1.MongoMissingCredentialsError("AuthContext must provide credentials."));
         }
         const username = credentials.username;
         const password = credentials.password;
         const source = credentials.source;
-        connection2.command(utils_1.ns(`${source}.$cmd`), { getnonce: 1 }, void 0, (err, r) => {
+        connection.command(utils_1.ns(`${source}.$cmd`), { getnonce: 1 }, void 0, (err, r) => {
           let nonce = null;
           let key = null;
           if (err == null) {
@@ -16448,7 +18889,7 @@ var require_mongocr = __commonJS({
             nonce,
             key
           };
-          connection2.command(utils_1.ns(`${source}.$cmd`), authenticateCommand, void 0, callback);
+          connection.command(utils_1.ns(`${source}.$cmd`), authenticateCommand, void 0, callback);
         });
       }
     };
@@ -16478,7 +18919,7 @@ var require_x509 = __commonJS({
         callback(void 0, handshakeDoc);
       }
       auth(authContext, callback) {
-        const connection2 = authContext.connection;
+        const connection = authContext.connection;
         const credentials = authContext.credentials;
         if (!credentials) {
           return callback(new error_1.MongoMissingCredentialsError("AuthContext must provide credentials."));
@@ -16487,7 +18928,7 @@ var require_x509 = __commonJS({
         if (response && response.speculativeAuthenticate) {
           return callback();
         }
-        connection2.command(utils_1.ns("$external.$cmd"), x509AuthenticateCommand(credentials), void 0, callback);
+        connection.command(utils_1.ns("$external.$cmd"), x509AuthenticateCommand(credentials), void 0, callback);
       }
     };
     exports.X509 = X509;
@@ -16514,7 +18955,7 @@ var require_plain = __commonJS({
     var utils_1 = require_utils2();
     var Plain = class extends auth_provider_1.AuthProvider {
       auth(authContext, callback) {
-        const { connection: connection2, credentials } = authContext;
+        const { connection, credentials } = authContext;
         if (!credentials) {
           return callback(new error_1.MongoMissingCredentialsError("AuthContext must provide credentials."));
         }
@@ -16527,7 +18968,7 @@ var require_plain = __commonJS({
           payload,
           autoAuthorize: 1
         };
-        connection2.command(utils_1.ns("$external.$cmd"), command, void 0, callback);
+        connection.command(utils_1.ns("$external.$cmd"), command, void 0, callback);
       }
     };
     exports.Plain = Plain;
@@ -16548,12 +18989,12 @@ var require_gssapi = __commonJS({
     var dns = require("dns");
     var GSSAPI = class extends auth_provider_1.AuthProvider {
       auth(authContext, callback) {
-        const { connection: connection2, credentials } = authContext;
+        const { connection, credentials } = authContext;
         if (credentials == null)
           return callback(new error_1.MongoMissingCredentialsError("Credentials required for GSSAPI authentication"));
         const { username } = credentials;
         function externalCommand(command, cb) {
-          return connection2.command(utils_1.ns("$external.$cmd"), command, void 0, cb);
+          return connection.command(utils_1.ns("$external.$cmd"), command, void 0, cb);
         }
         makeKerberosClient(authContext, (err, client) => {
           if (err)
@@ -16752,7 +19193,7 @@ var require_scram = __commonJS({
       };
     }
     function executeScram(cryptoMethod, authContext, callback) {
-      const { connection: connection2, credentials } = authContext;
+      const { connection, credentials } = authContext;
       if (!credentials) {
         return callback(new error_1.MongoMissingCredentialsError("AuthContext must provide credentials."));
       }
@@ -16762,7 +19203,7 @@ var require_scram = __commonJS({
       const nonce = authContext.nonce;
       const db = credentials.source;
       const saslStartCmd = makeFirstMessage(cryptoMethod, credentials, nonce);
-      connection2.command(utils_1.ns(`${db}.$cmd`), saslStartCmd, void 0, (_err, result) => {
+      connection.command(utils_1.ns(`${db}.$cmd`), saslStartCmd, void 0, (_err, result) => {
         const err = resolveError(_err, result);
         if (err) {
           return callback(err);
@@ -16771,7 +19212,7 @@ var require_scram = __commonJS({
       });
     }
     function continueScramConversation(cryptoMethod, response, authContext, callback) {
-      const connection2 = authContext.connection;
+      const connection = authContext.connection;
       const credentials = authContext.credentials;
       if (!credentials) {
         return callback(new error_1.MongoMissingCredentialsError("AuthContext must provide credentials."));
@@ -16821,7 +19262,7 @@ var require_scram = __commonJS({
         conversationId: response.conversationId,
         payload: new bson_1.Binary(Buffer.from(clientFinal))
       };
-      connection2.command(utils_1.ns(`${db}.$cmd`), saslContinueCmd, void 0, (_err, r) => {
+      connection.command(utils_1.ns(`${db}.$cmd`), saslContinueCmd, void 0, (_err, r) => {
         const err = resolveError(_err, r);
         if (err) {
           return callback(err);
@@ -16839,7 +19280,7 @@ var require_scram = __commonJS({
           conversationId: r.conversationId,
           payload: Buffer.alloc(0)
         };
-        connection2.command(utils_1.ns(`${db}.$cmd`), retrySaslContinueCmd, void 0, callback);
+        connection.command(utils_1.ns(`${db}.$cmd`), retrySaslContinueCmd, void 0, callback);
       });
     }
     function parsePayload(payload) {
@@ -17070,7 +19511,7 @@ var require_mongodb_aws = __commonJS({
     };
     var MongoDBAWS = class extends auth_provider_1.AuthProvider {
       auth(authContext, callback) {
-        const { connection: connection2, credentials } = authContext;
+        const { connection, credentials } = authContext;
         if (!credentials) {
           return callback(new error_1.MongoMissingCredentialsError("AuthContext must provide credentials."));
         }
@@ -17078,7 +19519,7 @@ var require_mongodb_aws = __commonJS({
           return callback(deps_1.aws4["kModuleError"]);
         }
         const { sign } = deps_1.aws4;
-        if (utils_1.maxWireVersion(connection2) < 9) {
+        if (utils_1.maxWireVersion(connection) < 9) {
           callback(new error_1.MongoCompatibilityError("MONGODB-AWS authentication requires MongoDB version 4.4 or later"));
           return;
         }
@@ -17105,7 +19546,7 @@ var require_mongodb_aws = __commonJS({
             mechanism: "MONGODB-AWS",
             payload: BSON.serialize({ r: nonce, p: ASCII_N }, bsonOptions)
           };
-          connection2.command(utils_1.ns(`${db}.$cmd`), saslStart, void 0, (err2, res) => {
+          connection.command(utils_1.ns(`${db}.$cmd`), saslStart, void 0, (err2, res) => {
             if (err2)
               return callback(err2);
             const serverResponse = BSON.deserialize(res.payload.buffer, bsonOptions);
@@ -17153,7 +19594,7 @@ var require_mongodb_aws = __commonJS({
               conversationId: 1,
               payload: BSON.serialize(payload, bsonOptions)
             };
-            connection2.command(utils_1.ns(`${db}.$cmd`), saslContinue, void 0, callback);
+            connection.command(utils_1.ns(`${db}.$cmd`), saslContinue, void 0, callback);
           });
         });
       }
@@ -17221,7 +19662,7 @@ var require_mongodb_aws = __commonJS({
       const req = http2.request(options2, (res) => {
         res.setEncoding("utf8");
         let data = "";
-        res.on("data", (d) => data += d);
+        res.on("data", (d2) => data += d2);
         res.on("end", () => {
           if (options2.json === false) {
             callback(void 0, data);
@@ -17293,7 +19734,7 @@ var require_connect = __commonJS({
     var constants_1 = require_constants2();
     var bson_1 = require_bson2();
     var FAKE_MONGODB_SERVICE_ID = typeof process.env.FAKE_MONGODB_SERVICE_ID === "string" && process.env.FAKE_MONGODB_SERVICE_ID.toLowerCase() === "true";
-    function connect3(options2, callback) {
+    function connect2(options2, callback) {
       makeConnection(options2, (err, socket) => {
         var _a;
         if (err || !socket) {
@@ -17306,7 +19747,7 @@ var require_connect = __commonJS({
         performInitialHandshake(new ConnectionType(socket, options2), options2, callback);
       });
     }
-    exports.connect = connect3;
+    exports.connect = connect2;
     function checkSupportedServer(ismaster, options2) {
       var _a;
       const serverVersionHighEnough = ismaster && (typeof ismaster.maxWireVersion === "number" || ismaster.maxWireVersion instanceof bson_1.Int32) && ismaster.maxWireVersion >= constants_1.MIN_SUPPORTED_WIRE_VERSION;
@@ -17618,25 +20059,25 @@ var require_connection_pool_events = __commonJS({
     };
     exports.ConnectionPoolClosedEvent = ConnectionPoolClosedEvent;
     var ConnectionCreatedEvent = class extends ConnectionPoolMonitoringEvent {
-      constructor(pool, connection2) {
+      constructor(pool, connection) {
         super(pool);
-        this.connectionId = connection2.id;
+        this.connectionId = connection.id;
       }
     };
     exports.ConnectionCreatedEvent = ConnectionCreatedEvent;
     var ConnectionReadyEvent = class extends ConnectionPoolMonitoringEvent {
-      constructor(pool, connection2) {
+      constructor(pool, connection) {
         super(pool);
-        this.connectionId = connection2.id;
+        this.connectionId = connection.id;
       }
     };
     exports.ConnectionReadyEvent = ConnectionReadyEvent;
     var ConnectionClosedEvent = class extends ConnectionPoolMonitoringEvent {
-      constructor(pool, connection2, reason) {
+      constructor(pool, connection, reason) {
         super(pool);
-        this.connectionId = connection2.id;
+        this.connectionId = connection.id;
         this.reason = reason || "unknown";
-        this.serviceId = connection2.serviceId;
+        this.serviceId = connection.serviceId;
       }
     };
     exports.ConnectionClosedEvent = ConnectionClosedEvent;
@@ -17654,16 +20095,16 @@ var require_connection_pool_events = __commonJS({
     };
     exports.ConnectionCheckOutFailedEvent = ConnectionCheckOutFailedEvent;
     var ConnectionCheckedOutEvent = class extends ConnectionPoolMonitoringEvent {
-      constructor(pool, connection2) {
+      constructor(pool, connection) {
         super(pool);
-        this.connectionId = connection2.id;
+        this.connectionId = connection.id;
       }
     };
     exports.ConnectionCheckedOutEvent = ConnectionCheckedOutEvent;
     var ConnectionCheckedInEvent = class extends ConnectionPoolMonitoringEvent {
-      constructor(pool, connection2) {
+      constructor(pool, connection) {
         super(pool);
-        this.connectionId = connection2.id;
+        this.connectionId = connection.id;
       }
     };
     exports.ConnectionCheckedInEvent = ConnectionCheckedInEvent;
@@ -17791,19 +20232,19 @@ var require_connection_pool = __commonJS({
         this[kWaitQueue].push(waitQueueMember);
         process.nextTick(processWaitQueue, this);
       }
-      checkIn(connection2) {
+      checkIn(connection) {
         const poolClosed = this.closed;
-        const stale = connectionIsStale(this, connection2);
-        const willDestroy = !!(poolClosed || stale || connection2.closed);
+        const stale = connectionIsStale(this, connection);
+        const willDestroy = !!(poolClosed || stale || connection.closed);
         if (!willDestroy) {
-          connection2.markAvailable();
-          this[kConnections].unshift(connection2);
+          connection.markAvailable();
+          this[kConnections].unshift(connection);
         }
         this[kCheckedOut] = this[kCheckedOut] - 1;
-        this.emit(ConnectionPool.CONNECTION_CHECKED_IN, new connection_pool_events_1.ConnectionCheckedInEvent(this, connection2));
+        this.emit(ConnectionPool.CONNECTION_CHECKED_IN, new connection_pool_events_1.ConnectionCheckedInEvent(this, connection));
         if (willDestroy) {
-          const reason = connection2.closed ? "error" : poolClosed ? "poolClosed" : "stale";
-          destroyConnection(this, connection2, reason);
+          const reason = connection.closed ? "error" : poolClosed ? "poolClosed" : "stale";
+          destroyConnection(this, connection, reason);
         }
         process.nextTick(processWaitQueue, this);
       }
@@ -17910,17 +20351,17 @@ var require_connection_pool = __commonJS({
       }
       pool[kMinPoolSizeTimer] = setTimeout(() => ensureMinPoolSize(pool), 10);
     }
-    function connectionIsStale(pool, connection2) {
-      const serviceId = connection2.serviceId;
+    function connectionIsStale(pool, connection) {
+      const serviceId = connection.serviceId;
       if (pool.loadBalanced && serviceId) {
         const sid = serviceId.toHexString();
         const generation = pool.serviceGenerations.get(sid);
-        return connection2.generation !== generation;
+        return connection.generation !== generation;
       }
-      return connection2.generation !== pool[kGeneration];
+      return connection.generation !== pool[kGeneration];
     }
-    function connectionIsIdle(pool, connection2) {
-      return !!(pool.options.maxIdleTimeMS && connection2.idleTime > pool.options.maxIdleTimeMS);
+    function connectionIsIdle(pool, connection) {
+      return !!(pool.options.maxIdleTimeMS && connection.idleTime > pool.options.maxIdleTimeMS);
     }
     function createConnection(pool, callback) {
       const connectOptions = {
@@ -17930,8 +20371,8 @@ var require_connection_pool = __commonJS({
         cancellationToken: pool[kCancellationToken]
       };
       pool[kPermits]--;
-      connect_1.connect(connectOptions, (err, connection2) => {
-        if (err || !connection2) {
+      connect_1.connect(connectOptions, (err, connection) => {
+        if (err || !connection) {
           pool[kPermits]++;
           pool[kLogger].debug(`connection attempt failed with error [${JSON.stringify(err)}]`);
           if (typeof callback === "function") {
@@ -17940,42 +20381,42 @@ var require_connection_pool = __commonJS({
           return;
         }
         if (pool.closed) {
-          connection2.destroy({ force: true });
+          connection.destroy({ force: true });
           return;
         }
         for (const event of [...connection_1.APM_EVENTS, connection_1.Connection.CLUSTER_TIME_RECEIVED]) {
-          connection2.on(event, (e) => pool.emit(event, e));
+          connection.on(event, (e) => pool.emit(event, e));
         }
-        pool.emit(ConnectionPool.CONNECTION_CREATED, new connection_pool_events_1.ConnectionCreatedEvent(pool, connection2));
+        pool.emit(ConnectionPool.CONNECTION_CREATED, new connection_pool_events_1.ConnectionCreatedEvent(pool, connection));
         if (pool.loadBalanced) {
-          connection2.on(connection_1.Connection.PINNED, (pinType) => pool[kMetrics].markPinned(pinType));
-          connection2.on(connection_1.Connection.UNPINNED, (pinType) => pool[kMetrics].markUnpinned(pinType));
-          const serviceId = connection2.serviceId;
+          connection.on(connection_1.Connection.PINNED, (pinType) => pool[kMetrics].markPinned(pinType));
+          connection.on(connection_1.Connection.UNPINNED, (pinType) => pool[kMetrics].markUnpinned(pinType));
+          const serviceId = connection.serviceId;
           if (serviceId) {
             let generation;
             const sid = serviceId.toHexString();
             if (generation = pool.serviceGenerations.get(sid)) {
-              connection2.generation = generation;
+              connection.generation = generation;
             } else {
               pool.serviceGenerations.set(sid, 0);
-              connection2.generation = 0;
+              connection.generation = 0;
             }
           }
         }
-        connection2.markAvailable();
-        pool.emit(ConnectionPool.CONNECTION_READY, new connection_pool_events_1.ConnectionReadyEvent(pool, connection2));
+        connection.markAvailable();
+        pool.emit(ConnectionPool.CONNECTION_READY, new connection_pool_events_1.ConnectionReadyEvent(pool, connection));
         if (typeof callback === "function") {
-          callback(void 0, connection2);
+          callback(void 0, connection);
           return;
         }
-        pool[kConnections].push(connection2);
+        pool[kConnections].push(connection);
         process.nextTick(processWaitQueue, pool);
       });
     }
-    function destroyConnection(pool, connection2, reason) {
-      pool.emit(ConnectionPool.CONNECTION_CLOSED, new connection_pool_events_1.ConnectionClosedEvent(pool, connection2, reason));
+    function destroyConnection(pool, connection, reason) {
+      pool.emit(ConnectionPool.CONNECTION_CLOSED, new connection_pool_events_1.ConnectionClosedEvent(pool, connection, reason));
       pool[kPermits]++;
-      process.nextTick(() => connection2.destroy());
+      process.nextTick(() => connection.destroy());
     }
     function processWaitQueue(pool) {
       if (pool.closed || pool[kProcessingWaitQueue]) {
@@ -17995,44 +20436,44 @@ var require_connection_pool = __commonJS({
         if (!pool.availableConnectionCount) {
           break;
         }
-        const connection2 = pool[kConnections].shift();
-        if (!connection2) {
+        const connection = pool[kConnections].shift();
+        if (!connection) {
           break;
         }
-        const isStale = connectionIsStale(pool, connection2);
-        const isIdle = connectionIsIdle(pool, connection2);
-        if (!isStale && !isIdle && !connection2.closed) {
-          pool.emit(ConnectionPool.CONNECTION_CHECKED_OUT, new connection_pool_events_1.ConnectionCheckedOutEvent(pool, connection2));
+        const isStale = connectionIsStale(pool, connection);
+        const isIdle = connectionIsIdle(pool, connection);
+        if (!isStale && !isIdle && !connection.closed) {
+          pool.emit(ConnectionPool.CONNECTION_CHECKED_OUT, new connection_pool_events_1.ConnectionCheckedOutEvent(pool, connection));
           if (waitQueueMember.timer) {
             clearTimeout(waitQueueMember.timer);
           }
           pool[kWaitQueue].shift();
-          waitQueueMember.callback(void 0, connection2);
+          waitQueueMember.callback(void 0, connection);
         } else {
-          const reason = connection2.closed ? "error" : isStale ? "stale" : "idle";
-          destroyConnection(pool, connection2, reason);
+          const reason = connection.closed ? "error" : isStale ? "stale" : "idle";
+          destroyConnection(pool, connection, reason);
         }
       }
       const maxPoolSize = pool.options.maxPoolSize;
       if (pool.waitQueueSize && (maxPoolSize <= 0 || pool.totalConnectionCount < maxPoolSize)) {
-        createConnection(pool, (err, connection2) => {
+        createConnection(pool, (err, connection) => {
           const waitQueueMember = pool[kWaitQueue].shift();
           if (!waitQueueMember || waitQueueMember[kCancelled]) {
-            if (!err && connection2) {
-              pool[kConnections].push(connection2);
+            if (!err && connection) {
+              pool[kConnections].push(connection);
             }
             pool[kProcessingWaitQueue] = false;
             return;
           }
           if (err) {
             pool.emit(ConnectionPool.CONNECTION_CHECK_OUT_FAILED, new connection_pool_events_1.ConnectionCheckOutFailedEvent(pool, err));
-          } else if (connection2) {
-            pool.emit(ConnectionPool.CONNECTION_CHECKED_OUT, new connection_pool_events_1.ConnectionCheckedOutEvent(pool, connection2));
+          } else if (connection) {
+            pool.emit(ConnectionPool.CONNECTION_CHECKED_OUT, new connection_pool_events_1.ConnectionCheckedOutEvent(pool, connection));
           }
           if (waitQueueMember.timer) {
             clearTimeout(waitQueueMember.timer);
           }
-          waitQueueMember.callback(err, connection2);
+          waitQueueMember.callback(err, connection);
           pool[kProcessingWaitQueue] = false;
           process.nextTick(() => processWaitQueue(pool));
         });
@@ -18268,9 +20709,9 @@ var require_monitor = __commonJS({
         monitor.emit("resetConnectionPool");
         callback(err);
       }
-      const connection2 = monitor[kConnection];
-      if (connection2 && !connection2.closed) {
-        const { serverApi, helloOk } = connection2;
+      const connection = monitor[kConnection];
+      if (connection && !connection.closed) {
+        const { serverApi, helloOk } = connection;
         const connectTimeoutMS = monitor.options.connectTimeoutMS;
         const maxAwaitTimeMS = monitor.options.heartbeatFrequencyMS;
         const topologyVersion = monitor[kServer].description.topologyVersion;
@@ -18286,7 +20727,7 @@ var require_monitor = __commonJS({
         if (isAwaitable && monitor[kRTTPinger] == null) {
           monitor[kRTTPinger] = new RTTPinger(monitor[kCancellationToken], Object.assign({ heartbeatFrequencyMS: monitor.options.heartbeatFrequencyMS }, monitor.connectOptions));
         }
-        connection2.command(utils_1.ns("admin.$cmd"), cmd, options2, (err, isMaster) => {
+        connection.command(utils_1.ns("admin.$cmd"), cmd, options2, (err, isMaster) => {
           var _a;
           if (err) {
             failureHandler(err);
@@ -18402,8 +20843,8 @@ var require_monitor = __commonJS({
         rttPinger[kRoundTripTime] = utils_1.calculateDurationInMs(start);
         rttPinger[kMonitorId] = setTimeout(() => measureRoundTripTime(rttPinger, options2), heartbeatFrequencyMS);
       }
-      const connection2 = rttPinger[kConnection];
-      if (connection2 == null) {
+      const connection = rttPinger[kConnection];
+      if (connection == null) {
         connect_1.connect(options2, (err, conn) => {
           if (err) {
             rttPinger[kConnection] = void 0;
@@ -18414,7 +20855,7 @@ var require_monitor = __commonJS({
         });
         return;
       }
-      connection2.command(utils_1.ns("admin.$cmd"), { ismaster: 1 }, void 0, (err) => {
+      connection.command(utils_1.ns("admin.$cmd"), { ismaster: 1 }, void 0, (err) => {
         if (err) {
           rttPinger[kConnection] = void 0;
           rttPinger[kRoundTripTime] = 0;
@@ -18562,16 +21003,16 @@ var require_server = __commonJS({
           callback(new error_1.MongoCompatibilityError(`Server ${this.name} does not support collation`));
           return;
         }
-        const session = finalOptions.session;
-        const conn = session === null || session === void 0 ? void 0 : session.pinnedConnection;
-        if (this.loadBalanced && session && conn == null && isPinnableCommand(cmd, session)) {
+        const session2 = finalOptions.session;
+        const conn = session2 === null || session2 === void 0 ? void 0 : session2.pinnedConnection;
+        if (this.loadBalanced && session2 && conn == null && isPinnableCommand(cmd, session2)) {
           this.s.pool.checkOut((err, checkedOut) => {
             if (err || checkedOut == null) {
               if (callback)
                 return callback(err);
               return;
             }
-            session.pin(checkedOut);
+            session2.pin(checkedOut);
             this.command(ns, cmd, finalOptions, callback);
           });
           return;
@@ -18668,57 +21109,57 @@ var require_server = __commonJS({
         topologyVersion: error2 && error2.topologyVersion ? error2.topologyVersion : server.description.topologyVersion
       }));
     }
-    function isPinnableCommand(cmd, session) {
-      if (session) {
-        return session.inTransaction() || "aggregate" in cmd || "find" in cmd || "getMore" in cmd || "listCollections" in cmd || "listIndexes" in cmd;
+    function isPinnableCommand(cmd, session2) {
+      if (session2) {
+        return session2.inTransaction() || "aggregate" in cmd || "find" in cmd || "getMore" in cmd || "listCollections" in cmd || "listIndexes" in cmd;
       }
       return false;
     }
-    function connectionIsStale(pool, connection2) {
-      if (connection2.serviceId) {
-        return connection2.generation !== pool.serviceGenerations.get(connection2.serviceId.toHexString());
+    function connectionIsStale(pool, connection) {
+      if (connection.serviceId) {
+        return connection.generation !== pool.serviceGenerations.get(connection.serviceId.toHexString());
       }
-      return connection2.generation !== pool.generation;
+      return connection.generation !== pool.generation;
     }
     function shouldHandleStateChangeError(server, err) {
       const etv = err.topologyVersion;
       const stv = server.description.topologyVersion;
       return server_description_1.compareTopologyVersion(stv, etv) < 0;
     }
-    function inActiveTransaction(session, cmd) {
-      return session && session.inTransaction() && !transactions_1.isTransactionCommand(cmd);
+    function inActiveTransaction(session2, cmd) {
+      return session2 && session2.inTransaction() && !transactions_1.isTransactionCommand(cmd);
     }
     function isRetryableWritesEnabled(topology) {
       return topology.s.options.retryWrites !== false;
     }
-    function makeOperationHandler(server, connection2, cmd, options2, callback) {
-      const session = options2 === null || options2 === void 0 ? void 0 : options2.session;
+    function makeOperationHandler(server, connection, cmd, options2, callback) {
+      const session2 = options2 === null || options2 === void 0 ? void 0 : options2.session;
       return function handleOperationResult(err, result) {
-        if (err && !connectionIsStale(server.s.pool, connection2)) {
+        if (err && !connectionIsStale(server.s.pool, connection)) {
           if (err instanceof error_1.MongoNetworkError) {
-            if (session && !session.hasEnded && session.serverSession) {
-              session.serverSession.isDirty = true;
+            if (session2 && !session2.hasEnded && session2.serverSession) {
+              session2.serverSession.isDirty = true;
             }
-            if (inActiveTransaction(session, cmd) && !err.hasErrorLabel("TransientTransactionError")) {
+            if (inActiveTransaction(session2, cmd) && !err.hasErrorLabel("TransientTransactionError")) {
               err.addErrorLabel("TransientTransactionError");
             }
-            if ((isRetryableWritesEnabled(server.s.topology) || transactions_1.isTransactionCommand(cmd)) && utils_2.supportsRetryableWrites(server) && !inActiveTransaction(session, cmd)) {
+            if ((isRetryableWritesEnabled(server.s.topology) || transactions_1.isTransactionCommand(cmd)) && utils_2.supportsRetryableWrites(server) && !inActiveTransaction(session2, cmd)) {
               err.addErrorLabel("RetryableWriteError");
             }
             if (!(err instanceof error_1.MongoNetworkTimeoutError) || error_1.isNetworkErrorBeforeHandshake(err)) {
-              server.s.pool.clear(connection2.serviceId);
+              server.s.pool.clear(connection.serviceId);
               if (!server.loadBalanced) {
                 markServerUnknown(server, err);
               }
             }
           } else {
-            if ((isRetryableWritesEnabled(server.s.topology) || transactions_1.isTransactionCommand(cmd)) && utils_1.maxWireVersion(server) < 9 && error_1.isRetryableWriteError(err) && !inActiveTransaction(session, cmd)) {
+            if ((isRetryableWritesEnabled(server.s.topology) || transactions_1.isTransactionCommand(cmd)) && utils_1.maxWireVersion(server) < 9 && error_1.isRetryableWriteError(err) && !inActiveTransaction(session2, cmd)) {
               err.addErrorLabel("RetryableWriteError");
             }
             if (error_1.isSDAMUnrecoverableError(err)) {
               if (shouldHandleStateChangeError(server, err)) {
                 if (utils_1.maxWireVersion(server) <= 7 || error_1.isNodeShuttingDownError(err)) {
-                  server.s.pool.clear(connection2.serviceId);
+                  server.s.pool.clear(connection.serviceId);
                 }
                 if (!server.loadBalanced) {
                   markServerUnknown(server, err);
@@ -18727,8 +21168,8 @@ var require_server = __commonJS({
               }
             }
           }
-          if (session && session.isPinned && err.hasErrorLabel("TransientTransactionError")) {
-            session.unpin({ force: true });
+          if (session2 && session2.isPinned && err.hasErrorLabel("TransientTransactionError")) {
+            session2.unpin({ force: true });
           }
         }
         callback(err, result);
@@ -19231,10 +21672,10 @@ var require_lib = __commonJS({
         } else if (i === n - 1) {
           U.push(String.fromCodePoint(65533));
         } else {
-          const d = S.charCodeAt(i + 1);
-          if (56320 <= d && d <= 57343) {
+          const d2 = S.charCodeAt(i + 1);
+          if (56320 <= d2 && d2 <= 57343) {
             const a = c & 1023;
-            const b = d & 1023;
+            const b = d2 & 1023;
             U.push(String.fromCodePoint((2 << 15) + (2 << 9) * a + b));
             ++i;
           } else {
@@ -22841,8 +25282,8 @@ var require_connection_string = __commonJS({
       },
       serverApi: {
         target: "serverApi",
-        transform({ values: [version] }) {
-          const serverApiToValidate = typeof version === "string" ? { version } : version;
+        transform({ values: [version2] }) {
+          const serverApiToValidate = typeof version2 === "string" ? { version: version2 } : version2;
           const versionToValidate = serverApiToValidate && serverApiToValidate.version;
           if (!versionToValidate) {
             throw new error_1.MongoParseError(`Invalid \`serverApi\` property; must specify a version from the following enum: ["${Object.values(mongo_client_1.ServerApiVersion).join('", "')}"]`);
@@ -23343,7 +25784,7 @@ var require_connection_string = __commonJS({
       useNewUrlParser: { type: "boolean" },
       useUnifiedTopology: { type: "boolean" }
     };
-    exports.DEFAULT_OPTIONS = new CaseInsensitiveMap(Object.entries(exports.OPTIONS).filter(([, descriptor]) => descriptor.default != null).map(([k, d]) => [k, d.default]));
+    exports.DEFAULT_OPTIONS = new CaseInsensitiveMap(Object.entries(exports.OPTIONS).filter(([, descriptor]) => descriptor.default != null).map(([k, d2]) => [k, d2.default]));
   }
 });
 
@@ -23574,7 +26015,7 @@ var require_topology = __commonJS({
           this.s.srvPoller.removeListener(srv_polling_1.SrvPoller.SRV_RECORD_DISCOVERY, this.s.detectSrvRecords);
         }
         this.removeListener(Topology.TOPOLOGY_DESCRIPTION_CHANGED, this.s.detectShardedTopology);
-        utils_1.eachAsync(Array.from(this.s.sessions.values()), (session, cb) => session.endSession(cb), () => {
+        utils_1.eachAsync(Array.from(this.s.sessions.values()), (session2, cb) => session2.endSession(cb), () => {
           this.s.sessionPool.endAllPooledSessions(() => {
             utils_1.eachAsync(Array.from(this.s.servers.values()), (server, cb) => destroyServer(server, this, options2, cb), (err) => {
               this.s.servers.clear();
@@ -23612,8 +26053,8 @@ var require_topology = __commonJS({
         }
         options2 = Object.assign({}, { serverSelectionTimeoutMS: this.s.serverSelectionTimeoutMS }, options2);
         const isSharded = this.description.type === common_1.TopologyType.Sharded;
-        const session = options2.session;
-        const transaction = session && session.transaction;
+        const session2 = options2.session;
+        const transaction = session2 && session2.transaction;
         if (isSharded && transaction && transaction.server) {
           callback(void 0, transaction.server);
           return;
@@ -23645,12 +26086,12 @@ var require_topology = __commonJS({
         return this.loadBalanced || this.description.logicalSessionTimeoutMinutes != null;
       }
       startSession(options2, clientOptions) {
-        const session = new sessions_1.ClientSession(this, this.s.sessionPool, options2, clientOptions);
-        session.once("ended", () => {
-          this.s.sessions.delete(session);
+        const session2 = new sessions_1.ClientSession(this, this.s.sessionPool, options2, clientOptions);
+        session2.once("ended", () => {
+          this.s.sessions.delete(session2);
         });
-        this.s.sessions.add(session);
-        return session;
+        this.s.sessions.add(session2);
+        return session2;
       }
       endSessions(sessions, callback) {
         if (!Array.isArray(sessions)) {
@@ -23971,7 +26412,7 @@ var require_connect2 = __commonJS({
       ...topology_1.TOPOLOGY_EVENTS,
       ...server_1.HEARTBEAT_EVENTS
     ];
-    function connect3(mongoClient, options2, callback) {
+    function connect2(mongoClient, options2, callback) {
       if (!callback) {
         throw new error_1.MongoInvalidArgumentError("Callback function must be provided");
       }
@@ -24001,7 +26442,7 @@ var require_connect2 = __commonJS({
       }
       return createTopology(mongoClient, options2, connectCallback);
     }
-    exports.connect = connect3;
+    exports.connect = connect2;
     function createTopology(mongoClient, options2, callback) {
       const topology = new topology_1.Topology(options2.hosts, options2);
       mongoClient.topology = topology;
@@ -24196,14 +26637,14 @@ var require_mongo_client = __commonJS({
         if (callback == null) {
           throw new error_1.MongoInvalidArgumentError("Missing required callback parameter");
         }
-        const session = this.startSession(options2);
+        const session2 = this.startSession(options2);
         const Promise2 = promise_provider_1.PromiseProvider.get();
         let cleanupHandler = (err, result, opts) => {
           cleanupHandler = () => {
             throw new error_1.MongoRuntimeError("cleanupHandler was called too many times");
           };
           opts = Object.assign({ throw: true }, opts);
-          session.endSession();
+          session2.endSession();
           if (err) {
             if (opts.throw)
               throw err;
@@ -24211,7 +26652,7 @@ var require_mongo_client = __commonJS({
           }
         };
         try {
-          const result = callback(session);
+          const result = callback(session2);
           return Promise2.resolve(result).then((result2) => cleanupHandler(void 0, result2, void 0), (err) => cleanupHandler(err, null, { throw: true }));
         } catch (err) {
           return cleanupHandler(err, null, { throw: false });
@@ -25772,20 +28213,20 @@ var require_ms = __commonJS({
     var s2 = 1e3;
     var m = s2 * 60;
     var h = m * 60;
-    var d = h * 24;
-    var w = d * 7;
-    var y = d * 365.25;
+    var d2 = h * 24;
+    var w = d2 * 7;
+    var y = d2 * 365.25;
     module2.exports = function(val, options2) {
       options2 = options2 || {};
       var type = typeof val;
       if (type === "string" && val.length > 0) {
-        return parse(val);
+        return parse3(val);
       } else if (type === "number" && isFinite(val)) {
         return options2.long ? fmtLong(val) : fmtShort(val);
       }
       throw new Error("val is not a non-empty string or a valid number. val=" + JSON.stringify(val));
     };
-    function parse(str) {
+    function parse3(str) {
       str = String(str);
       if (str.length > 100) {
         return;
@@ -25810,7 +28251,7 @@ var require_ms = __commonJS({
         case "days":
         case "day":
         case "d":
-          return n * d;
+          return n * d2;
         case "hours":
         case "hour":
         case "hrs":
@@ -25841,8 +28282,8 @@ var require_ms = __commonJS({
     }
     function fmtShort(ms) {
       var msAbs = Math.abs(ms);
-      if (msAbs >= d) {
-        return Math.round(ms / d) + "d";
+      if (msAbs >= d2) {
+        return Math.round(ms / d2) + "d";
       }
       if (msAbs >= h) {
         return Math.round(ms / h) + "h";
@@ -25857,8 +28298,8 @@ var require_ms = __commonJS({
     }
     function fmtLong(ms) {
       var msAbs = Math.abs(ms);
-      if (msAbs >= d) {
-        return plural(ms, msAbs, d, "day");
+      if (msAbs >= d2) {
+        return plural(ms, msAbs, d2, "day");
       }
       if (msAbs >= h) {
         return plural(ms, msAbs, h, "hour");
@@ -26752,10 +29193,10 @@ var require_supports_color = __commonJS({
         return 3;
       }
       if ("TERM_PROGRAM" in env) {
-        const version = parseInt((env.TERM_PROGRAM_VERSION || "").split(".")[0], 10);
+        const version2 = parseInt((env.TERM_PROGRAM_VERSION || "").split(".")[0], 10);
         switch (env.TERM_PROGRAM) {
           case "iTerm.app":
-            return version >= 3 ? 3 : 2;
+            return version2 >= 3 ? 3 : 2;
           case "Apple_Terminal":
             return 2;
         }
@@ -28956,7 +31397,7 @@ var require_validator = __commonJS({
 });
 
 // node_modules/mongoose/lib/error/version.js
-var require_version = __commonJS({
+var require_version2 = __commonJS({
   "node_modules/mongoose/lib/error/version.js"(exports, module2) {
     init_shims();
     "use strict";
@@ -29085,7 +31526,7 @@ var require_error2 = __commonJS({
     MongooseError.CastError = require_cast();
     MongooseError.ValidationError = require_validation();
     MongooseError.ValidatorError = require_validator();
-    MongooseError.VersionError = require_version();
+    MongooseError.VersionError = require_version2();
     MongooseError.ParallelSaveError = require_parallelSave();
     MongooseError.OverwriteModelError = require_overwriteModel();
     MongooseError.MissingSchemaError = require_missingSchema();
@@ -29648,14 +32089,14 @@ var require_schematype = __commonJS({
         validatorProperties.path = options2 && options2.path ? options2.path : path;
         validatorProperties.value = value;
         if (validator instanceof RegExp) {
-          validate(validator.test(value), validatorProperties);
+          validate2(validator.test(value), validatorProperties);
           return;
         }
         if (typeof validator !== "function") {
           return;
         }
         if (value === void 0 && validator !== _this.requiredValidator) {
-          validate(true, validatorProperties);
+          validate2(true, validatorProperties);
           return;
         }
         try {
@@ -29673,18 +32114,18 @@ var require_schematype = __commonJS({
         }
         if (ok != null && typeof ok.then === "function") {
           ok.then(function(ok2) {
-            validate(ok2, validatorProperties);
+            validate2(ok2, validatorProperties);
           }, function(error2) {
             validatorProperties.reason = error2;
             validatorProperties.message = error2.message;
             ok = false;
-            validate(ok, validatorProperties);
+            validate2(ok, validatorProperties);
           });
         } else {
-          validate(ok, validatorProperties);
+          validate2(ok, validatorProperties);
         }
       });
-      function validate(ok, validatorProperties) {
+      function validate2(ok, validatorProperties) {
         if (err) {
           return;
         }
@@ -29735,7 +32176,7 @@ var require_schematype = __commonJS({
           return;
         }
         if (validator instanceof RegExp) {
-          validate(validator.test(value), validatorProperties);
+          validate2(validator.test(value), validatorProperties);
           return;
         }
         if (typeof validator !== "function") {
@@ -29754,10 +32195,10 @@ var require_schematype = __commonJS({
         if (ok != null && typeof ok.then === "function") {
           return;
         }
-        validate(ok, validatorProperties);
+        validate2(ok, validatorProperties);
       });
       return err;
-      function validate(ok, validatorProperties) {
+      function validate2(ok, validatorProperties) {
         if (err) {
           return;
         }
@@ -32998,8 +35439,8 @@ var require_methods = __commonJS({
               });
               break;
             case "date":
-              found = this.some(function(d) {
-                return +d === val;
+              found = this.some(function(d2) {
+                return +d2 === val;
               });
               break;
             default:
@@ -34312,14 +36753,14 @@ var require_array2 = __commonJS({
       }
       return cast(this.casterConstructor.schema, val);
     }
-    var handle = SchemaArray.prototype.$conditionalHandlers = {};
-    handle.$all = cast$all;
-    handle.$options = String;
-    handle.$elemMatch = cast$elemMatch;
-    handle.$geoIntersects = geospatial.cast$geoIntersects;
-    handle.$or = createLogicalQueryOperatorHandler("$or");
-    handle.$and = createLogicalQueryOperatorHandler("$and");
-    handle.$nor = createLogicalQueryOperatorHandler("$nor");
+    var handle2 = SchemaArray.prototype.$conditionalHandlers = {};
+    handle2.$all = cast$all;
+    handle2.$options = String;
+    handle2.$elemMatch = cast$elemMatch;
+    handle2.$geoIntersects = geospatial.cast$geoIntersects;
+    handle2.$or = createLogicalQueryOperatorHandler("$or");
+    handle2.$and = createLogicalQueryOperatorHandler("$and");
+    handle2.$nor = createLogicalQueryOperatorHandler("$nor");
     function createLogicalQueryOperatorHandler(op) {
       return function logicalQueryOperatorHandler(val) {
         if (!Array.isArray(val)) {
@@ -34332,14 +36773,14 @@ var require_array2 = __commonJS({
         return ret;
       };
     }
-    handle.$near = handle.$nearSphere = geospatial.cast$near;
-    handle.$within = handle.$geoWithin = geospatial.cast$within;
-    handle.$size = handle.$minDistance = handle.$maxDistance = castToNumber;
-    handle.$exists = $exists;
-    handle.$type = $type;
-    handle.$eq = handle.$gt = handle.$gte = handle.$lt = handle.$lte = handle.$ne = handle.$regex = SchemaArray.prototype.castForQuery;
-    handle.$nin = SchemaType.prototype.$conditionalHandlers.$nin;
-    handle.$in = SchemaType.prototype.$conditionalHandlers.$in;
+    handle2.$near = handle2.$nearSphere = geospatial.cast$near;
+    handle2.$within = handle2.$geoWithin = geospatial.cast$within;
+    handle2.$size = handle2.$minDistance = handle2.$maxDistance = castToNumber;
+    handle2.$exists = $exists;
+    handle2.$type = $type;
+    handle2.$eq = handle2.$gt = handle2.$gte = handle2.$lt = handle2.$lte = handle2.$ne = handle2.$regex = SchemaArray.prototype.castForQuery;
+    handle2.$nin = SchemaType.prototype.$conditionalHandlers.$nin;
+    handle2.$in = SchemaType.prototype.$conditionalHandlers.$in;
     module2.exports = SchemaArray;
   }
 });
@@ -37372,15 +39813,15 @@ var require_queryhelpers = __commonJS({
       if (options2.lean != null) {
         pop.filter((p) => get(p, "options.lean") == null).forEach(makeLean(options2.lean));
       }
-      const session = get(query, "options.session", null);
-      if (session != null) {
+      const session2 = get(query, "options.session", null);
+      if (session2 != null) {
         pop.forEach((path) => {
           if (path.options == null) {
-            path.options = { session };
+            path.options = { session: session2 };
             return;
           }
           if (!("session" in path.options)) {
-            path.options.session = session;
+            path.options.session = session2;
           }
         });
       }
@@ -38122,7 +40563,7 @@ var require_document = __commonJS({
       args.unshift({ _id: this._id });
       return this.constructor.replaceOne.apply(this.constructor, args);
     };
-    Document.prototype.$session = function $session(session) {
+    Document.prototype.$session = function $session(session2) {
       if (arguments.length === 0) {
         if (this.$__.session != null && this.$__.session.hasEnded) {
           this.$__.session = null;
@@ -38130,17 +40571,17 @@ var require_document = __commonJS({
         }
         return this.$__.session;
       }
-      if (session != null && session.hasEnded) {
+      if (session2 != null && session2.hasEnded) {
         throw new MongooseError("Cannot set a document's session to a session that has ended. Make sure you haven't called `endSession()` on the session you are passing to `$session()`.");
       }
-      this.$__.session = session;
+      this.$__.session = session2;
       if (!this.ownerDocument) {
         const subdocs = this.$getAllSubdocs();
         for (const child of subdocs) {
-          child.$session(session);
+          child.$session(session2);
         }
       }
-      return session;
+      return session2;
     };
     Document.prototype.overwrite = function overwrite(obj) {
       const keys = Array.from(new Set(Object.keys(this._doc).concat(Object.keys(obj))));
@@ -39862,14 +42303,14 @@ var require_document = __commonJS({
         });
       }
       if (this.$session() != null) {
-        const session = this.$session();
+        const session2 = this.$session();
         paths.forEach((path) => {
           if (path.options == null) {
-            path.options = { session };
+            path.options = { session: session2 };
             return;
           }
           if (!("session" in path.options)) {
-            path.options.session = session;
+            path.options.session = session2;
           }
         });
       }
@@ -41628,18 +44069,18 @@ var require_connection2 = __commonJS({
         cb = options2;
         options2 = null;
       }
-      const session = this.client.startSession(options2);
-      cb(null, session);
+      const session2 = this.client.startSession(options2);
+      cb(null, session2);
     });
     Connection.prototype.transaction = function transaction(fn, options2) {
-      return this.startSession().then((session) => {
-        session[sessionNewDocuments] = new Map();
-        return session.withTransaction(() => fn(session), options2).then((res) => {
-          delete session[sessionNewDocuments];
+      return this.startSession().then((session2) => {
+        session2[sessionNewDocuments] = new Map();
+        return session2.withTransaction(() => fn(session2), options2).then((res) => {
+          delete session2[sessionNewDocuments];
           return res;
         }).catch((err) => {
-          for (const doc of session[sessionNewDocuments].keys()) {
-            const state = session[sessionNewDocuments].get(doc);
+          for (const doc of session2[sessionNewDocuments].keys()) {
+            const state = session2[sessionNewDocuments].get(doc);
             if (state.hasOwnProperty("isNew")) {
               doc.$isNew = state.$isNew;
             }
@@ -41658,7 +44099,7 @@ var require_connection2 = __commonJS({
               val[arrayAtomicsSymbol] = state.atomics.get(path);
             }
           }
-          delete session[sessionNewDocuments];
+          delete session2[sessionNewDocuments];
           throw err;
         });
       });
@@ -41715,8 +44156,8 @@ var require_connection2 = __commonJS({
     };
     Connection.prototype.onOpen = function() {
       this.readyState = STATES.connected;
-      for (const d of this._queue) {
-        d.fn.apply(d.ctx, d.args);
+      for (const d2 of this._queue) {
+        d2.fn.apply(d2.ctx, d2.args);
       }
       this._queue = [];
       for (const i in this.collections) {
@@ -44223,7 +46664,7 @@ var require_query = __commonJS({
       }
       return `${this.model.modelName}.${this.op}()`;
     };
-    Query.prototype.session = function session(v) {
+    Query.prototype.session = function session2(v) {
       if (v == null) {
         delete this.options.session;
       }
@@ -45438,7 +47879,7 @@ var require_query = __commonJS({
       this._collection[op](castedQuery, this._update, options2, callback);
       return null;
     }
-    Query.prototype.validate = function validate(castedDoc, options2, isOverwriting, callback) {
+    Query.prototype.validate = function validate2(castedDoc, options2, isOverwriting, callback) {
       return promiseOrCallback(callback, (cb) => {
         try {
           if (isOverwriting) {
@@ -46483,11 +48924,11 @@ var require_aggregate2 = __commonJS({
       this.options.hint = value;
       return this;
     };
-    Aggregate.prototype.session = function(session) {
-      if (session == null) {
+    Aggregate.prototype.session = function(session2) {
+      if (session2 == null) {
         delete this.options.session;
       } else {
-        this.options.session = session;
+        this.options.session = session2;
       }
       return this;
     };
@@ -46976,22 +49417,22 @@ var require_lib5 = __commonJS({
       typeof exports === "object" && typeof module2 !== "undefined" ? factory(exports) : typeof define === "function" && define.amd ? define(["exports"], factory) : (global2 = global2 || self, factory(global2.sift = {}));
     })(exports, function(exports2) {
       "use strict";
-      var extendStatics = function(d, b) {
-        extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d2, b2) {
-          d2.__proto__ = b2;
-        } || function(d2, b2) {
+      var extendStatics = function(d2, b) {
+        extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d3, b2) {
+          d3.__proto__ = b2;
+        } || function(d3, b2) {
           for (var p in b2)
             if (b2.hasOwnProperty(p))
-              d2[p] = b2[p];
+              d3[p] = b2[p];
         };
-        return extendStatics(d, b);
+        return extendStatics(d2, b);
       };
-      function __extends(d, b) {
-        extendStatics(d, b);
+      function __extends(d2, b) {
+        extendStatics(d2, b);
         function __() {
-          this.constructor = d;
+          this.constructor = d2;
         }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+        d2.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
       }
       var typeChecker = function(type) {
         var typeString = "[object " + type + "]";
@@ -48785,7 +51226,7 @@ var require_getModelsMapForPopulate = __commonJS({
       return map;
     }
     function addModelNamesToMap(model2, map, available, modelNames, options2, data, ret, doc, schemaOptions) {
-      const connection2 = options2.connection != null ? options2.connection : model2.db;
+      const connection = options2.connection != null ? options2.connection : model2.db;
       if (modelNames == null) {
         return;
       }
@@ -48802,7 +51243,7 @@ var require_getModelsMapForPopulate = __commonJS({
           Model = modelName;
         } else {
           try {
-            Model = connection2.model(modelName);
+            Model = connection.model(modelName);
           } catch (err) {
             if (ret !== void 0) {
               throw err;
@@ -49172,7 +51613,7 @@ var require_model = __commonJS({
     var Schema = require_schema2();
     var ServerSelectionError = require_serverSelection();
     var ValidationError = require_validation();
-    var VersionError = require_version();
+    var VersionError = require_version2();
     var ParallelSaveError = require_parallelSave();
     var applyQueryMiddleware = require_applyQueryMiddleware();
     var applyHooks = require_applyHooks();
@@ -49265,9 +51706,9 @@ var require_model = __commonJS({
       if ("checkKeys" in options2) {
         saveOptions.checkKeys = options2.checkKeys;
       }
-      const session = this.$session();
+      const session2 = this.$session();
       if (!saveOptions.hasOwnProperty("session")) {
-        saveOptions.session = session;
+        saveOptions.session = session2;
       }
       if (Object.keys(saveOptions).length === 0) {
         saveOptions = null;
@@ -49361,14 +51802,14 @@ var require_model = __commonJS({
             const doIncrement = VERSION_INC === (VERSION_INC & this.$__.version);
             this.$__.version = void 0;
             const key = this.$__schema.options.versionKey;
-            const version = this.$__getValue(key) || 0;
+            const version2 = this.$__getValue(key) || 0;
             if (numAffected <= 0) {
               this.$__undoReset();
-              const err = this.$__.$versionError || new VersionError(this, version, this.$__.modifiedPaths);
+              const err = this.$__.$versionError || new VersionError(this, version2, this.$__.modifiedPaths);
               return callback(err);
             }
             if (doIncrement) {
-              this.$__setValue(key, version + 1);
+              this.$__setValue(key, version2 + 1);
             }
           }
           if (result != null && numAffected <= 0) {
@@ -49391,8 +51832,8 @@ var require_model = __commonJS({
       if (!key) {
         return null;
       }
-      const version = doc.$__getValue(key) || 0;
-      return new VersionError(doc, version, modifiedPaths2);
+      const version2 = doc.$__getValue(key) || 0;
+      return new VersionError(doc, version2, modifiedPaths2);
     }
     Model.prototype.save = function(options2, fn) {
       let parallelSave;
@@ -49530,13 +51971,13 @@ var require_model = __commonJS({
       const delta = {};
       const len = dirty.length;
       const divergent = [];
-      let d = 0;
+      let d2 = 0;
       where._id = this._doc._id;
       if (get(where, "_id.$__", null) != null) {
         where._id = where._id.toObject({ transform: false, depopulate: true });
       }
-      for (; d < len; ++d) {
-        const data = dirty[d];
+      for (; d2 < len; ++d2) {
+        const data = dirty[d2];
         let value = data.value;
         const match = checkDivergentArray(this, data.path, value);
         if (match) {
@@ -49690,9 +52131,9 @@ var require_model = __commonJS({
         return cb(where);
       }
       _applyCustomWhere(this, where);
-      const session = this.$session();
+      const session2 = this.$session();
       if (!options2.hasOwnProperty("session")) {
-        options2.session = session;
+        options2.session = session2;
       }
       this[modelCollectionSymbol].deleteOne(where, options2, (err) => {
         if (!err) {
@@ -49752,22 +52193,22 @@ var require_model = __commonJS({
       schema.$globalPluginsApplied = true;
       model2 = this.db.model(model2 || name, schema, this.$__collection.name);
       this.discriminators[name] = model2;
-      const d = this.discriminators[name];
-      d.prototype.__proto__ = this.prototype;
-      Object.defineProperty(d, "baseModelName", {
+      const d2 = this.discriminators[name];
+      d2.prototype.__proto__ = this.prototype;
+      Object.defineProperty(d2, "baseModelName", {
         value: this.modelName,
         configurable: true,
         writable: false
       });
-      applyMethods(d, schema);
-      applyStatics(d, schema);
+      applyMethods(d2, schema);
+      applyStatics(d2, schema);
       if (this[subclassedSymbol] != null) {
         for (const submodel of this[subclassedSymbol]) {
           submodel.discriminators = submodel.discriminators || {};
           submodel.discriminators[name] = model2.__subclass(model2.db, schema, submodel.collection.name);
         }
       }
-      return d;
+      return d2;
     };
     function _checkContext(ctx, fnName) {
       if (ctx == null || ctx === global) {
@@ -50941,7 +53382,7 @@ var require_model = __commonJS({
       aggregate2.exec(callback);
       return aggregate2;
     };
-    Model.validate = function validate(obj, pathsToValidate, context, callback) {
+    Model.validate = function validate2(obj, pathsToValidate, context, callback) {
       if (arguments.length < 3 || arguments.length === 3 && typeof arguments[2] === "function") {
         context = obj;
       }
@@ -51285,7 +53726,7 @@ var require_model = __commonJS({
         match: mod.match
       });
     }
-    Model.compile = function compile(name, schema, collectionName, connection2, base2) {
+    Model.compile = function compile(name, schema, collectionName, connection, base2) {
       const versioningEnabled = schema.options.versionKey !== false;
       if (versioningEnabled && !schema.paths[schema.options.versionKey]) {
         const o = {};
@@ -51326,9 +53767,9 @@ var require_model = __commonJS({
       model2.model = function model3(name2) {
         return this.db.model(name2);
       };
-      model2.db = connection2;
-      model2.prototype.db = connection2;
-      model2.prototype[modelDbSymbol] = connection2;
+      model2.db = connection;
+      model2.prototype.db = connection;
+      model2.prototype[modelDbSymbol] = connection;
       model2.discriminators = model2.prototype.discriminators = void 0;
       model2[modelSymbol] = true;
       model2.events = new EventEmitter();
@@ -51344,7 +53785,7 @@ var require_model = __commonJS({
       if (schema.options.autoCreate !== void 0) {
         collectionOptions.autoCreate = schema.options.autoCreate;
       }
-      model2.prototype.collection = connection2.collection(collectionName, collectionOptions);
+      model2.prototype.collection = connection.collection(collectionName, collectionOptions);
       model2.prototype.$collection = model2.prototype.collection;
       model2.prototype[modelCollectionSymbol] = model2.prototype.collection;
       applyMethods(model2, schema);
@@ -51626,14 +54067,14 @@ var require_trackTransaction = __commonJS({
     var sessionNewDocuments = require_symbols().sessionNewDocuments;
     module2.exports = function trackTransaction(schema) {
       schema.pre("save", function() {
-        const session = this.$session();
-        if (session == null) {
+        const session2 = this.$session();
+        if (session2 == null) {
           return;
         }
-        if (session.transaction == null || session[sessionNewDocuments] == null) {
+        if (session2.transaction == null || session2[sessionNewDocuments] == null) {
           return;
         }
-        if (!session[sessionNewDocuments].has(this)) {
+        if (!session2[sessionNewDocuments].has(this)) {
           const initialState = {};
           if (this.isNew) {
             initialState.isNew = true;
@@ -51643,9 +54084,9 @@ var require_trackTransaction = __commonJS({
           }
           initialState.modifiedPaths = new Set(Object.keys(this.$__.activePaths.states.modify));
           initialState.atomics = _getAtomics(this);
-          session[sessionNewDocuments].set(this, initialState);
+          session2[sessionNewDocuments].set(this, initialState);
         } else {
-          const state = session[sessionNewDocuments].get(this);
+          const state = session2[sessionNewDocuments].get(this);
           for (const path of Object.keys(this.$__.activePaths.states.modify)) {
             state.modifiedPaths.add(path);
           }
@@ -52118,11 +54559,11 @@ var require_lib6 = __commonJS({
       if (!collection) {
         collection = schema.get("collection") || utils.toCollectionName(name, _mongoose.pluralize());
       }
-      const connection2 = options2.connection || _mongoose.connection;
-      model2 = _mongoose.Model.compile(model2 || name, schema, collection, connection2, _mongoose);
+      const connection = options2.connection || _mongoose.connection;
+      model2 = _mongoose.Model.compile(model2 || name, schema, collection, connection, _mongoose);
       model2.init(function $modelInitNoop() {
       });
-      connection2.emit("model", model2);
+      connection.emit("model", model2);
       return model2;
     };
     Mongoose.prototype.deleteModel = function(name) {
@@ -52300,7 +54741,23 @@ function getRawBody(req) {
 
 // .svelte-kit/output/server/app.js
 init_shims();
-var mongoose = __toModule(require_mongoose());
+var cookie = __toModule(require_cookie());
+var import_bcryptjs = __toModule(require_bcryptjs());
+
+// node_modules/uuid/wrapper.mjs
+init_shims();
+var import_dist = __toModule(require_dist());
+var v1 = import_dist.default.v1;
+var v3 = import_dist.default.v3;
+var v4 = import_dist.default.v4;
+var v5 = import_dist.default.v5;
+var NIL = import_dist.default.NIL;
+var version = import_dist.default.version;
+var validate = import_dist.default.validate;
+var stringify = import_dist.default.stringify;
+var parse = import_dist.default.parse;
+
+// .svelte-kit/output/server/app.js
 var import_mongoose = __toModule(require_mongoose());
 var __accessCheck = (obj, member, msg) => {
   if (!member.has(obj))
@@ -52344,7 +54801,7 @@ function lowercase_keys(obj) {
   }
   return clone2;
 }
-function error$1(body) {
+function error$2(body) {
   return {
     status: 500,
     body,
@@ -52373,14 +54830,14 @@ async function render_endpoint(request, route, match) {
     return;
   }
   if (typeof response !== "object") {
-    return error$1(`${preface}: expected an object, got ${typeof response}`);
+    return error$2(`${preface}: expected an object, got ${typeof response}`);
   }
   let { status = 200, body, headers = {} } = response;
   headers = lowercase_keys(headers);
   const type = get_single_valued_header(headers, "content-type");
   const is_type_textual = is_content_type_textual(type);
   if (!is_type_textual && !(body instanceof Uint8Array || is_string(body))) {
-    return error$1(`${preface}: body must be an instance of string or Uint8Array if content-type is not a supported textual content-type`);
+    return error$2(`${preface}: body must be an instance of string or Uint8Array if content-type is not a supported textual content-type`);
   }
   let normalized_body;
   if ((typeof body === "object" || typeof body === "undefined") && !(body instanceof Uint8Array) && (!type || type.startsWith("application/json"))) {
@@ -52459,7 +54916,7 @@ function devalue(value) {
   }).forEach(function(entry, i) {
     names.set(entry[0], getName(i));
   });
-  function stringify(thing) {
+  function stringify2(thing) {
     if (names.has(thing)) {
       return names.get(thing);
     }
@@ -52471,23 +54928,23 @@ function devalue(value) {
       case "Number":
       case "String":
       case "Boolean":
-        return "Object(" + stringify(thing.valueOf()) + ")";
+        return "Object(" + stringify2(thing.valueOf()) + ")";
       case "RegExp":
         return "new RegExp(" + stringifyString(thing.source) + ', "' + thing.flags + '")';
       case "Date":
         return "new Date(" + thing.getTime() + ")";
       case "Array":
         var members = thing.map(function(v, i) {
-          return i in thing ? stringify(v) : "";
+          return i in thing ? stringify2(v) : "";
         });
         var tail = thing.length === 0 || thing.length - 1 in thing ? "" : ",";
         return "[" + members.join(",") + tail + "]";
       case "Set":
       case "Map":
-        return "new " + type + "([" + Array.from(thing).map(stringify).join(",") + "])";
+        return "new " + type + "([" + Array.from(thing).map(stringify2).join(",") + "])";
       default:
         var obj = "{" + Object.keys(thing).map(function(key) {
-          return safeKey(key) + ":" + stringify(thing[key]);
+          return safeKey(key) + ":" + stringify2(thing[key]);
         }).join(",") + "}";
         var proto = Object.getPrototypeOf(thing);
         if (proto === null) {
@@ -52496,7 +54953,7 @@ function devalue(value) {
         return obj;
     }
   }
-  var str = stringify(value);
+  var str = stringify2(value);
   if (names.size) {
     var params_1 = [];
     var statements_1 = [];
@@ -52512,7 +54969,7 @@ function devalue(value) {
         case "Number":
         case "String":
         case "Boolean":
-          values_1.push("Object(" + stringify(thing.valueOf()) + ")");
+          values_1.push("Object(" + stringify2(thing.valueOf()) + ")");
           break;
         case "RegExp":
           values_1.push(thing.toString());
@@ -52523,26 +54980,26 @@ function devalue(value) {
         case "Array":
           values_1.push("Array(" + thing.length + ")");
           thing.forEach(function(v, i) {
-            statements_1.push(name + "[" + i + "]=" + stringify(v));
+            statements_1.push(name + "[" + i + "]=" + stringify2(v));
           });
           break;
         case "Set":
           values_1.push("new Set");
           statements_1.push(name + "." + Array.from(thing).map(function(v) {
-            return "add(" + stringify(v) + ")";
+            return "add(" + stringify2(v) + ")";
           }).join("."));
           break;
         case "Map":
           values_1.push("new Map");
           statements_1.push(name + "." + Array.from(thing).map(function(_a) {
             var k = _a[0], v = _a[1];
-            return "set(" + stringify(k) + ", " + stringify(v) + ")";
+            return "set(" + stringify2(k) + ", " + stringify2(v) + ")";
           }).join("."));
           break;
         default:
           values_1.push(Object.getPrototypeOf(thing) === null ? "Object.create(null)" : "{}");
           Object.keys(thing).forEach(function(key) {
-            statements_1.push("" + name + safeProp(key) + "=" + stringify(thing[key]));
+            statements_1.push("" + name + safeProp(key) + "=" + stringify2(thing[key]));
           });
       }
     });
@@ -52613,14 +55070,14 @@ function stringifyString(str) {
   result += '"';
   return result;
 }
-function noop() {
+function noop$1() {
 }
 function safe_not_equal(a, b) {
   return a != a ? b == b : a !== b || (a && typeof a === "object" || typeof a === "function");
 }
 Promise.resolve();
 var subscriber_queue = [];
-function writable(value, start = noop) {
+function writable(value, start = noop$1) {
   let stop;
   const subscribers = new Set();
   function set(new_value) {
@@ -52644,11 +55101,11 @@ function writable(value, start = noop) {
   function update(fn) {
     set(fn(value));
   }
-  function subscribe(run2, invalidate = noop) {
+  function subscribe2(run2, invalidate = noop$1) {
     const subscriber = [run2, invalidate];
     subscribers.add(subscriber);
     if (subscribers.size === 1) {
-      stop = start(set) || noop;
+      stop = start(set) || noop$1;
     }
     run2(value);
     return () => {
@@ -52659,7 +55116,7 @@ function writable(value, start = noop) {
       }
     };
   }
-  return { set, update, subscribe };
+  return { set, update, subscribe: subscribe2 };
 }
 function hash(value) {
   let hash2 = 5381;
@@ -52707,12 +55164,12 @@ async function render_response({
         is_private = true;
       maxage = loaded.maxage;
     });
-    const session = writable($session);
+    const session2 = writable($session);
     const props = {
       stores: {
         page: writable(null),
         navigating: writable(null),
-        session
+        session: session2
       },
       page,
       components: branch.map(({ node }) => node.module.default)
@@ -52721,7 +55178,7 @@ async function render_response({
       props[`props_${i}`] = await branch[i].loaded.props;
     }
     let session_tracking_active = false;
-    const unsubscribe = session.subscribe(() => {
+    const unsubscribe = session2.subscribe(() => {
       if (session_tracking_active)
         is_private = true;
     });
@@ -52936,7 +55393,7 @@ async function load_node({
         let response;
         const filename = resolved.replace(options2.paths.assets, "").slice(1);
         const filename_html = `${filename}/index.html`;
-        const asset = options2.manifest.assets.find((d) => d.file === filename || d.file === filename_html);
+        const asset = options2.manifest.assets.find((d2) => d2.file === filename || d2.file === filename_html);
         if (asset) {
           response = options2.read ? new Response(options2.read(asset.file), {
             headers: asset.type ? { "content-type": asset.type } : {}
@@ -53578,6 +56035,8 @@ async function respond(incoming, options2, state = {}) {
     };
   }
 }
+function noop() {
+}
 function run(fn) {
   return fn();
 }
@@ -53586,6 +56045,16 @@ function blank_object() {
 }
 function run_all(fns) {
   fns.forEach(run);
+}
+function subscribe(store, ...callbacks) {
+  if (store == null) {
+    return noop;
+  }
+  const unsub = store.subscribe(...callbacks);
+  return unsub.unsubscribe ? () => unsub.unsubscribe() : unsub;
+}
+function null_to_empty(value) {
+  return value == null ? "" : value;
 }
 var current_component;
 function set_current_component(component) {
@@ -53598,6 +56067,9 @@ function get_current_component() {
 }
 function setContext(key, context) {
   get_current_component().$$.context.set(key, context);
+}
+function getContext(key) {
+  return get_current_component().$$.context.get(key);
 }
 Promise.resolve();
 var escaped = {
@@ -53663,7 +56135,7 @@ function add_attribute(name, value, boolean) {
 }
 function afterUpdate() {
 }
-var css = {
+var css$1 = {
   code: "#svelte-announcer.svelte-1pdgbjn{clip:rect(0 0 0 0);-webkit-clip-path:inset(50%);clip-path:inset(50%);height:1px;left:0;overflow:hidden;position:absolute;top:0;white-space:nowrap;width:1px}",
   map: `{"version":3,"file":"root.svelte","sources":["root.svelte"],"sourcesContent":["<!-- This file is generated by @sveltejs/kit \u2014 do not edit it! -->\\n<script>\\n\\timport { setContext, afterUpdate, onMount } from 'svelte';\\n\\n\\t// stores\\n\\texport let stores;\\n\\texport let page;\\n\\n\\texport let components;\\n\\texport let props_0 = null;\\n\\texport let props_1 = null;\\n\\texport let props_2 = null;\\n\\n\\tsetContext('__svelte__', stores);\\n\\n\\t$: stores.page.set(page);\\n\\tafterUpdate(stores.page.notify);\\n\\n\\tlet mounted = false;\\n\\tlet navigated = false;\\n\\tlet title = null;\\n\\n\\tonMount(() => {\\n\\t\\tconst unsubscribe = stores.page.subscribe(() => {\\n\\t\\t\\tif (mounted) {\\n\\t\\t\\t\\tnavigated = true;\\n\\t\\t\\t\\ttitle = document.title || 'untitled page';\\n\\t\\t\\t}\\n\\t\\t});\\n\\n\\t\\tmounted = true;\\n\\t\\treturn unsubscribe;\\n\\t});\\n<\/script>\\n\\n<svelte:component this={components[0]} {...(props_0 || {})}>\\n\\t{#if components[1]}\\n\\t\\t<svelte:component this={components[1]} {...(props_1 || {})}>\\n\\t\\t\\t{#if components[2]}\\n\\t\\t\\t\\t<svelte:component this={components[2]} {...(props_2 || {})}/>\\n\\t\\t\\t{/if}\\n\\t\\t</svelte:component>\\n\\t{/if}\\n</svelte:component>\\n\\n{#if mounted}\\n\\t<div id=\\"svelte-announcer\\" aria-live=\\"assertive\\" aria-atomic=\\"true\\">\\n\\t\\t{#if navigated}\\n\\t\\t\\t{title}\\n\\t\\t{/if}\\n\\t</div>\\n{/if}\\n\\n<style>#svelte-announcer{clip:rect(0 0 0 0);-webkit-clip-path:inset(50%);clip-path:inset(50%);height:1px;left:0;overflow:hidden;position:absolute;top:0;white-space:nowrap;width:1px}</style>"],"names":[],"mappings":"AAqDO,gCAAiB,CAAC,KAAK,KAAK,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,kBAAkB,MAAM,GAAG,CAAC,CAAC,UAAU,MAAM,GAAG,CAAC,CAAC,OAAO,GAAG,CAAC,KAAK,CAAC,CAAC,SAAS,MAAM,CAAC,SAAS,QAAQ,CAAC,IAAI,CAAC,CAAC,YAAY,MAAM,CAAC,MAAM,GAAG,CAAC"}`
 };
@@ -53688,7 +56160,7 @@ var Root = create_ssr_component(($$result, $$props, $$bindings, slots) => {
     $$bindings.props_1(props_1);
   if ($$props.props_2 === void 0 && $$bindings.props_2 && props_2 !== void 0)
     $$bindings.props_2(props_2);
-  $$result.css.add(css);
+  $$result.css.add(css$1);
   {
     stores.page.set(page);
   }
@@ -53711,9 +56183,81 @@ function set_paths(paths) {
 }
 function set_prerendering(value) {
 }
+var { model: model$1 } = import_mongoose.default;
+var UserSchema = new import_mongoose.default.Schema({
+  username: {
+    type: String
+  },
+  password: {
+    type: String
+  },
+  type: {
+    type: String
+  },
+  completedRuns: {
+    type: [String]
+  }
+});
+var User = import_mongoose.default.models.User || model$1("User", UserSchema);
+var { model } = import_mongoose.default;
+var CookieSchema = new import_mongoose.default.Schema({
+  cookie_id: {
+    type: String
+  },
+  user_id: {
+    ref: "User",
+    type: import_mongoose.default.Schema.Types.ObjectId
+  }
+});
+var Cookie = import_mongoose.default.models.Cookie || model("Cookie", CookieSchema);
+var variables = {
+  mongoDbURI: "mongodb+srv://admin:39SZHROKV2TwZbng@didunas.epyi2.mongodb.net/didunas?retryWrites=true&w=majority"
+};
+var database;
+var connect = async () => {
+  const uri = variables.mongoDbURI;
+  if (database) {
+    return;
+  }
+  import_mongoose.default.connect(uri);
+  database = import_mongoose.default.connection;
+  database.once("open", async () => {
+    console.log("Connected to db:", database.db.databaseName);
+  });
+  database.on("error", () => {
+    console.log("Error connecting to database");
+  });
+};
+var handle = async ({ request, resolve: resolve2 }) => {
+  await connect();
+  const cookies = cookie.parse(request.headers.cookie || "");
+  if (cookies.session_id) {
+    const userCookie = await Cookie.findOne({ cookie_id: cookies.session_id });
+    const user = await User.findById(userCookie.user_id);
+    console.log(user);
+    request.locals.user = JSON.parse(JSON.stringify(user));
+    request.locals.authenticated = true;
+  } else {
+    request.locals.authenticated = false;
+  }
+  return await resolve2(request);
+};
+var getSession = ({ locals }) => {
+  if (!locals.authenticated) {
+    return {
+      authenticated: locals.authenticated
+    };
+  }
+  return {
+    authenticated: locals.authenticated,
+    user: locals.user
+  };
+};
 var user_hooks = /* @__PURE__ */ Object.freeze({
   __proto__: null,
-  [Symbol.toStringTag]: "Module"
+  [Symbol.toStringTag]: "Module",
+  handle,
+  getSession
 });
 var template = ({ head, body }) => '<!DOCTYPE html>\n<html lang="en">\n	<head>\n		<meta charset="utf-8" />\n		<link rel="icon" href="/favicon.png" />\n		<meta name="viewport" content="width=device-width, initial-scale=1" />\n		' + head + '\n	</head>\n	<body>\n		<div id="svelte">' + body + "</div>\n	</body>\n</html>\n";
 var options = null;
@@ -53726,9 +56270,9 @@ function init(settings = default_settings) {
     amp: false,
     dev: false,
     entry: {
-      file: assets + "/_app/start-30b4152b.js",
+      file: assets + "/_app/start-6d97cbbe.js",
       css: [assets + "/_app/assets/start-464e9d0a.css"],
-      js: [assets + "/_app/start-30b4152b.js", assets + "/_app/chunks/vendor-99560833.js"]
+      js: [assets + "/_app/start-6d97cbbe.js", assets + "/_app/chunks/vendor-19443505.js"]
     },
     fetched: void 0,
     floc: false,
@@ -53755,6 +56299,7 @@ function init(settings = default_settings) {
     trailing_slash: "never"
   };
 }
+var d = (s2) => s2.replace(/%23/g, "#").replace(/%3[Bb]/g, ";").replace(/%2[Cc]/g, ",").replace(/%2[Ff]/g, "/").replace(/%3[Ff]/g, "?").replace(/%3[Aa]/g, ":").replace(/%40/g, "@").replace(/%26/g, "&").replace(/%3[Dd]/g, "=").replace(/%2[Bb]/g, "+").replace(/%24/g, "$");
 var empty = () => ({});
 var manifest = {
   assets: [{ "file": "color_pattern/colorpatterns-01.jpeg", "size": 108749, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-02.jpeg", "size": 107432, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-03.jpeg", "size": 108640, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-04.jpeg", "size": 128423, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-05.jpeg", "size": 127671, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-06.jpeg", "size": 132346, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-07.jpeg", "size": 134224, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-08.jpeg", "size": 132075, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-09.jpeg", "size": 151786, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-10.jpeg", "size": 156422, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-11.jpeg", "size": 132107, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-12.jpeg", "size": 134763, "type": "image/jpeg" }, { "file": "colorpatterns-01.jpeg", "size": 108749, "type": "image/jpeg" }, { "file": "difference/difference-01.jpeg", "size": 71335, "type": "image/jpeg" }, { "file": "difference/difference-02.jpeg", "size": 83679, "type": "image/jpeg" }, { "file": "difference/difference-03.jpeg", "size": 86116, "type": "image/jpeg" }, { "file": "difference/difference-04.jpeg", "size": 70362, "type": "image/jpeg" }, { "file": "difference/difference-05.jpeg", "size": 75759, "type": "image/jpeg" }, { "file": "difference/difference-06.jpeg", "size": 82637, "type": "image/jpeg" }, { "file": "favicon.png", "size": 1571, "type": "image/png" }, { "file": "hidden_number/hiddennumber-01.jpeg", "size": 109072, "type": "image/jpeg" }, { "file": "hidden_number/hiddennumber-02.jpeg", "size": 108984, "type": "image/jpeg" }, { "file": "hidden_number/hiddennumber-03.jpeg", "size": 166768, "type": "image/jpeg" }, { "file": "hidden_number/hiddennumber-04.jpeg", "size": 126110, "type": "image/jpeg" }, { "file": "hidden_number/hiddennumber-05.jpeg", "size": 105489, "type": "image/jpeg" }, { "file": "minus/minus-01.jpeg", "size": 72783, "type": "image/jpeg" }, { "file": "minus/minus-02.jpeg", "size": 74413, "type": "image/jpeg" }, { "file": "minus/minus-03.jpeg", "size": 71339, "type": "image/jpeg" }, { "file": "minus/minus-04.jpeg", "size": 76861, "type": "image/jpeg" }, { "file": "number_comparison/numbercomparison-01.jpeg", "size": 67853, "type": "image/jpeg" }, { "file": "number_comparison/numbercomparison-02.jpeg", "size": 69583, "type": "image/jpeg" }, { "file": "number_comparison/numbercomparison-03.jpeg", "size": 71068, "type": "image/jpeg" }, { "file": "number_comparison/numbercomparison-04.jpeg", "size": 70527, "type": "image/jpeg" }, { "file": "number_comparison/numbercomparison-05.jpeg", "size": 74497, "type": "image/jpeg" }, { "file": "number_comparison/numbercomparison-06.jpeg", "size": 79549, "type": "image/jpeg" }, { "file": "number_line/numberline-01.jpeg", "size": 84538, "type": "image/jpeg" }, { "file": "number_line/numberline-02.jpeg", "size": 84400, "type": "image/jpeg" }, { "file": "number_line/numberline-03.jpeg", "size": 84498, "type": "image/jpeg" }, { "file": "number_line/numberline-04.jpeg", "size": 84475, "type": "image/jpeg" }, { "file": "number_line/numberline-05.jpeg", "size": 84564, "type": "image/jpeg" }, { "file": "number_line/numberline-06.jpeg", "size": 82270, "type": "image/jpeg" }, { "file": "number_line/numberline-07.jpeg", "size": 94270, "type": "image/jpeg" }, { "file": "number_line/numberline-08.jpeg", "size": 87322, "type": "image/jpeg" }, { "file": "number_line/numberline-09.jpeg", "size": 93478, "type": "image/jpeg" }, { "file": "number_line/numberline-10.jpeg", "size": 88423, "type": "image/jpeg" }, { "file": "number_pattern/.DS_Store", "size": 6148, "type": null }, { "file": "number_pattern/numberpattern-01.jpeg", "size": 101807, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-02.jpeg", "size": 111130, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-03.jpeg", "size": 102234, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-04.jpeg", "size": 111219, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-05.jpeg", "size": 103208, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-06.jpeg", "size": 120511, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-07.jpeg", "size": 106663, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-08.jpeg", "size": 128896, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-09.jpeg", "size": 137700, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-10.jpeg", "size": 99376, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-11.jpeg", "size": 99619, "type": "image/jpeg" }, { "file": "plus/plus-01.jpeg", "size": 74055, "type": "image/jpeg" }, { "file": "plus/plus-02.jpeg", "size": 74143, "type": "image/jpeg" }, { "file": "plus/plus-03.jpeg", "size": 77092, "type": "image/jpeg" }, { "file": "plus/plus-04.jpeg", "size": 74925, "type": "image/jpeg" }, { "file": "quantities/quantities-01.jpeg", "size": 81145, "type": "image/jpeg" }, { "file": "quantities/quantities-02.jpeg", "size": 75379, "type": "image/jpeg" }, { "file": "quantities/quantities-03.jpeg", "size": 99567, "type": "image/jpeg" }, { "file": "quantities/quantities-04.jpeg", "size": 81531, "type": "image/jpeg" }, { "file": "quantities/quantities-05.jpeg", "size": 119731, "type": "image/jpeg" }, { "file": "quantities/quantities-06.jpeg", "size": 87200, "type": "image/jpeg" }, { "file": "quantities/quantities-07.jpeg", "size": 68834, "type": "image/jpeg" }, { "file": "quantities/quantities-08.jpeg", "size": 94103, "type": "image/jpeg" }, { "file": "quantities/quantities-09.jpeg", "size": 94089, "type": "image/jpeg" }, { "file": "quantities/quantities-10.jpeg", "size": 68792, "type": "image/jpeg" }, { "file": "quantities/quantities-11.jpeg", "size": 87613, "type": "image/jpeg" }, { "file": "quantities/quantities-12.jpeg", "size": 106707, "type": "image/jpeg" }, { "file": "quantities/quantities-13.jpeg", "size": 81406, "type": "image/jpeg" }, { "file": "quantities/quantities-14.jpeg", "size": 112850, "type": "image/jpeg" }, { "file": "quantities/quantities-15.jpeg", "size": 74424, "type": "image/jpeg" }, { "file": "quantities/quantities-16.jpeg", "size": 101040, "type": "image/jpeg" }, { "file": "quantities/quantities-17.jpeg", "size": 88076, "type": "image/jpeg" }, { "file": "quantities/quantities-18.jpeg", "size": 68903, "type": "image/jpeg" }, { "file": "quantity_comparison/quantitiycomparison-01.jpeg", "size": 83932, "type": "image/jpeg" }, { "file": "quantity_comparison/quantitiycomparison-02.jpeg", "size": 108448, "type": "image/jpeg" }, { "file": "quantity_comparison/quantitiycomparison-03.jpeg", "size": 121295, "type": "image/jpeg" }, { "file": "quantity_comparison/quantitiycomparison-04.jpeg", "size": 104631, "type": "image/jpeg" }, { "file": "quantity_comparison/quantitiycomparison-05.jpeg", "size": 100515, "type": "image/jpeg" }, { "file": "quantity_comparison/quantitiycomparison-06.jpeg", "size": 93909, "type": "image/jpeg" }],
@@ -53767,6 +56312,43 @@ var manifest = {
       params: empty,
       a: ["src/routes/__layout.svelte", "src/routes/index.svelte"],
       b: [".svelte-kit/build/components/error.svelte"]
+    },
+    {
+      type: "page",
+      pattern: /^\/profile\/?$/,
+      params: empty,
+      a: ["src/routes/__layout.svelte", "src/routes/profile/index.svelte"],
+      b: [".svelte-kit/build/components/error.svelte"]
+    },
+    {
+      type: "page",
+      pattern: /^\/profile\/([^/]+?)\/?$/,
+      params: (m) => ({ username: d(m[1]) }),
+      a: ["src/routes/__layout.svelte", "src/routes/profile/[username].svelte"],
+      b: [".svelte-kit/build/components/error.svelte"]
+    },
+    {
+      type: "page",
+      pattern: /^\/login\/?$/,
+      params: empty,
+      a: ["src/routes/login/__layout.reset.svelte", "src/routes/login/index.svelte"],
+      b: []
+    },
+    {
+      type: "endpoint",
+      pattern: /^\/api\/auth\/logout\/?$/,
+      params: empty,
+      load: () => Promise.resolve().then(function() {
+        return index$4;
+      })
+    },
+    {
+      type: "endpoint",
+      pattern: /^\/api\/auth\/login\/?$/,
+      params: empty,
+      load: () => Promise.resolve().then(function() {
+        return index$3;
+      })
     },
     {
       type: "endpoint",
@@ -53789,13 +56371,25 @@ var module_lookup = {
     return __layout;
   }),
   ".svelte-kit/build/components/error.svelte": () => Promise.resolve().then(function() {
-    return error;
+    return error$1;
   }),
   "src/routes/index.svelte": () => Promise.resolve().then(function() {
+    return index$2;
+  }),
+  "src/routes/profile/index.svelte": () => Promise.resolve().then(function() {
+    return index$1;
+  }),
+  "src/routes/profile/[username].svelte": () => Promise.resolve().then(function() {
+    return _username_;
+  }),
+  "src/routes/login/__layout.reset.svelte": () => Promise.resolve().then(function() {
+    return __layout_reset;
+  }),
+  "src/routes/login/index.svelte": () => Promise.resolve().then(function() {
     return index;
   })
 };
-var metadata_lookup = { "src/routes/__layout.svelte": { "entry": "pages/__layout.svelte-725712af.js", "css": ["assets/pages/__layout.svelte-c1b38ec2.css"], "js": ["pages/__layout.svelte-725712af.js", "chunks/vendor-99560833.js"], "styles": [] }, ".svelte-kit/build/components/error.svelte": { "entry": "error.svelte-f7db2429.js", "css": [], "js": ["error.svelte-f7db2429.js", "chunks/vendor-99560833.js"], "styles": [] }, "src/routes/index.svelte": { "entry": "pages/index.svelte-32cbac6b.js", "css": [], "js": ["pages/index.svelte-32cbac6b.js", "chunks/vendor-99560833.js"], "styles": [] } };
+var metadata_lookup = { "src/routes/__layout.svelte": { "entry": "pages/__layout.svelte-567fba40.js", "css": ["assets/pages/__layout.svelte-a936fe29.css"], "js": ["pages/__layout.svelte-567fba40.js", "chunks/vendor-19443505.js"], "styles": [] }, ".svelte-kit/build/components/error.svelte": { "entry": "error.svelte-54b90ea4.js", "css": [], "js": ["error.svelte-54b90ea4.js", "chunks/vendor-19443505.js"], "styles": [] }, "src/routes/index.svelte": { "entry": "pages/index.svelte-8fe0b604.js", "css": [], "js": ["pages/index.svelte-8fe0b604.js", "chunks/vendor-19443505.js"], "styles": [] }, "src/routes/profile/index.svelte": { "entry": "pages/profile/index.svelte-26d7334e.js", "css": [], "js": ["pages/profile/index.svelte-26d7334e.js", "chunks/vendor-19443505.js"], "styles": [] }, "src/routes/profile/[username].svelte": { "entry": "pages/profile/[username].svelte-49062b0b.js", "css": [], "js": ["pages/profile/[username].svelte-49062b0b.js", "chunks/vendor-19443505.js"], "styles": [] }, "src/routes/login/__layout.reset.svelte": { "entry": "pages/login/__layout.reset.svelte-ff07241f.js", "css": [], "js": ["pages/login/__layout.reset.svelte-ff07241f.js", "chunks/vendor-19443505.js"], "styles": [] }, "src/routes/login/index.svelte": { "entry": "pages/login/index.svelte-b84c7790.js", "css": ["assets/pages/login/index.svelte-cc2d31fa.css"], "js": ["pages/login/index.svelte-b84c7790.js", "chunks/vendor-19443505.js"], "styles": [] } };
 async function load_component(file) {
   const { entry, css: css2, js, styles } = metadata_lookup[file];
   return {
@@ -53812,50 +56406,90 @@ function render(request, {
   const host = request.headers["host"];
   return respond({ ...request, host }, options, { prerender });
 }
-var variables = {
-  mongoDbURI: "mongodb+srv://admin:39SZHROKV2TwZbng@didunas.epyi2.mongodb.net/didunas?retryWrites=true&w=majority"
-};
-var database;
-var connect2 = async () => {
-  const uri = variables.mongoDbURI;
-  if (database) {
-    return;
+var post$2 = async (request) => {
+  console.log(request);
+  const cookies = cookie.parse(request.headers.cookie || "");
+  if (cookies.session_id && request.locals.user) {
+    const deadCookie = await Cookie.findOneAndDelete({ cookie_id: cookies.session_id });
+    console.log(deadCookie);
   }
-  mongoose.connect(uri);
-  database = mongoose.connection;
-  database.once("open", async () => {
-    console.log("Connected to db:", database.db.databaseName);
-  });
-  database.on("error", () => {
-    console.log("Error connecting to database");
-  });
+  const headers = {
+    "Set-Cookie": cookie.serialize("session_id", cookies.session_id, {
+      httpOnly: true,
+      expires: new Date(0),
+      sameSite: "lax",
+      path: "/"
+    })
+  };
+  return {
+    status: 200,
+    headers,
+    body: {
+      message: "Logout successful"
+    }
+  };
 };
-var { model } = import_mongoose.default;
-var UserSchema = new import_mongoose.default.Schema({
-  username: {
-    type: String
-  },
-  password: {
-    type: String
-  },
-  type: {
-    type: String
-  },
-  completedRuns: {
-    type: [String]
-  }
+var index$4 = /* @__PURE__ */ Object.freeze({
+  __proto__: null,
+  [Symbol.toStringTag]: "Module",
+  post: post$2
 });
-var User = import_mongoose.default.models.User || model("User", UserSchema);
+var post$1 = async (request) => {
+  await connect();
+  const { username, password } = request.body.valueOf();
+  const user = await User.findOne({ username });
+  console.log(user);
+  if (!user) {
+    return {
+      status: 401,
+      body: {
+        message: "Incorrect username or password"
+      }
+    };
+  }
+  if (!import_bcryptjs.default.compareSync(password, user.password)) {
+    return {
+      status: 401,
+      body: {
+        message: "Incorrect username or password"
+      }
+    };
+  }
+  const cookieId = v4();
+  const newCookie = new Cookie({ cookie_id: cookieId, user_id: user._id });
+  await newCookie.save();
+  console.log(newCookie);
+  const headers = {
+    "Set-Cookie": cookie.serialize("session_id", cookieId, {
+      httpOnly: true,
+      maxAge: 60 * 60 * 24 * 7,
+      sameSite: "lax",
+      path: "/"
+    })
+  };
+  return {
+    status: 200,
+    headers,
+    body: {
+      message: "Success"
+    }
+  };
+};
+var index$3 = /* @__PURE__ */ Object.freeze({
+  __proto__: null,
+  [Symbol.toStringTag]: "Module",
+  post: post$1
+});
 var post = async ({ body }) => {
-  await connect2();
+  await connect();
   const req = JSON.parse(body);
-  const user = new User({ username: req.message, password: "janne123456789", type: "researcher" });
-  const saved = await user.save();
-  console.log(saved);
+  const cryptPassword = import_bcryptjs.default.hashSync(req.password);
+  const user = new User({ username: req.username, password: cryptPassword, type: "researcher" });
+  await user.save();
   return {
     status: 200,
     body: {
-      saved
+      message: "User created"
     }
   };
 };
@@ -53864,17 +56498,91 @@ var test = /* @__PURE__ */ Object.freeze({
   [Symbol.toStringTag]: "Module",
   post
 });
+var __awaiter$3 = function(thisArg, _arguments, P, generator) {
+  function adopt(value) {
+    return value instanceof P ? value : new P(function(resolve2) {
+      resolve2(value);
+    });
+  }
+  return new (P || (P = Promise))(function(resolve2, reject) {
+    function fulfilled(value) {
+      try {
+        step(generator.next(value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+    function rejected(value) {
+      try {
+        step(generator["throw"](value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+    function step(result) {
+      result.done ? resolve2(result.value) : adopt(result.value).then(fulfilled, rejected);
+    }
+    step((generator = generator.apply(thisArg, _arguments || [])).next());
+  });
+};
+var load$4 = ({ session: session2 }) => __awaiter$3(void 0, void 0, void 0, function* () {
+  console.log("load session", session2);
+  if (session2.user) {
+    delete session2.user.password;
+    return { props: { user: session2.user } };
+  }
+  return {};
+});
 var _layout = create_ssr_component(($$result, $$props, $$bindings, slots) => {
-  return `${slots.default ? slots.default({}) : ``}
+  let nav;
+  (function(thisArg, _arguments, P, generator) {
+    function adopt(value) {
+      return value instanceof P ? value : new P(function(resolve2) {
+        resolve2(value);
+      });
+    }
+    return new (P || (P = Promise))(function(resolve2, reject) {
+      function fulfilled(value) {
+        try {
+          step(generator.next(value));
+        } catch (e) {
+          reject(e);
+        }
+      }
+      function rejected(value) {
+        try {
+          step(generator["throw"](value));
+        } catch (e) {
+          reject(e);
+        }
+      }
+      function step(result) {
+        result.done ? resolve2(result.value) : adopt(result.value).then(fulfilled, rejected);
+      }
+      step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+  });
+  let { user } = $$props;
+  let navOpen = false;
+  if ($$props.user === void 0 && $$bindings.user && user !== void 0)
+    $$bindings.user(user);
+  nav = navOpen;
+  return `<header class="${"flex flex-wrap flex-row justify-between lg:items-center lg:space-x-4 p-6 relative"}"><a href="${"/"}"><h1 class="${"text-xl"}">DIDUNAS</h1></a>
+	<button class="${"inline-block lg:hidden w-8 h-8 bg-gray-200 text-gray-600 p-1 rounded"}"><svg fill="${"currentColor"}" viewBox="${"0 0 20 20"}" xmlns="${"http://www.w3.org/2000/svg"}"><path fill-rule="${"evenodd"}" d="${"M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"}" clip-rule="${"evenodd"}"></path></svg></button>
+	<nav${add_attribute("class", `${nav ? `flex` : `hidden`} absolute lg:relative lg:block top-16 lg:top-0 left-0 z-20 flex flex-col lg:flex-row lg:space-x-6 font-semibold w-full lg:w-auto bg-white shadow-md rounded-lg lg:shadow-none lg:rounded-none lg:bg-transparent p-6 pt-0 lg:p-0`, 0)}>${user ? `<a href="${"/profile"}" class="${"nav-item"}">Profile</a>
+			${user.type === "teacher" || user.type === "researcher" ? `<a href="${"/profile"}" class="${"nav-item"}">Statistics</a>
+				<a href="${"/new-user"}" class="${"nav-item"}">New user</a>` : ``}
+			${user.type === "researcher" ? `<a href="${"/tasks"}" class="${"nav-item"}">Tasks</a>` : ``}` : `<a href="${"/login"}" class="${"nav-item"}">Login</a>`}</nav></header>
 
-`;
+<div class="${"mx-6 lg:max-w-screen-xl lg:mx-auto"}">${slots.default ? slots.default({}) : ``}</div>`;
 });
 var __layout = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
-  "default": _layout
+  "default": _layout,
+  load: load$4
 });
-function load({ error: error2, status }) {
+function load$3({ error: error2, status }) {
   return { props: { error: error2, status } };
 }
 var Error$1 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
@@ -53893,11 +56601,11 @@ var Error$1 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
 ${error2.frame ? `<pre>${escape(error2.frame)}</pre>` : ``}
 ${error2.stack ? `<pre>${escape(error2.stack)}</pre>` : ``}`;
 });
-var error = /* @__PURE__ */ Object.freeze({
+var error$1 = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
   "default": Error$1,
-  load
+  load: load$3
 });
 var Routes = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   (function(thisArg, _arguments, P, generator) {
@@ -53927,17 +56635,294 @@ var Routes = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
   });
-  let input = "";
   return `<h1>Welcome to SvelteKit</h1>
 <p>Visit <a href="${"https://kit.svelte.dev"}">kit.svelte.dev</a> to read the documentation</p>
-<input type="${"text"}" placeholder="${"Test"}"${add_attribute("value", input, 0)}>
-<button>Testa</button>
 <img src="${"/color_pattern/colorpatterns-12.jpeg"}" alt="${"Janne"}">`;
+});
+var index$2 = /* @__PURE__ */ Object.freeze({
+  __proto__: null,
+  [Symbol.toStringTag]: "Module",
+  "default": Routes
+});
+var __awaiter$2 = function(thisArg, _arguments, P, generator) {
+  function adopt(value) {
+    return value instanceof P ? value : new P(function(resolve2) {
+      resolve2(value);
+    });
+  }
+  return new (P || (P = Promise))(function(resolve2, reject) {
+    function fulfilled(value) {
+      try {
+        step(generator.next(value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+    function rejected(value) {
+      try {
+        step(generator["throw"](value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+    function step(result) {
+      result.done ? resolve2(result.value) : adopt(result.value).then(fulfilled, rejected);
+    }
+    step((generator = generator.apply(thisArg, _arguments || [])).next());
+  });
+};
+var load$2 = ({ session: session2 }) => __awaiter$2(void 0, void 0, void 0, function* () {
+  return {
+    status: 302,
+    redirect: session2.authenticated ? `/profile/${session2.user.username}` : "/login"
+  };
+});
+var Profile = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+  return ``;
+});
+var index$1 = /* @__PURE__ */ Object.freeze({
+  __proto__: null,
+  [Symbol.toStringTag]: "Module",
+  "default": Profile,
+  load: load$2
+});
+var getStores = () => {
+  const stores = getContext("__svelte__");
+  return {
+    page: {
+      subscribe: stores.page.subscribe
+    },
+    navigating: {
+      subscribe: stores.navigating.subscribe
+    },
+    get preloading() {
+      console.error("stores.preloading is deprecated; use stores.navigating instead");
+      return {
+        subscribe: stores.navigating.subscribe
+      };
+    },
+    session: stores.session
+  };
+};
+var error = (verb) => {
+  throw new Error(`Can only ${verb} session store in browser`);
+};
+var session = {
+  subscribe(fn) {
+    const store = getStores().session;
+    return store.subscribe(fn);
+  },
+  set: () => error("set"),
+  update: () => error("update")
+};
+var __awaiter$1 = function(thisArg, _arguments, P, generator) {
+  function adopt(value) {
+    return value instanceof P ? value : new P(function(resolve2) {
+      resolve2(value);
+    });
+  }
+  return new (P || (P = Promise))(function(resolve2, reject) {
+    function fulfilled(value) {
+      try {
+        step(generator.next(value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+    function rejected(value) {
+      try {
+        step(generator["throw"](value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+    function step(result) {
+      result.done ? resolve2(result.value) : adopt(result.value).then(fulfilled, rejected);
+    }
+    step((generator = generator.apply(thisArg, _arguments || [])).next());
+  });
+};
+var load$1 = ({ session: session2 }) => __awaiter$1(void 0, void 0, void 0, function* () {
+  if (!session2.authenticated) {
+    return { status: 302, redirect: "/login" };
+  }
+  return {};
+});
+var U5Busernameu5D = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+  let $$unsubscribe_session;
+  $$unsubscribe_session = subscribe(session, (value) => value);
+  (function(thisArg, _arguments, P, generator) {
+    function adopt(value) {
+      return value instanceof P ? value : new P(function(resolve2) {
+        resolve2(value);
+      });
+    }
+    return new (P || (P = Promise))(function(resolve2, reject) {
+      function fulfilled(value) {
+        try {
+          step(generator.next(value));
+        } catch (e) {
+          reject(e);
+        }
+      }
+      function rejected(value) {
+        try {
+          step(generator["throw"](value));
+        } catch (e) {
+          reject(e);
+        }
+      }
+      function step(result) {
+        result.done ? resolve2(result.value) : adopt(result.value).then(fulfilled, rejected);
+      }
+      step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+  });
+  let user;
+  $$unsubscribe_session();
+  return `<h1>Hej, ${escape(user == null ? void 0 : user.username)}</h1>
+<button class="${"bg-red-300 p-4 rounded"}">Logout</button>`;
+});
+var _username_ = /* @__PURE__ */ Object.freeze({
+  __proto__: null,
+  [Symbol.toStringTag]: "Module",
+  "default": U5Busernameu5D,
+  load: load$1
+});
+var _layout_reset = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+  return `${slots.default ? slots.default({}) : ``}`;
+});
+var __layout_reset = /* @__PURE__ */ Object.freeze({
+  __proto__: null,
+  [Symbol.toStringTag]: "Module",
+  "default": _layout_reset
+});
+var css = {
+  code: ".lds-ring.svelte-1xkie6p.svelte-1xkie6p{display:inline-block;height:20px;position:relative;width:20px}.lds-ring.svelte-1xkie6p div.svelte-1xkie6p{-webkit-animation:svelte-1xkie6p-lds-ring 1.2s cubic-bezier(.5,0,.5,1) infinite;animation:svelte-1xkie6p-lds-ring 1.2s cubic-bezier(.5,0,.5,1) infinite;border:3px solid transparent;border-radius:50%;border-top-color:#fff;box-sizing:border-box;display:block;height:20px;margin:3px;position:absolute;width:20px}.lds-ring.svelte-1xkie6p div.svelte-1xkie6p:first-child{-webkit-animation-delay:-.45s;animation-delay:-.45s}.lds-ring.svelte-1xkie6p div.svelte-1xkie6p:nth-child(2){-webkit-animation-delay:-.3s;animation-delay:-.3s}.lds-ring.svelte-1xkie6p div.svelte-1xkie6p:nth-child(3){-webkit-animation-delay:-.15s;animation-delay:-.15s}@-webkit-keyframes svelte-1xkie6p-lds-ring{0%{transform:rotate(0deg)}to{transform:rotate(1turn)}}@keyframes svelte-1xkie6p-lds-ring{0%{transform:rotate(0deg)}to{transform:rotate(1turn)}}",
+  map: '{"version":3,"file":"SubmitButton.svelte","sources":["SubmitButton.svelte"],"sourcesContent":["<script>\\n\\texport let disabled;\\n\\texport let action;\\n\\texport let loading;\\n<\/script>\\n\\n<button\\n\\t{disabled}\\n\\ton:click={action}\\n\\tclass={disabled\\n\\t\\t? `bg-green-600 p-4 w-full md:w-72 rounded-xl`\\n\\t\\t: `bg-green-300 p-4 w-full md:w-72 rounded-xl`}\\n\\ttype=\\"submit\\"\\n>\\n\\t{#if !loading}\\n\\t\\t<p class=\\"text-white\\"><slot /></p>\\n\\t{:else}\\n\\t\\t<div class=\\"lds-ring\\">\\n\\t\\t\\t<div />\\n\\t\\t\\t<div />\\n\\t\\t\\t<div />\\n\\t\\t\\t<div />\\n\\t\\t</div>\\n\\t{/if}\\n</button>\\n\\n<style>.lds-ring{display:inline-block;height:20px;position:relative;width:20px}.lds-ring div{-webkit-animation:lds-ring 1.2s cubic-bezier(.5,0,.5,1) infinite;animation:lds-ring 1.2s cubic-bezier(.5,0,.5,1) infinite;border:3px solid transparent;border-radius:50%;border-top-color:#fff;box-sizing:border-box;display:block;height:20px;margin:3px;position:absolute;width:20px}.lds-ring div:first-child{-webkit-animation-delay:-.45s;animation-delay:-.45s}.lds-ring div:nth-child(2){-webkit-animation-delay:-.3s;animation-delay:-.3s}.lds-ring div:nth-child(3){-webkit-animation-delay:-.15s;animation-delay:-.15s}@-webkit-keyframes lds-ring{0%{transform:rotate(0deg)}to{transform:rotate(1turn)}}@keyframes lds-ring{0%{transform:rotate(0deg)}to{transform:rotate(1turn)}}</style>\\n"],"names":[],"mappings":"AA0BO,uCAAS,CAAC,QAAQ,YAAY,CAAC,OAAO,IAAI,CAAC,SAAS,QAAQ,CAAC,MAAM,IAAI,CAAC,wBAAS,CAAC,kBAAG,CAAC,kBAAkB,uBAAQ,CAAC,IAAI,CAAC,aAAa,EAAE,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,QAAQ,CAAC,UAAU,uBAAQ,CAAC,IAAI,CAAC,aAAa,EAAE,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,QAAQ,CAAC,OAAO,GAAG,CAAC,KAAK,CAAC,WAAW,CAAC,cAAc,GAAG,CAAC,iBAAiB,IAAI,CAAC,WAAW,UAAU,CAAC,QAAQ,KAAK,CAAC,OAAO,IAAI,CAAC,OAAO,GAAG,CAAC,SAAS,QAAQ,CAAC,MAAM,IAAI,CAAC,wBAAS,CAAC,kBAAG,YAAY,CAAC,wBAAwB,KAAK,CAAC,gBAAgB,KAAK,CAAC,wBAAS,CAAC,kBAAG,WAAW,CAAC,CAAC,CAAC,wBAAwB,IAAI,CAAC,gBAAgB,IAAI,CAAC,wBAAS,CAAC,kBAAG,WAAW,CAAC,CAAC,CAAC,wBAAwB,KAAK,CAAC,gBAAgB,KAAK,CAAC,mBAAmB,uBAAQ,CAAC,EAAE,CAAC,UAAU,OAAO,IAAI,CAAC,CAAC,EAAE,CAAC,UAAU,OAAO,KAAK,CAAC,CAAC,CAAC,WAAW,uBAAQ,CAAC,EAAE,CAAC,UAAU,OAAO,IAAI,CAAC,CAAC,EAAE,CAAC,UAAU,OAAO,KAAK,CAAC,CAAC,CAAC"}'
+};
+var SubmitButton = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+  let { disabled } = $$props;
+  let { action } = $$props;
+  let { loading } = $$props;
+  if ($$props.disabled === void 0 && $$bindings.disabled && disabled !== void 0)
+    $$bindings.disabled(disabled);
+  if ($$props.action === void 0 && $$bindings.action && action !== void 0)
+    $$bindings.action(action);
+  if ($$props.loading === void 0 && $$bindings.loading && loading !== void 0)
+    $$bindings.loading(loading);
+  $$result.css.add(css);
+  return `<button ${disabled ? "disabled" : ""} class="${escape(null_to_empty(disabled ? `bg-green-600 p-4 w-full md:w-72 rounded-xl` : `bg-green-300 p-4 w-full md:w-72 rounded-xl`)) + " svelte-1xkie6p"}" type="${"submit"}">${!loading ? `<p class="${"text-white"}">${slots.default ? slots.default({}) : ``}</p>` : `<div class="${"lds-ring svelte-1xkie6p"}"><div class="${"svelte-1xkie6p"}"></div>
+			<div class="${"svelte-1xkie6p"}"></div>
+			<div class="${"svelte-1xkie6p"}"></div>
+			<div class="${"svelte-1xkie6p"}"></div></div>`}
+</button>`;
+});
+var __awaiter = function(thisArg, _arguments, P, generator) {
+  function adopt(value) {
+    return value instanceof P ? value : new P(function(resolve2) {
+      resolve2(value);
+    });
+  }
+  return new (P || (P = Promise))(function(resolve2, reject) {
+    function fulfilled(value) {
+      try {
+        step(generator.next(value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+    function rejected(value) {
+      try {
+        step(generator["throw"](value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+    function step(result) {
+      result.done ? resolve2(result.value) : adopt(result.value).then(fulfilled, rejected);
+    }
+    step((generator = generator.apply(thisArg, _arguments || [])).next());
+  });
+};
+var load = ({ session: session2 }) => __awaiter(void 0, void 0, void 0, function* () {
+  if (session2.authenticated) {
+    return { status: 302, redirect: "/" };
+  }
+  return {};
+});
+var Login = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+  var __awaiter2 = function(thisArg, _arguments, P, generator) {
+    function adopt(value) {
+      return value instanceof P ? value : new P(function(resolve2) {
+        resolve2(value);
+      });
+    }
+    return new (P || (P = Promise))(function(resolve2, reject) {
+      function fulfilled(value) {
+        try {
+          step(generator.next(value));
+        } catch (e) {
+          reject(e);
+        }
+      }
+      function rejected(value) {
+        try {
+          step(generator["throw"](value));
+        } catch (e) {
+          reject(e);
+        }
+      }
+      function step(result) {
+        result.done ? resolve2(result.value) : adopt(result.value).then(fulfilled, rejected);
+      }
+      step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+  };
+  let fields = { username: "", password: "" };
+  let submitted = false;
+  let error2;
+  let loading = false;
+  function login() {
+    return __awaiter2(this, void 0, void 0, function* () {
+      error2 = void 0;
+      loading = true;
+      submitted = true;
+      try {
+        const res = yield fetch("/api/auth/login", {
+          method: "POST",
+          body: JSON.stringify(Object.assign({}, fields)),
+          headers: { "Content-Type": "application/json" }
+        });
+        if (res.ok) {
+          location.reload();
+        } else {
+          const data = yield res.json();
+          error2 = data.message;
+          loading = false;
+          throw error2;
+        }
+      } catch (err) {
+        submitted = false;
+      }
+    });
+  }
+  return `<div class="${"flex flex-col items-center justify-center h-screen min-w-full "}"><h1 class="${"text-4xl font-semibold"}">DIDUNAS</h1>
+	<div class="${"form flex flex-col items-center space-y-5 my-6"}"><input type="${"text"}" name="${"username"}" placeholder="${"Username"}"${add_attribute("value", fields.username, 0)}>
+		<input type="${"password"}" name="${"password"}" placeholder="${"Password"}"${add_attribute("value", fields.password, 0)}>
+
+		${error2 ? `<p class="${"text-red-400"}">${escape(error2)}</p>` : ``}
+		${validate_component(SubmitButton, "SubmitButton").$$render($$result, {
+    action: login,
+    disabled: submitted,
+    loading
+  }, {}, { default: () => `Login` })}</div></div>`;
 });
 var index = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
-  "default": Routes
+  "default": Login,
+  load
 });
 
 // .svelte-kit/vercel/entry.js
@@ -55041,6 +58026,12 @@ var entry_default = async (req, res) => {
  * @api private
  */
 /*!
+ * cookie
+ * Copyright(c) 2012-2014 Roman Shtylman
+ * Copyright(c) 2015 Douglas Christopher Wilson
+ * MIT Licensed
+ */
+/*!
  * define methods
  */
 /*!
@@ -55131,3 +58122,8 @@ var entry_default = async (req, res) => {
     OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
     PERFORMANCE OF THIS SOFTWARE.
     ***************************************************************************** */
+/**
+ * @license bcrypt.js (c) 2013 Daniel Wirtz <dcode@dcode.io>
+ * Released under the Apache License, Version 2.0
+ * see: https://github.com/dcodeIO/bcrypt.js for details
+ */

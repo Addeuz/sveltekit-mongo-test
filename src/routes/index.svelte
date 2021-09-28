@@ -20,12 +20,12 @@
 
 <script lang="ts">
 	const testMongo = async () => {
-		console.log('janne', input);
 		try {
 			const res = await fetch('/api/test', {
 				method: 'POST',
 				body: JSON.stringify({
-					message: input
+					username,
+					password
 				})
 			});
 
@@ -37,11 +37,10 @@
 		}
 	};
 
-	let input = '';
+	let username = '';
+	let password = '';
 </script>
 
 <h1>Welcome to SvelteKit</h1>
 <p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
-<input type="text" bind:value={input} placeholder="Test" />
-<button on:click={testMongo}>Testa</button>
 <img src="/color_pattern/colorpatterns-12.jpeg" alt="Janne" />
