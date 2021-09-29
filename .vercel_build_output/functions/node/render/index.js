@@ -11201,27 +11201,27 @@ var require_memory_pager = __commonJS({
       this.deduplicate = opts ? opts.deduplicate : null;
       this.zeros = this.deduplicate ? alloc(this.deduplicate.length) : null;
     }
-    Pager.prototype.updated = function(page) {
-      while (this.deduplicate && page.buffer[page.deduplicate] === this.deduplicate[page.deduplicate]) {
-        page.deduplicate++;
-        if (page.deduplicate === this.deduplicate.length) {
-          page.deduplicate = 0;
-          if (page.buffer.equals && page.buffer.equals(this.deduplicate))
-            page.buffer = this.deduplicate;
+    Pager.prototype.updated = function(page2) {
+      while (this.deduplicate && page2.buffer[page2.deduplicate] === this.deduplicate[page2.deduplicate]) {
+        page2.deduplicate++;
+        if (page2.deduplicate === this.deduplicate.length) {
+          page2.deduplicate = 0;
+          if (page2.buffer.equals && page2.buffer.equals(this.deduplicate))
+            page2.buffer = this.deduplicate;
           break;
         }
       }
-      if (page.updated || !this.updates)
+      if (page2.updated || !this.updates)
         return;
-      page.updated = true;
-      this.updates.push(page);
+      page2.updated = true;
+      this.updates.push(page2);
     };
     Pager.prototype.lastUpdate = function() {
       if (!this.updates || !this.updates.length)
         return null;
-      var page = this.updates.pop();
-      page.updated = false;
-      return page;
+      var page2 = this.updates.pop();
+      page2.updated = false;
+      return page2;
     };
     Pager.prototype._array = function(i, noAllocate) {
       if (i >= this.maxPages) {
@@ -11246,17 +11246,17 @@ var require_memory_pager = __commonJS({
     Pager.prototype.get = function(i, noAllocate) {
       var arr = this._array(i, noAllocate);
       var first = this.path[0];
-      var page = arr && arr[first];
-      if (!page && !noAllocate) {
-        page = arr[first] = new Page(i, alloc(this.pageSize));
+      var page2 = arr && arr[first];
+      if (!page2 && !noAllocate) {
+        page2 = arr[first] = new Page(i, alloc(this.pageSize));
         if (i >= this.length)
           this.length = i + 1;
       }
-      if (page && page.buffer === this.deduplicate && this.deduplicate && !noAllocate) {
-        page.buffer = copy(page.buffer);
-        page.deduplicate = 0;
+      if (page2 && page2.buffer === this.deduplicate && this.deduplicate && !noAllocate) {
+        page2.buffer = copy(page2.buffer);
+        page2.deduplicate = 0;
       }
-      return page;
+      return page2;
     };
     Pager.prototype.set = function(i, buf) {
       var arr = this._array(i, false);
@@ -11270,10 +11270,10 @@ var require_memory_pager = __commonJS({
       if (this.deduplicate && buf.equals && buf.equals(this.deduplicate)) {
         buf = this.deduplicate;
       }
-      var page = arr[first];
+      var page2 = arr[first];
       var b = truncate(buf, this.pageSize);
-      if (page)
-        page.buffer = b;
+      if (page2)
+        page2.buffer = b;
       else
         arr[first] = new Page(i, b);
     };
@@ -11371,8 +11371,8 @@ var require_sparse_bitfield = __commonJS({
     Bitfield.prototype.getByte = function(i) {
       var o = i & this._pageMask;
       var j = (i - o) / this.pageSize;
-      var page = this.pages.get(j, true);
-      return page ? page.buffer[o + this.pageOffset] : 0;
+      var page2 = this.pages.get(j, true);
+      return page2 ? page2.buffer[o + this.pageOffset] : 0;
     };
     Bitfield.prototype.set = function(i, v) {
       var o = i & 7;
@@ -11393,17 +11393,17 @@ var require_sparse_bitfield = __commonJS({
     Bitfield.prototype.setByte = function(i, b) {
       var o = i & this._pageMask;
       var j = (i - o) / this.pageSize;
-      var page = this.pages.get(j, false);
+      var page2 = this.pages.get(j, false);
       o += this.pageOffset;
-      if (page.buffer[o] === b)
+      if (page2.buffer[o] === b)
         return false;
-      page.buffer[o] = b;
+      page2.buffer[o] = b;
       if (i >= this.byteLength) {
         this.byteLength = i + 1;
         this.length = this.byteLength * 8;
       }
       if (this._trackUpdates)
-        this.pages.updated(page);
+        this.pages.updated(page2);
       return true;
     };
     function alloc(n) {
@@ -16544,7 +16544,7 @@ var require_denque = __commonJS({
       i = this._head + i & this._capacityMask;
       return this._list[i];
     };
-    Denque.prototype.get = function get(i) {
+    Denque.prototype.get = function get2(i) {
       return this.peekAt(i);
     };
     Denque.prototype.peek = function peek() {
@@ -27943,7 +27943,7 @@ var require_get = __commonJS({
   "node_modules/mongoose/lib/helpers/get.js"(exports, module2) {
     init_shims();
     "use strict";
-    module2.exports = function get(obj, path, def) {
+    module2.exports = function get2(obj, path, def) {
       let parts;
       let isPathArray = false;
       if (typeof path === "string") {
@@ -28167,9 +28167,9 @@ var require_isBsonType = __commonJS({
   "node_modules/mongoose/lib/helpers/isBsonType.js"(exports, module2) {
     init_shims();
     "use strict";
-    var get = require_get();
+    var get2 = require_get();
     function isBsonType(obj, typename) {
-      return get(obj, "_bsontype", void 0) === typename;
+      return get2(obj, "_bsontype", void 0) === typename;
     }
     module2.exports = isBsonType;
   }
@@ -31175,7 +31175,7 @@ var require_cast = __commonJS({
     init_shims();
     "use strict";
     var MongooseError = require_mongooseError();
-    var get = require_get();
+    var get2 = require_get();
     var util = require("util");
     var CastError = class extends MongooseError {
       constructor(type, value, path, reason, schemaType) {
@@ -31251,7 +31251,7 @@ var require_cast = __commonJS({
       return value.constructor.name;
     }
     function getMessageFormat(schemaType) {
-      const messageFormat = get(schemaType, "options.cast", null);
+      const messageFormat = get2(schemaType, "options.cast", null);
       if (typeof messageFormat === "string") {
         return messageFormat;
       }
@@ -31698,7 +31698,7 @@ var require_schematype = __commonJS({
     var SchemaTypeOptions = require_SchemaTypeOptions();
     var $exists = require_exists();
     var $type = require_type();
-    var get = require_get();
+    var get2 = require_get();
     var handleImmutable = require_handleImmutable();
     var isAsyncFunction = require_isAsyncFunction();
     var immediate = require_immediate();
@@ -31979,7 +31979,7 @@ var require_schematype = __commonJS({
       const _this = this;
       this.isRequired = true;
       this.requiredValidator = function(v) {
-        const cachedRequired = get(this, "$__.cachedRequired");
+        const cachedRequired = get2(this, "$__.cachedRequired");
         if (cachedRequired != null && !this.$__isSelected(_this.path) && !this[documentIsModified](_this.path)) {
           return true;
         }
@@ -32480,7 +32480,7 @@ var require_kareem = __commonJS({
         callback = args;
         args = [];
       }
-      var pres = get(this._pres, name, []);
+      var pres = get2(this._pres, name, []);
       var numPres = pres.length;
       var numAsyncPres = pres.numAsync || 0;
       var currentPre = 0;
@@ -32566,7 +32566,7 @@ var require_kareem = __commonJS({
       }
     };
     Kareem.prototype.execPreSync = function(name, context, args) {
-      var pres = get(this._pres, name, []);
+      var pres = get2(this._pres, name, []);
       var numPres = pres.length;
       for (var i = 0; i < numPres; ++i) {
         pres[i].fn.apply(context, args || []);
@@ -32577,7 +32577,7 @@ var require_kareem = __commonJS({
         callback = options2;
         options2 = null;
       }
-      var posts = get(this._posts, name, []);
+      var posts = get2(this._posts, name, []);
       var numPosts = posts.length;
       var currentPost = 0;
       var firstError = null;
@@ -32659,7 +32659,7 @@ var require_kareem = __commonJS({
       next();
     };
     Kareem.prototype.execPostSync = function(name, context, args) {
-      const posts = get(this._posts, name, []);
+      const posts = get2(this._posts, name, []);
       const numPosts = posts.length;
       for (let i = 0; i < numPosts; ++i) {
         posts[i].fn.apply(context, args || []);
@@ -32778,7 +32778,7 @@ var require_kareem = __commonJS({
         fn = isAsync;
         isAsync = false;
       }
-      const pres = get(this._pres, name, []);
+      const pres = get2(this._pres, name, []);
       this._pres.set(name, pres);
       if (isAsync) {
         pres.numAsync = pres.numAsync || 0;
@@ -32795,7 +32795,7 @@ var require_kareem = __commonJS({
       return this;
     };
     Kareem.prototype.post = function(name, options2, fn, unshift) {
-      const hooks = get(this._posts, name, []);
+      const hooks = get2(this._posts, name, []);
       if (typeof options2 === "function") {
         unshift = !!fn;
         fn = options2;
@@ -32828,7 +32828,7 @@ var require_kareem = __commonJS({
       clone2 = arguments.length === 1 ? true : clone2;
       var ret = clone2 ? this.clone() : this;
       for (let key of other._pres.keys()) {
-        const sourcePres = get(ret._pres, key, []);
+        const sourcePres = get2(ret._pres, key, []);
         const deduplicated = other._pres.get(key).filter((p) => sourcePres.map((_p) => _p.fn).indexOf(p.fn) === -1);
         const combined = sourcePres.concat(deduplicated);
         combined.numAsync = sourcePres.numAsync || 0;
@@ -32836,13 +32836,13 @@ var require_kareem = __commonJS({
         ret._pres.set(key, combined);
       }
       for (let key of other._posts.keys()) {
-        const sourcePosts = get(ret._posts, key, []);
+        const sourcePosts = get2(ret._posts, key, []);
         const deduplicated = other._posts.get(key).filter((p) => sourcePosts.indexOf(p) === -1);
         ret._posts.set(key, sourcePosts.concat(deduplicated));
       }
       return ret;
     };
-    function get(map, key, def) {
+    function get2(map, key, def) {
       if (map.has(key)) {
         return map.get(key);
       }
@@ -32984,7 +32984,7 @@ var require_getIndexes = __commonJS({
   "node_modules/mongoose/lib/helpers/schema/getIndexes.js"(exports, module2) {
     init_shims();
     "use strict";
-    var get = require_get();
+    var get2 = require_get();
     var helperIsObject = require_isObject();
     module2.exports = function getIndexes(schema) {
       let indexes = [];
@@ -33006,7 +33006,7 @@ var require_getIndexes = __commonJS({
             continue;
           }
           if (path.$isMongooseDocumentArray || path.$isSingleNested) {
-            if (get(path, "options.excludeIndexes") !== true && get(path, "schemaOptions.excludeIndexes") !== true && get(path, "schema.options.excludeIndexes") !== true) {
+            if (get2(path, "options.excludeIndexes") !== true && get2(path, "schemaOptions.excludeIndexes") !== true && get2(path, "schema.options.excludeIndexes") !== true) {
               collectIndexes(path.schema, prefix + key + ".");
             }
             if (path.schema.discriminators != null) {
@@ -33315,13 +33315,13 @@ var require_applyTimestampsToUpdate = __commonJS({
   "node_modules/mongoose/lib/helpers/update/applyTimestampsToUpdate.js"(exports, module2) {
     init_shims();
     "use strict";
-    var get = require_get();
+    var get2 = require_get();
     module2.exports = applyTimestampsToUpdate;
     function applyTimestampsToUpdate(now, createdAt, updatedAt, currentUpdate, options2) {
       const updates = currentUpdate;
       let _updates = updates;
-      const overwrite = get(options2, "overwrite", false);
-      const timestamps = get(options2, "timestamps", true);
+      const overwrite = get2(options2, "overwrite", false);
+      const timestamps = get2(options2, "timestamps", true);
       if (!timestamps || updates == null) {
         return currentUpdate;
       }
@@ -33416,7 +33416,7 @@ var require_setupTimestamps = __commonJS({
     "use strict";
     var applyTimestampsToChildren = require_applyTimestampsToChildren();
     var applyTimestampsToUpdate = require_applyTimestampsToUpdate();
-    var get = require_get();
+    var get2 = require_get();
     var handleTimestampOption = require_handleTimestampOption();
     var symbols = require_symbols2();
     module2.exports = function setupTimestamps(schema, timestamps) {
@@ -33441,7 +33441,7 @@ var require_setupTimestamps = __commonJS({
       }
       schema.add(schemaAdditions);
       schema.pre("save", function(next) {
-        const timestampOption = get(this, "$__.saveOptions.timestamps");
+        const timestampOption = get2(this, "$__.saveOptions.timestamps");
         if (timestampOption === false) {
           return next();
         }
@@ -34503,7 +34503,7 @@ var require_cast2 = __commonJS({
     var StrictModeError = require_strict();
     var Types = require_schema();
     var castTextSearch = require_text();
-    var get = require_get();
+    var get2 = require_get();
     var getConstructorName = require_getConstructorName();
     var getSchemaDiscriminatorByValue = require_getSchemaDiscriminatorByValue();
     var isOperator = require_isOperator();
@@ -34577,9 +34577,9 @@ var require_cast2 = __commonJS({
               const pathFirstHalf = split.slice(0, j).join(".");
               const pathLastHalf = split.slice(j).join(".");
               const _schematype = schema.path(pathFirstHalf);
-              const discriminatorKey = get(_schematype, "schema.options.discriminatorKey");
-              if (_schematype != null && get(_schematype, "schema.discriminators") != null && discriminatorKey != null && pathLastHalf !== discriminatorKey) {
-                const discriminatorVal = get(obj, pathFirstHalf + "." + discriminatorKey);
+              const discriminatorKey = get2(_schematype, "schema.options.discriminatorKey");
+              if (_schematype != null && get2(_schematype, "schema.discriminators") != null && discriminatorKey != null && pathLastHalf !== discriminatorKey) {
+                const discriminatorVal = get2(obj, pathFirstHalf + "." + discriminatorKey);
                 if (discriminatorVal != null) {
                   schematype = _schematype.schema.discriminators[discriminatorVal].path(pathLastHalf);
                 }
@@ -35140,7 +35140,7 @@ var require_ArraySubdocument = __commonJS({
     "use strict";
     var EventEmitter = require("events").EventEmitter;
     var Subdocument = require_subdocument();
-    var get = require_get();
+    var get2 = require_get();
     var documentArrayParent = require_symbols().documentArrayParent;
     function ArraySubdocument(obj, parentArr, skipId, fields, index2) {
       if (parentArr != null && parentArr.isMongooseDocumentArray) {
@@ -35171,7 +35171,7 @@ var require_ArraySubdocument = __commonJS({
     }
     ArraySubdocument.prototype.$setIndex = function(index2) {
       this.__index = index2;
-      if (get(this, "$__.validationError", null) != null) {
+      if (get2(this, "$__.validationError", null) != null) {
         const keys = Object.keys(this.$__.validationError.errors);
         for (const key of keys) {
           this.invalidate(key, this.$__.validationError.errors[key]);
@@ -35261,7 +35261,7 @@ var require_methods = __commonJS({
     var MongooseError = require_mongooseError();
     var ObjectId2 = require_objectid3();
     var cleanModifiedSubpaths = require_cleanModifiedSubpaths();
-    var get = require_get();
+    var get2 = require_get();
     var internalToObjectOptions = require_options().internalToObjectOptions;
     var utils = require_utils5();
     var arrayAtomicsSymbol = require_symbols().arrayAtomicsSymbol;
@@ -35545,7 +35545,7 @@ var require_methods = __commonJS({
         const atomics = this[arrayAtomicsSymbol];
         if (isOverwrite) {
           atomic.$each = values;
-          if (get(atomics, "$push.$each.length", 0) > 0 && atomics.$push.$position != atomic.$position) {
+          if (get2(atomics, "$push.$each.length", 0) > 0 && atomics.$push.$position != atomic.$position) {
             throw new MongooseError("Cannot call `Array#push()` multiple times with different `$position`");
           }
           if (atomic.$position != null) {
@@ -35555,7 +35555,7 @@ var require_methods = __commonJS({
             ret = [].push.apply(arr, values);
           }
         } else {
-          if (get(atomics, "$push.$each.length", 0) > 0 && atomics.$push.$position != null) {
+          if (get2(atomics, "$push.$each.length", 0) > 0 && atomics.$push.$position != null) {
             throw new MongooseError("Cannot call `Array#push()` multiple times with different `$position`");
           }
           atomic = values;
@@ -35660,7 +35660,7 @@ var require_methods = __commonJS({
       return true;
     }
     function _checkManualPopulation(arr, docs) {
-      const ref = arr == null ? null : get(arr[arraySchemaSymbol], "caster.options.ref", null);
+      const ref = arr == null ? null : get2(arr[arraySchemaSymbol], "caster.options.ref", null);
       if (arr.length === 0 && docs.length > 0) {
         if (_isAllSubdocs(docs, ref)) {
           arr[arrayParentSymbol].$populated(arr[arrayPathSymbol], [], {
@@ -36201,7 +36201,7 @@ var require_map2 = __commonJS({
     var ObjectId2 = require_objectid3();
     var clone2 = require_clone();
     var deepEqual = require_utils5().deepEqual;
-    var get = require_get();
+    var get2 = require_get();
     var getConstructorName = require_getConstructorName();
     var handleSpreadDoc = require_handleSpreadDoc();
     var util = require("util");
@@ -36295,7 +36295,7 @@ var require_map2 = __commonJS({
         return new Map(this);
       }
       toObject(options2) {
-        if (get(options2, "flattenMaps")) {
+        if (get2(options2, "flattenMaps")) {
           const ret = {};
           const keys = this.keys();
           for (const key of keys) {
@@ -36418,7 +36418,7 @@ var require_array2 = __commonJS({
     var Mixed = require_mixed();
     var arrayDepth = require_arrayDepth();
     var cast = require_cast2();
-    var get = require_get();
+    var get2 = require_get();
     var isOperator = require_isOperator();
     var util = require("util");
     var utils = require_utils5();
@@ -36512,7 +36512,7 @@ var require_array2 = __commonJS({
     SchemaArray.prototype.enum = function() {
       let arr = this;
       while (true) {
-        const instance = get(arr, "caster.instance");
+        const instance = get2(arr, "caster.instance");
         if (instance === "Array") {
           arr = arr.caster;
           continue;
@@ -36746,8 +36746,8 @@ var require_array2 = __commonJS({
           val[key] = this.castForQuery(key, value);
         }
       }
-      const discriminatorKey = get(this, "casterConstructor.schema.options.discriminatorKey");
-      const discriminators = get(this, "casterConstructor.schema.discriminators", {});
+      const discriminatorKey = get2(this, "casterConstructor.schema.options.discriminatorKey");
+      const discriminators = get2(this, "casterConstructor.schema.discriminators", {});
       if (discriminatorKey != null && val[discriminatorKey] != null && discriminators[val[discriminatorKey]] != null) {
         return cast(discriminators[val[discriminatorKey]], val);
       }
@@ -36806,7 +36806,7 @@ var require_compile = __commonJS({
     init_shims();
     "use strict";
     var documentSchemaSymbol = require_symbols().documentSchemaSymbol;
-    var get = require_get();
+    var get2 = require_get();
     var internalToObjectOptions = require_options().internalToObjectOptions;
     var utils = require_utils5();
     var Document;
@@ -36866,7 +36866,7 @@ var require_compile = __commonJS({
                 writable: false,
                 value: function() {
                   return utils.clone(_this.get(path, null, {
-                    virtuals: get(this, "schema.options.toObject.virtuals", null)
+                    virtuals: get2(this, "schema.options.toObject.virtuals", null)
                   }));
                 }
               });
@@ -36876,7 +36876,7 @@ var require_compile = __commonJS({
                 writable: false,
                 value: function() {
                   return _this.get(path, null, {
-                    virtuals: get(this, "schema.options.toObject.virtuals", null)
+                    virtuals: get2(this, "schema.options.toObject.virtuals", null)
                   });
                 }
               });
@@ -36886,7 +36886,7 @@ var require_compile = __commonJS({
                 writable: false,
                 value: function() {
                   return _this.get(path, null, {
-                    virtuals: get(_this, "schema.options.toJSON.virtuals", null)
+                    virtuals: get2(_this, "schema.options.toJSON.virtuals", null)
                   });
                 }
               });
@@ -36977,7 +36977,7 @@ var require_discriminator = __commonJS({
     "use strict";
     var Mixed = require_mixed();
     var defineKey = require_compile().defineKey;
-    var get = require_get();
+    var get2 = require_get();
     var utils = require_utils5();
     var CUSTOMIZABLE_DISCRIMINATOR_OPTIONS = {
       toJSON: true,
@@ -36993,7 +36993,7 @@ var require_discriminator = __commonJS({
         throw new Error('Discriminator "' + name + '" can only be a discriminator of the root model');
       }
       if (applyPlugins) {
-        const applyPluginsToDiscriminators = get(model2.base, "options.applyPluginsToDiscriminators", false);
+        const applyPluginsToDiscriminators = get2(model2.base, "options.applyPluginsToDiscriminators", false);
         model2.base._applyPlugins(schema, {
           skipTopLevel: !applyPluginsToDiscriminators
         });
@@ -37189,7 +37189,7 @@ var require_documentarray = __commonJS({
     var SchemaDocumentArrayOptions = require_SchemaDocumentArrayOptions();
     var SchemaType = require_schematype();
     var discriminator = require_discriminator();
-    var get = require_get();
+    var get2 = require_get();
     var handleIdOption = require_handleIdOption();
     var util = require("util");
     var utils = require_utils5();
@@ -37225,7 +37225,7 @@ var require_documentarray = __commonJS({
       }
       const parentSchemaType = this;
       this.$embeddedSchemaType = new SchemaType(key + ".$", {
-        required: get(this, "schemaOptions.required", false)
+        required: get2(this, "schemaOptions.required", false)
       });
       this.$embeddedSchemaType.cast = function(value, doc, init2) {
         return parentSchemaType.cast(value, doc, init2)[0];
@@ -37271,7 +37271,7 @@ var require_documentarray = __commonJS({
       }
       options2 = options2 || {};
       const tiedValue = utils.isPOJO(options2) ? options2.value : options2;
-      const clone2 = get(options2, "clone", true);
+      const clone2 = get2(options2, "clone", true);
       if (schema.instanceOfSchema && clone2) {
         schema = schema.clone();
       }
@@ -37535,7 +37535,7 @@ var require_SubdocumentPath = __commonJS({
     var castToNumber = require_helpers().castToNumber;
     var discriminator = require_discriminator();
     var geospatial = require_geospatial();
-    var get = require_get();
+    var get2 = require_get();
     var getConstructor = require_getConstructor();
     var handleIdOption = require_handleIdOption();
     var internalToObjectOptions = require_options().internalToObjectOptions;
@@ -37613,7 +37613,7 @@ var require_SubdocumentPath = __commonJS({
       }
       const Constructor = getConstructor(this.caster, val);
       let subdoc;
-      const parentSelected = get(doc, "$__.selected", {});
+      const parentSelected = get2(doc, "$__.selected", {});
       const path = this.path;
       const selected = Object.keys(parentSelected).reduce((obj, key) => {
         if (key.startsWith(path + ".")) {
@@ -37694,7 +37694,7 @@ var require_SubdocumentPath = __commonJS({
     SubdocumentPath.prototype.discriminator = function(name, schema, options2) {
       options2 = options2 || {};
       const value = utils.isPOJO(options2) ? options2.value : options2;
-      const clone2 = get(options2, "clone", true);
+      const clone2 = get2(options2, "clone", true);
       if (schema.instanceOfSchema && clone2) {
         schema = schema.clone();
       }
@@ -38409,7 +38409,7 @@ var require_schema2 = __commonJS({
     var VirtualOptions = require_VirtualOptions();
     var VirtualType = require_virtualtype();
     var addAutoId = require_addAutoId();
-    var get = require_get();
+    var get2 = require_get();
     var getConstructorName = require_getConstructorName();
     var getIndexes = require_getIndexes();
     var idGetter = require_idGetter();
@@ -38468,7 +38468,7 @@ var require_schema2 = __commonJS({
     function aliasFields(schema, paths) {
       paths = paths || Object.keys(schema.paths);
       for (const path of paths) {
-        const options2 = get(schema.paths[path], "options");
+        const options2 = get2(schema.paths[path], "options");
         if (options2 == null) {
           continue;
         }
@@ -38557,7 +38557,7 @@ var require_schema2 = __commonJS({
       }
       for (const path of paths) {
         if (this.nested[path]) {
-          newSchema.add({ [path]: get(this.tree, path) });
+          newSchema.add({ [path]: get2(this.tree, path) });
         } else {
           const schematype = this.path(path);
           if (schematype == null) {
@@ -38570,7 +38570,7 @@ var require_schema2 = __commonJS({
     };
     Schema.prototype.defaultOptions = function(options2) {
       this._userProvidedOptions = options2 == null ? {} : utils.clone(options2);
-      const baseOptions = get(this, "base.options", {});
+      const baseOptions = get2(this, "base.options", {});
       options2 = utils.options({
         strict: "strict" in baseOptions ? baseOptions.strict : true,
         bufferCommands: true,
@@ -38619,7 +38619,7 @@ var require_schema2 = __commonJS({
         if (key === "_id" && obj[key] === false) {
           continue;
         }
-        if (obj[key] instanceof VirtualType || get(obj[key], "constructor.name", null) === "VirtualType") {
+        if (obj[key] instanceof VirtualType || get2(obj[key], "constructor.name", null) === "VirtualType") {
           this.virtual(obj[key]);
           continue;
         }
@@ -39625,7 +39625,7 @@ var require_getEmbeddedDiscriminatorPath = __commonJS({
   "node_modules/mongoose/lib/helpers/document/getEmbeddedDiscriminatorPath.js"(exports, module2) {
     init_shims();
     "use strict";
-    var get = require_get();
+    var get2 = require_get();
     var getSchemaDiscriminatorByValue = require_getSchemaDiscriminatorByValue();
     module2.exports = function getEmbeddedDiscriminatorPath(doc, path, options2) {
       options2 = options2 || {};
@@ -39647,7 +39647,7 @@ var require_getEmbeddedDiscriminatorPath = __commonJS({
         type = schema.pathType(subpath);
         if ((schemaType.$isSingleNested || schemaType.$isMongooseDocumentArrayElement) && schemaType.schema.discriminators != null) {
           const discriminators = schemaType.schema.discriminators;
-          const discriminatorKey = doc.get(subpath + "." + get(schemaType, "schema.options.discriminatorKey"));
+          const discriminatorKey = doc.get(subpath + "." + get2(schemaType, "schema.options.discriminatorKey"));
           if (discriminatorKey == null || discriminators[discriminatorKey] == null) {
             continue;
           }
@@ -39665,9 +39665,9 @@ var require_getKeysInSchemaOrder = __commonJS({
   "node_modules/mongoose/lib/helpers/schema/getKeysInSchemaOrder.js"(exports, module2) {
     init_shims();
     "use strict";
-    var get = require_get();
+    var get2 = require_get();
     module2.exports = function getKeysInSchemaOrder(schema, val, path) {
-      const schemaKeys = path != null ? Object.keys(get(schema.tree, path, {})) : Object.keys(schema.tree);
+      const schemaKeys = path != null ? Object.keys(get2(schema.tree, path, {})) : Object.keys(schema.tree);
       const valKeys = new Set(Object.keys(val));
       let keys;
       if (valKeys.size > 1) {
@@ -39792,7 +39792,7 @@ var require_queryhelpers = __commonJS({
     init_shims();
     "use strict";
     var checkEmbeddedDiscriminatorKeyProjection = require_checkEmbeddedDiscriminatorKeyProjection();
-    var get = require_get();
+    var get2 = require_get();
     var getDiscriminatorByValue = require_getDiscriminatorByValue();
     var isDefiningProjection = require_isDefiningProjection();
     var clone2 = require_clone();
@@ -39800,7 +39800,7 @@ var require_queryhelpers = __commonJS({
       const _populate = query.options.populate;
       const pop = Object.keys(_populate).reduce((vals, key) => vals.concat([_populate[key]]), []);
       if (options2.lean != null) {
-        pop.filter((p) => get(p, "options.lean") == null).forEach(makeLean(options2.lean));
+        pop.filter((p) => get2(p, "options.lean") == null).forEach(makeLean(options2.lean));
       }
       pop.forEach((opts) => {
         opts._localModel = query.model;
@@ -39811,9 +39811,9 @@ var require_queryhelpers = __commonJS({
       const _populate = query._mongooseOptions.populate;
       const pop = Object.keys(_populate).reduce((vals, key) => vals.concat([_populate[key]]), []);
       if (options2.lean != null) {
-        pop.filter((p) => get(p, "options.lean") == null).forEach(makeLean(options2.lean));
+        pop.filter((p) => get2(p, "options.lean") == null).forEach(makeLean(options2.lean));
       }
-      const session2 = get(query, "options.session", null);
+      const session2 = get2(query, "options.session", null);
       if (session2 != null) {
         pop.forEach((path) => {
           if (path.options == null) {
@@ -39959,11 +39959,11 @@ var require_queryhelpers = __commonJS({
             return;
           }
         }
-        if (!exclude && get(type, "options.$skipDiscriminatorCheck", false)) {
+        if (!exclude && get2(type, "options.$skipDiscriminatorCheck", false)) {
           let cur2 = "";
           for (let i = 0; i < pieces.length; ++i) {
             cur2 += (cur2.length === 0 ? "" : ".") + pieces[i];
-            const projection = get(fields, cur2, false) || get(fields, cur2 + ".$", false);
+            const projection = get2(fields, cur2, false) || get2(fields, cur2 + ".$", false);
             if (projection && typeof projection !== "object") {
               return;
             }
@@ -39989,7 +39989,7 @@ var require_queryhelpers = __commonJS({
           return callback(error2);
         }
         const mongooseResult = Object.assign({}, res.result);
-        if (get(res, "result.n", null) != null) {
+        if (get2(res, "result.n", null) != null) {
           mongooseResult.deletedCount = res.result.n;
         }
         if (res.deletedCount != null) {
@@ -40054,7 +40054,7 @@ var require_document = __commonJS({
     var defineKey = require_compile().defineKey;
     var flatten = require_common4().flatten;
     var flattenObjectWithDottedPaths = require_flattenObjectWithDottedPaths();
-    var get = require_get();
+    var get2 = require_get();
     var getEmbeddedDiscriminatorPath = require_getEmbeddedDiscriminatorPath();
     var getKeysInSchemaOrder = require_getKeysInSchemaOrder();
     var handleSpreadDoc = require_handleSpreadDoc();
@@ -40092,7 +40092,7 @@ var require_document = __commonJS({
         skipId = options2.skipId;
       }
       options2 = Object.assign({}, options2);
-      const defaults = get(options2, "defaults", true);
+      const defaults = get2(options2, "defaults", true);
       options2.defaults = defaults;
       if (this.$__schema == null) {
         const _schema = utils.isObject(fields) && !fields.instanceOfSchema ? new Schema(fields) : fields;
@@ -40636,7 +40636,7 @@ var require_document = __commonJS({
         prefix = val ? val + "." : "";
         keys = getKeysInSchemaOrder(this.$__schema, path);
         const len = keys.length;
-        const _skipMinimizeTopLevel = get(options2, "_skipMinimizeTopLevel", false);
+        const _skipMinimizeTopLevel = get2(options2, "_skipMinimizeTopLevel", false);
         if (len === 0 && _skipMinimizeTopLevel) {
           delete options2._skipMinimizeTopLevel;
           if (val) {
@@ -41425,7 +41425,7 @@ var require_document = __commonJS({
       }
       for (const path of paths) {
         const _pathType = doc.$__schema.path(path);
-        if (!_pathType || !_pathType.$isMongooseArray || _pathType.$isMongooseDocumentArray && !get(_pathType, "schemaOptions.required")) {
+        if (!_pathType || !_pathType.$isMongooseArray || _pathType.$isMongooseDocumentArray && !get2(_pathType, "schemaOptions.required")) {
           continue;
         }
         const val = doc.$__getValue(path);
@@ -41484,7 +41484,7 @@ var require_document = __commonJS({
         options2 = null;
       }
       const hasValidateModifiedOnlyOption = options2 && typeof options2 === "object" && "validateModifiedOnly" in options2;
-      const pathsToSkip = get(options2, "pathsToSkip", null);
+      const pathsToSkip = get2(options2, "pathsToSkip", null);
       let shouldValidateModifiedOnly;
       if (hasValidateModifiedOnlyOption) {
         shouldValidateModifiedOnly = !!options2.validateModifiedOnly;
@@ -41984,8 +41984,8 @@ var require_document = __commonJS({
         flattenDecimals: true
       };
       const path = json ? "toJSON" : "toObject";
-      const baseOptions = get(this, "constructor.base.options." + path, {});
-      const schemaOptions = get(this, "$__schema.options", {});
+      const baseOptions = get2(this, "constructor.base.options." + path, {});
+      const schemaOptions = get2(this, "$__schema.options", {});
       defaultOptions = utils.options(defaultOptions, clone2(baseOptions));
       defaultOptions = utils.options(defaultOptions, clone2(schemaOptions[path] || {}));
       options2 = utils.isPOJO(options2) ? clone2(options2) : {};
@@ -42018,7 +42018,7 @@ var require_document = __commonJS({
       if (utils.hasUserDefinedProperty(options2, "virtuals")) {
         cloneOptions.virtuals = options2.virtuals;
       }
-      const depopulate = options2.depopulate || get(options2, "_parentOptions.depopulate", false);
+      const depopulate = options2.depopulate || get2(options2, "_parentOptions.depopulate", false);
       if (depopulate && options2._isNested && this.$__.wasPopulated) {
         return clone2(this._id, cloneOptions);
       }
@@ -42099,7 +42099,7 @@ var require_document = __commonJS({
       let assignPath;
       let cur = self2._doc;
       let v;
-      const aliases = get(toObjectOptions, "aliases", true);
+      const aliases = get2(toObjectOptions, "aliases", true);
       let virtualsToApply = null;
       if (Array.isArray(options2.virtuals)) {
         virtualsToApply = new Set(options2.virtuals);
@@ -42371,7 +42371,7 @@ var require_document = __commonJS({
       }
       let populatedIds;
       const virtualKeys = this.$$populatedVirtuals ? Object.keys(this.$$populatedVirtuals) : [];
-      const populated = get(this, "$__.populated", {});
+      const populated = get2(this, "$__.populated", {});
       if (arguments.length === 0) {
         for (const virtualKey of virtualKeys) {
           delete this.$$populatedVirtuals[virtualKey];
@@ -43110,7 +43110,7 @@ var require_collection5 = __commonJS({
     var MongooseError = require_mongooseError();
     var Collection = require_lib3().Collection;
     var ObjectId2 = require_objectid2();
-    var get = require_get();
+    var get2 = require_get();
     var getConstructorName = require_getConstructorName();
     var sliced = require_sliced();
     var stream = require("stream");
@@ -43139,7 +43139,7 @@ var require_collection5 = __commonJS({
         const collection = this.collection;
         const args = Array.from(arguments);
         const _this = this;
-        const debug = get(_this, "conn.base.options.debug");
+        const debug = get2(_this, "conn.base.options.debug");
         const lastArg = arguments[arguments.length - 1];
         const opId = new ObjectId2();
         if (this.conn.$wasForceClosed) {
@@ -43370,7 +43370,7 @@ var require_collection5 = __commonJS({
             } else if (_constructorName === "Date") {
               formatDate(x, key, shell);
             } else if (_constructorName === "ClientSession") {
-              x[key] = inspectable('ClientSession("' + get(x[key], "id.id.buffer", "").toString("hex") + '")');
+              x[key] = inspectable('ClientSession("' + get2(x[key], "id.id.buffer", "").toString("hex") + '")');
             } else if (Array.isArray(x[key])) {
               x[key] = x[key].map(map);
             } else if (error2 != null) {
@@ -43957,7 +43957,7 @@ var require_connection2 = __commonJS({
     var ServerSelectionError = require_serverSelection();
     var applyPlugins = require_applyPlugins();
     var promiseOrCallback = require_promiseOrCallback();
-    var get = require_get();
+    var get2 = require_get();
     var immediate = require_immediate();
     var mongodb = require_lib3();
     var pkg = require_package2();
@@ -44014,7 +44014,7 @@ var require_connection2 = __commonJS({
       if (this.config.hasOwnProperty(key)) {
         return this.config[key];
       }
-      return get(this.options, key);
+      return get2(this.options, key);
     };
     Connection.prototype.set = function(key, val) {
       if (this.config.hasOwnProperty(key)) {
@@ -44280,9 +44280,9 @@ var require_connection2 = __commonJS({
       const db = dbName != null ? client.db(dbName) : client.db();
       conn.db = db;
       conn.client = client;
-      conn.host = get(client, "s.options.hosts.0.host", void 0);
-      conn.port = get(client, "s.options.hosts.0.port", void 0);
-      conn.name = dbName != null ? dbName : get(client, "s.options.dbName", void 0);
+      conn.host = get2(client, "s.options.hosts.0.host", void 0);
+      conn.port = get2(client, "s.options.hosts.0.port", void 0);
+      conn.name = dbName != null ? dbName : get2(client, "s.options.dbName", void 0);
       conn._closeCalled = client._closeCalled;
       const _handleReconnect = () => {
         if (conn.readyState !== STATES.connected) {
@@ -44292,7 +44292,7 @@ var require_connection2 = __commonJS({
           conn.onOpen();
         }
       };
-      const type = get(client, "topology.description.type", "");
+      const type = get2(client, "topology.description.type", "");
       if (type === "Single") {
         client.on("serverDescriptionChanged", (ev) => {
           const newDescription = ev.newDescription;
@@ -45089,9 +45089,9 @@ var require_applyWriteConcern = __commonJS({
   "node_modules/mongoose/lib/helpers/schema/applyWriteConcern.js"(exports, module2) {
     init_shims();
     "use strict";
-    var get = require_get();
+    var get2 = require_get();
     module2.exports = function applyWriteConcern(schema, options2) {
-      const writeConcern = get(schema, "options.writeConcern", {});
+      const writeConcern = get2(schema, "options.writeConcern", {});
       if (Object.keys(writeConcern).length != 0) {
         options2.writeConcern = {};
         if (!("w" in options2) && writeConcern.w != null) {
@@ -45324,7 +45324,7 @@ var require_getEmbeddedDiscriminatorPath2 = __commonJS({
     init_shims();
     "use strict";
     var cleanPositionalOperators = require_cleanPositionalOperators();
-    var get = require_get();
+    var get2 = require_get();
     var getDiscriminatorByValue = require_getDiscriminatorByValue();
     var updatedPathsByArrayFilter = require_updatedPathsByArrayFilter();
     module2.exports = function getEmbeddedDiscriminatorPath(schema, update, filter, path, options2) {
@@ -45343,7 +45343,7 @@ var require_getEmbeddedDiscriminatorPath2 = __commonJS({
         }
         type = schema.pathType(subpath);
         if ((schematype.$isSingleNested || schematype.$isMongooseDocumentArrayElement) && schematype.schema.discriminators != null) {
-          const key = get(schematype, "schema.options.discriminatorKey");
+          const key = get2(schematype, "schema.options.discriminatorKey");
           const discriminatorValuePath = subpath + "." + key;
           const discriminatorFilterPath = discriminatorValuePath.replace(/\.\d+\./, ".");
           let discriminatorKey = null;
@@ -45354,7 +45354,7 @@ var require_getEmbeddedDiscriminatorPath2 = __commonJS({
             discriminatorKey = filter[discriminatorFilterPath];
           }
           const wrapperPath = subpath.replace(/\.\d+$/, "");
-          if (schematype.$isMongooseDocumentArrayElement && get(filter[wrapperPath], "$elemMatch." + key) != null) {
+          if (schematype.$isMongooseDocumentArrayElement && get2(filter[wrapperPath], "$elemMatch." + key) != null) {
             discriminatorKey = filter[wrapperPath].$elemMatch[key];
           }
           if (discriminatorValuePath in update) {
@@ -45421,7 +45421,7 @@ var require_moveImmutableProperties = __commonJS({
   "node_modules/mongoose/lib/helpers/update/moveImmutableProperties.js"(exports, module2) {
     init_shims();
     "use strict";
-    var get = require_get();
+    var get2 = require_get();
     module2.exports = function moveImmutableProperties(schema, update, ctx) {
       if (update == null) {
         return;
@@ -45444,7 +45444,7 @@ var require_moveImmutableProperties = __commonJS({
       if (schematype == null) {
         return;
       }
-      let immutable = get(schematype, "options.immutable", null);
+      let immutable = get2(schematype, "options.immutable", null);
       if (immutable == null) {
         return;
       }
@@ -46097,7 +46097,7 @@ var require_setDefaultsOnInsert = __commonJS({
     init_shims();
     "use strict";
     var modifiedPaths = require_common4().modifiedPaths;
-    var get = require_get();
+    var get2 = require_get();
     module2.exports = function(filter, schema, castedDoc, options2) {
       options2 = options2 || {};
       const shouldSetDefaultsOnInsert = options2.setDefaultsOnInsert != null ? options2.setDefaultsOnInsert : schema.base.options.setDefaultsOnInsert;
@@ -46152,7 +46152,7 @@ var require_setDefaultsOnInsert = __commonJS({
         if (!isModified(modified, path) && typeof def !== "undefined") {
           castedDoc = castedDoc || {};
           castedDoc.$setOnInsert = castedDoc.$setOnInsert || {};
-          if (get(castedDoc, path) == null) {
+          if (get2(castedDoc, path) == null) {
             castedDoc.$setOnInsert[path] = def;
           }
           updatedValues[path] = def;
@@ -46426,7 +46426,7 @@ var require_query = __commonJS({
     var castArrayFilters = require_castArrayFilters();
     var castUpdate = require_castUpdate();
     var completeMany = require_completeMany();
-    var get = require_get();
+    var get2 = require_get();
     var promiseOrCallback = require_promiseOrCallback();
     var getDiscriminatorByValue = require_getDiscriminatorByValue();
     var hasDollarKeys = require_hasDollarKeys();
@@ -46475,7 +46475,7 @@ var require_query = __commonJS({
       }
       this.options = this.options || {};
       this.$useProjection = true;
-      const collation = get(this, "schema.options.collation", null);
+      const collation = get2(this, "schema.options.collation", null);
       if (collation != null) {
         this.options.collation = collation;
       }
@@ -46848,7 +46848,7 @@ var require_query = __commonJS({
         return options2;
       }
       applyWriteConcern(model2.schema, options2);
-      const readPreference = get(model2, "schema.options.read");
+      const readPreference = get2(model2, "schema.options.read");
       if (!("readPreference" in options2) && readPreference) {
         options2.readPreference = readPreference;
       }
@@ -46888,7 +46888,7 @@ var require_query = __commonJS({
       this._update.$set[path] = val;
       return this;
     };
-    Query.prototype.get = function get2(path) {
+    Query.prototype.get = function get3(path) {
       const update = this._update;
       if (update == null) {
         return void 0;
@@ -46965,7 +46965,7 @@ var require_query = __commonJS({
       const userProvidedFields = _this._userProvidedFields || {};
       applyGlobalMaxTimeMS(this.options, this.model);
       const completeManyOptions = Object.assign({}, {
-        session: get(this, "options.session", null)
+        session: get2(this, "options.session", null)
       });
       const cb = (err, docs) => {
         if (err) {
@@ -47454,7 +47454,7 @@ var require_query = __commonJS({
         this.select(options2.fields);
         delete options2.fields;
       }
-      const returnOriginal = get(this, "model.base.options.returnOriginal");
+      const returnOriginal = get2(this, "model.base.options.returnOriginal");
       if (options2.new == null && options2.returnDocument == null && options2.returnOriginal == null && returnOriginal != null) {
         options2.returnOriginal = returnOriginal;
       }
@@ -47590,7 +47590,7 @@ var require_query = __commonJS({
         this._mergeUpdate(replacement);
       }
       options2 = options2 || {};
-      const returnOriginal = get(this, "model.base.options.returnOriginal");
+      const returnOriginal = get2(this, "model.base.options.returnOriginal");
       if (options2.new == null && options2.returnDocument == null && options2.returnOriginal == null && returnOriginal != null) {
         options2.returnOriginal = returnOriginal;
       }
@@ -48040,19 +48040,19 @@ var require_query = __commonJS({
           case "update":
           case "updateMany":
           case "updateOne":
-            if (get(res, "modifiedCount") === 0) {
+            if (get2(res, "modifiedCount") === 0) {
               throw _orFailError(err, this);
             }
             break;
           case "findOneAndDelete":
           case "findOneAndRemove":
-            if (get(res, "lastErrorObject.n") === 0) {
+            if (get2(res, "lastErrorObject.n") === 0) {
               throw _orFailError(err, this);
             }
             break;
           case "findOneAndUpdate":
           case "findOneAndReplace":
-            if (get(res, "lastErrorObject.updatedExisting") === false) {
+            if (get2(res, "lastErrorObject.updatedExisting") === false) {
               throw _orFailError(err, this);
             }
             break;
@@ -48209,11 +48209,11 @@ var require_query = __commonJS({
         const readConcern = this.options.readConcern;
         const readPref = this.options.readPreference;
         for (const populateOptions of res) {
-          if (readConcern != null && get(populateOptions, "options.readConcern") == null) {
+          if (readConcern != null && get2(populateOptions, "options.readConcern") == null) {
             populateOptions.options = populateOptions.options || {};
             populateOptions.options.readConcern = readConcern;
           }
-          if (readPref != null && get(populateOptions, "options.readPreference") == null) {
+          if (readPref != null && get2(populateOptions, "options.readPreference") == null) {
             populateOptions.options = populateOptions.options || {};
             populateOptions.options.readPreference = readPref;
           }
@@ -48223,7 +48223,7 @@ var require_query = __commonJS({
       if (opts.lean != null) {
         const lean = opts.lean;
         for (const populateOptions of res) {
-          if (get(populateOptions, "options.lean") == null) {
+          if (get2(populateOptions, "options.lean") == null) {
             populateOptions.options = populateOptions.options || {};
             populateOptions.options.lean = lean;
           }
@@ -48273,7 +48273,7 @@ var require_query = __commonJS({
       try {
         return cast(model2.schema, obj, {
           upsert: this.options && this.options.upsert,
-          strict: this.options && "strict" in this.options ? this.options.strict : get(model2, "schema.options.strict", null)
+          strict: this.options && "strict" in this.options ? this.options.strict : get2(model2, "schema.options.strict", null)
         }, this);
       } catch (err) {
         if (typeof err.setModel === "function") {
@@ -49095,7 +49095,7 @@ var require_applyMethods = __commonJS({
   "node_modules/mongoose/lib/helpers/model/applyMethods.js"(exports, module2) {
     init_shims();
     "use strict";
-    var get = require_get();
+    var get2 = require_get();
     var utils = require_utils5();
     module2.exports = function applyMethods(model2, schema) {
       function apply(method, schema2) {
@@ -49115,7 +49115,7 @@ var require_applyMethods = __commonJS({
         if (schema.tree.hasOwnProperty(method)) {
           throw new Error('You have a method and a property in your schema both named "' + method + '"');
         }
-        if (schema.reserved[method] && !get(schema, `methodOptions.${method}.suppressWarning`, false)) {
+        if (schema.reserved[method] && !get2(schema, `methodOptions.${method}.suppressWarning`, false)) {
           utils.warn(`mongoose: the method name "${method}" is used by mongoose internally, overwriting it may cause bugs. If you're sure you know what you're doing, you can suppress this error by using \`schema.method('${method}', fn, { suppressWarning: true })\`.`);
         }
         if (typeof fn === "function") {
@@ -50135,7 +50135,7 @@ var require_assignVals = __commonJS({
     var MongooseMap = require_map2();
     var SkipPopulateValue = require_SkipPopulateValue();
     var assignRawDocsToIdStructure = require_assignRawDocsToIdStructure();
-    var get = require_get();
+    var get2 = require_get();
     var getVirtual = require_getVirtual();
     var leanPopulateMap = require_leanPopulateMap();
     var lookupLocalFields = require_lookupLocalFields();
@@ -50145,7 +50145,7 @@ var require_assignVals = __commonJS({
     var utils = require_utils5();
     var { populateModelSymbol } = require_symbols();
     module2.exports = function assignVals(o) {
-      const userOptions = Object.assign({}, get(o, "allOptions.options.options"), get(o, "allOptions.options"));
+      const userOptions = Object.assign({}, get2(o, "allOptions.options.options"), get2(o, "allOptions.options"));
       const populateOptions = Object.assign({}, o.options, userOptions, {
         justOne: o.justOne
       });
@@ -50208,9 +50208,9 @@ var require_assignVals = __commonJS({
           valueToSet = rawIds[i];
         }
         const originalSchema = o.originalModel.schema;
-        const isDoc = get(docs[i], "$__", null) != null;
+        const isDoc = get2(docs[i], "$__", null) != null;
         let isMap = isDoc ? existingVal instanceof Map : utils.isPOJO(existingVal);
-        isMap = isMap && get(originalSchema._getSchema(_path), "$isSchemaMap");
+        isMap = isMap && get2(originalSchema._getSchema(_path), "$isSchemaMap");
         if (!o.isVirtual && isMap) {
           const _keys = existingVal instanceof Map ? Array.from(existingVal.keys()) : Object.keys(existingVal);
           valueToSet = valueToSet.reduce((cur2, v, i2) => {
@@ -50636,7 +50636,7 @@ var require_each = __commonJS({
   "node_modules/mongoose/lib/helpers/each.js"(exports, module2) {
     init_shims();
     "use strict";
-    module2.exports = function each(arr, cb, done) {
+    module2.exports = function each2(arr, cb, done) {
       if (arr.length === 0) {
         return done();
       }
@@ -50666,7 +50666,7 @@ var require_getSchemaTypes = __commonJS({
     init_shims();
     "use strict";
     var Mixed = require_mixed();
-    var get = require_get();
+    var get2 = require_get();
     var getDiscriminatorByValue = require_getDiscriminatorByValue();
     var leanPopulateMap = require_leanPopulateMap();
     var mpath = require_mpath();
@@ -50783,7 +50783,7 @@ var require_getSchemaTypes = __commonJS({
               return ret;
             }
           }
-          const _val = get(topLevelDoc, trypath);
+          const _val = get2(topLevelDoc, trypath);
           if (_val != null) {
             const model3 = Array.isArray(_val) && _val.length > 0 ? leanPopulateMap.get(_val[0]) : leanPopulateMap.get(_val);
             const schema3 = model3 != null ? model3.schema : null;
@@ -50900,7 +50900,7 @@ var require_getModelsMapForPopulate = __commonJS({
     "use strict";
     var MongooseError = require_error2();
     var SkipPopulateValue = require_SkipPopulateValue();
-    var get = require_get();
+    var get2 = require_get();
     var getDiscriminatorByValue = require_getDiscriminatorByValue();
     var getConstructorName = require_getConstructorName();
     var getSchemaTypes = require_getSchemaTypes();
@@ -50944,7 +50944,7 @@ var require_getModelsMapForPopulate = __commonJS({
           continue;
         }
         const isUnderneathDocArray = schema && schema.$isUnderneathDocArray;
-        if (isUnderneathDocArray && get(options2, "options.sort") != null) {
+        if (isUnderneathDocArray && get2(options2, "options.sort") != null) {
           return new MongooseError("Cannot populate with `sort` on path " + options2.path + " because it is a subproperty of a document array");
         }
         modelNames = null;
@@ -50985,7 +50985,7 @@ var require_getModelsMapForPopulate = __commonJS({
             isRefPath = res.isRefPath;
             normalizedRefPath = normalizedRefPath || res.refPath;
             justOne = res.justOne;
-            schemaOptions = get(schema, "options.populate", null);
+            schemaOptions = get2(schema, "options.populate", null);
           } catch (error2) {
             return error2;
           }
@@ -51013,7 +51013,7 @@ var require_getModelsMapForPopulate = __commonJS({
         const ret = _getLocalFieldValues(doc, localField, model2, options2, null, schema);
         const id = String(utils.getValue(foreignField, doc));
         options2._docs[id] = Array.isArray(ret) ? ret.slice() : ret;
-        let match = get(options2, "match", null);
+        let match = get2(options2, "match", null);
         const hasMatchFunction = typeof match === "function";
         if (hasMatchFunction) {
           match = match.call(doc, doc);
@@ -51092,7 +51092,7 @@ var require_getModelsMapForPopulate = __commonJS({
           if (schemaForCurrentDoc != null) {
             justOne = !schemaForCurrentDoc.$isMongooseArray && !schemaForCurrentDoc._arrayPath;
           }
-          if ((ref2 = get(schemaForCurrentDoc, "options.ref")) != null) {
+          if ((ref2 = get2(schemaForCurrentDoc, "options.ref")) != null) {
             if (schemaForCurrentDoc != null && typeof ref2 === "function" && options2.path.endsWith("." + schemaForCurrentDoc.path)) {
               modelNames2 = new Set();
               const subdocPath = options2.path.slice(0, options2.path.length - schemaForCurrentDoc.path.length - 1);
@@ -51110,7 +51110,7 @@ var require_getModelsMapForPopulate = __commonJS({
               ref2 = handleRefFunction(ref2, doc2);
               modelNames2 = [ref2];
             }
-          } else if ((schemaForCurrentDoc = get(schema2, "options.refPath")) != null) {
+          } else if ((schemaForCurrentDoc = get2(schema2, "options.refPath")) != null) {
             isRefPath = true;
             if (typeof refPath2 === "function") {
               const subdocPath = options2.path.slice(0, options2.path.length - schemaForCurrentDoc.path.length - 1);
@@ -51198,7 +51198,7 @@ var require_getModelsMapForPopulate = __commonJS({
         data.isVirtual = true;
         data.virtual = virtual;
         data.justOne = justOne;
-        let match = get(options2, "match", null) || get(data, "virtual.options.match", null) || get(data, "virtual.options.options.match", null);
+        let match = get2(options2, "match", null) || get2(data, "virtual.options.match", null) || get2(data, "virtual.options.options.match", null);
         let hasMatchFunction = typeof match === "function";
         if (hasMatchFunction) {
           match = match.call(doc, doc);
@@ -51256,12 +51256,12 @@ var require_getModelsMapForPopulate = __commonJS({
         if (data.isRefPath && Array.isArray(ret) && flat.length === modelNames.length) {
           ids = flat.filter((val, i) => modelNames[i] === modelName);
         }
-        const perDocumentLimit = options2.perDocumentLimit == null ? get(options2, "options.perDocumentLimit", null) : options2.perDocumentLimit;
+        const perDocumentLimit = options2.perDocumentLimit == null ? get2(options2, "options.perDocumentLimit", null) : options2.perDocumentLimit;
         if (!available[modelName] || perDocumentLimit != null) {
           const currentOptions = {
             model: Model
           };
-          if (data.isVirtual && get(data.virtual, "options.options")) {
+          if (data.isVirtual && get2(data.virtual, "options.options")) {
             currentOptions.options = utils.clone(data.virtual.options.options);
           } else if (schemaOptions != null) {
             currentOptions.options = Object.assign({}, schemaOptions);
@@ -51306,8 +51306,8 @@ var require_getModelsMapForPopulate = __commonJS({
       const localFieldPathType = model2.schema._getPathType(localField);
       const localFieldPath = localFieldPathType === "real" ? model2.schema.path(localField) : localFieldPathType.schema;
       const localFieldGetters = localFieldPath && localFieldPath.getters ? localFieldPath.getters : [];
-      const _populateOptions = get(options2, "options", {});
-      const getters = "getters" in _populateOptions ? _populateOptions.getters : get(virtual, "options.getters", false);
+      const _populateOptions = get2(options2, "options", {});
+      const getters = "getters" in _populateOptions ? _populateOptions.getters : get2(virtual, "options.getters", false);
       if (localFieldGetters.length > 0 && getters) {
         const hydratedDoc = doc.$__ != null ? doc : model2.hydrate(doc);
         const localFieldValue = utils.getValue(localField, doc);
@@ -51400,7 +51400,7 @@ var require_isDefaultIdIndex = __commonJS({
   "node_modules/mongoose/lib/helpers/indexes/isDefaultIdIndex.js"(exports, module2) {
     init_shims();
     "use strict";
-    var get = require_get();
+    var get2 = require_get();
     module2.exports = function isDefaultIdIndex(index2) {
       if (Array.isArray(index2)) {
         const keys = Object.keys(index2[0]);
@@ -51409,7 +51409,7 @@ var require_isDefaultIdIndex = __commonJS({
       if (typeof index2 !== "object") {
         return false;
       }
-      const key = get(index2, "key", {});
+      const key = get2(index2, "key", {});
       return Object.keys(key).length === 1 && key.hasOwnProperty("_id");
     };
   }
@@ -51420,7 +51420,7 @@ var require_isIndexEqual = __commonJS({
   "node_modules/mongoose/lib/helpers/indexes/isIndexEqual.js"(exports, module2) {
     init_shims();
     "use strict";
-    var get = require_get();
+    var get2 = require_get();
     var utils = require_utils5();
     module2.exports = function isIndexEqual(key, options2, dbIndex) {
       if (dbIndex.textIndexVersion != null) {
@@ -51433,7 +51433,7 @@ var require_isIndexEqual = __commonJS({
             return false;
           }
           const weight = weights[prop];
-          if (weight !== get(options2, "weights." + prop) && !(weight === 1 && get(options2, "weights." + prop) == null)) {
+          if (weight !== get2(options2, "weights." + prop) && !(weight === 1 && get2(options2, "weights." + prop) == null)) {
             return false;
           }
         }
@@ -51461,7 +51461,7 @@ var require_isIndexEqual = __commonJS({
           const schemaCollation = options2.collation;
           const dbCollation = dbIndex.collation;
           for (const opt of definedKeys) {
-            if (get(schemaCollation, opt) !== get(dbCollation, opt)) {
+            if (get2(schemaCollation, opt) !== get2(dbCollation, opt)) {
               return false;
             }
           }
@@ -51568,11 +51568,11 @@ var require_removeDeselectedForeignField = __commonJS({
   "node_modules/mongoose/lib/helpers/populate/removeDeselectedForeignField.js"(exports, module2) {
     init_shims();
     "use strict";
-    var get = require_get();
+    var get2 = require_get();
     var mpath = require_mpath();
     var parseProjection = require_parseProjection();
     module2.exports = function removeDeselectedForeignField(foreignFields, options2, docs) {
-      const projection = parseProjection(get(options2, "select", null), true) || parseProjection(get(options2, "options.select", null), true);
+      const projection = parseProjection(get2(options2, "select", null), true) || parseProjection(get2(options2, "options.select", null), true);
       if (projection == null) {
         return;
       }
@@ -51626,8 +51626,8 @@ var require_model = __commonJS({
     var createPopulateQueryFilter = require_createPopulateQueryFilter();
     var getDefaultBulkwriteResult = require_getDefaultBulkwriteResult();
     var discriminator = require_discriminator();
-    var each = require_each();
-    var get = require_get();
+    var each2 = require_each();
+    var get2 = require_get();
     var getConstructorName = require_getConstructorName();
     var getDiscriminatorByValue = require_getDiscriminatorByValue();
     var getModelsMapForPopulate = require_getModelsMapForPopulate();
@@ -51788,7 +51788,7 @@ var require_model = __commonJS({
           });
         }
         let numAffected = 0;
-        if (get(options2, "safe.w") !== 0 && get(options2, "w") !== 0) {
+        if (get2(options2, "safe.w") !== 0 && get2(options2, "w") !== 0) {
           if (result) {
             if (Array.isArray(result)) {
               numAffected = result.length;
@@ -51973,7 +51973,7 @@ var require_model = __commonJS({
       const divergent = [];
       let d2 = 0;
       where._id = this._doc._id;
-      if (get(where, "_id.$__", null) != null) {
+      if (get2(where, "_id.$__", null) != null) {
         where._id = where._id.toObject({ transform: false, depopulate: true });
       }
       for (; d2 < len; ++d2) {
@@ -52064,7 +52064,7 @@ var require_model = __commonJS({
           where[key] = value;
       }
       if (VERSION_INC === (VERSION_INC & this.$__.version)) {
-        if (get(delta.$set, key, null) != null) {
+        if (get2(delta.$set, key, null) != null) {
           ++delta.$set[key];
         } else {
           delta.$inc = delta.$inc || {};
@@ -52177,7 +52177,7 @@ var require_model = __commonJS({
       }
       options2 = options2 || {};
       const value = utils.isPOJO(options2) ? options2.value : options2;
-      const clone2 = get(options2, "clone", true);
+      const clone2 = get2(options2, "clone", true);
       _checkContext(this, "discriminator");
       if (utils.isObject(schema) && !schema.instanceOfSchema) {
         schema = new Schema(schema);
@@ -52270,11 +52270,11 @@ var require_model = __commonJS({
         callback = options2;
         options2 = void 0;
       }
-      const schemaCollation = get(this, "schema.options.collation", null);
+      const schemaCollation = get2(this, "schema.options.collation", null);
       if (schemaCollation != null) {
         options2 = Object.assign({ collation: schemaCollation }, options2);
       }
-      const capped = get(this, "schema.options.capped");
+      const capped = get2(this, "schema.options.capped");
       if (capped) {
         options2 = Object.assign({ capped: true }, capped, options2);
       }
@@ -52787,7 +52787,7 @@ var require_model = __commonJS({
       return mq.findOneAndUpdate(conditions, update, options2, callback);
     };
     function _decorateUpdateWithVersionKey(update, options2, versionKey) {
-      if (!versionKey || !get(options2, "upsert", false)) {
+      if (!versionKey || !get2(options2, "upsert", false)) {
         return;
       }
       const updatedPaths = modifiedPaths(update);
@@ -53036,10 +53036,10 @@ var require_model = __commonJS({
       }
       callback = callback || utils.noop;
       options2 = options2 || {};
-      const limit = get(options2, "limit", 1e3);
-      const rawResult = get(options2, "rawResult", false);
-      const ordered = get(options2, "ordered", true);
-      const lean = get(options2, "lean", false);
+      const limit = get2(options2, "limit", 1e3);
+      const rawResult = get2(options2, "rawResult", false);
+      const ordered = get2(options2, "ordered", true);
+      const lean = get2(options2, "lean", false);
       if (!Array.isArray(arr)) {
         arr = [arr];
       }
@@ -53100,10 +53100,10 @@ var require_model = __commonJS({
         });
         _this.$__collection.insertMany(docObjects, options2, function(error3, res) {
           if (error3) {
-            if (error3.writeErrors == null && get(error3, "result.result.writeErrors") != null) {
+            if (error3.writeErrors == null && get2(error3, "result.result.writeErrors") != null) {
               error3.writeErrors = error3.result.result.writeErrors;
             }
-            const erroredIndexes = new Set(get(error3, "writeErrors", []).map((err) => err.index));
+            const erroredIndexes = new Set(get2(error3, "writeErrors", []).map((err) => err.index));
             let firstErroredIndex = -1;
             error3.insertedDocs = docAttributes.filter((doc, i) => {
               const isErrored = erroredIndexes.has(i);
@@ -53169,7 +53169,7 @@ var require_model = __commonJS({
       callback = this.$handleCallbackError(callback);
       return this.db.base._promiseOrCallback(callback, (cb) => {
         cb = this.$wrapCallback(cb);
-        each(validations, (fn, cb2) => fn(cb2), (error2) => {
+        each2(validations, (fn, cb2) => fn(cb2), (error2) => {
           if (error2) {
             return cb(error2);
           }
@@ -53190,7 +53190,7 @@ var require_model = __commonJS({
       const writeOperations = this.buildBulkWriteOperations(documents, { skipValidation: true });
       let bulkWriteResultPromise;
       return Promise.all(preSavePromises).then(() => bulkWriteResultPromise = this.bulkWrite(writeOperations)).then(() => documents.map(buildSuccessfulWriteHandlerPromise)).then(() => bulkWriteResultPromise).catch((err) => {
-        if (!get(err, "writeErrors.length")) {
+        if (!get2(err, "writeErrors.length")) {
           throw err;
         }
         return Promise.all(documents.map((document2) => {
@@ -53302,7 +53302,7 @@ var require_model = __commonJS({
     };
     Model.replaceOne = function replaceOne(conditions, doc, options2, callback) {
       _checkContext(this, "replaceOne");
-      const versionKey = get(this, "schema.options.versionKey", null);
+      const versionKey = get2(this, "schema.options.versionKey", null);
       if (versionKey && !doc[versionKey]) {
         doc[versionKey] = 0;
       }
@@ -53317,7 +53317,7 @@ var require_model = __commonJS({
         conditions = utils.clone(conditions);
       }
       options2 = typeof options2 === "function" ? options2 : utils.clone(options2);
-      const versionKey = get(model2, "schema.options.versionKey", null);
+      const versionKey = get2(model2, "schema.options.versionKey", null);
       _decorateUpdateWithVersionKey(doc, options2, versionKey);
       return mq[op](conditions, doc, options2, callback);
     }
@@ -53358,7 +53358,7 @@ var require_model = __commonJS({
     };
     Model.aggregate = function aggregate(pipeline2, options2, callback) {
       _checkContext(this, "aggregate");
-      if (arguments.length > 3 || get(pipeline2, "constructor.name") === "Object") {
+      if (arguments.length > 3 || get2(pipeline2, "constructor.name") === "Object") {
         throw new MongooseError("Mongoose 5.x disallows passing a spread of operators to `Model.aggregate()`. Instead of `Model.aggregate({ $match }, { $skip })`, do `Model.aggregate([{ $match }, { $skip }])`");
       }
       if (typeof pipeline2 === "function") {
@@ -53408,7 +53408,7 @@ var require_model = __commonJS({
           if (!schemaType || !schemaType.$isMongooseArray) {
             continue;
           }
-          const val = get(obj, path);
+          const val = get2(obj, path);
           pushNestedArrayPaths(val, path);
         }
         let remaining = paths.length;
@@ -53424,7 +53424,7 @@ var require_model = __commonJS({
           for (let i = 0; i < pieces.length - 1; ++i) {
             cur = cur[pieces[i]];
           }
-          let val = get(obj, path, void 0);
+          let val = get2(obj, path, void 0);
           if (val != null) {
             try {
               val = schemaType.cast(val);
@@ -53527,7 +53527,7 @@ var require_model = __commonJS({
         let ids = utils.array.flatten(mod.ids, flatten);
         ids = utils.array.unique(ids);
         const assignmentOpts = {};
-        assignmentOpts.sort = get(mod, "options.options.sort", void 0);
+        assignmentOpts.sort = get2(mod, "options.options.sort", void 0);
         assignmentOpts.excludeId = excludeIdReg.test(select) || select && select._id === 0;
         if (ids.length === 0 || ids.every(utils.isNullOrUndefined)) {
           --_remaining;
@@ -53644,7 +53644,7 @@ var require_model = __commonJS({
       const isVirtual = mod.isVirtual;
       const justOne = mod.justOne;
       let _val;
-      const lean = get(options2, "options.lean", false);
+      const lean = get2(options2, "options.lean", false);
       const len = vals.length;
       const rawOrder = {};
       const rawDocs = {};
@@ -53973,7 +53973,7 @@ var require_removeSubdocs = __commonJS({
   "node_modules/mongoose/lib/plugins/removeSubdocs.js"(exports, module2) {
     init_shims();
     "use strict";
-    var each = require_each();
+    var each2 = require_each();
     module2.exports = function(schema) {
       const unshift = true;
       schema.s.hooks.pre("remove", false, function(next) {
@@ -53983,7 +53983,7 @@ var require_removeSubdocs = __commonJS({
         }
         const _this = this;
         const subdocs = this.$getAllSubdocs();
-        each(subdocs, function(subdoc, cb) {
+        each2(subdocs, function(subdoc, cb) {
           subdoc.$__remove(cb);
         }, function(error2) {
           if (error2) {
@@ -54003,7 +54003,7 @@ var require_saveSubdocs = __commonJS({
   "node_modules/mongoose/lib/plugins/saveSubdocs.js"(exports, module2) {
     init_shims();
     "use strict";
-    var each = require_each();
+    var each2 = require_each();
     module2.exports = function(schema) {
       const unshift = true;
       schema.s.hooks.pre("save", false, function(next) {
@@ -54017,7 +54017,7 @@ var require_saveSubdocs = __commonJS({
           next();
           return;
         }
-        each(subdocs, function(subdoc, cb) {
+        each2(subdocs, function(subdoc, cb) {
           subdoc.$__schema.s.hooks.execPre("save", subdoc, function(err) {
             cb(err);
           });
@@ -54041,7 +54041,7 @@ var require_saveSubdocs = __commonJS({
           next();
           return;
         }
-        each(subdocs, function(subdoc, cb) {
+        each2(subdocs, function(subdoc, cb) {
           subdoc.$__schema.s.hooks.execPost("save", subdoc, [subdoc], function(err) {
             cb(err);
           });
@@ -54353,7 +54353,7 @@ var require_lib6 = __commonJS({
     var Model = require_model();
     var applyPlugins = require_applyPlugins();
     var driver = require_driver();
-    var get = require_get();
+    var get2 = require_get();
     var promiseOrCallback = require_promiseOrCallback();
     var legacyPluralize = require_pluralize();
     var utils = require_utils5();
@@ -54580,8 +54580,8 @@ var require_lib6 = __commonJS({
     Mongoose.prototype._applyPlugins = function(schema, options2) {
       const _mongoose = this instanceof Mongoose ? this : mongoose2;
       options2 = options2 || {};
-      options2.applyPluginsToDiscriminators = get(_mongoose, "options.applyPluginsToDiscriminators", false);
-      options2.applyPluginsToChildSchemas = get(_mongoose, "options.applyPluginsToChildSchemas", true);
+      options2.applyPluginsToDiscriminators = get2(_mongoose, "options.applyPluginsToDiscriminators", false);
+      options2.applyPluginsToChildSchemas = get2(_mongoose, "options.applyPluginsToChildSchemas", true);
       applyPlugins(schema, _mongoose.plugins, options2, "$globalPluginsApplied");
     };
     Mongoose.prototype.plugin = function(fn, opts) {
@@ -55138,7 +55138,7 @@ async function render_response({
   page_config,
   status,
   error: error2,
-  page
+  page: page2
 }) {
   const css2 = new Set(options2.entry.css);
   const js = new Set(options2.entry.js);
@@ -55171,7 +55171,7 @@ async function render_response({
         navigating: writable(null),
         session: session2
       },
-      page,
+      page: page2,
       components: branch.map(({ node }) => node.module.default)
     };
     for (let i = 0; i < branch.length; i += 1) {
@@ -55213,7 +55213,7 @@ async function render_response({
 				session: ${try_serialize($session, (error3) => {
       throw new Error(`Failed to serialize session data: ${error3.message}`);
     })},
-				host: ${page && page.host ? s$1(page.host) : "location.host"},
+				host: ${page2 && page2.host ? s$1(page2.host) : "location.host"},
 				route: ${!!page_config.router},
 				spa: ${!page_config.ssr},
 				trailing_slash: ${s$1(options2.trailing_slash)},
@@ -55224,10 +55224,10 @@ async function render_response({
 						${(branch || []).map(({ node }) => `import(${s$1(node.entry)})`).join(",\n						")}
 					],
 					page: {
-						host: ${page && page.host ? s$1(page.host) : "location.host"}, // TODO this is redundant
-						path: ${s$1(page && page.path)},
-						query: new URLSearchParams(${page ? s$1(page.query.toString()) : ""}),
-						params: ${page && s$1(page.params)}
+						host: ${page2 && page2.host ? s$1(page2.host) : "location.host"}, // TODO this is redundant
+						path: ${s$1(page2 && page2.path)},
+						query: new URLSearchParams(${page2 ? s$1(page2.query.toString()) : ""}),
+						params: ${page2 && s$1(page2.params)}
 					}
 				}` : "null"}
 			});
@@ -55340,7 +55340,7 @@ async function load_node({
   options: options2,
   state,
   route,
-  page,
+  page: page2,
   node,
   $session,
   stuff,
@@ -55355,7 +55355,7 @@ async function load_node({
   const fetched = [];
   let set_cookie_headers = [];
   let loaded;
-  const page_proxy = new Proxy(page, {
+  const page_proxy = new Proxy(page2, {
     get: (target, prop, receiver) => {
       if (prop === "query" && prerender_enabled) {
         throw new Error("Cannot access query on a page with prerendering enabled");
@@ -55397,7 +55397,7 @@ async function load_node({
         if (asset) {
           response = options2.read ? new Response(options2.read(asset.file), {
             headers: asset.type ? { "content-type": asset.type } : {}
-          }) : await fetch(`http://${page.host}/${asset.file}`, opts);
+          }) : await fetch(`http://${page2.host}/${asset.file}`, opts);
         } else if (resolved.startsWith("/") && !resolved.startsWith("//")) {
           const relative = resolved;
           const headers = {
@@ -55577,7 +55577,7 @@ function resolve(base2, path) {
 async function respond_with_error({ request, options: options2, state, $session, status, error: error2 }) {
   const default_layout = await options2.load_component(options2.manifest.layout);
   const default_error = await options2.load_component(options2.manifest.error);
-  const page = {
+  const page2 = {
     host: request.host,
     path: request.path,
     query: request.query,
@@ -55588,7 +55588,7 @@ async function respond_with_error({ request, options: options2, state, $session,
     options: options2,
     state,
     route: null,
-    page,
+    page: page2,
     node: default_layout,
     $session,
     stuff: {},
@@ -55603,7 +55603,7 @@ async function respond_with_error({ request, options: options2, state, $session,
       options: options2,
       state,
       route: null,
-      page,
+      page: page2,
       node: default_error,
       $session,
       stuff: loaded ? loaded.stuff : {},
@@ -55626,7 +55626,7 @@ async function respond_with_error({ request, options: options2, state, $session,
       status,
       error: error2,
       branch,
-      page
+      page: page2
     });
   } catch (err) {
     const error3 = coalesce_to_error(err);
@@ -55801,7 +55801,7 @@ async function render_page(request, route, match, options2, state) {
     };
   }
   const params = route.params(match);
-  const page = {
+  const page2 = {
     host: request.host,
     path: request.path,
     query: request.query,
@@ -55814,7 +55814,7 @@ async function render_page(request, route, match, options2, state) {
     state,
     $session,
     route,
-    page
+    page: page2
   });
   if (response) {
     return response;
@@ -56082,6 +56082,13 @@ var escaped = {
 function escape(html) {
   return String(html).replace(/["'&<>]/g, (match) => escaped[match]);
 }
+function each(items, fn) {
+  let str = "";
+  for (let i = 0; i < items.length; i += 1) {
+    str += fn(items[i], i);
+  }
+  return str;
+}
 var missing_component = {
   $$render: () => ""
 };
@@ -56135,13 +56142,13 @@ function add_attribute(name, value, boolean) {
 }
 function afterUpdate() {
 }
-var css$1 = {
+var css$2 = {
   code: "#svelte-announcer.svelte-1pdgbjn{clip:rect(0 0 0 0);-webkit-clip-path:inset(50%);clip-path:inset(50%);height:1px;left:0;overflow:hidden;position:absolute;top:0;white-space:nowrap;width:1px}",
   map: `{"version":3,"file":"root.svelte","sources":["root.svelte"],"sourcesContent":["<!-- This file is generated by @sveltejs/kit \u2014 do not edit it! -->\\n<script>\\n\\timport { setContext, afterUpdate, onMount } from 'svelte';\\n\\n\\t// stores\\n\\texport let stores;\\n\\texport let page;\\n\\n\\texport let components;\\n\\texport let props_0 = null;\\n\\texport let props_1 = null;\\n\\texport let props_2 = null;\\n\\n\\tsetContext('__svelte__', stores);\\n\\n\\t$: stores.page.set(page);\\n\\tafterUpdate(stores.page.notify);\\n\\n\\tlet mounted = false;\\n\\tlet navigated = false;\\n\\tlet title = null;\\n\\n\\tonMount(() => {\\n\\t\\tconst unsubscribe = stores.page.subscribe(() => {\\n\\t\\t\\tif (mounted) {\\n\\t\\t\\t\\tnavigated = true;\\n\\t\\t\\t\\ttitle = document.title || 'untitled page';\\n\\t\\t\\t}\\n\\t\\t});\\n\\n\\t\\tmounted = true;\\n\\t\\treturn unsubscribe;\\n\\t});\\n<\/script>\\n\\n<svelte:component this={components[0]} {...(props_0 || {})}>\\n\\t{#if components[1]}\\n\\t\\t<svelte:component this={components[1]} {...(props_1 || {})}>\\n\\t\\t\\t{#if components[2]}\\n\\t\\t\\t\\t<svelte:component this={components[2]} {...(props_2 || {})}/>\\n\\t\\t\\t{/if}\\n\\t\\t</svelte:component>\\n\\t{/if}\\n</svelte:component>\\n\\n{#if mounted}\\n\\t<div id=\\"svelte-announcer\\" aria-live=\\"assertive\\" aria-atomic=\\"true\\">\\n\\t\\t{#if navigated}\\n\\t\\t\\t{title}\\n\\t\\t{/if}\\n\\t</div>\\n{/if}\\n\\n<style>#svelte-announcer{clip:rect(0 0 0 0);-webkit-clip-path:inset(50%);clip-path:inset(50%);height:1px;left:0;overflow:hidden;position:absolute;top:0;white-space:nowrap;width:1px}</style>"],"names":[],"mappings":"AAqDO,gCAAiB,CAAC,KAAK,KAAK,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,kBAAkB,MAAM,GAAG,CAAC,CAAC,UAAU,MAAM,GAAG,CAAC,CAAC,OAAO,GAAG,CAAC,KAAK,CAAC,CAAC,SAAS,MAAM,CAAC,SAAS,QAAQ,CAAC,IAAI,CAAC,CAAC,YAAY,MAAM,CAAC,MAAM,GAAG,CAAC"}`
 };
 var Root = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   let { stores } = $$props;
-  let { page } = $$props;
+  let { page: page2 } = $$props;
   let { components } = $$props;
   let { props_0 = null } = $$props;
   let { props_1 = null } = $$props;
@@ -56150,8 +56157,8 @@ var Root = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   afterUpdate(stores.page.notify);
   if ($$props.stores === void 0 && $$bindings.stores && stores !== void 0)
     $$bindings.stores(stores);
-  if ($$props.page === void 0 && $$bindings.page && page !== void 0)
-    $$bindings.page(page);
+  if ($$props.page === void 0 && $$bindings.page && page2 !== void 0)
+    $$bindings.page(page2);
   if ($$props.components === void 0 && $$bindings.components && components !== void 0)
     $$bindings.components(components);
   if ($$props.props_0 === void 0 && $$bindings.props_0 && props_0 !== void 0)
@@ -56160,9 +56167,9 @@ var Root = create_ssr_component(($$result, $$props, $$bindings, slots) => {
     $$bindings.props_1(props_1);
   if ($$props.props_2 === void 0 && $$bindings.props_2 && props_2 !== void 0)
     $$bindings.props_2(props_2);
-  $$result.css.add(css$1);
+  $$result.css.add(css$2);
   {
-    stores.page.set(page);
+    stores.page.set(page2);
   }
   return `
 
@@ -56183,7 +56190,7 @@ function set_paths(paths) {
 }
 function set_prerendering(value) {
 }
-var { model: model$1 } = import_mongoose.default;
+var { model: model$2 } = import_mongoose.default;
 var UserSchema = new import_mongoose.default.Schema({
   username: {
     type: String
@@ -56196,10 +56203,14 @@ var UserSchema = new import_mongoose.default.Schema({
   },
   completedRuns: {
     type: [String]
+  },
+  school_id: {
+    ref: "School",
+    type: import_mongoose.default.Schema.Types.ObjectId
   }
 });
-var User = import_mongoose.default.models.User || model$1("User", UserSchema);
-var { model } = import_mongoose.default;
+var User = import_mongoose.default.models.User || model$2("User", UserSchema);
+var { model: model$1 } = import_mongoose.default;
 var CookieSchema = new import_mongoose.default.Schema({
   cookie_id: {
     type: String
@@ -56209,7 +56220,22 @@ var CookieSchema = new import_mongoose.default.Schema({
     type: import_mongoose.default.Schema.Types.ObjectId
   }
 });
-var Cookie = import_mongoose.default.models.Cookie || model("Cookie", CookieSchema);
+var Cookie = import_mongoose.default.models.Cookie || model$1("Cookie", CookieSchema);
+var { model } = import_mongoose.default;
+var SchoolSchema = new import_mongoose.default.Schema({
+  name: {
+    type: String
+  },
+  users: {
+    type: [
+      {
+        ref: "User",
+        type: import_mongoose.default.Schema.Types.ObjectId
+      }
+    ]
+  }
+});
+var School = import_mongoose.default.models.School || model("School", SchoolSchema);
 var variables = {
   mongoDbURI: "mongodb+srv://admin:39SZHROKV2TwZbng@didunas.epyi2.mongodb.net/didunas?retryWrites=true&w=majority"
 };
@@ -56270,9 +56296,9 @@ function init(settings = default_settings) {
     amp: false,
     dev: false,
     entry: {
-      file: assets + "/_app/start-6d97cbbe.js",
-      css: [assets + "/_app/assets/start-464e9d0a.css"],
-      js: [assets + "/_app/start-6d97cbbe.js", assets + "/_app/chunks/vendor-19443505.js"]
+      file: assets + "/_app/start-3a9ae19a.js",
+      css: [assets + "/_app/assets/start-464e9d0a.css", assets + "/_app/assets/vendor-15d9d811.css"],
+      js: [assets + "/_app/start-3a9ae19a.js", assets + "/_app/chunks/vendor-c910c2b0.js", assets + "/_app/chunks/singletons-12a22614.js"]
     },
     fetched: void 0,
     floc: false,
@@ -56302,7 +56328,7 @@ function init(settings = default_settings) {
 var d = (s2) => s2.replace(/%23/g, "#").replace(/%3[Bb]/g, ";").replace(/%2[Cc]/g, ",").replace(/%2[Ff]/g, "/").replace(/%3[Ff]/g, "?").replace(/%3[Aa]/g, ":").replace(/%40/g, "@").replace(/%26/g, "&").replace(/%3[Dd]/g, "=").replace(/%2[Bb]/g, "+").replace(/%24/g, "$");
 var empty = () => ({});
 var manifest = {
-  assets: [{ "file": "color_pattern/colorpatterns-01.jpeg", "size": 108749, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-02.jpeg", "size": 107432, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-03.jpeg", "size": 108640, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-04.jpeg", "size": 128423, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-05.jpeg", "size": 127671, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-06.jpeg", "size": 132346, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-07.jpeg", "size": 134224, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-08.jpeg", "size": 132075, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-09.jpeg", "size": 151786, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-10.jpeg", "size": 156422, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-11.jpeg", "size": 132107, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-12.jpeg", "size": 134763, "type": "image/jpeg" }, { "file": "colorpatterns-01.jpeg", "size": 108749, "type": "image/jpeg" }, { "file": "difference/difference-01.jpeg", "size": 71335, "type": "image/jpeg" }, { "file": "difference/difference-02.jpeg", "size": 83679, "type": "image/jpeg" }, { "file": "difference/difference-03.jpeg", "size": 86116, "type": "image/jpeg" }, { "file": "difference/difference-04.jpeg", "size": 70362, "type": "image/jpeg" }, { "file": "difference/difference-05.jpeg", "size": 75759, "type": "image/jpeg" }, { "file": "difference/difference-06.jpeg", "size": 82637, "type": "image/jpeg" }, { "file": "favicon.png", "size": 1571, "type": "image/png" }, { "file": "hidden_number/hiddennumber-01.jpeg", "size": 109072, "type": "image/jpeg" }, { "file": "hidden_number/hiddennumber-02.jpeg", "size": 108984, "type": "image/jpeg" }, { "file": "hidden_number/hiddennumber-03.jpeg", "size": 166768, "type": "image/jpeg" }, { "file": "hidden_number/hiddennumber-04.jpeg", "size": 126110, "type": "image/jpeg" }, { "file": "hidden_number/hiddennumber-05.jpeg", "size": 105489, "type": "image/jpeg" }, { "file": "minus/minus-01.jpeg", "size": 72783, "type": "image/jpeg" }, { "file": "minus/minus-02.jpeg", "size": 74413, "type": "image/jpeg" }, { "file": "minus/minus-03.jpeg", "size": 71339, "type": "image/jpeg" }, { "file": "minus/minus-04.jpeg", "size": 76861, "type": "image/jpeg" }, { "file": "number_comparison/numbercomparison-01.jpeg", "size": 67853, "type": "image/jpeg" }, { "file": "number_comparison/numbercomparison-02.jpeg", "size": 69583, "type": "image/jpeg" }, { "file": "number_comparison/numbercomparison-03.jpeg", "size": 71068, "type": "image/jpeg" }, { "file": "number_comparison/numbercomparison-04.jpeg", "size": 70527, "type": "image/jpeg" }, { "file": "number_comparison/numbercomparison-05.jpeg", "size": 74497, "type": "image/jpeg" }, { "file": "number_comparison/numbercomparison-06.jpeg", "size": 79549, "type": "image/jpeg" }, { "file": "number_line/numberline-01.jpeg", "size": 84538, "type": "image/jpeg" }, { "file": "number_line/numberline-02.jpeg", "size": 84400, "type": "image/jpeg" }, { "file": "number_line/numberline-03.jpeg", "size": 84498, "type": "image/jpeg" }, { "file": "number_line/numberline-04.jpeg", "size": 84475, "type": "image/jpeg" }, { "file": "number_line/numberline-05.jpeg", "size": 84564, "type": "image/jpeg" }, { "file": "number_line/numberline-06.jpeg", "size": 82270, "type": "image/jpeg" }, { "file": "number_line/numberline-07.jpeg", "size": 94270, "type": "image/jpeg" }, { "file": "number_line/numberline-08.jpeg", "size": 87322, "type": "image/jpeg" }, { "file": "number_line/numberline-09.jpeg", "size": 93478, "type": "image/jpeg" }, { "file": "number_line/numberline-10.jpeg", "size": 88423, "type": "image/jpeg" }, { "file": "number_pattern/.DS_Store", "size": 6148, "type": null }, { "file": "number_pattern/numberpattern-01.jpeg", "size": 101807, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-02.jpeg", "size": 111130, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-03.jpeg", "size": 102234, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-04.jpeg", "size": 111219, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-05.jpeg", "size": 103208, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-06.jpeg", "size": 120511, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-07.jpeg", "size": 106663, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-08.jpeg", "size": 128896, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-09.jpeg", "size": 137700, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-10.jpeg", "size": 99376, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-11.jpeg", "size": 99619, "type": "image/jpeg" }, { "file": "plus/plus-01.jpeg", "size": 74055, "type": "image/jpeg" }, { "file": "plus/plus-02.jpeg", "size": 74143, "type": "image/jpeg" }, { "file": "plus/plus-03.jpeg", "size": 77092, "type": "image/jpeg" }, { "file": "plus/plus-04.jpeg", "size": 74925, "type": "image/jpeg" }, { "file": "quantities/quantities-01.jpeg", "size": 81145, "type": "image/jpeg" }, { "file": "quantities/quantities-02.jpeg", "size": 75379, "type": "image/jpeg" }, { "file": "quantities/quantities-03.jpeg", "size": 99567, "type": "image/jpeg" }, { "file": "quantities/quantities-04.jpeg", "size": 81531, "type": "image/jpeg" }, { "file": "quantities/quantities-05.jpeg", "size": 119731, "type": "image/jpeg" }, { "file": "quantities/quantities-06.jpeg", "size": 87200, "type": "image/jpeg" }, { "file": "quantities/quantities-07.jpeg", "size": 68834, "type": "image/jpeg" }, { "file": "quantities/quantities-08.jpeg", "size": 94103, "type": "image/jpeg" }, { "file": "quantities/quantities-09.jpeg", "size": 94089, "type": "image/jpeg" }, { "file": "quantities/quantities-10.jpeg", "size": 68792, "type": "image/jpeg" }, { "file": "quantities/quantities-11.jpeg", "size": 87613, "type": "image/jpeg" }, { "file": "quantities/quantities-12.jpeg", "size": 106707, "type": "image/jpeg" }, { "file": "quantities/quantities-13.jpeg", "size": 81406, "type": "image/jpeg" }, { "file": "quantities/quantities-14.jpeg", "size": 112850, "type": "image/jpeg" }, { "file": "quantities/quantities-15.jpeg", "size": 74424, "type": "image/jpeg" }, { "file": "quantities/quantities-16.jpeg", "size": 101040, "type": "image/jpeg" }, { "file": "quantities/quantities-17.jpeg", "size": 88076, "type": "image/jpeg" }, { "file": "quantities/quantities-18.jpeg", "size": 68903, "type": "image/jpeg" }, { "file": "quantity_comparison/quantitiycomparison-01.jpeg", "size": 83932, "type": "image/jpeg" }, { "file": "quantity_comparison/quantitiycomparison-02.jpeg", "size": 108448, "type": "image/jpeg" }, { "file": "quantity_comparison/quantitiycomparison-03.jpeg", "size": 121295, "type": "image/jpeg" }, { "file": "quantity_comparison/quantitiycomparison-04.jpeg", "size": 104631, "type": "image/jpeg" }, { "file": "quantity_comparison/quantitiycomparison-05.jpeg", "size": 100515, "type": "image/jpeg" }, { "file": "quantity_comparison/quantitiycomparison-06.jpeg", "size": 93909, "type": "image/jpeg" }],
+  assets: [{ "file": "audio/01.m4a", "size": 25575, "type": "audio/mp4" }, { "file": "audio/02.m4a", "size": 18846, "type": "audio/mp4" }, { "file": "audio/03.m4a", "size": 33878, "type": "audio/mp4" }, { "file": "audio/04.m4a", "size": 38073, "type": "audio/mp4" }, { "file": "audio/05.m4a", "size": 13389, "type": "audio/mp4" }, { "file": "audio/06.m4a", "size": 15203, "type": "audio/mp4" }, { "file": "audio/07.m4a", "size": 22986, "type": "audio/mp4" }, { "file": "audio/08.m4a", "size": 37036, "type": "audio/mp4" }, { "file": "audio/09.m4a", "size": 38583, "type": "audio/mp4" }, { "file": "audio/10.m4a", "size": 45400, "type": "audio/mp4" }, { "file": "audio/11.m4a", "size": 91416, "type": "audio/mp4" }, { "file": "audio/12.m4a", "size": 29236, "type": "audio/mp4" }, { "file": "audio/13.m4a", "size": 34170, "type": "audio/mp4" }, { "file": "audio/14.m4a", "size": 37051, "type": "audio/mp4" }, { "file": "audio/15.m4a", "size": 25805, "type": "audio/mp4" }, { "file": "audio/16.m4a", "size": 25040, "type": "audio/mp4" }, { "file": "audio/17.m4a", "size": 46644, "type": "audio/mp4" }, { "file": "audio/18.m4a", "size": 38855, "type": "audio/mp4" }, { "file": "audio/19.m4a", "size": 40412, "type": "audio/mp4" }, { "file": "audio/20.m4a", "size": 59638, "type": "audio/mp4" }, { "file": "audio/21.m4a", "size": 108789, "type": "audio/mp4" }, { "file": "audio/22.m4a", "size": 61441, "type": "audio/mp4" }, { "file": "audio/23.m4a", "size": 92432, "type": "audio/mp4" }, { "file": "audio/24.m4a", "size": 52153, "type": "audio/mp4" }, { "file": "audio/25.m4a", "size": 31523, "type": "audio/mp4" }, { "file": "audio/26.m4a", "size": 64046, "type": "audio/mp4" }, { "file": "audio/27.m4a", "size": 10330, "type": "audio/mp4" }, { "file": "audio/28.m4a", "size": 11533, "type": "audio/mp4" }, { "file": "audio/29.m4a", "size": 9970, "type": "audio/mp4" }, { "file": "audio/30.m4a", "size": 31577, "type": "audio/mp4" }, { "file": "color_pattern/colorpatterns-01.jpeg", "size": 108749, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-02.jpeg", "size": 107432, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-03.jpeg", "size": 108640, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-04.jpeg", "size": 128423, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-05.jpeg", "size": 127671, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-06.jpeg", "size": 132346, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-07.jpeg", "size": 134224, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-08.jpeg", "size": 132075, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-09.jpeg", "size": 151786, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-10.jpeg", "size": 156422, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-11.jpeg", "size": 132107, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-12.jpeg", "size": 134763, "type": "image/jpeg" }, { "file": "colorpatterns-01.jpeg", "size": 108749, "type": "image/jpeg" }, { "file": "difference/difference-01.jpeg", "size": 71335, "type": "image/jpeg" }, { "file": "difference/difference-02.jpeg", "size": 83679, "type": "image/jpeg" }, { "file": "difference/difference-03.jpeg", "size": 86116, "type": "image/jpeg" }, { "file": "difference/difference-04.jpeg", "size": 70362, "type": "image/jpeg" }, { "file": "difference/difference-05.jpeg", "size": 75759, "type": "image/jpeg" }, { "file": "difference/difference-06.jpeg", "size": 82637, "type": "image/jpeg" }, { "file": "favicon.png", "size": 1571, "type": "image/png" }, { "file": "hidden_number/hiddennumber-01.jpeg", "size": 109072, "type": "image/jpeg" }, { "file": "hidden_number/hiddennumber-02.jpeg", "size": 108984, "type": "image/jpeg" }, { "file": "hidden_number/hiddennumber-03.jpeg", "size": 166768, "type": "image/jpeg" }, { "file": "hidden_number/hiddennumber-04.jpeg", "size": 126110, "type": "image/jpeg" }, { "file": "hidden_number/hiddennumber-05.jpeg", "size": 105489, "type": "image/jpeg" }, { "file": "minus/minus-01.jpeg", "size": 72783, "type": "image/jpeg" }, { "file": "minus/minus-02.jpeg", "size": 74413, "type": "image/jpeg" }, { "file": "minus/minus-03.jpeg", "size": 71339, "type": "image/jpeg" }, { "file": "minus/minus-04.jpeg", "size": 76861, "type": "image/jpeg" }, { "file": "number_comparison/numbercomparison-01.jpeg", "size": 67853, "type": "image/jpeg" }, { "file": "number_comparison/numbercomparison-02.jpeg", "size": 69583, "type": "image/jpeg" }, { "file": "number_comparison/numbercomparison-03.jpeg", "size": 71068, "type": "image/jpeg" }, { "file": "number_comparison/numbercomparison-04.jpeg", "size": 70527, "type": "image/jpeg" }, { "file": "number_comparison/numbercomparison-05.jpeg", "size": 74497, "type": "image/jpeg" }, { "file": "number_comparison/numbercomparison-06.jpeg", "size": 79549, "type": "image/jpeg" }, { "file": "number_line/numberline-01.jpeg", "size": 84538, "type": "image/jpeg" }, { "file": "number_line/numberline-02.jpeg", "size": 84400, "type": "image/jpeg" }, { "file": "number_line/numberline-03.jpeg", "size": 84498, "type": "image/jpeg" }, { "file": "number_line/numberline-04.jpeg", "size": 84475, "type": "image/jpeg" }, { "file": "number_line/numberline-05.jpeg", "size": 84564, "type": "image/jpeg" }, { "file": "number_line/numberline-06.jpeg", "size": 82270, "type": "image/jpeg" }, { "file": "number_line/numberline-07.jpeg", "size": 94270, "type": "image/jpeg" }, { "file": "number_line/numberline-08.jpeg", "size": 87322, "type": "image/jpeg" }, { "file": "number_line/numberline-09.jpeg", "size": 93478, "type": "image/jpeg" }, { "file": "number_line/numberline-10.jpeg", "size": 88423, "type": "image/jpeg" }, { "file": "number_pattern/.DS_Store", "size": 6148, "type": null }, { "file": "number_pattern/numberpattern-01.jpeg", "size": 101807, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-02.jpeg", "size": 111130, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-03.jpeg", "size": 102234, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-04.jpeg", "size": 111219, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-05.jpeg", "size": 103208, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-06.jpeg", "size": 120511, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-07.jpeg", "size": 106663, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-08.jpeg", "size": 128896, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-09.jpeg", "size": 137700, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-10.jpeg", "size": 99376, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-11.jpeg", "size": 99619, "type": "image/jpeg" }, { "file": "plus/plus-01.jpeg", "size": 74055, "type": "image/jpeg" }, { "file": "plus/plus-02.jpeg", "size": 74143, "type": "image/jpeg" }, { "file": "plus/plus-03.jpeg", "size": 77092, "type": "image/jpeg" }, { "file": "plus/plus-04.jpeg", "size": 74925, "type": "image/jpeg" }, { "file": "quantities/quantities-01.jpeg", "size": 81145, "type": "image/jpeg" }, { "file": "quantities/quantities-02.jpeg", "size": 75379, "type": "image/jpeg" }, { "file": "quantities/quantities-03.jpeg", "size": 99567, "type": "image/jpeg" }, { "file": "quantities/quantities-04.jpeg", "size": 81531, "type": "image/jpeg" }, { "file": "quantities/quantities-05.jpeg", "size": 119731, "type": "image/jpeg" }, { "file": "quantities/quantities-06.jpeg", "size": 87200, "type": "image/jpeg" }, { "file": "quantities/quantities-07.jpeg", "size": 68834, "type": "image/jpeg" }, { "file": "quantities/quantities-08.jpeg", "size": 94103, "type": "image/jpeg" }, { "file": "quantities/quantities-09.jpeg", "size": 94089, "type": "image/jpeg" }, { "file": "quantities/quantities-10.jpeg", "size": 68792, "type": "image/jpeg" }, { "file": "quantities/quantities-11.jpeg", "size": 87613, "type": "image/jpeg" }, { "file": "quantities/quantities-12.jpeg", "size": 106707, "type": "image/jpeg" }, { "file": "quantities/quantities-13.jpeg", "size": 81406, "type": "image/jpeg" }, { "file": "quantities/quantities-14.jpeg", "size": 112850, "type": "image/jpeg" }, { "file": "quantities/quantities-15.jpeg", "size": 74424, "type": "image/jpeg" }, { "file": "quantities/quantities-16.jpeg", "size": 101040, "type": "image/jpeg" }, { "file": "quantities/quantities-17.jpeg", "size": 88076, "type": "image/jpeg" }, { "file": "quantities/quantities-18.jpeg", "size": 68903, "type": "image/jpeg" }, { "file": "quantity_comparison/quantitiycomparison-01.jpeg", "size": 83932, "type": "image/jpeg" }, { "file": "quantity_comparison/quantitiycomparison-02.jpeg", "size": 108448, "type": "image/jpeg" }, { "file": "quantity_comparison/quantitiycomparison-03.jpeg", "size": 121295, "type": "image/jpeg" }, { "file": "quantity_comparison/quantitiycomparison-04.jpeg", "size": 104631, "type": "image/jpeg" }, { "file": "quantity_comparison/quantitiycomparison-05.jpeg", "size": 100515, "type": "image/jpeg" }, { "file": "quantity_comparison/quantitiycomparison-06.jpeg", "size": 93909, "type": "image/jpeg" }],
   layout: "src/routes/__layout.svelte",
   error: ".svelte-kit/build/components/error.svelte",
   routes: [
@@ -56311,6 +56337,20 @@ var manifest = {
       pattern: /^\/$/,
       params: empty,
       a: ["src/routes/__layout.svelte", "src/routes/index.svelte"],
+      b: [".svelte-kit/build/components/error.svelte"]
+    },
+    {
+      type: "page",
+      pattern: /^\/TextAndAudio\/?$/,
+      params: empty,
+      a: ["src/routes/__layout.svelte", "src/routes/TextAndAudio.svelte"],
+      b: [".svelte-kit/build/components/error.svelte"]
+    },
+    {
+      type: "page",
+      pattern: /^\/new-user\/?$/,
+      params: empty,
+      a: ["src/routes/__layout.svelte", "src/routes/new-user/index.svelte"],
       b: [".svelte-kit/build/components/error.svelte"]
     },
     {
@@ -56329,6 +56369,13 @@ var manifest = {
     },
     {
       type: "page",
+      pattern: /^\/running\/([^/]+?)\/?$/,
+      params: (m) => ({ type: d(m[1]) }),
+      a: ["src/routes/running/__layout.reset.svelte", "src/routes/running/[type].svelte"],
+      b: []
+    },
+    {
+      type: "page",
       pattern: /^\/login\/?$/,
       params: empty,
       a: ["src/routes/login/__layout.reset.svelte", "src/routes/login/index.svelte"],
@@ -56336,10 +56383,18 @@ var manifest = {
     },
     {
       type: "endpoint",
+      pattern: /^\/api\/school\/?$/,
+      params: empty,
+      load: () => Promise.resolve().then(function() {
+        return index$7;
+      })
+    },
+    {
+      type: "endpoint",
       pattern: /^\/api\/auth\/logout\/?$/,
       params: empty,
       load: () => Promise.resolve().then(function() {
-        return index$4;
+        return index$6;
       })
     },
     {
@@ -56347,7 +56402,7 @@ var manifest = {
       pattern: /^\/api\/auth\/login\/?$/,
       params: empty,
       load: () => Promise.resolve().then(function() {
-        return index$3;
+        return index$5;
       })
     },
     {
@@ -56356,6 +56411,14 @@ var manifest = {
       params: empty,
       load: () => Promise.resolve().then(function() {
         return test;
+      })
+    },
+    {
+      type: "endpoint",
+      pattern: /^\/api\/user\/?$/,
+      params: empty,
+      load: () => Promise.resolve().then(function() {
+        return index$4;
       })
     }
   ]
@@ -56374,6 +56437,12 @@ var module_lookup = {
     return error$1;
   }),
   "src/routes/index.svelte": () => Promise.resolve().then(function() {
+    return index$3;
+  }),
+  "src/routes/TextAndAudio.svelte": () => Promise.resolve().then(function() {
+    return TextAndAudio$1;
+  }),
+  "src/routes/new-user/index.svelte": () => Promise.resolve().then(function() {
     return index$2;
   }),
   "src/routes/profile/index.svelte": () => Promise.resolve().then(function() {
@@ -56382,6 +56451,12 @@ var module_lookup = {
   "src/routes/profile/[username].svelte": () => Promise.resolve().then(function() {
     return _username_;
   }),
+  "src/routes/running/__layout.reset.svelte": () => Promise.resolve().then(function() {
+    return __layout_reset$1;
+  }),
+  "src/routes/running/[type].svelte": () => Promise.resolve().then(function() {
+    return _type_;
+  }),
   "src/routes/login/__layout.reset.svelte": () => Promise.resolve().then(function() {
     return __layout_reset;
   }),
@@ -56389,7 +56464,7 @@ var module_lookup = {
     return index;
   })
 };
-var metadata_lookup = { "src/routes/__layout.svelte": { "entry": "pages/__layout.svelte-567fba40.js", "css": ["assets/pages/__layout.svelte-a936fe29.css"], "js": ["pages/__layout.svelte-567fba40.js", "chunks/vendor-19443505.js"], "styles": [] }, ".svelte-kit/build/components/error.svelte": { "entry": "error.svelte-54b90ea4.js", "css": [], "js": ["error.svelte-54b90ea4.js", "chunks/vendor-19443505.js"], "styles": [] }, "src/routes/index.svelte": { "entry": "pages/index.svelte-8fe0b604.js", "css": [], "js": ["pages/index.svelte-8fe0b604.js", "chunks/vendor-19443505.js"], "styles": [] }, "src/routes/profile/index.svelte": { "entry": "pages/profile/index.svelte-26d7334e.js", "css": [], "js": ["pages/profile/index.svelte-26d7334e.js", "chunks/vendor-19443505.js"], "styles": [] }, "src/routes/profile/[username].svelte": { "entry": "pages/profile/[username].svelte-49062b0b.js", "css": [], "js": ["pages/profile/[username].svelte-49062b0b.js", "chunks/vendor-19443505.js"], "styles": [] }, "src/routes/login/__layout.reset.svelte": { "entry": "pages/login/__layout.reset.svelte-ff07241f.js", "css": [], "js": ["pages/login/__layout.reset.svelte-ff07241f.js", "chunks/vendor-19443505.js"], "styles": [] }, "src/routes/login/index.svelte": { "entry": "pages/login/index.svelte-b84c7790.js", "css": ["assets/pages/login/index.svelte-cc2d31fa.css"], "js": ["pages/login/index.svelte-b84c7790.js", "chunks/vendor-19443505.js"], "styles": [] } };
+var metadata_lookup = { "src/routes/__layout.svelte": { "entry": "pages/__layout.svelte-0c99b716.js", "css": ["assets/pages/__layout.svelte-a27daa77.css", "assets/vendor-15d9d811.css"], "js": ["pages/__layout.svelte-0c99b716.js", "chunks/vendor-c910c2b0.js"], "styles": [] }, ".svelte-kit/build/components/error.svelte": { "entry": "error.svelte-b7d22ca5.js", "css": ["assets/vendor-15d9d811.css"], "js": ["error.svelte-b7d22ca5.js", "chunks/vendor-c910c2b0.js"], "styles": [] }, "src/routes/index.svelte": { "entry": "pages/index.svelte-9338aad7.js", "css": ["assets/vendor-15d9d811.css"], "js": ["pages/index.svelte-9338aad7.js", "chunks/vendor-c910c2b0.js", "pages/TextAndAudio.svelte-6114647e.js", "chunks/singletons-12a22614.js"], "styles": [] }, "src/routes/TextAndAudio.svelte": { "entry": "pages/TextAndAudio.svelte-6114647e.js", "css": ["assets/vendor-15d9d811.css"], "js": ["pages/TextAndAudio.svelte-6114647e.js", "chunks/vendor-c910c2b0.js"], "styles": [] }, "src/routes/new-user/index.svelte": { "entry": "pages/new-user/index.svelte-9eed996d.js", "css": ["assets/vendor-15d9d811.css", "assets/SubmitButton-b30b09f9.css"], "js": ["pages/new-user/index.svelte-9eed996d.js", "chunks/vendor-c910c2b0.js", "chunks/stores-75d53c29.js", "chunks/SubmitButton-57b888ce.js"], "styles": [] }, "src/routes/profile/index.svelte": { "entry": "pages/profile/index.svelte-afe620f9.js", "css": ["assets/vendor-15d9d811.css"], "js": ["pages/profile/index.svelte-afe620f9.js", "chunks/vendor-c910c2b0.js"], "styles": [] }, "src/routes/profile/[username].svelte": { "entry": "pages/profile/[username].svelte-e13ecd94.js", "css": ["assets/vendor-15d9d811.css"], "js": ["pages/profile/[username].svelte-e13ecd94.js", "chunks/vendor-c910c2b0.js", "chunks/stores-75d53c29.js"], "styles": [] }, "src/routes/running/__layout.reset.svelte": { "entry": "pages/running/__layout.reset.svelte-31a43d21.js", "css": ["assets/vendor-15d9d811.css"], "js": ["pages/running/__layout.reset.svelte-31a43d21.js", "chunks/vendor-c910c2b0.js"], "styles": [] }, "src/routes/running/[type].svelte": { "entry": "pages/running/[type].svelte-0fd1195f.js", "css": ["assets/vendor-15d9d811.css"], "js": ["pages/running/[type].svelte-0fd1195f.js", "chunks/vendor-c910c2b0.js", "chunks/stores-75d53c29.js"], "styles": [] }, "src/routes/login/__layout.reset.svelte": { "entry": "pages/login/__layout.reset.svelte-7f409c95.js", "css": ["assets/vendor-15d9d811.css"], "js": ["pages/login/__layout.reset.svelte-7f409c95.js", "chunks/vendor-c910c2b0.js"], "styles": [] }, "src/routes/login/index.svelte": { "entry": "pages/login/index.svelte-1ef53797.js", "css": ["assets/vendor-15d9d811.css", "assets/SubmitButton-b30b09f9.css"], "js": ["pages/login/index.svelte-1ef53797.js", "chunks/vendor-c910c2b0.js", "chunks/SubmitButton-57b888ce.js"], "styles": [] } };
 async function load_component(file) {
   const { entry, css: css2, js, styles } = metadata_lookup[file];
   return {
@@ -56406,7 +56481,46 @@ function render(request, {
   const host = request.headers["host"];
   return respond({ ...request, host }, options, { prerender });
 }
-var post$2 = async (request) => {
+var post$4 = async ({ body }) => {
+  await connect();
+  const req = JSON.parse(body);
+  const school = new School({ name: req.name });
+  const saved = await school.save();
+  console.log(saved);
+  return {
+    status: 200,
+    body: {
+      message: "School created"
+    }
+  };
+};
+var get = async (request) => {
+  if (request.locals.user) {
+    const user = request.locals.user;
+    if (user.type === "researcher") {
+      const schools = await School.find();
+      return {
+        status: 200,
+        body: {
+          schools
+        }
+      };
+    }
+  }
+  return {
+    status: 204,
+    body: {
+      message: "Not a researcher"
+    }
+  };
+};
+var index$7 = /* @__PURE__ */ Object.freeze({
+  __proto__: null,
+  [Symbol.toStringTag]: "Module",
+  post: post$4,
+  get
+});
+var post$3 = async (request) => {
   console.log(request);
   const cookies = cookie.parse(request.headers.cookie || "");
   if (cookies.session_id && request.locals.user) {
@@ -56429,12 +56543,12 @@ var post$2 = async (request) => {
     }
   };
 };
-var index$4 = /* @__PURE__ */ Object.freeze({
+var index$6 = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
-  post: post$2
+  post: post$3
 });
-var post$1 = async (request) => {
+var post$2 = async (request) => {
   await connect();
   const { username, password } = request.body.valueOf();
   const user = await User.findOne({ username });
@@ -56475,12 +56589,12 @@ var post$1 = async (request) => {
     }
   };
 };
-var index$3 = /* @__PURE__ */ Object.freeze({
+var index$5 = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
-  post: post$1
+  post: post$2
 });
-var post = async ({ body }) => {
+var post$1 = async ({ body }) => {
   await connect();
   const req = JSON.parse(body);
   const cryptPassword = import_bcryptjs.default.hashSync(req.password);
@@ -56496,9 +56610,39 @@ var post = async ({ body }) => {
 var test = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
+  post: post$1
+});
+var post = async (request) => {
+  const { username, password, type, school_id } = request.body.valueOf();
+  console.log(school_id);
+  const user = await User.findOne({ username });
+  if (user) {
+    return {
+      status: 401,
+      body: {
+        message: "User already exists"
+      }
+    };
+  }
+  const newUser = new User({ username, password, type, school_id });
+  await newUser.save();
+  const school = await School.findById(school_id);
+  console.log(school);
+  school.users = [...school.users, newUser.id];
+  await school.save();
+  return {
+    status: 200,
+    body: {
+      message: "User created successfully"
+    }
+  };
+};
+var index$4 = /* @__PURE__ */ Object.freeze({
+  __proto__: null,
+  [Symbol.toStringTag]: "Module",
   post
 });
-var __awaiter$3 = function(thisArg, _arguments, P, generator) {
+var __awaiter$5 = function(thisArg, _arguments, P, generator) {
   function adopt(value) {
     return value instanceof P ? value : new P(function(resolve2) {
       resolve2(value);
@@ -56525,7 +56669,7 @@ var __awaiter$3 = function(thisArg, _arguments, P, generator) {
     step((generator = generator.apply(thisArg, _arguments || [])).next());
   });
 };
-var load$4 = ({ session: session2 }) => __awaiter$3(void 0, void 0, void 0, function* () {
+var load$6 = ({ session: session2 }) => __awaiter$5(void 0, void 0, void 0, function* () {
   console.log("load session", session2);
   if (session2.user) {
     delete session2.user.password;
@@ -56574,15 +56718,15 @@ var _layout = create_ssr_component(($$result, $$props, $$bindings, slots) => {
 				<a href="${"/new-user"}" class="${"nav-item"}">New user</a>` : ``}
 			${user.type === "researcher" ? `<a href="${"/tasks"}" class="${"nav-item"}">Tasks</a>` : ``}` : `<a href="${"/login"}" class="${"nav-item"}">Login</a>`}</nav></header>
 
-<div class="${"mx-6 lg:max-w-screen-xl lg:mx-auto"}">${slots.default ? slots.default({}) : ``}</div>`;
+<div class="${"mx-6 max-w-screen-lg xl:max-w-screen-xl md: mx-auto"}">${slots.default ? slots.default({}) : ``}</div>`;
 });
 var __layout = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
   "default": _layout,
-  load: load$4
+  load: load$6
 });
-function load$3({ error: error2, status }) {
+function load$5({ error: error2, status }) {
   return { props: { error: error2, status } };
 }
 var Error$1 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
@@ -56605,7 +56749,184 @@ var error$1 = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
   "default": Error$1,
-  load: load$3
+  load: load$5
+});
+var css$1 = {
+  code: "svg.svelte-heylkm{stroke:currentColor;fill:currentColor;stroke-width:0;height:auto;max-height:100%;width:100%}",
+  map: '{"version":3,"file":"IconBase.svelte","sources":["IconBase.svelte"],"sourcesContent":["<script>\\n  export let title = null;\\n  export let viewBox;\\n<\/script>\\n\\n<style>svg{stroke:currentColor;fill:currentColor;stroke-width:0;height:auto;max-height:100%;width:100%}</style>\\n\\n<svg xmlns=\\"http://www.w3.org/2000/svg\\" {viewBox}>\\n  {#if title}\\n    <title>{title}</title>\\n  {/if}\\n  <slot />\\n</svg>\\n"],"names":[],"mappings":"AAKO,iBAAG,CAAC,OAAO,YAAY,CAAC,KAAK,YAAY,CAAC,aAAa,CAAC,CAAC,OAAO,IAAI,CAAC,WAAW,IAAI,CAAC,MAAM,IAAI,CAAC"}'
+};
+var IconBase = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+  let { title = null } = $$props;
+  let { viewBox } = $$props;
+  if ($$props.title === void 0 && $$bindings.title && title !== void 0)
+    $$bindings.title(title);
+  if ($$props.viewBox === void 0 && $$bindings.viewBox && viewBox !== void 0)
+    $$bindings.viewBox(viewBox);
+  $$result.css.add(css$1);
+  return `<svg xmlns="${"http://www.w3.org/2000/svg"}"${add_attribute("viewBox", viewBox, 0)} class="${"svelte-heylkm"}">${title ? `<title>${escape(title)}</title>` : ``}${slots.default ? slots.default({}) : ``}</svg>`;
+});
+var FaRegPlayCircle = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+  return `${validate_component(IconBase, "IconBase").$$render($$result, Object.assign({ viewBox: "0 0 512 512" }, $$props), {}, {
+    default: () => `<path d="${"M371.7 238l-176-107c-15.8-8.8-35.7 2.5-35.7 21v208c0 18.4 19.8 29.8 35.7 21l176-101c16.4-9.1 16.4-32.8 0-42zM504 256C504 119 393 8 256 8S8 119 8 256s111 248 248 248 248-111 248-248zm-448 0c0-110.5 89.5-200 200-200s200 89.5 200 200-89.5 200-200 200S56 366.5 56 256z"}"></path>`
+  })}`;
+});
+var FaRegPauseCircle = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+  return `${validate_component(IconBase, "IconBase").$$render($$result, Object.assign({ viewBox: "0 0 512 512" }, $$props), {}, {
+    default: () => `<path d="${"M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5 0-200-89.5-200-200S145.5 56 256 56s200 89.5 200 200-89.5 200-200 200zm96-280v160c0 8.8-7.2 16-16 16h-48c-8.8 0-16-7.2-16-16V176c0-8.8 7.2-16 16-16h48c8.8 0 16 7.2 16 16zm-112 0v160c0 8.8-7.2 16-16 16h-48c-8.8 0-16-7.2-16-16V176c0-8.8 7.2-16 16-16h48c8.8 0 16 7.2 16 16z"}"></path>`
+  })}`;
+});
+var AudioPlayer = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+  let { src: src2 } = $$props;
+  let { autoplay = false } = $$props;
+  let player;
+  let paused = autoplay;
+  if ($$props.src === void 0 && $$bindings.src && src2 !== void 0)
+    $$bindings.src(src2);
+  if ($$props.autoplay === void 0 && $$bindings.autoplay && autoplay !== void 0)
+    $$bindings.autoplay(autoplay);
+  return `<button class="${"w-12 p-1 rounded-md border-gray-400 border-2 hover:bg-blue-400"}">${paused ? `${validate_component(FaRegPlayCircle, "FaRegPlayCircle").$$render($$result, {}, {}, {})}` : `${validate_component(FaRegPauseCircle, "FaRegPauseCircle").$$render($$result, {}, {}, {})}`}</button>
+
+<audio${add_attribute("src", src2, 0)} controls ${autoplay ? "autoplay" : ""} class="${"hidden"}"${add_attribute("this", player, 0)}${add_attribute("paused", paused, 0)}><track kind="${"captions"}"></audio>`;
+});
+var TextAndAudio = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+  let { text } = $$props;
+  let { src: src2 } = $$props;
+  let { autoplay = false } = $$props;
+  if ($$props.text === void 0 && $$bindings.text && text !== void 0)
+    $$bindings.text(text);
+  if ($$props.src === void 0 && $$bindings.src && src2 !== void 0)
+    $$bindings.src(src2);
+  if ($$props.autoplay === void 0 && $$bindings.autoplay && autoplay !== void 0)
+    $$bindings.autoplay(autoplay);
+  return `<span class="${"whitespace-pre-line"}">${escape(text)}</span>
+${validate_component(AudioPlayer, "AudioPlayer").$$render($$result, { src: src2, autoplay }, {}, {})}`;
+});
+var TextAndAudio$1 = /* @__PURE__ */ Object.freeze({
+  __proto__: null,
+  [Symbol.toStringTag]: "Module",
+  "default": TextAndAudio
+});
+var textAndAudio = {
+  "1": { audio: "/audio/01.m4a", text: "\u039C\u03B5 \u03C4\u03B9 \u03B8\u03B1 \u03AE\u03B8\u03B5\u03BB\u03B5\u03C2 \u03BD\u03B1 \u03B1\u03C3\u03C7\u03BF\u03BB\u03B7\u03B8\u03B5\u03AF\u03C2; \u0394\u03B9\u03AC\u03BB\u03B5\u03BE\u03B5 \u03BC\u03AF\u03B1 \u03B5\u03C1\u03B3\u03B1\u03C3\u03AF\u03B1." },
+  "2": { audio: "/audio/02.m4a", text: "\u03A3\u03C5\u03B3\u03BA\u03B5\u03BD\u03C4\u03C1\u03CE\u03C3\u03BF\u03C5 \u03BA\u03B1\u03B9 \u03B4\u03BF\u03CD\u03BB\u03B5\u03C8\u03B5 \u03C3\u03C4\u03B9\u03C2 \u03B5\u03C1\u03B3\u03B1\u03C3\u03AF\u03B5\u03C2." },
+  "3": {
+    audio: "/audio/03.m4a",
+    text: "\u03A0\u03B9\u03BF \u03BA\u03AC\u03C4\u03C9 \u03B2\u03BB\u03AD\u03C0\u03B5\u03B9\u03C2 \u03AD\u03BD\u03B1\u03BD \u03C0\u03AF\u03BD\u03B1\u03BA\u03B1 \u03BC\u03B5 \u03B1\u03C1\u03B9\u03B8\u03BC\u03BF\u03CD\u03C2. \u0392\u03C1\u03B5\u03C2 \u03C4\u03BF\u03BD \u03B1\u03C1\u03B9\u03B8\u03BC\u03CC 7 \u03BA\u03B1\u03B9 \u03B5\u03C0\u03AD\u03BB\u03B5\u03BE\u03B5 \u03C4\u03BF\u03BD. "
+  },
+  "4": {
+    audio: "/audio/04.m4a",
+    text: "\u0395\u03B4\u03CE \u03B2\u03BB\u03AD\u03C0\u03B5\u03B9\u03C2 \u03AD\u03BD\u03B1 \u03B1\u03C3\u03C4\u03AD\u03C1\u03B9. \u038C\u03C4\u03B1\u03BD \u03B5\u03C0\u03B9\u03BB\u03AD\u03BE\u03B5\u03B9\u03C2 \u03C4\u03BF \u03B1\u03C3\u03C4\u03AD\u03C1\u03B9, \u03B8\u03B1 \u03C0\u03C1\u03BF\u03C7\u03C9\u03C1\u03AE\u03C3\u03B5\u03B9\u03C2 \u03C3\u03C4\u03B7\u03BD \u03B5\u03C0\u03CC\u03BC\u03B5\u03BD\u03B7 \u03B5\u03C1\u03B3\u03B1\u03C3\u03AF\u03B1."
+  },
+  "5": { audio: "/audio/05.m4a", text: "\u03A0\u03AC\u03C4\u03B7\u03C3\u03B5 / \u0395\u03C0\u03AD\u03BB\u03B5\u03BE\u03B5 \u03C4\u03BF \u03B1\u03C3\u03C4\u03AD\u03C1\u03B9." },
+  "6": { audio: "/audio/06.m4a", text: "\u03A0\u03AC\u03C4\u03B7\u03C3\u03B5 / \u0395\u03C0\u03AD\u03BB\u03B5\u03BE\u03B5 \u03C4\u03BF\u03BD \u03B1\u03C1\u03B9\u03B8\u03BC\u03CC 11." },
+  "7": { audio: "/audio/07.m4a", text: "\u0395\u03AC\u03BD \u03B4\u03B5\u03BD \u03B3\u03BD\u03C9\u03C1\u03AF\u03B6\u03B5\u03B9\u03C2 \u03C4\u03B7\u03BD \u03B1\u03C0\u03AC\u03BD\u03C4\u03B7\u03C3\u03B7, \u03B5\u03C0\u03AD\u03BB\u03B5\u03BE\u03B5 \u03C4\u03BF \u03B1\u03C3\u03C4\u03AD\u03C1\u03B9." },
+  "8": {
+    audio: "/audio/08.m4a",
+    text: "\u03A0\u03CC\u03C3\u03B5\u03C2 \u03BA\u03BF\u03C5\u03BA\u03BA\u03AF\u03B4\u03B5\u03C2 \u03B2\u03BB\u03AD\u03C0\u03B5\u03B9\u03C2; \u0395\u03C0\u03AD\u03BB\u03B5\u03BE\u03B5 \u03C4\u03BF\u03BD \u03C3\u03C9\u03C3\u03C4\u03CC \u03B1\u03C1\u03B9\u03B8\u03BC\u03CC \u03B1\u03C0\u03CC \u03C4\u03BF \u03C0\u03BB\u03AD\u03B3\u03BC\u03B1 \u03BC\u03B5 \u03C4\u03BF\u03C5\u03C2 \u03B1\u03C1\u03B9\u03B8\u03BC\u03BF\u03CD\u03C2."
+  },
+  "9": {
+    audio: "/audio/09.m4a",
+    text: "\u03A0\u03BF\u03B9\u03BF\u03BD \u03B1\u03C1\u03B9\u03B8\u03BC\u03CC \u03B4\u03B5\u03AF\u03C7\u03BD\u03B5\u03B9 \u03C4\u03BF \u03C4\u03CC\u03BE\u03BF;\n\u0395\u03C0\u03AD\u03BB\u03B5\u03BE\u03B5 \u03C4\u03BF\u03BD \u03C3\u03C9\u03C3\u03C4\u03CC \u03B1\u03C1\u03B9\u03B8\u03BC\u03CC \u03B1\u03C0\u03CC \u03C4\u03BF\u03BD \u03C0\u03AF\u03BD\u03B1\u03BA\u03B1 \u03BC\u03B5 \u03C4\u03BF\u03C5\u03C2 \u03B1\u03C1\u03B9\u03B8\u03BC\u03BF\u03CD\u03C2."
+  },
+  "10": {
+    audio: "/audio/10.m4a",
+    text: "\u03A0\u03BF\u03B9\u03BF\u03C2 \u03B1\u03C1\u03B9\u03B8\u03BC\u03CC\u03C2 \u03BA\u03C1\u03CD\u03B2\u03B5\u03C4\u03B1\u03B9 \u03C0\u03AF\u03C3\u03C9 \u03B1\u03C0\u03CC \u03C4\u03BF\u03BD \u03AE\u03BB\u03B9\u03BF; \u0395\u03C0\u03AD\u03BB\u03B5\u03BE\u03B5 \u03C4\u03BF\u03BD \u03C3\u03C9\u03C3\u03C4\u03CC \u03B1\u03C1\u03B9\u03B8\u03BC\u03CC \u03B1\u03C0\u03CC \u03C4\u03BF\u03BD \u03C0\u03AF\u03BD\u03B1\u03BA\u03B1 \u03BC\u03B5 \u03C4\u03BF\u03C5\u03C2 \u03B1\u03C1\u03B9\u03B8\u03BC\u03BF\u03CD\u03C2."
+  },
+  "11": {
+    audio: "/audio/11.m4a",
+    text: "\u0395\u03B4\u03CE, \u03B2\u03BB\u03AD\u03C0\u03B5\u03B9\u03C2 3 \u03BA\u03BF\u03C5\u03BA\u03BA\u03AF\u03B4\u03B5\u03C2. \u0394\u03B5\u03BD \u03C0\u03C1\u03AD\u03C0\u03B5\u03B9 \u03BD\u03B1 \u03B5\u03C0\u03B9\u03BB\u03AD\u03BE\u03B5\u03B9\u03C2 \u03C0\u03CC\u03C3\u03B5\u03C2 \u03BA\u03BF\u03C5\u03BA\u03BA\u03AF\u03B4\u03B5\u03C2 \u03B2\u03BB\u03AD\u03C0\u03B5\u03B9\u03C2 \u03B1\u03BB\u03BB\u03AC \u03BD\u03B1 \u03B5\u03C0\u03B9\u03BB\u03AD\u03BE\u03B5\u03B9\u03C2 \u03C0\u03CC\u03C3\u03B5\u03C2 \u03BA\u03BF\u03C5\u03BA\u03BA\u03AF\u03B4\u03B5\u03C2 \u03C0\u03C1\u03AD\u03C0\u03B5\u03B9 \u03BD\u03B1 \u03B1\u03C6\u03B1\u03B9\u03C1\u03B5\u03B8\u03BF\u03CD\u03BD \u03CE\u03C3\u03C4\u03B5 \u03BD\u03B1 \u03BC\u03B5\u03AF\u03BD\u03B5\u03B9 \u03BC\u03CC\u03BD\u03BF \u03BC\u03AF\u03B1 \u03BA\u03BF\u03C5\u03BA\u03BA\u03AF\u03B4\u03B1.\n\u0395\u03C0\u03AD\u03BB\u03B5\u03BE\u03B5 \u03C4\u03BF\u03BD \u03C3\u03C9\u03C3\u03C4\u03CC \u03B1\u03C1\u03B9\u03B8\u03BC\u03CC \u03B1\u03C0\u03CC \u03C4\u03BF\u03BD \u03C0\u03AF\u03BD\u03B1\u03BA\u03B1 \u03BC\u03B5 \u03C4\u03BF\u03C5\u03C2 \u03B1\u03C1\u03B9\u03B8\u03BC\u03BF\u03CD\u03C2."
+  },
+  "12": {
+    audio: "/audio/12.m4a",
+    text: "\u03A0\u03CC\u03C3\u03B5\u03C2 \u03BA\u03BF\u03C5\u03BA\u03BA\u03AF\u03B4\u03B5\u03C2 \u03C0\u03C1\u03AD\u03C0\u03B5\u03B9 \u03BD\u03B1 \u03B1\u03C6\u03B1\u03B9\u03C1\u03AD\u03C3\u03B5\u03B9\u03C2 \u03B3\u03B9\u03B1 \u03BD\u03B1 \u03BC\u03B5\u03AF\u03BD\u03BF\u03C5\u03BD \u03BC\u03CC\u03BD\u03BF 3;"
+  },
+  "13": {
+    audio: "/audio/13.m4a",
+    text: "\u03A0\u03CC\u03C3\u03B5\u03C2 \u03BA\u03BF\u03C5\u03BA\u03BA\u03AF\u03B4\u03B5\u03C2 \u03C0\u03C1\u03AD\u03C0\u03B5\u03B9 \u03BD\u03B1 \u03B1\u03C6\u03B1\u03B9\u03C1\u03AD\u03C3\u03B5\u03B9\u03C2 \u03B3\u03B9\u03B1 \u03BD\u03B1 \u03BC\u03B5\u03AF\u03BD\u03BF\u03C5\u03BD \u03BC\u03CC\u03BD\u03BF 4;"
+  },
+  "14": {
+    audio: "/audio/14.m4a",
+    text: "\u0395\u03B4\u03CE, \u03B2\u03BB\u03AD\u03C0\u03B5\u03B9\u03C2 2 \u03BA\u03BF\u03C5\u03BA\u03BA\u03AF\u03B4\u03B5\u03C2. \u03A0\u03CC\u03C3\u03B5\u03C2 \u03C0\u03C1\u03AD\u03C0\u03B5\u03B9 \u03BD\u03B1 \u03C0\u03C1\u03BF\u03C3\u03B8\u03AD\u03C3\u03B5\u03B9\u03C2 \u03B3\u03B9\u03B1 \u03BD\u03B1 \u03AD\u03C7\u03B5\u03B9\u03C2 3;"
+  },
+  "15": { audio: "/audio/15.m4a", text: "\u03A0\u03CC\u03C3\u03B5\u03C2 \u03C0\u03C1\u03AD\u03C0\u03B5\u03B9 \u03BD\u03B1 \u03C0\u03C1\u03BF\u03C3\u03B8\u03AD\u03C3\u03B5\u03B9\u03C2 \u03B3\u03B9\u03B1 \u03BD\u03B1 \u03AD\u03C7\u03B5\u03B9\u03C2 7;" },
+  "16": { audio: "/audio/16.m4a", text: "\u03A0\u03CC\u03C3\u03B5\u03C2 \u03C0\u03C1\u03AD\u03C0\u03B5\u03B9 \u03BD\u03B1 \u03C0\u03C1\u03BF\u03C3\u03B8\u03AD\u03C3\u03B5\u03B9\u03C2 \u03B3\u03B9\u03B1 \u03BD\u03B1 \u03AD\u03C7\u03B5\u03B9\u03C2 8;" },
+  "17": {
+    audio: "/audio/17.m4a",
+    text: "\u03A0\u03BF\u03B9\u03BF\u03C2 \u03B1\u03C1\u03B9\u03B8\u03BC\u03CC\u03C2 \u03B5\u03AF\u03BD\u03B1\u03B9 \u03BF \u03BC\u03B5\u03B3\u03B1\u03BB\u03CD\u03C4\u03B5\u03C1\u03BF\u03C2;\n\u0395\u03C0\u03AD\u03BB\u03B5\u03BE\u03B5 \u03C4\u03BF\u03BD \u03C3\u03C9\u03C3\u03C4\u03CC \u03B1\u03C1\u03B9\u03B8\u03BC\u03CC \u03B1\u03C0\u03CC \u03C4\u03BF\u03BD \u03C0\u03AF\u03BD\u03B1\u03BA\u03B1 \u03BC\u03B5 \u03C4\u03BF\u03C5\u03C2 \u03B1\u03C1\u03B9\u03B8\u03BC\u03BF\u03CD\u03C2."
+  },
+  "18": {
+    audio: "/audio/18.m4a",
+    text: "\u039A\u03AC\u03BD\u03B5 \u03C4\u03B7\u03BD \u03C0\u03C1\u03CC\u03C3\u03B8\u03B5\u03C3\u03B7 / \u03A5\u03C0\u03BF\u03BB\u03CC\u03B3\u03B9\u03C3\u03B5 \u03C4\u03BF \u03AC\u03B8\u03C1\u03BF\u03B9\u03C3\u03BC\u03B1.\n\u0395\u03C0\u03AD\u03BB\u03B5\u03BE\u03B5 \u03C4\u03BF\u03BD \u03C3\u03C9\u03C3\u03C4\u03CC \u03B1\u03C1\u03B9\u03B8\u03BC\u03CC \u03B1\u03C0\u03CC \u03C4\u03BF\u03BD \u03C0\u03AF\u03BD\u03B1\u03BA\u03B1 \u03BC\u03B5 \u03C4\u03BF\u03C5\u03C2 \u03B1\u03C1\u03B9\u03B8\u03BC\u03BF\u03CD\u03C2."
+  },
+  "19": {
+    audio: "/audio/19.m4a",
+    text: "\u039A\u03AC\u03BD\u03B5 \u03C4\u03B7\u03BD \u03B1\u03C6\u03B1\u03AF\u03C1\u03B5\u03C3\u03B7 / \u03A5\u03C0\u03BF\u03BB\u03CC\u03B3\u03B9\u03C3\u03B5 \u03C4\u03B7 \u03B4\u03B9\u03B1\u03C6\u03BF\u03C1\u03AC.\n\u0395\u03C0\u03AD\u03BB\u03B5\u03BE\u03B5 \u03C4\u03BF\u03BD \u03C3\u03C9\u03C3\u03C4\u03CC \u03B1\u03C1\u03B9\u03B8\u03BC\u03CC \u03B1\u03C0\u03CC \u03C4\u03BF\u03BD \u03C0\u03AF\u03BD\u03B1\u03BA\u03B1 \u03BC\u03B5 \u03C4\u03BF\u03C5\u03C2 \u03B1\u03C1\u03B9\u03B8\u03BC\u03BF\u03CD\u03C2."
+  },
+  "20": {
+    audio: "/audio/20.m4a",
+    text: "\u03A0\u03BF\u03B9\u03B1 \u03B5\u03AF\u03BD\u03B1\u03B9 \u03C0\u03B5\u03C1\u03B9\u03C3\u03C3\u03CC\u03C4\u03B5\u03C1\u03B1; \u03A4\u03B1 \u03BC\u03C0\u03BB\u03B5; \u0389 \u03C4\u03B1 \u03BA\u03AF\u03C4\u03C1\u03B9\u03BD\u03B1; \u0389 \u03B5\u03AF\u03BD\u03B1\u03B9 \u03AF\u03C3\u03B1;\n\u0395\u03C0\u03AD\u03BB\u03B5\u03BE\u03B5 \u03C4\u03BF \u03BC\u03C0\u03BB\u03B5 \u03AE \u03C4\u03BF \u03BA\u03AF\u03C4\u03C1\u03B9\u03BD\u03BF \u03AE \u03C4\u03BF \u03AF\u03C3\u03BF\u03BD."
+  },
+  "21": {
+    audio: "/audio/21.m4a",
+    text: "\u0395\u03B4\u03CE \u03B2\u03BB\u03AD\u03C0\u03B5\u03B9\u03C2 \u03BA\u03BF\u03C5\u03BA\u03BA\u03AF\u03B4\u03B5\u03C2. \u03A0\u03C1\u03CE\u03C4\u03B1 \u03B5\u03AF\u03BD\u03B1\u03B9 \u03BA\u03CC\u03BA\u03BA\u03B9\u03BD\u03B7, \u03BC\u03B5\u03C4\u03AC \u03BA\u03AF\u03C4\u03C1\u03B9\u03BD\u03B7, \u03BA\u03CC\u03BA\u03BA\u03B9\u03BD\u03B7, \u03BA\u03AF\u03C4\u03C1\u03B9\u03BD\u03B7, \u03BA\u03CC\u03BA\u03BA\u03B9\u03BD\u03B7, \u03BA\u03AF\u03C4\u03C1\u03B9\u03BD\u03B7\u2026 \u03A4\u03B9 \u03C7\u03C1\u03CE\u03BC\u03B1 \u03B5\u03AF\u03BD\u03B1\u03B9 \u03B7 \u03BA\u03C1\u03C5\u03BC\u03BC\u03AD\u03BD\u03B7 \u03BA\u03BF\u03C5\u03BA\u03BA\u03AF\u03B4\u03B1 \u03C0\u03AF\u03C3\u03C9 \u03B1\u03C0\u03CC \u03C4\u03B7\u03BD \u03C3\u03C4\u03B1\u03B3\u03CC\u03BD\u03B1;\n\u0395\u03C0\u03AD\u03BB\u03B5\u03BE\u03B5 \u03C4\u03B7\u03BD \u03BC\u03C0\u03BB\u03B5 \u03AE \u03C4\u03B7\u03BD \u03BA\u03CC\u03BA\u03BA\u03B9\u03BD\u03B7 \u03AE \u03C4\u03B7\u03BD \u03BA\u03AF\u03C4\u03C1\u03B9\u03BD\u03B7 \u03BA\u03BF\u03C5\u03BA\u03BA\u03AF\u03B4\u03B1 \u03B1\u03C0\u03CC \u03C4\u03BF\u03BD \u03C0\u03AF\u03BD\u03B1\u03BA\u03B1."
+  },
+  "22": {
+    audio: "/audio/22.m4a",
+    text: "\u03A4\u03B9 \u03C7\u03C1\u03CE\u03BC\u03B1 \u03B5\u03AF\u03BD\u03B1\u03B9 \u03B7 \u03BA\u03C1\u03C5\u03BC\u03BC\u03AD\u03BD\u03B7 \u03BA\u03BF\u03C5\u03BA\u03BA\u03AF\u03B4\u03B1 \u03C0\u03AF\u03C3\u03C9 \u03B1\u03C0\u03CC \u03C4\u03B7\u03BD \u03C3\u03C4\u03B1\u03B3\u03CC\u03BD\u03B1;\n\u0395\u03C0\u03AD\u03BB\u03B5\u03BE\u03B5 \u03C4\u03B7\u03BD \u03BC\u03C0\u03BB\u03B5 \u03AE \u03C4\u03B7\u03BD \u03BA\u03CC\u03BA\u03BA\u03B9\u03BD\u03B7 \u03AE \u03C4\u03B7\u03BD \u03BA\u03AF\u03C4\u03C1\u03B9\u03BD\u03B7 \u03BA\u03BF\u03C5\u03BA\u03BA\u03AF\u03B4\u03B1 \u03B1\u03C0\u03CC \u03C4\u03BF\u03BD \u03C0\u03AF\u03BD\u03B1\u03BA\u03B1."
+  },
+  "23": {
+    audio: "/audio/23.m4a",
+    text: "\u0395\u03B4\u03CE \u03B2\u03BB\u03AD\u03C0\u03B5\u03B9\u03C2 \u03B1\u03C1\u03B9\u03B8\u03BC\u03BF\u03CD\u03C2. \u03A0\u03C1\u03CE\u03C4\u03B1 \u03C4\u03BF 1, \u03BC\u03B5\u03C4\u03AC \u03C4\u03BF 2, \u03C4\u03BF 1, \u03C4\u03BF 2, \u03C4\u03BF 1, \u03C4\u03BF 2\u2026 \u03A0\u03BF\u03B9\u03BF\u03C2 \u03B1\u03C1\u03B9\u03B8\u03BC\u03CC\u03C2 \u03B5\u03AF\u03BD\u03B1\u03B9 \u03BA\u03C1\u03C5\u03BC\u03BC\u03AD\u03BD\u03BF\u03C2 \u03C0\u03AF\u03C3\u03C9 \u03B1\u03C0\u03CC \u03C4\u03B7\u03BD \u03C3\u03C4\u03B1\u03B3\u03CC\u03BD\u03B1;\n\u0395\u03C0\u03AD\u03BB\u03B5\u03BE\u03B5 \u03C4\u03BF\u03BD \u03C3\u03C9\u03C3\u03C4\u03CC \u03B1\u03C1\u03B9\u03B8\u03BC\u03CC \u03B1\u03C0\u03CC \u03C4\u03BF\u03BD \u03C0\u03AF\u03BD\u03B1\u03BA\u03B1 \u03BC\u03B5 \u03C4\u03BF\u03C5\u03C2 \u03B1\u03C1\u03B9\u03B8\u03BC\u03BF\u03CD\u03C2."
+  },
+  "24": {
+    audio: "/audio/24.m4a",
+    text: "\u03A0\u03BF\u03B9\u03BF\u03C2 \u03B1\u03C1\u03B9\u03B8\u03BC\u03CC\u03C2 \u03B5\u03AF\u03BD\u03B1\u03B9 \u03BA\u03C1\u03C5\u03BC\u03BC\u03AD\u03BD\u03BF\u03C2 \u03C0\u03AF\u03C3\u03C9 \u03B1\u03C0\u03CC \u03C4\u03B7\u03BD \u03C3\u03C4\u03B1\u03B3\u03CC\u03BD\u03B1;\n\u0395\u03C0\u03AD\u03BB\u03B5\u03BE\u03B5 \u03C4\u03BF\u03BD \u03C3\u03C9\u03C3\u03C4\u03CC \u03B1\u03C1\u03B9\u03B8\u03BC\u03CC \u03B1\u03C0\u03CC \u03C4\u03BF\u03BD \u03C0\u03AF\u03BD\u03B1\u03BA\u03B1 \u03BC\u03B5 \u03C4\u03BF\u03C5\u03C2 \u03B1\u03C1\u03B9\u03B8\u03BC\u03BF\u03CD\u03C2."
+  },
+  "25": { audio: "/audio/25.m4a", text: "\u03A0\u03BF\u03B9\u03BF\u03C2 \u03B1\u03C1\u03B9\u03B8\u03BC\u03CC\u03C2 \u03B5\u03AF\u03BD\u03B1\u03B9 \u03BA\u03C1\u03C5\u03BC\u03BC\u03AD\u03BD\u03BF\u03C2 \u03C0\u03AF\u03C3\u03C9 \u03B1\u03C0\u03CC \u03C4\u03B7\u03BD \u03C3\u03C4\u03B1\u03B3\u03CC\u03BD\u03B1;" },
+  "26": {
+    audio: "/audio/26.m4a",
+    text: "\u0395\u03B4\u03CE \u03B2\u03BB\u03AD\u03C0\u03B5\u03B9\u03C2 \u03BA\u03B1\u03B9 \u03B3\u03BA\u03C1\u03AF\u03B6\u03B5\u03C2 \u03C3\u03C4\u03B1\u03B3\u03CC\u03BD\u03B5\u03C2 \u03B1\u03BB\u03BB\u03AC \u03C0\u03C1\u03AD\u03C0\u03B5\u03B9 \u03BD\u03B1 \u03B2\u03C1\u03B5\u03B9\u03C2 \u03C0\u03BF\u03B9\u03BF \u03B5\u03AF\u03BD\u03B1\u03B9 \u03C4\u03BF \u03C7\u03C1\u03CE\u03BC\u03B1 \u03C4\u03B7\u03C2 \u03BA\u03BF\u03C5\u03BA\u03BA\u03AF\u03B4\u03B1\u03C2 \u03C0\u03BF\u03C5 \u03B5\u03AF\u03BD\u03B1\u03B9 \u03BA\u03C1\u03C5\u03BC\u03BC\u03AD\u03BD\u03B7 \u03C0\u03AF\u03C3\u03C9 \u03B1\u03C0\u03CC \u03C4\u03B7\u03BD \u03AC\u03C3\u03C0\u03C1\u03B7 \u03C3\u03C4\u03B1\u03B3\u03CC\u03BD\u03B1."
+  },
+  "27": { audio: "/audio/27.m4a", text: "\u03A4\u03AD\u03BB\u03B5\u03B9\u03B1!" },
+  "28": { audio: "/audio/28.m4a", text: "\u03A0\u03BF\u03BB\u03CD \u03BA\u03B1\u03BB\u03AC!" },
+  "29": { audio: "/audio/29.m4a", text: "\u03A3\u03C9\u03C3\u03C4\u03AC!" },
+  "30": {
+    audio: "/audio/30.m4a",
+    text: "\u0388\u03C7\u03B5\u03B9\u03C2 \u03BF\u03BB\u03BF\u03BA\u03BB\u03B7\u03C1\u03CE\u03C3\u03B5\u03B9 \u03C4\u03B9\u03C2 \u03B5\u03C1\u03B3\u03B1\u03C3\u03AF\u03B5\u03C2. \u03A0\u03B5\u03C2 \u03C4\u03BF \u03C3\u03C4\u03B7 \u03B4\u03B1\u03C3\u03BA\u03AC\u03BB\u03B1 \u03AE \u03C3\u03C4\u03BF \u03B4\u03AC\u03C3\u03BA\u03B1\u03BB\u03CC \u03C3\u03BF\u03C5."
+  }
+};
+var __awaiter$4 = function(thisArg, _arguments, P, generator) {
+  function adopt(value) {
+    return value instanceof P ? value : new P(function(resolve2) {
+      resolve2(value);
+    });
+  }
+  return new (P || (P = Promise))(function(resolve2, reject) {
+    function fulfilled(value) {
+      try {
+        step(generator.next(value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+    function rejected(value) {
+      try {
+        step(generator["throw"](value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+    function step(result) {
+      result.done ? resolve2(result.value) : adopt(result.value).then(fulfilled, rejected);
+    }
+    step((generator = generator.apply(thisArg, _arguments || [])).next());
+  });
+};
+var load$4 = ({ session: session2 }) => __awaiter$4(void 0, void 0, void 0, function* () {
+  if (!session2.authenticated) {
+    return { status: 302, redirect: "/login" };
+  }
+  return {};
 });
 var Routes = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   (function(thisArg, _arguments, P, generator) {
@@ -56635,14 +56956,255 @@ var Routes = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
   });
-  return `<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="${"https://kit.svelte.dev"}">kit.svelte.dev</a> to read the documentation</p>
-<img src="${"/color_pattern/colorpatterns-12.jpeg"}" alt="${"Janne"}">`;
+  return `<div class="${"flex justify-center items-center gap-2"}">${validate_component(TextAndAudio, "TextAndAudio").$$render($$result, {
+    src: textAndAudio[1].audio,
+    text: textAndAudio[1].text,
+    autoplay: false
+  }, {}, {})}</div>
+
+<div class="${"gap-3 flex flex-col lg:flex-row flex-wrap items-center mx-2 mt-5 mb-5"}"><button class="${"flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl"}"><img class="${"rounded-xl "}" src="${"/quantities/quantities-01.jpeg"}" alt="${"Quantities task"}">
+		<span>Quantities tasks</span></button>
+	<button class="${"flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl"}"><img class="${"rounded-xl mb-3 w-48"}" src="${"number_pattern/numberpattern-01.jpeg"}" alt="${"Number pattern task"}">
+		<span>Number pattern tasks</span></button>
+	<button class="${"flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl"}"><img class="${"rounded-xl mb-3 w-48"}" src="${"number_line/numberline-01.jpeg"}" alt="${"Number line tasks"}">
+		<span>Number line tasks</span></button>
+	<button class="${"flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl"}"><img class="${"rounded-xl mb-3 w-48"}" src="${"/difference/difference-01.jpeg"}" alt="${"Difference task"}">
+		<span>Difference tasks</span></button>
+	<button class="${"flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl"}"><img class="${"rounded-xl mb-3 w-48"}" src="${"/color_pattern/colorpatterns-01.jpeg"}" alt="${"Color pattern task"}">
+		<span>Color pattern tasks</span></button>
+	<button class="${"flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl"}"><img class="${"rounded-xl mb-3 w-48"}" src="${"/hidden_number/hiddennumber-01.jpeg"}" alt="${"Hidden number task"}">
+		<span>Hidden number tasks</span></button>
+	<button class="${"flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl"}"><img class="${"rounded-xl mb-3 w-48"}" src="${"/number_comparison/numbercomparison-01.jpeg"}" alt="${"Number comparison task"}">
+		<span>Number comparison tasks</span></button>
+	<button class="${"flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl"}"><img class="${"rounded-xl mb-3 w-48"}" src="${"/quantity_comparison/quantitiycomparison-01.jpeg"}" alt="${"Quantity comparison task"}">
+		<span>Quantity comparison tasks</span></button>
+	<button class="${"flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl"}"><img class="${"rounded-xl mb-3 w-48"}" src="${"/plus/plus-01.jpeg"}" alt="${"Plus task"}">
+		<span>Plus tasks</span></button>
+	<button class="${"flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl"}"><img class="${"rounded-xl mb-3 w-48"}" src="${"/minus/minus-01.jpeg"}" alt="${"Minus task"}">
+		<span>Minus tasks</span></button></div>
+`;
+});
+var index$3 = /* @__PURE__ */ Object.freeze({
+  __proto__: null,
+  [Symbol.toStringTag]: "Module",
+  "default": Routes,
+  load: load$4
+});
+var getStores = () => {
+  const stores = getContext("__svelte__");
+  return {
+    page: {
+      subscribe: stores.page.subscribe
+    },
+    navigating: {
+      subscribe: stores.navigating.subscribe
+    },
+    get preloading() {
+      console.error("stores.preloading is deprecated; use stores.navigating instead");
+      return {
+        subscribe: stores.navigating.subscribe
+      };
+    },
+    session: stores.session
+  };
+};
+var page = {
+  subscribe(fn) {
+    const store = getStores().page;
+    return store.subscribe(fn);
+  }
+};
+var error = (verb) => {
+  throw new Error(`Can only ${verb} session store in browser`);
+};
+var session = {
+  subscribe(fn) {
+    const store = getStores().session;
+    return store.subscribe(fn);
+  },
+  set: () => error("set"),
+  update: () => error("update")
+};
+var css = {
+  code: ".lds-ring.svelte-1xkie6p.svelte-1xkie6p{display:inline-block;height:20px;position:relative;width:20px}.lds-ring.svelte-1xkie6p div.svelte-1xkie6p{-webkit-animation:svelte-1xkie6p-lds-ring 1.2s cubic-bezier(.5,0,.5,1) infinite;animation:svelte-1xkie6p-lds-ring 1.2s cubic-bezier(.5,0,.5,1) infinite;border:3px solid transparent;border-radius:50%;border-top-color:#fff;box-sizing:border-box;display:block;height:20px;margin:3px;position:absolute;width:20px}.lds-ring.svelte-1xkie6p div.svelte-1xkie6p:first-child{-webkit-animation-delay:-.45s;animation-delay:-.45s}.lds-ring.svelte-1xkie6p div.svelte-1xkie6p:nth-child(2){-webkit-animation-delay:-.3s;animation-delay:-.3s}.lds-ring.svelte-1xkie6p div.svelte-1xkie6p:nth-child(3){-webkit-animation-delay:-.15s;animation-delay:-.15s}@-webkit-keyframes svelte-1xkie6p-lds-ring{0%{transform:rotate(0deg)}to{transform:rotate(1turn)}}@keyframes svelte-1xkie6p-lds-ring{0%{transform:rotate(0deg)}to{transform:rotate(1turn)}}",
+  map: '{"version":3,"file":"SubmitButton.svelte","sources":["SubmitButton.svelte"],"sourcesContent":["<script>\\n\\texport let disabled;\\n\\texport let action;\\n\\texport let loading;\\n<\/script>\\n\\n<button\\n\\t{disabled}\\n\\ton:click={action}\\n\\tclass={disabled\\n\\t\\t? `bg-green-600 p-4 w-full md:w-72 rounded-xl`\\n\\t\\t: `bg-green-300 p-4 w-full md:w-72 rounded-xl`}\\n\\ttype=\\"submit\\"\\n>\\n\\t{#if !loading}\\n\\t\\t<p class=\\"text-white\\"><slot /></p>\\n\\t{:else}\\n\\t\\t<div class=\\"lds-ring\\">\\n\\t\\t\\t<div />\\n\\t\\t\\t<div />\\n\\t\\t\\t<div />\\n\\t\\t\\t<div />\\n\\t\\t</div>\\n\\t{/if}\\n</button>\\n\\n<style>.lds-ring{display:inline-block;height:20px;position:relative;width:20px}.lds-ring div{-webkit-animation:lds-ring 1.2s cubic-bezier(.5,0,.5,1) infinite;animation:lds-ring 1.2s cubic-bezier(.5,0,.5,1) infinite;border:3px solid transparent;border-radius:50%;border-top-color:#fff;box-sizing:border-box;display:block;height:20px;margin:3px;position:absolute;width:20px}.lds-ring div:first-child{-webkit-animation-delay:-.45s;animation-delay:-.45s}.lds-ring div:nth-child(2){-webkit-animation-delay:-.3s;animation-delay:-.3s}.lds-ring div:nth-child(3){-webkit-animation-delay:-.15s;animation-delay:-.15s}@-webkit-keyframes lds-ring{0%{transform:rotate(0deg)}to{transform:rotate(1turn)}}@keyframes lds-ring{0%{transform:rotate(0deg)}to{transform:rotate(1turn)}}</style>\\n"],"names":[],"mappings":"AA0BO,uCAAS,CAAC,QAAQ,YAAY,CAAC,OAAO,IAAI,CAAC,SAAS,QAAQ,CAAC,MAAM,IAAI,CAAC,wBAAS,CAAC,kBAAG,CAAC,kBAAkB,uBAAQ,CAAC,IAAI,CAAC,aAAa,EAAE,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,QAAQ,CAAC,UAAU,uBAAQ,CAAC,IAAI,CAAC,aAAa,EAAE,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,QAAQ,CAAC,OAAO,GAAG,CAAC,KAAK,CAAC,WAAW,CAAC,cAAc,GAAG,CAAC,iBAAiB,IAAI,CAAC,WAAW,UAAU,CAAC,QAAQ,KAAK,CAAC,OAAO,IAAI,CAAC,OAAO,GAAG,CAAC,SAAS,QAAQ,CAAC,MAAM,IAAI,CAAC,wBAAS,CAAC,kBAAG,YAAY,CAAC,wBAAwB,KAAK,CAAC,gBAAgB,KAAK,CAAC,wBAAS,CAAC,kBAAG,WAAW,CAAC,CAAC,CAAC,wBAAwB,IAAI,CAAC,gBAAgB,IAAI,CAAC,wBAAS,CAAC,kBAAG,WAAW,CAAC,CAAC,CAAC,wBAAwB,KAAK,CAAC,gBAAgB,KAAK,CAAC,mBAAmB,uBAAQ,CAAC,EAAE,CAAC,UAAU,OAAO,IAAI,CAAC,CAAC,EAAE,CAAC,UAAU,OAAO,KAAK,CAAC,CAAC,CAAC,WAAW,uBAAQ,CAAC,EAAE,CAAC,UAAU,OAAO,IAAI,CAAC,CAAC,EAAE,CAAC,UAAU,OAAO,KAAK,CAAC,CAAC,CAAC"}'
+};
+var SubmitButton = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+  let { disabled } = $$props;
+  let { action } = $$props;
+  let { loading } = $$props;
+  if ($$props.disabled === void 0 && $$bindings.disabled && disabled !== void 0)
+    $$bindings.disabled(disabled);
+  if ($$props.action === void 0 && $$bindings.action && action !== void 0)
+    $$bindings.action(action);
+  if ($$props.loading === void 0 && $$bindings.loading && loading !== void 0)
+    $$bindings.loading(loading);
+  $$result.css.add(css);
+  return `<button ${disabled ? "disabled" : ""} class="${escape(null_to_empty(disabled ? `bg-green-600 p-4 w-full md:w-72 rounded-xl` : `bg-green-300 p-4 w-full md:w-72 rounded-xl`)) + " svelte-1xkie6p"}" type="${"submit"}">${!loading ? `<p class="${"text-white"}">${slots.default ? slots.default({}) : ``}</p>` : `<div class="${"lds-ring svelte-1xkie6p"}"><div class="${"svelte-1xkie6p"}"></div>
+			<div class="${"svelte-1xkie6p"}"></div>
+			<div class="${"svelte-1xkie6p"}"></div>
+			<div class="${"svelte-1xkie6p"}"></div></div>`}
+</button>`;
+});
+var __awaiter$3 = function(thisArg, _arguments, P, generator) {
+  function adopt(value) {
+    return value instanceof P ? value : new P(function(resolve2) {
+      resolve2(value);
+    });
+  }
+  return new (P || (P = Promise))(function(resolve2, reject) {
+    function fulfilled(value) {
+      try {
+        step(generator.next(value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+    function rejected(value) {
+      try {
+        step(generator["throw"](value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+    function step(result) {
+      result.done ? resolve2(result.value) : adopt(result.value).then(fulfilled, rejected);
+    }
+    step((generator = generator.apply(thisArg, _arguments || [])).next());
+  });
+};
+var load$3 = ({ session: session2 }) => __awaiter$3(void 0, void 0, void 0, function* () {
+  if (!session2.user || session2.user.type === "student") {
+    return { status: 302, redirect: "/login" };
+  }
+  if (session2.user.type === "researcher") {
+    try {
+      const res = yield fetch("/api/school");
+      if (res.ok) {
+        const data = yield res.json();
+        console.log("userres", data);
+        return { props: { schools: data.schools } };
+      }
+    } catch (error2) {
+      console.error(error2);
+    }
+  }
+  return {};
+});
+var New_user = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+  let $session, $$unsubscribe_session;
+  $$unsubscribe_session = subscribe(session, (value) => $session = value);
+  var __awaiter2 = function(thisArg, _arguments, P, generator) {
+    function adopt(value) {
+      return value instanceof P ? value : new P(function(resolve2) {
+        resolve2(value);
+      });
+    }
+    return new (P || (P = Promise))(function(resolve2, reject) {
+      function fulfilled(value) {
+        try {
+          step(generator.next(value));
+        } catch (e) {
+          reject(e);
+        }
+      }
+      function rejected(value) {
+        try {
+          step(generator["throw"](value));
+        } catch (e) {
+          reject(e);
+        }
+      }
+      function step(result) {
+        result.done ? resolve2(result.value) : adopt(result.value).then(fulfilled, rejected);
+      }
+      step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+  };
+  let { schools } = $$props;
+  let fields = {
+    username: "",
+    password: "",
+    passwordConfirmation: "",
+    type: "student",
+    school_id: null
+  };
+  let userTypes = [
+    { value: "student", text: "Student" },
+    { value: "teacher", text: "Teacher" },
+    { value: "researcher", text: "Researcher" }
+  ];
+  let submitted = false;
+  let error2;
+  let success;
+  let loading = false;
+  function register() {
+    return __awaiter2(this, void 0, void 0, function* () {
+      error2 = void 0;
+      loading = true;
+      submitted = true;
+      try {
+        if (fields.password !== fields.passwordConfirmation) {
+          error2 = "Passwords need to match!";
+          loading = false;
+          submitted = false;
+          return;
+        }
+        const cryptPassword = import_bcryptjs.default.hashSync(fields.password);
+        delete fields.passwordConfirmation;
+        const res = yield fetch("/api/user", {
+          method: "POST",
+          body: JSON.stringify(Object.assign(Object.assign({}, fields), { password: cryptPassword })),
+          headers: { "Content-Type": "application/json" }
+        });
+        if (res.ok) {
+          const data = yield res.json();
+          success = data.message;
+          error2 = null;
+          loading = false;
+          submitted = false;
+        } else {
+          const data = yield res.json();
+          error2 = data.message;
+          success = null;
+          loading = false;
+          throw error2;
+        }
+      } catch (err) {
+        console.error(err);
+        loading = false;
+        submitted = false;
+      }
+    });
+  }
+  if ($$props.schools === void 0 && $$bindings.schools && schools !== void 0)
+    $$bindings.schools(schools);
+  $$unsubscribe_session();
+  return `<div class="${"flex flex-col md:items-center gap-3"}"><h1>Create new user</h1>
+	<input type="${"text"}" name="${"username"}" placeholder="${"Username"}"${add_attribute("value", fields.username, 0)}>
+
+	<input type="${"password"}" name="${"username"}" placeholder="${"Password"}"${add_attribute("value", fields.password, 0)}>
+	<input type="${"password"}" name="${"passwordConfirmation"}" placeholder="${"Confirm password"}"${add_attribute("value", fields.passwordConfirmation, 0)}>
+	<select>${each(userTypes, (userType) => `
+			${$session.user.type === "teacher" && userType.value === "researcher" ? `${escape(null)}` : `<option${add_attribute("value", userType.value, 0)}>${escape(userType.text)}
+				</option>`}`)}</select>
+	${$session.user.type === "researcher" && schools ? `
+		<select><option disabled selected value>Select a school</option>${each(schools, (school) => `<option${add_attribute("value", school._id, 0)}>${escape(school.name)}
+				</option>`)}</select>` : ``}
+	${validate_component(SubmitButton, "SubmitButton").$$render($$result, {
+    disabled: submitted,
+    action: register,
+    loading
+  }, {}, { default: () => `Add user` })}
+
+	${error2 ? `<p class="${"text-red-400"}">${escape(error2)}</p>` : ``}
+	${success ? `<p class="${"text-green-500"}">${escape(success)}</p>` : ``}</div>`;
 });
 var index$2 = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
-  "default": Routes
+  "default": New_user,
+  load: load$3
 });
 var __awaiter$2 = function(thisArg, _arguments, P, generator) {
   function adopt(value) {
@@ -56686,35 +57248,6 @@ var index$1 = /* @__PURE__ */ Object.freeze({
   "default": Profile,
   load: load$2
 });
-var getStores = () => {
-  const stores = getContext("__svelte__");
-  return {
-    page: {
-      subscribe: stores.page.subscribe
-    },
-    navigating: {
-      subscribe: stores.navigating.subscribe
-    },
-    get preloading() {
-      console.error("stores.preloading is deprecated; use stores.navigating instead");
-      return {
-        subscribe: stores.navigating.subscribe
-      };
-    },
-    session: stores.session
-  };
-};
-var error = (verb) => {
-  throw new Error(`Can only ${verb} session store in browser`);
-};
-var session = {
-  subscribe(fn) {
-    const store = getStores().session;
-    return store.subscribe(fn);
-  },
-  set: () => error("set"),
-  update: () => error("update")
-};
 var __awaiter$1 = function(thisArg, _arguments, P, generator) {
   function adopt(value) {
     return value instanceof P ? value : new P(function(resolve2) {
@@ -56779,15 +57312,41 @@ var U5Busernameu5D = create_ssr_component(($$result, $$props, $$bindings, slots)
     });
   });
   let user;
+  let newSchool;
   $$unsubscribe_session();
-  return `<h1>Hej, ${escape(user == null ? void 0 : user.username)}</h1>
-<button class="${"bg-red-300 p-4 rounded"}">Logout</button>`;
+  return `<h1>Hello, ${escape("")}</h1>
+<button class="${"bg-red-300 p-4 rounded"}">Logout</button>
+
+${(user == null ? void 0 : user.type) === "researcher" ? `<h1 class="${"mt-4"}">Create new school</h1>
+	<div class="${"flex items-center gap-4"}"><input type="${"text"}" placeholder="${"School name"}"${add_attribute("value", newSchool, 0)}>
+		<button class="${"bg-blue-300 p-4 rounded"}">Create school</button></div>` : ``}`;
 });
 var _username_ = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
   "default": U5Busernameu5D,
   load: load$1
+});
+var _layout_reset$1 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+  return `${slots.default ? slots.default({}) : ``}`;
+});
+var __layout_reset$1 = /* @__PURE__ */ Object.freeze({
+  __proto__: null,
+  [Symbol.toStringTag]: "Module",
+  "default": _layout_reset$1
+});
+var U5Btypeu5D = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+  let $$unsubscribe_page;
+  $$unsubscribe_page = subscribe(page, (value) => value);
+  let tasks = [];
+  $$unsubscribe_page();
+  return `${tasks.length === 0 ? `<div class="${"h-screen flex items-center justify-center flex-col"}"><h1>Not yet implemented</h1>
+		<a href="${"/"}">Go back</a></div>` : `<h1>Run tasks</h1>`}`;
+});
+var _type_ = /* @__PURE__ */ Object.freeze({
+  __proto__: null,
+  [Symbol.toStringTag]: "Module",
+  "default": U5Btypeu5D
 });
 var _layout_reset = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   return `${slots.default ? slots.default({}) : ``}`;
@@ -56796,27 +57355,6 @@ var __layout_reset = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
   "default": _layout_reset
-});
-var css = {
-  code: ".lds-ring.svelte-1xkie6p.svelte-1xkie6p{display:inline-block;height:20px;position:relative;width:20px}.lds-ring.svelte-1xkie6p div.svelte-1xkie6p{-webkit-animation:svelte-1xkie6p-lds-ring 1.2s cubic-bezier(.5,0,.5,1) infinite;animation:svelte-1xkie6p-lds-ring 1.2s cubic-bezier(.5,0,.5,1) infinite;border:3px solid transparent;border-radius:50%;border-top-color:#fff;box-sizing:border-box;display:block;height:20px;margin:3px;position:absolute;width:20px}.lds-ring.svelte-1xkie6p div.svelte-1xkie6p:first-child{-webkit-animation-delay:-.45s;animation-delay:-.45s}.lds-ring.svelte-1xkie6p div.svelte-1xkie6p:nth-child(2){-webkit-animation-delay:-.3s;animation-delay:-.3s}.lds-ring.svelte-1xkie6p div.svelte-1xkie6p:nth-child(3){-webkit-animation-delay:-.15s;animation-delay:-.15s}@-webkit-keyframes svelte-1xkie6p-lds-ring{0%{transform:rotate(0deg)}to{transform:rotate(1turn)}}@keyframes svelte-1xkie6p-lds-ring{0%{transform:rotate(0deg)}to{transform:rotate(1turn)}}",
-  map: '{"version":3,"file":"SubmitButton.svelte","sources":["SubmitButton.svelte"],"sourcesContent":["<script>\\n\\texport let disabled;\\n\\texport let action;\\n\\texport let loading;\\n<\/script>\\n\\n<button\\n\\t{disabled}\\n\\ton:click={action}\\n\\tclass={disabled\\n\\t\\t? `bg-green-600 p-4 w-full md:w-72 rounded-xl`\\n\\t\\t: `bg-green-300 p-4 w-full md:w-72 rounded-xl`}\\n\\ttype=\\"submit\\"\\n>\\n\\t{#if !loading}\\n\\t\\t<p class=\\"text-white\\"><slot /></p>\\n\\t{:else}\\n\\t\\t<div class=\\"lds-ring\\">\\n\\t\\t\\t<div />\\n\\t\\t\\t<div />\\n\\t\\t\\t<div />\\n\\t\\t\\t<div />\\n\\t\\t</div>\\n\\t{/if}\\n</button>\\n\\n<style>.lds-ring{display:inline-block;height:20px;position:relative;width:20px}.lds-ring div{-webkit-animation:lds-ring 1.2s cubic-bezier(.5,0,.5,1) infinite;animation:lds-ring 1.2s cubic-bezier(.5,0,.5,1) infinite;border:3px solid transparent;border-radius:50%;border-top-color:#fff;box-sizing:border-box;display:block;height:20px;margin:3px;position:absolute;width:20px}.lds-ring div:first-child{-webkit-animation-delay:-.45s;animation-delay:-.45s}.lds-ring div:nth-child(2){-webkit-animation-delay:-.3s;animation-delay:-.3s}.lds-ring div:nth-child(3){-webkit-animation-delay:-.15s;animation-delay:-.15s}@-webkit-keyframes lds-ring{0%{transform:rotate(0deg)}to{transform:rotate(1turn)}}@keyframes lds-ring{0%{transform:rotate(0deg)}to{transform:rotate(1turn)}}</style>\\n"],"names":[],"mappings":"AA0BO,uCAAS,CAAC,QAAQ,YAAY,CAAC,OAAO,IAAI,CAAC,SAAS,QAAQ,CAAC,MAAM,IAAI,CAAC,wBAAS,CAAC,kBAAG,CAAC,kBAAkB,uBAAQ,CAAC,IAAI,CAAC,aAAa,EAAE,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,QAAQ,CAAC,UAAU,uBAAQ,CAAC,IAAI,CAAC,aAAa,EAAE,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,QAAQ,CAAC,OAAO,GAAG,CAAC,KAAK,CAAC,WAAW,CAAC,cAAc,GAAG,CAAC,iBAAiB,IAAI,CAAC,WAAW,UAAU,CAAC,QAAQ,KAAK,CAAC,OAAO,IAAI,CAAC,OAAO,GAAG,CAAC,SAAS,QAAQ,CAAC,MAAM,IAAI,CAAC,wBAAS,CAAC,kBAAG,YAAY,CAAC,wBAAwB,KAAK,CAAC,gBAAgB,KAAK,CAAC,wBAAS,CAAC,kBAAG,WAAW,CAAC,CAAC,CAAC,wBAAwB,IAAI,CAAC,gBAAgB,IAAI,CAAC,wBAAS,CAAC,kBAAG,WAAW,CAAC,CAAC,CAAC,wBAAwB,KAAK,CAAC,gBAAgB,KAAK,CAAC,mBAAmB,uBAAQ,CAAC,EAAE,CAAC,UAAU,OAAO,IAAI,CAAC,CAAC,EAAE,CAAC,UAAU,OAAO,KAAK,CAAC,CAAC,CAAC,WAAW,uBAAQ,CAAC,EAAE,CAAC,UAAU,OAAO,IAAI,CAAC,CAAC,EAAE,CAAC,UAAU,OAAO,KAAK,CAAC,CAAC,CAAC"}'
-};
-var SubmitButton = create_ssr_component(($$result, $$props, $$bindings, slots) => {
-  let { disabled } = $$props;
-  let { action } = $$props;
-  let { loading } = $$props;
-  if ($$props.disabled === void 0 && $$bindings.disabled && disabled !== void 0)
-    $$bindings.disabled(disabled);
-  if ($$props.action === void 0 && $$bindings.action && action !== void 0)
-    $$bindings.action(action);
-  if ($$props.loading === void 0 && $$bindings.loading && loading !== void 0)
-    $$bindings.loading(loading);
-  $$result.css.add(css);
-  return `<button ${disabled ? "disabled" : ""} class="${escape(null_to_empty(disabled ? `bg-green-600 p-4 w-full md:w-72 rounded-xl` : `bg-green-300 p-4 w-full md:w-72 rounded-xl`)) + " svelte-1xkie6p"}" type="${"submit"}">${!loading ? `<p class="${"text-white"}">${slots.default ? slots.default({}) : ``}</p>` : `<div class="${"lds-ring svelte-1xkie6p"}"><div class="${"svelte-1xkie6p"}"></div>
-			<div class="${"svelte-1xkie6p"}"></div>
-			<div class="${"svelte-1xkie6p"}"></div>
-			<div class="${"svelte-1xkie6p"}"></div></div>`}
-</button>`;
 });
 var __awaiter = function(thisArg, _arguments, P, generator) {
   function adopt(value) {

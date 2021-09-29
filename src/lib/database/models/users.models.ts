@@ -7,6 +7,7 @@ export interface IUser extends Document {
 	password: string;
 	type: 'student' | 'teacher' | 'researcher';
 	completedRuns: string[];
+	school_id: string;
 }
 
 const UserSchema: Schema = new mongoose.Schema({
@@ -21,6 +22,10 @@ const UserSchema: Schema = new mongoose.Schema({
 	},
 	completedRuns: {
 		type: [String]
+	},
+	school_id: {
+		ref: 'School',
+		type: mongoose.Schema.Types.ObjectId
 	}
 });
 

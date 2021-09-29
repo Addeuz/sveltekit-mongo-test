@@ -63,6 +63,6 @@
 	</nav>
 </header>
 
-<div class="mx-6 lg:max-w-screen-xl lg:mx-auto">
+<div class="mx-6 max-w-screen-lg xl:max-w-screen-xl md: mx-auto">
 	<slot />
 </div>

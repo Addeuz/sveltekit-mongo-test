@@ -33,6 +33,8 @@
 	let error: string;
 	let user: IUser;
 
+	let newSchool: string;
+
 	if (browser) {
 		onMount(() => {
 			user = $session.user;
@@ -54,7 +56,36 @@
 			}
 		} catch (err) {}
 	}
+
+	async function createSchool() {
+		if (newSchool === '' || newSchool === undefined) {
+			alert('Please enter a school name.');
+			return;
+		}
+		try {
+			const res = await fetch('/api/school', {
+				method: 'POST',
+				body: JSON.stringify({
+					name: newSchool
+				})
+			});
+
+			if (res.ok) {
+				const body = await res.json();
+				alert(body.message);
+				newSchool = '';
+			}
+		} catch (err) {}
+	}
 </script>
 
-<h1>Hej, {user?.username}</h1>
+<h1>Hello, {user ? user.username : ''}</h1>
 <button on:click={logout} class="bg-red-300 p-4 rounded">Logout</button>
+
+{#if user?.type === 'researcher'}
+	<h1 class="mt-4">Create new school</h1>
+	<div class="flex items-center gap-4">
+		<input type="text" bind:value={newSchool} placeholder="School name" />
+		<button on:click={createSchool} class="bg-blue-300 p-4 rounded">Create school</button>
+	</div>
+{/if}
