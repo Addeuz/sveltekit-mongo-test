@@ -1,15 +1,28 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
+	import { textAndAudio } from '$lib/audio';
+
+	import { createEventDispatcher, onMount } from 'svelte';
 
 	const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
 
 	const dispatch = createEventDispatcher();
 
-	function selectAnswer(answer: number) {
+	let selected: number;
+	let audio = new Audio(textAndAudio[27].audio);
+
+	async function selectAnswer(answer: number) {
+		selected = answer;
+		await new Promise((resolve) => {
+			audio.play();
+			audio.onended = resolve;
+		});
+
 		dispatch('answer', {
 			answer
 		});
 	}
+
+	onMount(() => {});
 </script>
 
 <div class="grid grid-cols-10 gap-4 mb-4">
@@ -36,9 +49,16 @@
 	{#each numbers as number}
 		<button
 			on:click={() => selectAnswer(number)}
-			class="h-20 w-20 border bg-gray-50 border-gray-400 rounded-xl hover:bg-gray-300 text-4xl"
+			class="h-16 w-16 border bg-gray-50 border-gray-400 rounded-xl hover:bg-gray-300 text-4xl"
+			class:selected={selected === number}
 		>
 			{number}
 		</button>
 	{/each}
 </div>
+
+<style>
+	.selected {
+		@apply bg-blue-500;
+	}
+</style>

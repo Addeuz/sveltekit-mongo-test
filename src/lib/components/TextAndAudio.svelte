@@ -6,5 +6,7 @@
 	export let autoplay = false;
 </script>
 
-<span class="whitespace-pre-line">{text}</span>
-<AudioPlayer {src} {autoplay} />
+<div class="flex justify-center items-center gap-2">
+	<span class="whitespace-pre-line">{text}</span>
+	<AudioPlayer {src} {autoplay} />
+</div>

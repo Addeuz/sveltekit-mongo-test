@@ -30,10 +30,15 @@
 
 	onMount(() => {
 		taskStartTime = new Date();
+		if (task.audio) {
+			let audio = new Audio(task.audio);
+			audio.play();
+		}
+		console.log('MOUNTING');
 	});
 </script>
 
-<div class="flex flex-col items-center justify-between bg-gray-400 p-4 rounded-lg">
+<div class="h-screen flex flex-col items-center justify-between ">
 	<img src={task.src} alt="Task" />
 	<Numbers on:answer={handleAnswer} />
 </div>

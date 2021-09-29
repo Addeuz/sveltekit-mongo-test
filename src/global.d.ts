@@ -13,6 +13,7 @@ export interface TaskAttributes {
 	rightAnswer: string;
 	src: string;
 	answerType: 'numbers' | 'twoColors' | 'threeColors';
+	audio?: string;
 }
 
 export interface AnswerAttributes {

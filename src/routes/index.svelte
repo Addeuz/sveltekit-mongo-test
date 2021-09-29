@@ -14,14 +14,12 @@
 </script>
 
 <script lang="ts">
-	import TextAndAudio from './TextAndAudio.svelte';
+	import TextAndAudio from '$lib/components/TextAndAudio.svelte';
 	import { textAndAudio } from '$lib/audio';
 	import { goto } from '$app/navigation';
 </script>
 
-<div class="flex justify-center items-center gap-2">
-	<TextAndAudio src={textAndAudio[1].audio} text={textAndAudio[1].text} autoplay={false} />
-</div>
+<TextAndAudio src={textAndAudio[1].audio} text={textAndAudio[1].text} autoplay={true} />
 
 <div class="gap-3 flex flex-col lg:flex-row flex-wrap items-center mx-2 mt-5 mb-5">
 	<button

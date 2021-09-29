@@ -41555,14 +41555,14 @@ var require_document = __commonJS({
         immediate(function() {
           const schemaType = _this.$__schema.path(path);
           if (!schemaType) {
-            return --total || complete();
+            return --total || complete2();
           }
           if (!_this.$isValid(path)) {
-            --total || complete();
+            --total || complete2();
             return;
           }
           if (schemaType[schemaMixedSymbol] != null && path !== schemaType.path) {
-            return --total || complete();
+            return --total || complete2();
           }
           let val = _this.$__getValue(path);
           let pop;
@@ -41581,15 +41581,15 @@ var require_document = __commonJS({
             if (err) {
               const isSubdoc = schemaType.$isSingleNested || schemaType.$isArraySubdocument || schemaType.$isMongooseDocumentArray;
               if (isSubdoc && err instanceof ValidationError) {
-                return --total || complete();
+                return --total || complete2();
               }
               _this.invalidate(path, err, void 0, true);
             }
-            --total || complete();
+            --total || complete2();
           }, scope, doValidateOptions);
         });
       }
-      function complete() {
+      function complete2() {
         const error2 = _complete();
         if (error2) {
           return _this.$__schema.s.hooks.execPost("validate:error", _this, [_this], { error: error2 }, function(error3) {
@@ -55072,28 +55072,28 @@ function stringifyString(str) {
 }
 function noop$1() {
 }
-function safe_not_equal(a, b) {
+function safe_not_equal$1(a, b) {
   return a != a ? b == b : a !== b || (a && typeof a === "object" || typeof a === "function");
 }
 Promise.resolve();
-var subscriber_queue = [];
-function writable(value, start = noop$1) {
+var subscriber_queue$1 = [];
+function writable$1(value, start = noop$1) {
   let stop;
   const subscribers = new Set();
   function set(new_value) {
-    if (safe_not_equal(value, new_value)) {
+    if (safe_not_equal$1(value, new_value)) {
       value = new_value;
       if (stop) {
-        const run_queue = !subscriber_queue.length;
+        const run_queue = !subscriber_queue$1.length;
         for (const subscriber of subscribers) {
           subscriber[1]();
-          subscriber_queue.push(subscriber, value);
+          subscriber_queue$1.push(subscriber, value);
         }
         if (run_queue) {
-          for (let i = 0; i < subscriber_queue.length; i += 2) {
-            subscriber_queue[i][0](subscriber_queue[i + 1]);
+          for (let i = 0; i < subscriber_queue$1.length; i += 2) {
+            subscriber_queue$1[i][0](subscriber_queue$1[i + 1]);
           }
-          subscriber_queue.length = 0;
+          subscriber_queue$1.length = 0;
         }
       }
     }
@@ -55164,11 +55164,11 @@ async function render_response({
         is_private = true;
       maxage = loaded.maxage;
     });
-    const session2 = writable($session);
+    const session2 = writable$1($session);
     const props = {
       stores: {
-        page: writable(null),
-        navigating: writable(null),
+        page: writable$1(null),
+        navigating: writable$1(null),
         session: session2
       },
       page: page2,
@@ -56046,6 +56046,9 @@ function blank_object() {
 function run_all(fns) {
   fns.forEach(run);
 }
+function safe_not_equal(a, b) {
+  return a != a ? b == b : a !== b || (a && typeof a === "object" || typeof a === "function");
+}
 function subscribe(store, ...callbacks) {
   if (store == null) {
     return noop;
@@ -56056,6 +56059,11 @@ function subscribe(store, ...callbacks) {
 function null_to_empty(value) {
   return value == null ? "" : value;
 }
+function custom_event(type, detail, bubbles = false) {
+  const e = document.createEvent("CustomEvent");
+  e.initCustomEvent(type, bubbles, false, detail);
+  return e;
+}
 var current_component;
 function set_current_component(component) {
   current_component = component;
@@ -56064,6 +56072,18 @@ function get_current_component() {
   if (!current_component)
     throw new Error("Function called outside component initialization");
   return current_component;
+}
+function createEventDispatcher() {
+  const component = get_current_component();
+  return (type, detail) => {
+    const callbacks = component.$$.callbacks[type];
+    if (callbacks) {
+      const event = custom_event(type, detail);
+      callbacks.slice().forEach((fn) => {
+        fn.call(component, event);
+      });
+    }
+  };
 }
 function setContext(key, context) {
   get_current_component().$$.context.set(key, context);
@@ -56142,7 +56162,7 @@ function add_attribute(name, value, boolean) {
 }
 function afterUpdate() {
 }
-var css$2 = {
+var css$3 = {
   code: "#svelte-announcer.svelte-1pdgbjn{clip:rect(0 0 0 0);-webkit-clip-path:inset(50%);clip-path:inset(50%);height:1px;left:0;overflow:hidden;position:absolute;top:0;white-space:nowrap;width:1px}",
   map: `{"version":3,"file":"root.svelte","sources":["root.svelte"],"sourcesContent":["<!-- This file is generated by @sveltejs/kit \u2014 do not edit it! -->\\n<script>\\n\\timport { setContext, afterUpdate, onMount } from 'svelte';\\n\\n\\t// stores\\n\\texport let stores;\\n\\texport let page;\\n\\n\\texport let components;\\n\\texport let props_0 = null;\\n\\texport let props_1 = null;\\n\\texport let props_2 = null;\\n\\n\\tsetContext('__svelte__', stores);\\n\\n\\t$: stores.page.set(page);\\n\\tafterUpdate(stores.page.notify);\\n\\n\\tlet mounted = false;\\n\\tlet navigated = false;\\n\\tlet title = null;\\n\\n\\tonMount(() => {\\n\\t\\tconst unsubscribe = stores.page.subscribe(() => {\\n\\t\\t\\tif (mounted) {\\n\\t\\t\\t\\tnavigated = true;\\n\\t\\t\\t\\ttitle = document.title || 'untitled page';\\n\\t\\t\\t}\\n\\t\\t});\\n\\n\\t\\tmounted = true;\\n\\t\\treturn unsubscribe;\\n\\t});\\n<\/script>\\n\\n<svelte:component this={components[0]} {...(props_0 || {})}>\\n\\t{#if components[1]}\\n\\t\\t<svelte:component this={components[1]} {...(props_1 || {})}>\\n\\t\\t\\t{#if components[2]}\\n\\t\\t\\t\\t<svelte:component this={components[2]} {...(props_2 || {})}/>\\n\\t\\t\\t{/if}\\n\\t\\t</svelte:component>\\n\\t{/if}\\n</svelte:component>\\n\\n{#if mounted}\\n\\t<div id=\\"svelte-announcer\\" aria-live=\\"assertive\\" aria-atomic=\\"true\\">\\n\\t\\t{#if navigated}\\n\\t\\t\\t{title}\\n\\t\\t{/if}\\n\\t</div>\\n{/if}\\n\\n<style>#svelte-announcer{clip:rect(0 0 0 0);-webkit-clip-path:inset(50%);clip-path:inset(50%);height:1px;left:0;overflow:hidden;position:absolute;top:0;white-space:nowrap;width:1px}</style>"],"names":[],"mappings":"AAqDO,gCAAiB,CAAC,KAAK,KAAK,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,kBAAkB,MAAM,GAAG,CAAC,CAAC,UAAU,MAAM,GAAG,CAAC,CAAC,OAAO,GAAG,CAAC,KAAK,CAAC,CAAC,SAAS,MAAM,CAAC,SAAS,QAAQ,CAAC,IAAI,CAAC,CAAC,YAAY,MAAM,CAAC,MAAM,GAAG,CAAC"}`
 };
@@ -56167,7 +56187,7 @@ var Root = create_ssr_component(($$result, $$props, $$bindings, slots) => {
     $$bindings.props_1(props_1);
   if ($$props.props_2 === void 0 && $$bindings.props_2 && props_2 !== void 0)
     $$bindings.props_2(props_2);
-  $$result.css.add(css$2);
+  $$result.css.add(css$3);
   {
     stores.page.set(page2);
   }
@@ -56296,9 +56316,9 @@ function init(settings = default_settings) {
     amp: false,
     dev: false,
     entry: {
-      file: assets + "/_app/start-3a9ae19a.js",
+      file: assets + "/_app/start-288b4127.js",
       css: [assets + "/_app/assets/start-464e9d0a.css", assets + "/_app/assets/vendor-15d9d811.css"],
-      js: [assets + "/_app/start-3a9ae19a.js", assets + "/_app/chunks/vendor-c910c2b0.js", assets + "/_app/chunks/singletons-12a22614.js"]
+      js: [assets + "/_app/start-288b4127.js", assets + "/_app/chunks/vendor-be9b7230.js", assets + "/_app/chunks/singletons-12a22614.js"]
     },
     fetched: void 0,
     floc: false,
@@ -56337,13 +56357,6 @@ var manifest = {
       pattern: /^\/$/,
       params: empty,
       a: ["src/routes/__layout.svelte", "src/routes/index.svelte"],
-      b: [".svelte-kit/build/components/error.svelte"]
-    },
-    {
-      type: "page",
-      pattern: /^\/TextAndAudio\/?$/,
-      params: empty,
-      a: ["src/routes/__layout.svelte", "src/routes/TextAndAudio.svelte"],
       b: [".svelte-kit/build/components/error.svelte"]
     },
     {
@@ -56420,6 +56433,14 @@ var manifest = {
       load: () => Promise.resolve().then(function() {
         return index$4;
       })
+    },
+    {
+      type: "endpoint",
+      pattern: /^\/api\/run\/complete\/?$/,
+      params: empty,
+      load: () => Promise.resolve().then(function() {
+        return complete;
+      })
     }
   ]
 };
@@ -56438,9 +56459,6 @@ var module_lookup = {
   }),
   "src/routes/index.svelte": () => Promise.resolve().then(function() {
     return index$3;
-  }),
-  "src/routes/TextAndAudio.svelte": () => Promise.resolve().then(function() {
-    return TextAndAudio$1;
   }),
   "src/routes/new-user/index.svelte": () => Promise.resolve().then(function() {
     return index$2;
@@ -56464,7 +56482,7 @@ var module_lookup = {
     return index;
   })
 };
-var metadata_lookup = { "src/routes/__layout.svelte": { "entry": "pages/__layout.svelte-0c99b716.js", "css": ["assets/pages/__layout.svelte-a27daa77.css", "assets/vendor-15d9d811.css"], "js": ["pages/__layout.svelte-0c99b716.js", "chunks/vendor-c910c2b0.js"], "styles": [] }, ".svelte-kit/build/components/error.svelte": { "entry": "error.svelte-b7d22ca5.js", "css": ["assets/vendor-15d9d811.css"], "js": ["error.svelte-b7d22ca5.js", "chunks/vendor-c910c2b0.js"], "styles": [] }, "src/routes/index.svelte": { "entry": "pages/index.svelte-9338aad7.js", "css": ["assets/vendor-15d9d811.css"], "js": ["pages/index.svelte-9338aad7.js", "chunks/vendor-c910c2b0.js", "pages/TextAndAudio.svelte-6114647e.js", "chunks/singletons-12a22614.js"], "styles": [] }, "src/routes/TextAndAudio.svelte": { "entry": "pages/TextAndAudio.svelte-6114647e.js", "css": ["assets/vendor-15d9d811.css"], "js": ["pages/TextAndAudio.svelte-6114647e.js", "chunks/vendor-c910c2b0.js"], "styles": [] }, "src/routes/new-user/index.svelte": { "entry": "pages/new-user/index.svelte-9eed996d.js", "css": ["assets/vendor-15d9d811.css", "assets/SubmitButton-b30b09f9.css"], "js": ["pages/new-user/index.svelte-9eed996d.js", "chunks/vendor-c910c2b0.js", "chunks/stores-75d53c29.js", "chunks/SubmitButton-57b888ce.js"], "styles": [] }, "src/routes/profile/index.svelte": { "entry": "pages/profile/index.svelte-afe620f9.js", "css": ["assets/vendor-15d9d811.css"], "js": ["pages/profile/index.svelte-afe620f9.js", "chunks/vendor-c910c2b0.js"], "styles": [] }, "src/routes/profile/[username].svelte": { "entry": "pages/profile/[username].svelte-e13ecd94.js", "css": ["assets/vendor-15d9d811.css"], "js": ["pages/profile/[username].svelte-e13ecd94.js", "chunks/vendor-c910c2b0.js", "chunks/stores-75d53c29.js"], "styles": [] }, "src/routes/running/__layout.reset.svelte": { "entry": "pages/running/__layout.reset.svelte-31a43d21.js", "css": ["assets/vendor-15d9d811.css"], "js": ["pages/running/__layout.reset.svelte-31a43d21.js", "chunks/vendor-c910c2b0.js"], "styles": [] }, "src/routes/running/[type].svelte": { "entry": "pages/running/[type].svelte-0fd1195f.js", "css": ["assets/vendor-15d9d811.css"], "js": ["pages/running/[type].svelte-0fd1195f.js", "chunks/vendor-c910c2b0.js", "chunks/stores-75d53c29.js"], "styles": [] }, "src/routes/login/__layout.reset.svelte": { "entry": "pages/login/__layout.reset.svelte-7f409c95.js", "css": ["assets/vendor-15d9d811.css"], "js": ["pages/login/__layout.reset.svelte-7f409c95.js", "chunks/vendor-c910c2b0.js"], "styles": [] }, "src/routes/login/index.svelte": { "entry": "pages/login/index.svelte-1ef53797.js", "css": ["assets/vendor-15d9d811.css", "assets/SubmitButton-b30b09f9.css"], "js": ["pages/login/index.svelte-1ef53797.js", "chunks/vendor-c910c2b0.js", "chunks/SubmitButton-57b888ce.js"], "styles": [] } };
+var metadata_lookup = { "src/routes/__layout.svelte": { "entry": "pages/__layout.svelte-50f6ad07.js", "css": ["assets/pages/__layout.svelte-7d17f7ae.css", "assets/vendor-15d9d811.css"], "js": ["pages/__layout.svelte-50f6ad07.js", "chunks/vendor-be9b7230.js"], "styles": [] }, ".svelte-kit/build/components/error.svelte": { "entry": "error.svelte-8db44147.js", "css": ["assets/vendor-15d9d811.css"], "js": ["error.svelte-8db44147.js", "chunks/vendor-be9b7230.js"], "styles": [] }, "src/routes/index.svelte": { "entry": "pages/index.svelte-bfc50c49.js", "css": ["assets/vendor-15d9d811.css"], "js": ["pages/index.svelte-bfc50c49.js", "chunks/vendor-be9b7230.js", "chunks/navigation-19cefd8c.js", "chunks/singletons-12a22614.js"], "styles": [] }, "src/routes/new-user/index.svelte": { "entry": "pages/new-user/index.svelte-92b6ba39.js", "css": ["assets/vendor-15d9d811.css", "assets/SubmitButton-b30b09f9.css"], "js": ["pages/new-user/index.svelte-92b6ba39.js", "chunks/vendor-be9b7230.js", "chunks/stores-a77e6bb1.js", "chunks/SubmitButton-72605dcb.js"], "styles": [] }, "src/routes/profile/index.svelte": { "entry": "pages/profile/index.svelte-21602e62.js", "css": ["assets/vendor-15d9d811.css"], "js": ["pages/profile/index.svelte-21602e62.js", "chunks/vendor-be9b7230.js"], "styles": [] }, "src/routes/profile/[username].svelte": { "entry": "pages/profile/[username].svelte-c431b87d.js", "css": ["assets/vendor-15d9d811.css"], "js": ["pages/profile/[username].svelte-c431b87d.js", "chunks/vendor-be9b7230.js", "chunks/stores-a77e6bb1.js"], "styles": [] }, "src/routes/running/__layout.reset.svelte": { "entry": "pages/running/__layout.reset.svelte-99a845a0.js", "css": ["assets/vendor-15d9d811.css"], "js": ["pages/running/__layout.reset.svelte-99a845a0.js", "chunks/vendor-be9b7230.js"], "styles": [] }, "src/routes/running/[type].svelte": { "entry": "pages/running/[type].svelte-ccb8438b.js", "css": ["assets/pages/running/[type].svelte-5bdcc249.css", "assets/vendor-15d9d811.css"], "js": ["pages/running/[type].svelte-ccb8438b.js", "chunks/vendor-be9b7230.js", "chunks/stores-a77e6bb1.js", "chunks/navigation-19cefd8c.js", "chunks/singletons-12a22614.js"], "styles": [] }, "src/routes/login/__layout.reset.svelte": { "entry": "pages/login/__layout.reset.svelte-187b8d5b.js", "css": ["assets/vendor-15d9d811.css"], "js": ["pages/login/__layout.reset.svelte-187b8d5b.js", "chunks/vendor-be9b7230.js"], "styles": [] }, "src/routes/login/index.svelte": { "entry": "pages/login/index.svelte-b5c8987e.js", "css": ["assets/vendor-15d9d811.css", "assets/SubmitButton-b30b09f9.css"], "js": ["pages/login/index.svelte-b5c8987e.js", "chunks/vendor-be9b7230.js", "chunks/SubmitButton-72605dcb.js"], "styles": [] } };
 async function load_component(file) {
   const { entry, css: css2, js, styles } = metadata_lookup[file];
   return {
@@ -56481,7 +56499,7 @@ function render(request, {
   const host = request.headers["host"];
   return respond({ ...request, host }, options, { prerender });
 }
-var post$4 = async ({ body }) => {
+var post$5 = async ({ body }) => {
   await connect();
   const req = JSON.parse(body);
   const school = new School({ name: req.name });
@@ -56517,10 +56535,10 @@ var get = async (request) => {
 var index$7 = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
-  post: post$4,
+  post: post$5,
   get
 });
-var post$3 = async (request) => {
+var post$4 = async (request) => {
   console.log(request);
   const cookies = cookie.parse(request.headers.cookie || "");
   if (cookies.session_id && request.locals.user) {
@@ -56546,9 +56564,9 @@ var post$3 = async (request) => {
 var index$6 = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
-  post: post$3
+  post: post$4
 });
-var post$2 = async (request) => {
+var post$3 = async (request) => {
   await connect();
   const { username, password } = request.body.valueOf();
   const user = await User.findOne({ username });
@@ -56592,9 +56610,9 @@ var post$2 = async (request) => {
 var index$5 = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
-  post: post$2
+  post: post$3
 });
-var post$1 = async ({ body }) => {
+var post$2 = async ({ body }) => {
   await connect();
   const req = JSON.parse(body);
   const cryptPassword = import_bcryptjs.default.hashSync(req.password);
@@ -56610,9 +56628,9 @@ var post$1 = async ({ body }) => {
 var test = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
-  post: post$1
+  post: post$2
 });
-var post = async (request) => {
+var post$1 = async (request) => {
   const { username, password, type, school_id } = request.body.valueOf();
   console.log(school_id);
   const user = await User.findOne({ username });
@@ -56638,6 +56656,21 @@ var post = async (request) => {
   };
 };
 var index$4 = /* @__PURE__ */ Object.freeze({
+  __proto__: null,
+  [Symbol.toStringTag]: "Module",
+  post: post$1
+});
+var post = async (request) => {
+  console.log(request.locals);
+  console.log(request.body);
+  return {
+    status: 200,
+    body: {
+      message: "Completion uploaded"
+    }
+  };
+};
+var complete = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
   post
@@ -56751,7 +56784,7 @@ var error$1 = /* @__PURE__ */ Object.freeze({
   "default": Error$1,
   load: load$5
 });
-var css$1 = {
+var css$2 = {
   code: "svg.svelte-heylkm{stroke:currentColor;fill:currentColor;stroke-width:0;height:auto;max-height:100%;width:100%}",
   map: '{"version":3,"file":"IconBase.svelte","sources":["IconBase.svelte"],"sourcesContent":["<script>\\n  export let title = null;\\n  export let viewBox;\\n<\/script>\\n\\n<style>svg{stroke:currentColor;fill:currentColor;stroke-width:0;height:auto;max-height:100%;width:100%}</style>\\n\\n<svg xmlns=\\"http://www.w3.org/2000/svg\\" {viewBox}>\\n  {#if title}\\n    <title>{title}</title>\\n  {/if}\\n  <slot />\\n</svg>\\n"],"names":[],"mappings":"AAKO,iBAAG,CAAC,OAAO,YAAY,CAAC,KAAK,YAAY,CAAC,aAAa,CAAC,CAAC,OAAO,IAAI,CAAC,WAAW,IAAI,CAAC,MAAM,IAAI,CAAC"}'
 };
@@ -56762,7 +56795,7 @@ var IconBase = create_ssr_component(($$result, $$props, $$bindings, slots) => {
     $$bindings.title(title);
   if ($$props.viewBox === void 0 && $$bindings.viewBox && viewBox !== void 0)
     $$bindings.viewBox(viewBox);
-  $$result.css.add(css$1);
+  $$result.css.add(css$2);
   return `<svg xmlns="${"http://www.w3.org/2000/svg"}"${add_attribute("viewBox", viewBox, 0)} class="${"svelte-heylkm"}">${title ? `<title>${escape(title)}</title>` : ``}${slots.default ? slots.default({}) : ``}</svg>`;
 });
 var FaRegPlayCircle = create_ssr_component(($$result, $$props, $$bindings, slots) => {
@@ -56798,13 +56831,8 @@ var TextAndAudio = create_ssr_component(($$result, $$props, $$bindings, slots) =
     $$bindings.src(src2);
   if ($$props.autoplay === void 0 && $$bindings.autoplay && autoplay !== void 0)
     $$bindings.autoplay(autoplay);
-  return `<span class="${"whitespace-pre-line"}">${escape(text)}</span>
-${validate_component(AudioPlayer, "AudioPlayer").$$render($$result, { src: src2, autoplay }, {}, {})}`;
-});
-var TextAndAudio$1 = /* @__PURE__ */ Object.freeze({
-  __proto__: null,
-  [Symbol.toStringTag]: "Module",
-  "default": TextAndAudio
+  return `<div class="${"flex justify-center items-center gap-2"}"><span class="${"whitespace-pre-line"}">${escape(text)}</span>
+	${validate_component(AudioPlayer, "AudioPlayer").$$render($$result, { src: src2, autoplay }, {}, {})}</div>`;
 });
 var textAndAudio = {
   "1": { audio: "/audio/01.m4a", text: "\u039C\u03B5 \u03C4\u03B9 \u03B8\u03B1 \u03AE\u03B8\u03B5\u03BB\u03B5\u03C2 \u03BD\u03B1 \u03B1\u03C3\u03C7\u03BF\u03BB\u03B7\u03B8\u03B5\u03AF\u03C2; \u0394\u03B9\u03AC\u03BB\u03B5\u03BE\u03B5 \u03BC\u03AF\u03B1 \u03B5\u03C1\u03B3\u03B1\u03C3\u03AF\u03B1." },
@@ -56956,11 +56984,11 @@ var Routes = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
   });
-  return `<div class="${"flex justify-center items-center gap-2"}">${validate_component(TextAndAudio, "TextAndAudio").$$render($$result, {
+  return `${validate_component(TextAndAudio, "TextAndAudio").$$render($$result, {
     src: textAndAudio[1].audio,
     text: textAndAudio[1].text,
-    autoplay: false
-  }, {}, {})}</div>
+    autoplay: true
+  }, {}, {})}
 
 <div class="${"gap-3 flex flex-col lg:flex-row flex-wrap items-center mx-2 mt-5 mb-5"}"><button class="${"flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl"}"><img class="${"rounded-xl "}" src="${"/quantities/quantities-01.jpeg"}" alt="${"Quantities task"}">
 		<span>Quantities tasks</span></button>
@@ -57025,7 +57053,7 @@ var session = {
   set: () => error("set"),
   update: () => error("update")
 };
-var css = {
+var css$1 = {
   code: ".lds-ring.svelte-1xkie6p.svelte-1xkie6p{display:inline-block;height:20px;position:relative;width:20px}.lds-ring.svelte-1xkie6p div.svelte-1xkie6p{-webkit-animation:svelte-1xkie6p-lds-ring 1.2s cubic-bezier(.5,0,.5,1) infinite;animation:svelte-1xkie6p-lds-ring 1.2s cubic-bezier(.5,0,.5,1) infinite;border:3px solid transparent;border-radius:50%;border-top-color:#fff;box-sizing:border-box;display:block;height:20px;margin:3px;position:absolute;width:20px}.lds-ring.svelte-1xkie6p div.svelte-1xkie6p:first-child{-webkit-animation-delay:-.45s;animation-delay:-.45s}.lds-ring.svelte-1xkie6p div.svelte-1xkie6p:nth-child(2){-webkit-animation-delay:-.3s;animation-delay:-.3s}.lds-ring.svelte-1xkie6p div.svelte-1xkie6p:nth-child(3){-webkit-animation-delay:-.15s;animation-delay:-.15s}@-webkit-keyframes svelte-1xkie6p-lds-ring{0%{transform:rotate(0deg)}to{transform:rotate(1turn)}}@keyframes svelte-1xkie6p-lds-ring{0%{transform:rotate(0deg)}to{transform:rotate(1turn)}}",
   map: '{"version":3,"file":"SubmitButton.svelte","sources":["SubmitButton.svelte"],"sourcesContent":["<script>\\n\\texport let disabled;\\n\\texport let action;\\n\\texport let loading;\\n<\/script>\\n\\n<button\\n\\t{disabled}\\n\\ton:click={action}\\n\\tclass={disabled\\n\\t\\t? `bg-green-600 p-4 w-full md:w-72 rounded-xl`\\n\\t\\t: `bg-green-300 p-4 w-full md:w-72 rounded-xl`}\\n\\ttype=\\"submit\\"\\n>\\n\\t{#if !loading}\\n\\t\\t<p class=\\"text-white\\"><slot /></p>\\n\\t{:else}\\n\\t\\t<div class=\\"lds-ring\\">\\n\\t\\t\\t<div />\\n\\t\\t\\t<div />\\n\\t\\t\\t<div />\\n\\t\\t\\t<div />\\n\\t\\t</div>\\n\\t{/if}\\n</button>\\n\\n<style>.lds-ring{display:inline-block;height:20px;position:relative;width:20px}.lds-ring div{-webkit-animation:lds-ring 1.2s cubic-bezier(.5,0,.5,1) infinite;animation:lds-ring 1.2s cubic-bezier(.5,0,.5,1) infinite;border:3px solid transparent;border-radius:50%;border-top-color:#fff;box-sizing:border-box;display:block;height:20px;margin:3px;position:absolute;width:20px}.lds-ring div:first-child{-webkit-animation-delay:-.45s;animation-delay:-.45s}.lds-ring div:nth-child(2){-webkit-animation-delay:-.3s;animation-delay:-.3s}.lds-ring div:nth-child(3){-webkit-animation-delay:-.15s;animation-delay:-.15s}@-webkit-keyframes lds-ring{0%{transform:rotate(0deg)}to{transform:rotate(1turn)}}@keyframes lds-ring{0%{transform:rotate(0deg)}to{transform:rotate(1turn)}}</style>\\n"],"names":[],"mappings":"AA0BO,uCAAS,CAAC,QAAQ,YAAY,CAAC,OAAO,IAAI,CAAC,SAAS,QAAQ,CAAC,MAAM,IAAI,CAAC,wBAAS,CAAC,kBAAG,CAAC,kBAAkB,uBAAQ,CAAC,IAAI,CAAC,aAAa,EAAE,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,QAAQ,CAAC,UAAU,uBAAQ,CAAC,IAAI,CAAC,aAAa,EAAE,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,QAAQ,CAAC,OAAO,GAAG,CAAC,KAAK,CAAC,WAAW,CAAC,cAAc,GAAG,CAAC,iBAAiB,IAAI,CAAC,WAAW,UAAU,CAAC,QAAQ,KAAK,CAAC,OAAO,IAAI,CAAC,OAAO,GAAG,CAAC,SAAS,QAAQ,CAAC,MAAM,IAAI,CAAC,wBAAS,CAAC,kBAAG,YAAY,CAAC,wBAAwB,KAAK,CAAC,gBAAgB,KAAK,CAAC,wBAAS,CAAC,kBAAG,WAAW,CAAC,CAAC,CAAC,wBAAwB,IAAI,CAAC,gBAAgB,IAAI,CAAC,wBAAS,CAAC,kBAAG,WAAW,CAAC,CAAC,CAAC,wBAAwB,KAAK,CAAC,gBAAgB,KAAK,CAAC,mBAAmB,uBAAQ,CAAC,EAAE,CAAC,UAAU,OAAO,IAAI,CAAC,CAAC,EAAE,CAAC,UAAU,OAAO,KAAK,CAAC,CAAC,CAAC,WAAW,uBAAQ,CAAC,EAAE,CAAC,UAAU,OAAO,IAAI,CAAC,CAAC,EAAE,CAAC,UAAU,OAAO,KAAK,CAAC,CAAC,CAAC"}'
 };
@@ -57039,7 +57067,7 @@ var SubmitButton = create_ssr_component(($$result, $$props, $$bindings, slots) =
     $$bindings.action(action);
   if ($$props.loading === void 0 && $$bindings.loading && loading !== void 0)
     $$bindings.loading(loading);
-  $$result.css.add(css);
+  $$result.css.add(css$1);
   return `<button ${disabled ? "disabled" : ""} class="${escape(null_to_empty(disabled ? `bg-green-600 p-4 w-full md:w-72 rounded-xl` : `bg-green-300 p-4 w-full md:w-72 rounded-xl`)) + " svelte-1xkie6p"}" type="${"submit"}">${!loading ? `<p class="${"text-white"}">${slots.default ? slots.default({}) : ``}</p>` : `<div class="${"lds-ring svelte-1xkie6p"}"><div class="${"svelte-1xkie6p"}"></div>
 			<div class="${"svelte-1xkie6p"}"></div>
 			<div class="${"svelte-1xkie6p"}"></div>
@@ -57335,13 +57363,168 @@ var __layout_reset$1 = /* @__PURE__ */ Object.freeze({
   [Symbol.toStringTag]: "Module",
   "default": _layout_reset$1
 });
-var U5Btypeu5D = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+var subscriber_queue = [];
+function writable(value, start = noop) {
+  let stop;
+  const subscribers = new Set();
+  function set(new_value) {
+    if (safe_not_equal(value, new_value)) {
+      value = new_value;
+      if (stop) {
+        const run_queue = !subscriber_queue.length;
+        for (const subscriber of subscribers) {
+          subscriber[1]();
+          subscriber_queue.push(subscriber, value);
+        }
+        if (run_queue) {
+          for (let i = 0; i < subscriber_queue.length; i += 2) {
+            subscriber_queue[i][0](subscriber_queue[i + 1]);
+          }
+          subscriber_queue.length = 0;
+        }
+      }
+    }
+  }
+  function update(fn) {
+    set(fn(value));
+  }
+  function subscribe2(run2, invalidate = noop) {
+    const subscriber = [run2, invalidate];
+    subscribers.add(subscriber);
+    if (subscribers.size === 1) {
+      stop = start(set) || noop;
+    }
+    run2(value);
+    return () => {
+      subscribers.delete(subscriber);
+      if (subscribers.size === 0) {
+        stop();
+        stop = null;
+      }
+    };
+  }
+  return { set, update, subscribe: subscribe2 };
+}
+var tutorials = writable({
+  quantities: {
+    seen: false,
+    type: "number"
+  },
+  colorPattern: {
+    seen: false,
+    type: "number"
+  },
+  difference: {
+    seen: false,
+    type: "number"
+  },
+  hiddenNumbers: {
+    seen: false,
+    type: "number"
+  },
+  minus: {
+    seen: false,
+    type: "number"
+  },
+  plus: {
+    seen: false,
+    type: "number"
+  },
+  numberComparison: {
+    seen: false,
+    type: "number"
+  },
+  numberLine: {
+    seen: false,
+    type: "number"
+  },
+  quantityComparison: {
+    seen: false,
+    type: "number"
+  },
+  numberPattern: {
+    seen: false,
+    type: "number"
+  }
+});
+var css = {
+  code: ".selected.svelte-1mkw1ot{--tw-bg-opacity:1;background-color:rgba(59,130,246,var(--tw-bg-opacity))}",
+  map: `{"version":3,"file":"Numbers.svelte","sources":["Numbers.svelte"],"sourcesContent":["<script lang=\\"ts\\">var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {\\n    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }\\n    return new (P || (P = Promise))(function (resolve, reject) {\\n        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }\\n        function rejected(value) { try { step(generator[\\"throw\\"](value)); } catch (e) { reject(e); } }\\n        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }\\n        step((generator = generator.apply(thisArg, _arguments || [])).next());\\n    });\\n};\\nimport { textAndAudio } from '$lib/audio';\\nimport { createEventDispatcher, onMount } from 'svelte';\\nconst numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];\\nconst dispatch = createEventDispatcher();\\nlet selected;\\nlet audio = new Audio(textAndAudio[27].audio);\\nfunction selectAnswer(answer) {\\n    return __awaiter(this, void 0, void 0, function* () {\\n        selected = answer;\\n        yield new Promise((resolve) => {\\n            audio.play();\\n            audio.onended = resolve;\\n        });\\n        dispatch('answer', {\\n            answer\\n        });\\n    });\\n}\\nonMount(() => { });\\n<\/script>\\n\\n<div class=\\"grid grid-cols-10 gap-4 mb-4\\">\\n\\t<!-- <button class=\\"h-20 w-20 border\\">1</button>\\n\\t<button class=\\"h-20 w-20 border\\">2</button>\\n\\t<button class=\\"h-20 w-20 border\\">3</button>\\n\\t<button class=\\"h-20 w-20 border\\">4</button>\\n\\t<button class=\\"h-20 w-20 border\\">5</button>\\n\\t<button class=\\"h-20 w-20 border\\">6</button>\\n\\t<button class=\\"h-20 w-20 border\\">7</button>\\n\\t<button class=\\"h-20 w-20 border\\">8</button>\\n\\t<button class=\\"h-20 w-20 border\\">9</button>\\n\\t<button class=\\"h-20 w-20 border\\">10</button>\\n\\t<button class=\\"h-20 w-20 border\\">11</button>\\n\\t<button class=\\"h-20 w-20 border\\">12</button>\\n\\t<button class=\\"h-20 w-20 border\\">13</button>\\n\\t<button class=\\"h-20 w-20 border\\">14</button>\\n\\t<button class=\\"h-20 w-20 border\\">15</button>\\n\\t<button class=\\"h-20 w-20 border\\">16</button>\\n\\t<button class=\\"h-20 w-20 border\\">17</button>\\n\\t<button class=\\"h-20 w-20 border\\">18</button>\\n\\t<button class=\\"h-20 w-20 border\\">19</button>\\n\\t<button class=\\"h-20 w-20 border\\">20</button> -->\\n\\t{#each numbers as number}\\n\\t\\t<button\\n\\t\\t\\ton:click={() => selectAnswer(number)}\\n\\t\\t\\tclass=\\"h-16 w-16 border bg-gray-50 border-gray-400 rounded-xl hover:bg-gray-300 text-4xl\\"\\n\\t\\t\\tclass:selected={selected === number}\\n\\t\\t>\\n\\t\\t\\t{number}\\n\\t\\t</button>\\n\\t{/each}\\n</div>\\n\\n<style>.selected{--tw-bg-opacity:1;background-color:rgba(59,130,246,var(--tw-bg-opacity))}</style>\\n"],"names":[],"mappings":"AA8DO,wBAAS,CAAC,gBAAgB,CAAC,CAAC,iBAAiB,KAAK,EAAE,CAAC,GAAG,CAAC,GAAG,CAAC,IAAI,eAAe,CAAC,CAAC,CAAC"}`
+};
+var Numbers = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+  (function(thisArg, _arguments, P, generator) {
+    function adopt(value) {
+      return value instanceof P ? value : new P(function(resolve2) {
+        resolve2(value);
+      });
+    }
+    return new (P || (P = Promise))(function(resolve2, reject) {
+      function fulfilled(value) {
+        try {
+          step(generator.next(value));
+        } catch (e) {
+          reject(e);
+        }
+      }
+      function rejected(value) {
+        try {
+          step(generator["throw"](value));
+        } catch (e) {
+          reject(e);
+        }
+      }
+      function step(result) {
+        result.done ? resolve2(result.value) : adopt(result.value).then(fulfilled, rejected);
+      }
+      step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+  });
+  const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
+  createEventDispatcher();
+  let selected;
+  new Audio(textAndAudio[27].audio);
+  $$result.css.add(css);
+  return `<div class="${"grid grid-cols-10 gap-4 mb-4"}">
+	${each(numbers, (number) => `<button class="${[
+    "h-16 w-16 border bg-gray-50 border-gray-400 rounded-xl hover:bg-gray-300 text-4xl svelte-1mkw1ot",
+    selected === number ? "selected" : ""
+  ].join(" ").trim()}">${escape(number)}
+		</button>`)}
+</div>`;
+});
+var NumberTutorial = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   let $$unsubscribe_page;
+  let $$unsubscribe_tutorials;
   $$unsubscribe_page = subscribe(page, (value) => value);
-  let tasks = [];
+  $$unsubscribe_tutorials = subscribe(tutorials, (value) => value);
   $$unsubscribe_page();
+  $$unsubscribe_tutorials();
+  return `<div class="${"h-screen flex justify-center items-center flex-col gap-6"}">${validate_component(TextAndAudio, "TextAndAudio").$$render($$result, {
+    src: textAndAudio[3].audio,
+    text: textAndAudio[3].text,
+    autoplay: true
+  }, {}, {})}
+	${validate_component(Numbers, "Numbers").$$render($$result, {}, {}, {})}</div>`;
+});
+var TaskRun = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+  let { task } = $$props;
+  createEventDispatcher();
+  if ($$props.task === void 0 && $$bindings.task && task !== void 0)
+    $$bindings.task(task);
+  return `<div class="${"h-screen flex flex-col items-center justify-between "}"><img${add_attribute("src", task.src, 0)} alt="${"Task"}">
+	${validate_component(Numbers, "Numbers").$$render($$result, {}, {}, {})}</div>`;
+});
+var U5Btypeu5D = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+  let $page, $$unsubscribe_page;
+  let $tutorials, $$unsubscribe_tutorials;
+  $$unsubscribe_page = subscribe(page, (value) => $page = value);
+  $$unsubscribe_tutorials = subscribe(tutorials, (value) => $tutorials = value);
+  let tasks = [];
+  let taskIndex = 0;
+  $$unsubscribe_page();
+  $$unsubscribe_tutorials();
   return `${tasks.length === 0 ? `<div class="${"h-screen flex items-center justify-center flex-col"}"><h1>Not yet implemented</h1>
-		<a href="${"/"}">Go back</a></div>` : `<h1>Run tasks</h1>`}`;
+		<a href="${"/"}">Go back</a></div>` : `${!$tutorials[$page.params.type].seen ? `${validate_component(NumberTutorial, "NumberTutorial").$$render($$result, {}, {}, {})}` : `${`${validate_component(TaskRun, "TaskRun").$$render($$result, { task: tasks[taskIndex] }, {}, {})}`}`}`}`;
 });
 var _type_ = /* @__PURE__ */ Object.freeze({
   __proto__: null,

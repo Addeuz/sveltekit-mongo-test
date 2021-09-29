@@ -6,7 +6,6 @@ export interface IUser extends Document {
 	username: string;
 	password: string;
 	type: 'student' | 'teacher' | 'researcher';
-	completedRuns: string[];
 	school_id: string;
 }
 

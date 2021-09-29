@@ -1,0 +1,34 @@
+<script lang="ts">
+	import { goto } from '$app/navigation';
+
+	import { textAndAudio } from '$lib/audio';
+
+	import type { AnswerAttributes } from 'src/global';
+	import { onMount } from 'svelte';
+	import TextAndAudio from './TextAndAudio.svelte';
+
+	export let completions: AnswerAttributes[];
+
+	onMount(async () => {
+		console.log(completions);
+		const res = await fetch('/api/run/complete', {
+			method: 'POST',
+			body: JSON.stringify({
+				...completions
+			}),
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		});
+		if (res.ok) {
+			console.log(await res.json());
+		}
+	});
+</script>
+
+<div class="h-screen flex items-center justify-center flex-col gap-6">
+	<div class="text-2xl">
+		<TextAndAudio src={textAndAudio[30].audio} text={textAndAudio[30].text} autoplay={true} />
+	</div>
+	<button class="bg-green-400 py-4 px-6 rounded-xl" on:click={() => goto('/')}>Home</button>
+</div>
