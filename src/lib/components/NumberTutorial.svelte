@@ -6,13 +6,50 @@
 	import TextAndAudio from '$lib/components/TextAndAudio.svelte';
 	import Numbers from './AnswerInputs/Numbers.svelte';
 
-	function handleAnswer(event) {
+	let selected: number;
+
+	let tutorialIndex = 0;
+
+	async function handleAnswer(event) {
+		let audio = new Audio(textAndAudio[27].audio);
+		selected = event.detail.answer;
+
 		// This needs more stuff, like the stars and stuff
-		$tutorials[$page.params.type].seen = true;
+
+		await new Promise((resolve) => {
+			audio.play();
+			audio.onended = resolve;
+		}).then(() => {
+			tutorialIndex = tutorialIndex + 1;
+		});
+	}
+
+	async function handleTutorialEnd() {
+		let audio = new Audio(textAndAudio[28].audio);
+
+		await new Promise((resolve) => {
+			audio.play();
+			audio.onended = resolve;
+		}).then(() => {
+			$tutorials[$page.params.type].seen = true;
+		});
 	}
 </script>
 
 <div class="h-screen flex justify-center items-center flex-col gap-6">
-	<TextAndAudio src={textAndAudio[3].audio} text={textAndAudio[3].text} autoplay={true} />
-	<Numbers on:answer={handleAnswer} />
+	{#if tutorialIndex === 0}
+		<TextAndAudio src={textAndAudio[3].audio} text={textAndAudio[3].text} autoplay={true} />
+		<Numbers on:answer={handleAnswer} {selected} />
+	{:else if tutorialIndex === 1}
+		<TextAndAudio src={textAndAudio[4].audio} text={textAndAudio[4].text} autoplay={true} />
+		<TextAndAudio src={textAndAudio[5].audio} text={textAndAudio[5].text} />
+		<img
+			class="cursor-pointer"
+			src="/star.png"
+			alt="Big star"
+			on:click={() => {
+				handleTutorialEnd();
+			}}
+		/>
+	{/if}
 </div>

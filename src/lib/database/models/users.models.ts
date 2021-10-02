@@ -19,9 +19,6 @@ const UserSchema: Schema = new mongoose.Schema({
 	type: {
 		type: String
 	},
-	completedRuns: {
-		type: [String]
-	},
 	school_id: {
 		ref: 'School',
 		type: mongoose.Schema.Types.ObjectId

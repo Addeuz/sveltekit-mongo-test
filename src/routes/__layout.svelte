@@ -48,7 +48,7 @@
 			nav ? `flex` : `hidden`
 		} absolute lg:relative lg:block top-16 lg:top-0 left-0 z-20 flex flex-col lg:flex-row lg:space-x-6 font-semibold w-full lg:w-auto bg-white shadow-md rounded-lg lg:shadow-none lg:rounded-none lg:bg-transparent p-6 pt-0 lg:p-0`}
 	>
-		{#if user}
+		{#if user && user.type}
 			<a href="/profile" class="nav-item">Profile</a>
 			{#if user.type === 'teacher' || user.type === 'researcher'}
 				<a href="/profile" class="nav-item">Statistics</a>

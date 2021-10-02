@@ -7,16 +7,11 @@
 
 	const dispatch = createEventDispatcher();
 
-	let selected: number;
-	let audio = new Audio(textAndAudio[27].audio);
+	let skip = false;
+
+	export let selected: number;
 
 	async function selectAnswer(answer: number) {
-		selected = answer;
-		await new Promise((resolve) => {
-			audio.play();
-			audio.onended = resolve;
-		});
-
 		dispatch('answer', {
 			answer
 		});
@@ -25,36 +20,29 @@
 	onMount(() => {});
 </script>
 
-<div class="grid grid-cols-10 gap-4 mb-4">
-	<!-- <button class="h-20 w-20 border">1</button>
-	<button class="h-20 w-20 border">2</button>
-	<button class="h-20 w-20 border">3</button>
-	<button class="h-20 w-20 border">4</button>
-	<button class="h-20 w-20 border">5</button>
-	<button class="h-20 w-20 border">6</button>
-	<button class="h-20 w-20 border">7</button>
-	<button class="h-20 w-20 border">8</button>
-	<button class="h-20 w-20 border">9</button>
-	<button class="h-20 w-20 border">10</button>
-	<button class="h-20 w-20 border">11</button>
-	<button class="h-20 w-20 border">12</button>
-	<button class="h-20 w-20 border">13</button>
-	<button class="h-20 w-20 border">14</button>
-	<button class="h-20 w-20 border">15</button>
-	<button class="h-20 w-20 border">16</button>
-	<button class="h-20 w-20 border">17</button>
-	<button class="h-20 w-20 border">18</button>
-	<button class="h-20 w-20 border">19</button>
-	<button class="h-20 w-20 border">20</button> -->
+<div class="grid grid-cols-11 gap-4 mb-4">
 	{#each numbers as number}
 		<button
 			on:click={() => selectAnswer(number)}
-			class="h-16 w-16 border bg-gray-50 border-gray-400 rounded-xl hover:bg-gray-300 text-4xl"
+			class="h-16 w-16 border bg-gray-50 border-gray-400 rounded-xl justify-self-end hover:bg-gray-300 text-4xl"
 			class:selected={selected === number}
 		>
 			{number}
 		</button>
 	{/each}
+	<div class="col-start-11 row-start-1 row-span-2 self-center justify-self-center">
+		<button
+			on:click={() => {
+				dispatch('answer', {
+					answer: 0
+				});
+			}}
+			class="h-16 w-16 border bg-gray-50 border-gray-400 rounded-xl justify-self-end hover:bg-gray-300 text-4xl"
+			class:selected={selected === 0}
+		>
+			<img src="/star.png" alt="Skip star" class="w-16 cursor-pointer" />
+		</button>
+	</div>
 </div>
 
 <style>

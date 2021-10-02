@@ -26,7 +26,7 @@
 		on:click={() => goto('/running/quantities')}
 		class="flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl"
 	>
-		<img class="rounded-xl " src="/quantities/quantities-01.jpeg" alt="Quantities task" />
+		<img class="rounded-xl mb-3 w-48" src="/quantities/quantities-01.jpeg" alt="Quantities task" />
 		<span>Quantities tasks</span>
 	</button>
 	<button

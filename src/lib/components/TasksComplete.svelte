@@ -13,9 +13,7 @@
 		console.log(completions);
 		const res = await fetch('/api/run/complete', {
 			method: 'POST',
-			body: JSON.stringify({
-				...completions
-			}),
+			body: JSON.stringify({ completions }),
 			headers: {
 				'Content-Type': 'application/json'
 			}

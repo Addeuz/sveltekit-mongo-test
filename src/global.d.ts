@@ -18,6 +18,12 @@ export interface TaskAttributes {
 
 export interface AnswerAttributes {
 	answer: string;
-	rightAnswer: string;
+	rightAnswer?: string;
 	time: number;
+	taskId?: number;
+	skip?: boolean;
+}
+
+export interface CompletionAttributes {
+	completions: AnswerAttributes[];
 }

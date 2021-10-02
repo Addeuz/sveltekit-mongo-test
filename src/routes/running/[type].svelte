@@ -18,7 +18,8 @@
 
 	function handleTaskAnswer(event) {
 		completions.push(event.detail.answer);
-		if (taskIndex !== tasks.length - 1) {
+		// Needs times 2 here because there is double amount of "tasks" when there are stars between every task
+		if (taskIndex !== tasks.length * 2 - 1) {
 			taskIndex++;
 		} else {
 			console.log('YAAAY');
@@ -44,5 +45,6 @@
 {:else if allTaskComplete}
 	<TasksComplete {completions} />
 {:else}
-	<TaskRun task={tasks[taskIndex]} on:taskComplete={handleTaskAnswer} />
+	<!-- If taskIndex is even it means that there should be a real task not a star -->
+	<TaskRun task={tasks[taskIndex / 2]} on:taskComplete={handleTaskAnswer} {taskIndex} />
 {/if}

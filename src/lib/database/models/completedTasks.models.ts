@@ -1,31 +1,46 @@
-// import mongoose from 'mongoose';
-// import type { Model, Schema, Document } from 'mongoose';
-// const { model } = mongoose;
+import mongoose from 'mongoose';
+import type { Model, Schema, Document } from 'mongoose';
+const { model } = mongoose;
 
-// export interface ICompletedTask extends Document {
-// 	tasks:
-// 	password: string;
-// 	type: 'student' | 'teacher' | 'researcher';
-// 	school_id: string;
-// }
+import type { AnswerAttributes } from 'src/global';
 
-// const UserSchema: Schema = new mongoose.Schema({
-// 	username: {
-// 		type: String
-// 	},
-// 	password: {
-// 		type: String
-// 	},
-// 	type: {
-// 		type: String
-// 	},
-// 	completedRuns: {
-// 		type: [String]
-// 	},
-// 	school_id: {
-// 		ref: 'School',
-// 		type: mongoose.Schema.Types.ObjectId
-// 	}
-// });
+function makeJSONIntoString(v: AnswerAttributes[]) {
+	return v.map((value) => {
+		console.log(value);
+		if (typeof value === 'string') {
+			// do nothing
+		} else {
+			return JSON.stringify(value);
+		}
+	});
+}
 
-// export const User: Model<IUser> = mongoose.models.User || model('User', UserSchema);
+function getJSONFromString(v: string[]): AnswerAttributes[] {
+	return v.map((value) => {
+		console.log(value);
+		return JSON.parse(value);
+	});
+}
+export interface ICompletedRun extends Document {
+	tasks: AnswerAttributes[];
+	totalTime: number;
+	user_id: string;
+}
+
+const CompletetedRunSchema: Schema = new mongoose.Schema({
+	totalTime: {
+		type: Number
+	},
+	tasks: {
+		type: [String],
+		set: makeJSONIntoString,
+		get: getJSONFromString
+	},
+	user_id: {
+		ref: 'User',
+		type: mongoose.Schema.Types.ObjectId
+	}
+});
+
+export const CompletedRun: Model<ICompletedRun> =
+	mongoose.models.CompletedRun || model('CompletedRun', CompletetedRunSchema);

@@ -1,12 +1,24 @@
 // import { User } from '$lib/database/models';
+import { CompletedRun, User } from '$lib/database/models';
 import type { RequestHandler } from '@sveltejs/kit';
+import type { CompletionAttributes } from 'src/global';
 
 export const post: RequestHandler = async (request) => {
 	console.log(request.locals);
 	console.log(request.body);
 
-	// const user = await User.findById(request.locals._id);
-	// user.completedRuns = [ ...user.completedRuns, ]
+	const { completions } = request.body.valueOf() as CompletionAttributes;
+
+	const user = await User.findById(request.locals.user._id);
+
+	let totalTime = 0;
+	for await (const completion of completions) {
+		console.log(completion.time);
+		totalTime = totalTime + completion.time;
+	}
+
+	const completedRun = new CompletedRun({ tasks: completions, totalTime, user_id: user.id });
+	await completedRun.save();
 
 	return {
 		status: 200,
@@ -16,3 +28,4 @@ export const post: RequestHandler = async (request) => {
 		}
 	};
 };
+//
