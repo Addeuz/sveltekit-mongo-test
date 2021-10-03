@@ -312,32 +312,32 @@ export const sampleTasks: { [key in TaskKeys]: TaskAttributes[] } = {
 		{
 			id: 0,
 			rightAnswer: '2',
-			src: '/number_comparison/hiddennumber-01.jpeg',
+			src: '/hidden_number/hiddennumber-01.jpeg',
 			answerType: 'numbers',
 			audio: '/audio/10.m4a'
 		},
 		{
 			id: 1,
 			rightAnswer: '6',
-			src: '/number_comparison/hiddennumber-02.jpeg',
+			src: '/hidden_number/hiddennumber-02.jpeg',
 			answerType: 'numbers'
 		},
 		{
 			id: 2,
 			rightAnswer: '14',
-			src: '/number_comparison/hiddennumber-03.jpeg',
+			src: '/hidden_number/hiddennumber-03.jpeg',
 			answerType: 'numbers'
 		},
 		{
 			id: 3,
 			rightAnswer: '9',
-			src: '/number_comparison/hiddennumber-04.jpeg',
+			src: '/hidden_number/hiddennumber-04.jpeg',
 			answerType: 'numbers'
 		},
 		{
 			id: 4,
 			rightAnswer: '8',
-			src: '/number_comparison/hiddennumber-05.jpeg',
+			src: '/hidden_number/hiddennumber-05.jpeg',
 			answerType: 'numbers'
 		}
 	],

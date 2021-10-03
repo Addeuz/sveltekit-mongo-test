@@ -88,9 +88,9 @@
 </script>
 
 {#if $tutorials[$page.params.type].type === 'number'}
-	<div class="h-screen flex flex-col items-center justify-between ">
+	<div class="h-screen flex flex-col items-center justify-start ">
 		{#if taskIndex % 2 === 0}
-			<img src={task.src} alt="Task" />
+			<img class="h-3/4" src={task.src} alt="Task" />
 			<Numbers on:answer={(event) => handleAnswer(false, event)} {selected} />
 		{:else}
 			<div class="cursor-pointer justify-self-center self-center my-auto">
@@ -99,9 +99,9 @@
 		{/if}
 	</div>
 {:else if $tutorials[$page.params.type].type === 'color'}
-	<div class="h-screen flex flex-col items-center justify-between ">
+	<div class="h-screen flex flex-col items-center justify-start ">
 		{#if taskIndex % 2 === 0}
-			<img class="" src={task.src} alt="Task" />
+			<img class="h-3/4" src={task.src} alt="Task" />
 			<Colors
 				colorType={task.answerType}
 				on:answer={(event) => handleAnswer(false, event)}

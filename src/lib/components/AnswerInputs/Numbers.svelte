@@ -16,7 +16,7 @@
 	onMount(() => {});
 </script>
 
-<div class="grid grid-cols-11 gap-4 mb-4">
+<div class="grid grid-cols-11 gap-4 mb-10 pb-10">
 	{#each numbers as number}
 		<button
 			on:click={() => selectAnswer(number)}
