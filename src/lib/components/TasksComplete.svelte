@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
 
 	import { textAndAudio } from '$lib/audio';
 
@@ -13,7 +14,7 @@
 		console.log(completions);
 		const res = await fetch('/api/run/complete', {
 			method: 'POST',
-			body: JSON.stringify({ completions }),
+			body: JSON.stringify({ completions, taskType: $page.params.type }),
 			headers: {
 				'Content-Type': 'application/json'
 			}

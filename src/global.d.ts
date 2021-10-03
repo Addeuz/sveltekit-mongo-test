@@ -26,4 +26,5 @@ export interface AnswerAttributes {
 
 export interface CompletionAttributes {
 	completions: AnswerAttributes[];
+	taskType: string;
 }

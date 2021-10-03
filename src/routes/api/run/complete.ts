@@ -7,7 +7,7 @@ export const post: RequestHandler = async (request) => {
 	console.log(request.locals);
 	console.log(request.body);
 
-	const { completions } = request.body.valueOf() as CompletionAttributes;
+	const { completions, taskType } = request.body.valueOf() as CompletionAttributes;
 
 	const user = await User.findById(request.locals.user._id);
 
@@ -17,7 +17,12 @@ export const post: RequestHandler = async (request) => {
 		totalTime = totalTime + completion.time;
 	}
 
-	const completedRun = new CompletedRun({ tasks: completions, totalTime, user_id: user.id });
+	const completedRun = new CompletedRun({
+		tasks: completions,
+		totalTime,
+		user_id: user.id,
+		taskType
+	});
 	await completedRun.save();
 
 	return {

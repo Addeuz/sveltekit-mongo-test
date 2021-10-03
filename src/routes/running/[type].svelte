@@ -8,6 +8,7 @@
 	import NumberTutorial from '$lib/components/NumberTutorial.svelte';
 	import TaskRun from '$lib/components/TaskRun.svelte';
 	import TasksComplete from '$lib/components/TasksComplete.svelte';
+	import AudioPlayer from '$lib/components/AudioPlayer.svelte';
 
 	let tasks: TaskAttributes[] = [];
 
@@ -35,16 +36,33 @@
 	});
 </script>
 
-{#if tasks.length === 0}
-	<div class="h-screen flex items-center justify-center flex-col">
-		<h1>Not yet implemented</h1>
-		<a href="/">Go back</a>
-	</div>
-{:else if !$tutorials[$page.params.type].seen}
-	<NumberTutorial />
-{:else if allTaskComplete}
-	<TasksComplete {completions} />
-{:else}
-	<!-- If taskIndex is even it means that there should be a real task not a star -->
-	<TaskRun task={tasks[taskIndex / 2]} on:taskComplete={handleTaskAnswer} {taskIndex} />
+{#if $tutorials[$page.params.type].type === 'number'}
+	{#if tasks.length === 0}
+		<div class="h-screen flex items-center justify-center flex-col">
+			<h1>Not yet implemented</h1>
+			<a href="/">Go back</a>
+		</div>
+	{:else if !$tutorials[$page.params.type].seen}
+		<NumberTutorial />
+	{:else if allTaskComplete}
+		<TasksComplete {completions} />
+	{:else}
+		<!-- If taskIndex is even it means that there should be a real task not a star -->
+		<TaskRun task={tasks[taskIndex / 2]} on:taskComplete={handleTaskAnswer} {taskIndex} />
+	{/if}
+{:else if $tutorials[$page.params.type].type === 'color'}
+	{#if tasks.length === 0}
+		<div class="h-screen flex items-center justify-center flex-col">
+			<h1>Not yet implemented</h1>
+			<a href="/">Go back</a>
+		</div>
+	{:else if !$tutorials[$page.params.type].seen}
+		<!-- Color tutorial -->
+		<!-- <NumberTutorial /> -->
+	{:else if allTaskComplete}
+		<TasksComplete {completions} />
+	{:else}
+		<!-- If taskIndex is even it means that there should be a real task not a star -->
+		<TaskRun task={tasks[taskIndex / 2]} on:taskComplete={handleTaskAnswer} {taskIndex} />
+	{/if}
 {/if}

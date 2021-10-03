@@ -31,6 +31,9 @@ const CompletetedRunSchema: Schema = new mongoose.Schema({
 	totalTime: {
 		type: Number
 	},
+	taskType: {
+		type: String
+	},
 	tasks: {
 		type: [String],
 		set: makeJSONIntoString,

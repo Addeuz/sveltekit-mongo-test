@@ -6,14 +6,14 @@ export const tutorials = writable({
 		type: 'number'
 	},
 	colorPattern: {
-		seen: false,
-		type: 'number'
+		seen: true,
+		type: 'color'
 	},
 	difference: {
 		seen: false,
 		type: 'number'
 	},
-	hiddenNumbers: {
+	hiddenNumber: {
 		seen: false,
 		type: 'number'
 	},
@@ -34,8 +34,8 @@ export const tutorials = writable({
 		type: 'number'
 	},
 	quantityComparison: {
-		seen: false,
-		type: 'number'
+		seen: true,
+		type: 'color'
 	},
 	numberPattern: {
 		seen: false,
