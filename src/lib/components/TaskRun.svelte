@@ -12,6 +12,7 @@
 	export let task: TaskAttributes;
 	export let taskIndex: number;
 
+	let pulse = false;
 	let taskStartTime: Date;
 	let selected: number | string;
 
@@ -56,14 +57,20 @@
 				});
 			});
 		} else {
-			answer = {
-				answer: 'star',
-				time: (taskEndTime.getTime() - taskStartTime.getTime()) / 1000
-			};
-			taskAudioPlayed = false;
-			taskStartTime = new Date();
-			dispatch('taskComplete', {
-				answer
+			await new Promise((resolve) => {
+				audio.play();
+				audio.onended = resolve;
+			}).then(() => {
+				answer = {
+					answer: 'star',
+					time: (taskEndTime.getTime() - taskStartTime.getTime()) / 1000
+				};
+				taskAudioPlayed = false;
+				pulse = false;
+				taskStartTime = new Date();
+				dispatch('taskComplete', {
+					answer
+				});
 			});
 		}
 	}
@@ -90,18 +97,26 @@
 {#if $tutorials[$page.params.type].type === 'number'}
 	<div class="h-screen flex flex-col items-center justify-start ">
 		{#if taskIndex % 2 === 0}
-			<img class="h-3/4" src={task.src} alt="Task" />
+			<img class="h-1/2" src={task.src} alt="Task" />
 			<Numbers on:answer={(event) => handleAnswer(false, event)} {selected} />
 		{:else}
 			<div class="cursor-pointer justify-self-center self-center my-auto">
-				<img src="/star.png" alt="Big star" on:click={() => handleAnswer(true)} />
+				<img
+					class={`${pulse ? 'animate-pulse' : ''}`}
+					src="/star.png"
+					alt="Big star"
+					on:click={() => {
+						handleAnswer(true);
+						pulse = true;
+					}}
+				/>
 			</div>
 		{/if}
 	</div>
 {:else if $tutorials[$page.params.type].type === 'color'}
 	<div class="h-screen flex flex-col items-center justify-start ">
 		{#if taskIndex % 2 === 0}
-			<img class="h-3/4" src={task.src} alt="Task" />
+			<img class="h-1/2" src={task.src} alt="Task" />
 			<Colors
 				colorType={task.answerType}
 				on:answer={(event) => handleAnswer(false, event)}

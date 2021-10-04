@@ -9,6 +9,7 @@
 	let selected: number;
 
 	let tutorialIndex = 0;
+	let pulse = false;
 
 	async function handleAnswer(event) {
 		let audio = new Audio(textAndAudio[27].audio);
@@ -32,6 +33,7 @@
 			audio.onended = resolve;
 		}).then(() => {
 			$tutorials[$page.params.type].seen = true;
+			pulse = false;
 		});
 	}
 </script>
@@ -44,10 +46,11 @@
 		<TextAndAudio src={textAndAudio[4].audio} text={textAndAudio[4].text} autoplay={true} />
 		<TextAndAudio src={textAndAudio[5].audio} text={textAndAudio[5].text} />
 		<img
-			class="cursor-pointer"
+			class={`${pulse ? 'animate-pulse' : ''} "cursor-pointer"`}
 			src="/star.png"
 			alt="Big star"
 			on:click={() => {
+				pulse = true;
 				handleTutorialEnd();
 			}}
 		/>
