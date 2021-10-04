@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { dev } from '$app/env';
+
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 
@@ -11,7 +13,6 @@
 	export let completions: AnswerAttributes[];
 
 	onMount(async () => {
-		console.log(completions);
 		const res = await fetch('/api/run/complete', {
 			method: 'POST',
 			body: JSON.stringify({ completions, taskType: $page.params.type }),
@@ -29,5 +30,9 @@
 	<div class="text-2xl">
 		<TextAndAudio src={textAndAudio[30].audio} text={textAndAudio[30].text} autoplay={true} />
 	</div>
-	<button class="bg-green-400 py-4 px-6 rounded-xl" on:click={() => goto('/')}>Home</button>
+	<button
+		class="bg-green-400 py-4 px-6 rounded-xl"
+		on:click={() => location.replace(dev ? 'http://localhost:3000' : 'https://didunas.vercel.app/')}
+		>Home</button
+	>
 </div>

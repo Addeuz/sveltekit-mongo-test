@@ -8,13 +8,9 @@ import { User, Cookie } from '$lib/database/models';
 export const post: RequestHandler = async (request) => {
 	await connect();
 
-	// const { username, password, type } = request.body;
 	const { username, password } = request.body.valueOf() as { username: string; password: string };
 
-	// const user = await User.findOne({ where: { username } });
 	const user = await User.findOne({ username });
-
-	console.log(user);
 
 	if (!user) {
 		return {
@@ -38,13 +34,6 @@ export const post: RequestHandler = async (request) => {
 
 	const newCookie = new Cookie({ cookie_id: cookieId, user_id: user._id });
 	await newCookie.save();
-	console.log(newCookie);
-
-	// Cookie.create({
-	// 	cookieId
-	// }).then((cookie) => {
-	// 	cookie.setUser(user);
-	// });
 
 	const headers = {
 		'Set-Cookie': cookie.serialize('session_id', cookieId, {

@@ -49,9 +49,10 @@
 						taskId: task.id
 					};
 				}
-				console.log(answer);
 				taskStartTime = new Date();
 				selected = undefined;
+				pulse = false;
+
 				dispatch('taskComplete', {
 					answer
 				});
@@ -77,19 +78,16 @@
 
 	onMount(() => {
 		taskStartTime = new Date();
-		console.log('MOUNTING');
 	});
 
 	afterUpdate(() => {
 		if (taskIndex % 2 === 0 && !taskAudioPlayed) {
 			taskAudioPlayed = true;
-			console.log('AUDIO');
 			if (task.audio) {
 				let audio = new Audio(task.audio);
 				audio.play();
 			}
 		} else {
-			console.log('NO AUDIO');
 		}
 	});
 </script>
@@ -102,7 +100,7 @@
 		{:else}
 			<div class="cursor-pointer justify-self-center self-center my-auto">
 				<img
-					class={`${pulse ? 'animate-pulse' : ''}`}
+					class:pulse
 					src="/star.png"
 					alt="Big star"
 					on:click={() => {
@@ -126,8 +124,22 @@
 			<!-- <Numbers on:answer={(event) => handleAnswer(false, event)} {selected} /> -->
 		{:else}
 			<div class="cursor-pointer justify-self-center self-center my-auto">
-				<img src="/star.png" alt="Big star" on:click={() => handleAnswer(true)} />
+				<img
+					class:pulse
+					src="/star.png"
+					alt="Big star"
+					on:click={() => {
+						handleAnswer(true);
+						pulse = true;
+					}}
+				/>
 			</div>
 		{/if}
 	</div>
 {/if}
+
+<style>
+	.pulse {
+		@apply animate-pulse;
+	}
+</style>

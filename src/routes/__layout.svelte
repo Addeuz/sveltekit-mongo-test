@@ -2,8 +2,6 @@
 	import type { Load } from '@sveltejs/kit';
 
 	export const load: Load = async ({ session }) => {
-		console.log('load session', session);
-
 		if (session.user) {
 			// Deletes the password from the object so that it doesn't get sent to the web all the time
 			delete session.user.password;

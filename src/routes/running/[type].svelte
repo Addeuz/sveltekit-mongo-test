@@ -23,16 +23,11 @@
 		if (taskIndex !== tasks.length * 2 - 1) {
 			taskIndex++;
 		} else {
-			console.log('YAAAY');
-			console.log(completions);
 			allTaskComplete = true;
 		}
 	}
 	onMount(() => {
-		console.log($page.params.type);
 		tasks = sampleTasks[$page.params.type];
-		console.log(tasks);
-		console.log($tutorials[$page.params.type]);
 	});
 </script>
 
@@ -42,7 +37,7 @@
 			<h1>Not yet implemented</h1>
 			<a href="/">Go back</a>
 		</div>
-	{:else if !$tutorials[$page.params.type].seen}
+	{:else if !$tutorials.tutorial.number}
 		<NumberTutorial />
 	{:else if allTaskComplete}
 		<TasksComplete {completions} />
@@ -56,7 +51,7 @@
 			<h1>Not yet implemented</h1>
 			<a href="/">Go back</a>
 		</div>
-	{:else if !$tutorials[$page.params.type].seen}
+	{:else if !$tutorials.tutorial.color}
 		<!-- Color tutorial -->
 		<!-- <NumberTutorial /> -->
 	{:else if allTaskComplete}

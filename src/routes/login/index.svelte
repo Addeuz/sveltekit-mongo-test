@@ -38,8 +38,6 @@
 				}
 			});
 			if (res.ok) {
-				// console.log(await res.json());
-				// const data = await res.json();
 				location.reload();
 			} else {
 				const data = await res.json();

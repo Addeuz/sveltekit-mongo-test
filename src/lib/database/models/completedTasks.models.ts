@@ -6,7 +6,6 @@ import type { AnswerAttributes } from 'src/global';
 
 function makeJSONIntoString(v: AnswerAttributes[]) {
 	return v.map((value) => {
-		console.log(value);
 		if (typeof value === 'string') {
 			// do nothing
 		} else {
@@ -17,7 +16,6 @@ function makeJSONIntoString(v: AnswerAttributes[]) {
 
 function getJSONFromString(v: string[]): AnswerAttributes[] {
 	return v.map((value) => {
-		console.log(value);
 		return JSON.parse(value);
 	});
 }

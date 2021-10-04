@@ -4,8 +4,7 @@ import type { RegisterAttributes } from 'src/global';
 
 export const post: RequestHandler = async (request) => {
 	const { username, password, type, school_id } = request.body.valueOf() as RegisterAttributes;
-	console.log(school_id);
-	// const user = await User.findOne({ where: { username } });
+
 	const user = await User.findOne({ username });
 
 	if (user) {
@@ -21,7 +20,6 @@ export const post: RequestHandler = async (request) => {
 	await newUser.save();
 
 	const school = await School.findById(school_id);
-	console.log(school);
 	school.users = [...school.users, newUser.id];
 	await school.save();
 

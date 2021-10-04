@@ -32,7 +32,7 @@
 			audio.play();
 			audio.onended = resolve;
 		}).then(() => {
-			$tutorials[$page.params.type].seen = true;
+			$tutorials.tutorial.number = true;
 			pulse = false;
 		});
 	}
@@ -46,7 +46,8 @@
 		<TextAndAudio src={textAndAudio[4].audio} text={textAndAudio[4].text} autoplay={true} />
 		<TextAndAudio src={textAndAudio[5].audio} text={textAndAudio[5].text} />
 		<img
-			class={`${pulse ? 'animate-pulse' : ''} "cursor-pointer"`}
+			class="cursor-pointer"
+			class:pulse
 			src="/star.png"
 			alt="Big star"
 			on:click={() => {
@@ -56,3 +57,9 @@
 		/>
 	{/if}
 </div>
+
+<style>
+	.pulse {
+		@apply animate-pulse;
+	}
+</style>

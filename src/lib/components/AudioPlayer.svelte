@@ -8,12 +8,6 @@
 	let player: HTMLAudioElement;
 
 	let paused = autoplay;
-
-	// $: {
-	// 	paused = player.paused;
-
-	// 	console.log(paused);
-	// }
 </script>
 
 <button

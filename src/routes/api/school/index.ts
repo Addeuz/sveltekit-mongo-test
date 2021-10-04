@@ -9,18 +9,7 @@ export const post: RequestHandler = async ({ body }) => {
 	const req = JSON.parse(body as string) as { name: string };
 
 	const school = new School({ name: req.name });
-	const saved = await school.save();
-
-	console.log(saved);
-
-	// const user = new User({ username: req.message, password: 'janne123456789', type: 'researcher' });
-	// const saved = await user.save();
-	// console.log(saved);
-
-	// const cryptPassword = bcrypt.hashSync(req.password);
-
-	// const user = new User({ username: req.username, password: cryptPassword, type: 'researcher' });
-	// await user.save();
+	await school.save();
 
 	return {
 		status: 200,

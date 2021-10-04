@@ -14,7 +14,6 @@
 				const res = await fetch('/api/school');
 				if (res.ok) {
 					const data = await res.json();
-					console.log('userres', data);
 					return {
 						props: {
 							schools: data.schools
@@ -105,10 +104,6 @@
 			submitted = false;
 		}
 	}
-
-	onMount(() => {
-		console.log('schools', schools);
-	});
 </script>
 
 <div class="flex flex-col md:items-center gap-3">

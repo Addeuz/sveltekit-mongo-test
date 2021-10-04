@@ -8,7 +8,6 @@
 				redirect: '/login'
 			};
 		}
-
 		return {};
 	};
 </script>
@@ -17,14 +16,16 @@
 	import TextAndAudio from '$lib/components/TextAndAudio.svelte';
 	import { textAndAudio } from '$lib/audio';
 	import { goto } from '$app/navigation';
+	import { session } from '$app/stores';
 </script>
 
 <TextAndAudio src={textAndAudio[1].audio} text={textAndAudio[1].text} autoplay={true} />
 
-<div class="gap-3 flex flex-col lg:flex-row flex-wrap items-center mx-2 mt-5 mb-5">
+<div class="gap-3 flex flex-col lg:flex-row flex-wrap items-center mx-2 mt-5 mb-5 ">
 	<button
 		on:click={() => goto('/running/quantities')}
 		class="flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl"
+		class:complete={$session.user.completed.includes('quantities')}
 	>
 		<img class="rounded-xl mb-3 w-48" src="/quantities/quantities-01.jpeg" alt="Quantities task" />
 		<span>Quantities tasks</span>
@@ -32,6 +33,7 @@
 	<button
 		on:click={() => goto('/running/numberPattern')}
 		class="flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl"
+		class:complete={$session.user.completed.includes('numberPattern')}
 	>
 		<img
 			class="rounded-xl mb-3 w-48"
@@ -43,6 +45,7 @@
 	<button
 		on:click={() => goto('/running/numberLine')}
 		class="flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl"
+		class:complete={$session.user.completed.includes('numberLine')}
 	>
 		<img
 			class="rounded-xl mb-3 w-48"
@@ -54,6 +57,7 @@
 	<button
 		on:click={() => goto('/running/difference')}
 		class="flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl"
+		class:complete={$session.user.completed.includes('difference')}
 	>
 		<img class="rounded-xl mb-3 w-48" src="/difference/difference-01.jpeg" alt="Difference task" />
 		<span>Difference tasks</span>
@@ -61,6 +65,7 @@
 	<button
 		on:click={() => goto('/running/colorPattern')}
 		class="flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl"
+		class:complete={$session.user.completed.includes('colorPattern')}
 	>
 		<img
 			class="rounded-xl mb-3 w-48"
@@ -72,6 +77,7 @@
 	<button
 		on:click={() => goto('/running/hiddenNumber')}
 		class="flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl"
+		class:complete={$session.user.completed.includes('hiddenNumber')}
 	>
 		<img
 			class="rounded-xl mb-3 w-48"
@@ -83,6 +89,7 @@
 	<button
 		on:click={() => goto('/running/numberComparison')}
 		class="flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl"
+		class:complete={$session.user.completed.includes('numberComparison')}
 	>
 		<img
 			class="rounded-xl mb-3 w-48"
@@ -94,6 +101,7 @@
 	<button
 		on:click={() => goto('/running/quantityComparison')}
 		class="flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl"
+		class:complete={$session.user.completed.includes('quantityComparison')}
 	>
 		<img
 			class="rounded-xl mb-3 w-48"
@@ -105,6 +113,7 @@
 	<button
 		on:click={() => goto('/running/plus')}
 		class="flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl"
+		class:complete={$session.user.completed.includes('plus')}
 	>
 		<img class="rounded-xl mb-3 w-48" src="/plus/plus-01.jpeg" alt="Plus task" />
 		<span>Plus tasks</span>
@@ -112,9 +121,16 @@
 	<button
 		on:click={() => goto('/running/minus')}
 		class="flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl"
+		class:complete={$session.user.completed.includes('minus')}
 	>
 		<img class="rounded-xl mb-3 w-48" src="/minus/minus-01.jpeg" alt="Minus task" />
 		<span>Minus tasks</span>
 	</button>
 </div>
+
 <!-- <TaskRun on:taskComplete={handleTaskAnswer} task={quantities[taskIndex]} /> -->
+<style>
+	.complete {
+		@apply bg-green-400;
+	}
+</style>
