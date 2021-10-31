@@ -17,6 +17,11 @@
 	import { textAndAudio } from '$lib/audio';
 	import { goto } from '$app/navigation';
 	import { session } from '$app/stores';
+	import { onMount } from 'svelte';
+
+	onMount(() => {
+		console.log($session.user.completed.length);
+	});
 </script>
 
 <TextAndAudio src={textAndAudio[1].audio} text={textAndAudio[1].text} autoplay={true} />

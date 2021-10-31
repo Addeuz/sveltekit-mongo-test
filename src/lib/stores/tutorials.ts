@@ -34,5 +34,9 @@ export const tutorials = writable({
 	},
 	numberPattern: {
 		type: 'number'
+	},
+	star: {
+		seen: false,
+		type: 'star'
 	}
 });

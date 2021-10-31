@@ -21,7 +21,13 @@
 			audio.play();
 			audio.onended = resolve;
 		}).then(() => {
+			// console.log($tutorials.star.seen);
+			// if ($tutorials.star.seen) {
+			// 	$tutorials[$page.params.type].seen = true;
+			// 	$tutorials.star.seen = true;
+			// } else {
 			tutorialIndex = tutorialIndex + 1;
+			// }
 		});
 	}
 
@@ -53,6 +59,11 @@
 			on:click={() => {
 				pulse = true;
 				handleTutorialEnd();
+
+				var sounds = document.getElementsByTagName('audio');
+				for (let i = 0; i < sounds.length; i++) {
+					sounds[i].pause();
+				}
 			}}
 		/>
 	{/if}

@@ -16,6 +16,10 @@
 	let taskStartTime: Date;
 	let selected: number | string;
 
+	let displayNumbers = false;
+
+	let bigStarClicked = false;
+
 	const audioArray = [27, 28, 29];
 	const dispatch = createEventDispatcher();
 	let taskAudioPlayed = false;
@@ -24,6 +28,13 @@
 
 	async function handleAnswer(star: Boolean, event?: CustomEvent) {
 		// getting a random audio
+		var sounds = document.getElementsByTagName('audio');
+		console.log(sounds);
+		for (let i = 0; i < sounds.length; i++) {
+			sounds[i].pause();
+			document.removeChild(sounds[i]);
+		}
+
 		let audio = new Audio(textAndAudio[audioArray[(Math.random() * audioArray.length) | 0]].audio);
 		const taskEndTime = new Date();
 		if (!star) {
@@ -73,6 +84,8 @@
 					answer
 				});
 			});
+			selected = undefined;
+			bigStarClicked = false;
 		}
 	}
 
@@ -82,9 +95,9 @@
 
 	afterUpdate(() => {
 		if (taskIndex % 2 === 0 && !taskAudioPlayed) {
+			let audio = document.body.appendChild(new Audio(task.audio));
 			taskAudioPlayed = true;
 			if (task.audio) {
-				let audio = new Audio(task.audio);
 				audio.play();
 			}
 		} else {
@@ -95,17 +108,32 @@
 {#if $tutorials[$page.params.type].type === 'number'}
 	<div class="h-screen flex flex-col items-center justify-start ">
 		{#if taskIndex % 2 === 0}
-			<img class="h-1/2" src={task.src} alt="Task" />
-			<Numbers on:answer={(event) => handleAnswer(false, event)} {selected} />
+			<img
+				on:load={() => {
+					displayNumbers = true;
+				}}
+				class="h-3/4"
+				src={task.src}
+				alt="Task"
+			/>
+			{#if displayNumbers}
+				<Numbers on:answer={(event) => handleAnswer(false, event)} {selected} />
+			{/if}
 		{:else}
 			<div class="cursor-pointer justify-self-center self-center my-auto">
 				<img
-					class:pulse
 					src="/star.png"
 					alt="Big star"
+					class:pulse
 					on:click={() => {
-						handleAnswer(true);
 						pulse = true;
+						if (!bigStarClicked) {
+							bigStarClicked = true;
+							handleAnswer(true);
+							displayNumbers = false;
+						} else {
+							console.log('dont click!!!');
+						}
 					}}
 				/>
 			</div>
@@ -114,14 +142,21 @@
 {:else if $tutorials[$page.params.type].type === 'color'}
 	<div class="h-screen flex flex-col items-center justify-start ">
 		{#if taskIndex % 2 === 0}
-			<img class="h-1/2" src={task.src} alt="Task" />
-			<Colors
-				colorType={task.answerType}
-				on:answer={(event) => handleAnswer(false, event)}
-				{selected}
+			<img
+				on:load={() => {
+					displayNumbers = true;
+				}}
+				class="h-3/4"
+				src={task.src}
+				alt="Task"
 			/>
-			<!-- Colors -->
-			<!-- <Numbers on:answer={(event) => handleAnswer(false, event)} {selected} /> -->
+			{#if displayNumbers}
+				<Colors
+					colorType={task.answerType}
+					on:answer={(event) => handleAnswer(false, event)}
+					{selected}
+				/>
+			{/if}
 		{:else}
 			<div class="cursor-pointer justify-self-center self-center my-auto">
 				<img
@@ -129,8 +164,14 @@
 					src="/star.png"
 					alt="Big star"
 					on:click={() => {
-						handleAnswer(true);
 						pulse = true;
+						if (!bigStarClicked) {
+							bigStarClicked = true;
+							handleAnswer(true);
+							displayNumbers = false;
+						} else {
+							console.log('dont click!!!');
+						}
 					}}
 				/>
 			</div>

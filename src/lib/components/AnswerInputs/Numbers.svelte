@@ -16,11 +16,11 @@
 	onMount(() => {});
 </script>
 
-<div class="grid grid-cols-11 gap-4 mb-10 pb-10">
+<div class="grid grid-cols-11 gap-4 mb-10">
 	{#each numbers as number}
 		<button
 			on:click={() => selectAnswer(number)}
-			class="h-16 w-16 border bg-gray-50 border-gray-400 rounded-xl justify-self-end hover:bg-gray-300 focus:bg-blue-500 text-4xl"
+			class="h-16 w-16 border bg-gray-50 border-gray-400 rounded-xl justify-self-end hover:bg-transparent text-4xl"
 			class:selected={selected === number}
 		>
 			{number}
@@ -33,7 +33,7 @@
 					answer: 0
 				});
 			}}
-			class="h-16 w-16 border bg-gray-50 border-gray-400 rounded-xl justify-self-end hover:bg-gray-300 focus:bg-blue-500 text-4xl"
+			class="h-16 w-16 border bg-gray-50 border-gray-400 rounded-xl justify-self-end hover:bg-transparent text-4xl"
 			class:selected={selected === 0}
 		>
 			<img src="/star.png" alt="Skip star" class="w-16 cursor-pointer" />

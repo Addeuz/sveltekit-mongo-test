@@ -1,8 +1,7 @@
 <script lang="ts">
 	import { dev } from '$app/env';
 
-	import { goto } from '$app/navigation';
-	import { page } from '$app/stores';
+	import { page, session } from '$app/stores';
 
 	import { textAndAudio } from '$lib/audio';
 
@@ -30,9 +29,13 @@
 	<div class="text-2xl">
 		<TextAndAudio src={textAndAudio[30].audio} text={textAndAudio[30].text} autoplay={true} />
 	</div>
+	<div>
+		<span>Congratulations, you have completed {$session.user.completed.length} task(s)!</span>
+	</div>
 	<button
 		class="bg-green-400 py-4 px-6 rounded-xl"
 		on:click={() => location.replace(dev ? 'http://localhost:3000' : 'https://didunas.vercel.app/')}
-		>Home</button
 	>
+		Home
+	</button>
 </div>

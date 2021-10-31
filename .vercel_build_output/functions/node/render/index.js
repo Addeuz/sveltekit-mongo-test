@@ -8742,43 +8742,45 @@ var require_constants2 = __commonJS({
 var require_package = __commonJS({
   "node_modules/mongoose/node_modules/mongodb/package.json"(exports, module2) {
     module2.exports = {
-      name: "mongodb",
-      version: "4.1.1",
-      description: "The official MongoDB driver for Node.js",
-      main: "lib/index.js",
-      files: [
-        "lib",
-        "src",
-        "etc/prepare.js",
-        "mongodb.d.ts",
-        "mongodb.ts34.d.ts"
-      ],
-      types: "mongodb.d.ts",
-      typesVersions: {
-        "<=4.0.2": {
-          "mongodb.d.ts": [
-            "mongodb.ts34.d.ts"
-          ]
-        }
+      _from: "mongodb@4.1.1",
+      _id: "mongodb@4.1.1",
+      _inBundle: false,
+      _integrity: "sha512-fbACrWEyvr6yl0sSiCGV0sqEiBwTtDJ8iSojmkDjAfw9JnOZSAkUyv9seFSPYhPPKwxp1PDtyjvBNfMDz0WBLQ==",
+      _location: "/mongoose/mongodb",
+      _phantomChildren: {},
+      _requested: {
+        type: "version",
+        registry: true,
+        raw: "mongodb@4.1.1",
+        name: "mongodb",
+        escapedName: "mongodb",
+        rawSpec: "4.1.1",
+        saveSpec: null,
+        fetchSpec: "4.1.1"
       },
-      repository: {
-        type: "git",
-        url: "git@github.com:mongodb/node-mongodb-native.git"
-      },
-      keywords: [
-        "mongodb",
-        "driver",
-        "official"
+      _requiredBy: [
+        "/mongoose"
       ],
+      _resolved: "https://registry.npmjs.org/mongodb/-/mongodb-4.1.1.tgz",
+      _shasum: "d328e832675e7351f58b642f833126dc89ac2e66",
+      _spec: "mongodb@4.1.1",
+      _where: "/Users/Andreas/CodeProjects/testseq/node_modules/mongoose",
       author: {
         name: "The MongoDB NodeJS Team",
         email: "dbx-node@mongodb.com"
       },
+      bugs: {
+        url: "https://jira.mongodb.org/projects/NODE/issues/"
+      },
+      bundleDependencies: false,
       dependencies: {
         bson: "^4.5.1",
         denque: "^1.5.0",
-        "mongodb-connection-string-url": "^2.0.0"
+        "mongodb-connection-string-url": "^2.0.0",
+        saslprep: "^1.0.0"
       },
+      deprecated: false,
+      description: "The official MongoDB driver for Node.js",
       devDependencies: {
         "@istanbuljs/nyc-config-typescript": "^1.0.1",
         "@microsoft/api-extractor": "^7.16.1",
@@ -8832,37 +8834,52 @@ var require_package = __commonJS({
         xml2js: "^0.4.23",
         yargs: "^14.2.0"
       },
-      license: "Apache-2.0",
       engines: {
         node: ">=12.9.0"
       },
-      bugs: {
-        url: "https://jira.mongodb.org/projects/NODE/issues/"
-      },
+      files: [
+        "lib",
+        "src",
+        "etc/prepare.js",
+        "mongodb.d.ts",
+        "mongodb.ts34.d.ts"
+      ],
       homepage: "https://github.com/mongodb/node-mongodb-native",
+      keywords: [
+        "mongodb",
+        "driver",
+        "official"
+      ],
+      license: "Apache-2.0",
+      main: "lib/index.js",
+      name: "mongodb",
       optionalDependencies: {
         saslprep: "^1.0.0"
       },
+      repository: {
+        type: "git",
+        url: "git+ssh://git@github.com/mongodb/node-mongodb-native.git"
+      },
       scripts: {
+        "build:docs": "typedoc",
+        "build:dts": "npm run build:ts && api-extractor run && rimraf 'lib/**/*.d.ts*' && downlevel-dts mongodb.d.ts mongodb.ts34.d.ts",
         "build:evergreen": "node .evergreen/generate_evergreen_tasks.js",
         "build:ts": "rimraf lib && tsc",
-        "build:dts": "npm run build:ts && api-extractor run && rimraf 'lib/**/*.d.ts*' && downlevel-dts mongodb.d.ts mongodb.ts34.d.ts",
-        "build:docs": "typedoc",
+        "check:adl": "mocha test/manual/data_lake.test.js",
+        "check:atlas": 'mocha --config "test/manual/mocharc.json" test/manual/atlas_connectivity.test.js',
         "check:bench": "node test/benchmarks/driverBench",
         "check:coverage": "nyc npm run check:test",
-        "check:lint": "npm run build:dts && npm run check:dts && npm run check:eslint && npm run check:tsd",
-        "check:eslint": "eslint -v && eslint --max-warnings=0 --ext '.js,.ts' src test",
-        "check:tsd": "tsd --version && tsd",
-        "check:dts": "tsc --noEmit mongodb.d.ts && tsd",
-        "check:test": "mocha --recursive test/functional test/unit",
-        "check:ts": "tsc -v && tsc --noEmit",
-        "check:atlas": 'mocha --config "test/manual/mocharc.json" test/manual/atlas_connectivity.test.js',
-        "check:adl": "mocha test/manual/data_lake.test.js",
-        "check:ocsp": 'mocha --config "test/manual/mocharc.json" test/manual/ocsp_support.test.js',
-        "check:kerberos": 'mocha --config "test/manual/mocharc.json" test/manual/kerberos.test.js',
-        "check:tls": 'mocha --config "test/manual/mocharc.json" test/manual/tls_support.test.js',
-        "check:ldap": 'mocha --config "test/manual/mocharc.json" test/manual/ldap.test.js',
         "check:csfle": "mocha test/functional/client_side_encryption",
+        "check:dts": "tsc --noEmit mongodb.d.ts && tsd",
+        "check:eslint": "eslint -v && eslint --max-warnings=0 --ext '.js,.ts' src test",
+        "check:kerberos": 'mocha --config "test/manual/mocharc.json" test/manual/kerberos.test.js',
+        "check:ldap": 'mocha --config "test/manual/mocharc.json" test/manual/ldap.test.js',
+        "check:lint": "npm run build:dts && npm run check:dts && npm run check:eslint && npm run check:tsd",
+        "check:ocsp": 'mocha --config "test/manual/mocharc.json" test/manual/ocsp_support.test.js',
+        "check:test": "mocha --recursive test/functional test/unit",
+        "check:tls": 'mocha --config "test/manual/mocharc.json" test/manual/tls_support.test.js',
+        "check:ts": "tsc -v && tsc --noEmit",
+        "check:tsd": "tsd --version && tsd",
         prepare: "node etc/prepare.js",
         release: "standard-version -i HISTORY.md",
         test: "npm run check:lint && npm run check:test"
@@ -8875,7 +8892,16 @@ var require_package = __commonJS({
           module: "commonjs",
           moduleResolution: "node"
         }
-      }
+      },
+      types: "mongodb.d.ts",
+      typesVersions: {
+        "<=4.0.2": {
+          "mongodb.d.ts": [
+            "mongodb.ts34.d.ts"
+          ]
+        }
+      },
+      version: "4.1.1"
     };
   }
 });
@@ -43584,25 +43610,44 @@ var require_applyPlugins = __commonJS({
 var require_package2 = __commonJS({
   "node_modules/mongoose/package.json"(exports, module2) {
     module2.exports = {
-      name: "mongoose",
-      description: "Mongoose MongoDB ODM",
-      version: "6.0.8",
-      author: "Guillermo Rauch <guillermo@learnboost.com>",
-      keywords: [
-        "mongodb",
-        "document",
-        "model",
-        "schema",
-        "database",
-        "odm",
-        "data",
-        "datastore",
-        "query",
-        "nosql",
-        "orm",
-        "db"
+      _from: "mongoose",
+      _id: "mongoose@6.0.8",
+      _inBundle: false,
+      _integrity: "sha512-7XZ5TUoDtF8af7+mKfL58s8dN2BKmldQPTlmkb41PaRAleBVGeAck7Mj6JlIh9SOCi+64GT+afebiJaeyXe1Lw==",
+      _location: "/mongoose",
+      _phantomChildren: {
+        bson: "4.5.2",
+        "mongodb-connection-string-url": "2.1.0",
+        saslprep: "1.0.3"
+      },
+      _requested: {
+        type: "tag",
+        registry: true,
+        raw: "mongoose",
+        name: "mongoose",
+        escapedName: "mongoose",
+        rawSpec: "",
+        saveSpec: null,
+        fetchSpec: "latest"
+      },
+      _requiredBy: [
+        "#USER",
+        "/",
+        "/@types/mongoose"
       ],
-      license: "MIT",
+      _resolved: "https://registry.npmjs.org/mongoose/-/mongoose-6.0.8.tgz",
+      _shasum: "44324387e2b4ed200f04e486aaa60f1dfcf486a1",
+      _spec: "mongoose",
+      _where: "/Users/Andreas/CodeProjects/testseq",
+      author: {
+        name: "Guillermo Rauch",
+        email: "guillermo@learnboost.com"
+      },
+      browser: "./dist/browser.umd.js",
+      bugs: {
+        url: "https://github.com/Automattic/mongoose/issues/new"
+      },
+      bundleDependencies: false,
       dependencies: {
         bson: "^4.2.2",
         kareem: "2.3.2",
@@ -43614,6 +43659,8 @@ var require_package2 = __commonJS({
         sift: "13.5.2",
         sliced: "1.0.1"
       },
+      deprecated: false,
+      description: "Mongoose MongoDB ODM",
       devDependencies: {
         "@babel/core": "7.10.5",
         "@babel/preset-env": "7.10.4",
@@ -43653,37 +43700,8 @@ var require_package2 = __commonJS({
       directories: {
         lib: "./lib/mongoose"
       },
-      scripts: {
-        lint: "eslint .",
-        "build-browser": "node build-browser.js",
-        prepublishOnly: "npm run build-browser",
-        release: "git pull && git push origin master --tags && npm publish",
-        "release-legacy": "git pull origin 5.x && git push origin 5.x --tags && npm publish --tag legacy",
-        test: "mocha --exit ./test/*.test.js ./test/typescript/main.test.js",
-        tdd: "mocha ./test/*.test.js ./test/typescript/main.test.js --inspect --watch --recursive --watch-files ./**/*.js",
-        "test-cov": "nyc --reporter=html --reporter=text npm test"
-      },
-      main: "./index.js",
-      types: "./index.d.ts",
       engines: {
         node: ">=12.0.0"
-      },
-      bugs: {
-        url: "https://github.com/Automattic/mongoose/issues/new"
-      },
-      repository: {
-        type: "git",
-        url: "git://github.com/Automattic/mongoose.git"
-      },
-      homepage: "https://mongoosejs.com",
-      browser: "./dist/browser.umd.js",
-      mocha: {
-        extension: [
-          "test.js"
-        ],
-        "watch-files": [
-          "test/**/*.js"
-        ]
       },
       eslintConfig: {
         extends: [
@@ -43831,7 +43849,49 @@ var require_package2 = __commonJS({
       funding: {
         type: "opencollective",
         url: "https://opencollective.com/mongoose"
-      }
+      },
+      homepage: "https://mongoosejs.com",
+      keywords: [
+        "mongodb",
+        "document",
+        "model",
+        "schema",
+        "database",
+        "odm",
+        "data",
+        "datastore",
+        "query",
+        "nosql",
+        "orm",
+        "db"
+      ],
+      license: "MIT",
+      main: "./index.js",
+      mocha: {
+        extension: [
+          "test.js"
+        ],
+        "watch-files": [
+          "test/**/*.js"
+        ]
+      },
+      name: "mongoose",
+      repository: {
+        type: "git",
+        url: "git://github.com/Automattic/mongoose.git"
+      },
+      scripts: {
+        "build-browser": "node build-browser.js",
+        lint: "eslint .",
+        prepublishOnly: "npm run build-browser",
+        release: "git pull && git push origin master --tags && npm publish",
+        "release-legacy": "git pull origin 5.x && git push origin 5.x --tags && npm publish --tag legacy",
+        tdd: "mocha ./test/*.test.js ./test/typescript/main.test.js --inspect --watch --recursive --watch-files ./**/*.js",
+        test: "mocha --exit ./test/*.test.js ./test/typescript/main.test.js",
+        "test-cov": "nyc --reporter=html --reporter=text npm test"
+      },
+      types: "./index.d.ts",
+      version: "6.0.8"
     };
   }
 });
@@ -56102,7 +56162,7 @@ function add_attribute(name, value, boolean) {
 }
 function afterUpdate() {
 }
-var css$7 = {
+var css$6 = {
   code: "#svelte-announcer.svelte-1pdgbjn{clip:rect(0 0 0 0);-webkit-clip-path:inset(50%);clip-path:inset(50%);height:1px;left:0;overflow:hidden;position:absolute;top:0;white-space:nowrap;width:1px}",
   map: `{"version":3,"file":"root.svelte","sources":["root.svelte"],"sourcesContent":["<!-- This file is generated by @sveltejs/kit \u2014 do not edit it! -->\\n<script>\\n\\timport { setContext, afterUpdate, onMount } from 'svelte';\\n\\n\\t// stores\\n\\texport let stores;\\n\\texport let page;\\n\\n\\texport let components;\\n\\texport let props_0 = null;\\n\\texport let props_1 = null;\\n\\texport let props_2 = null;\\n\\n\\tsetContext('__svelte__', stores);\\n\\n\\t$: stores.page.set(page);\\n\\tafterUpdate(stores.page.notify);\\n\\n\\tlet mounted = false;\\n\\tlet navigated = false;\\n\\tlet title = null;\\n\\n\\tonMount(() => {\\n\\t\\tconst unsubscribe = stores.page.subscribe(() => {\\n\\t\\t\\tif (mounted) {\\n\\t\\t\\t\\tnavigated = true;\\n\\t\\t\\t\\ttitle = document.title || 'untitled page';\\n\\t\\t\\t}\\n\\t\\t});\\n\\n\\t\\tmounted = true;\\n\\t\\treturn unsubscribe;\\n\\t});\\n<\/script>\\n\\n<svelte:component this={components[0]} {...(props_0 || {})}>\\n\\t{#if components[1]}\\n\\t\\t<svelte:component this={components[1]} {...(props_1 || {})}>\\n\\t\\t\\t{#if components[2]}\\n\\t\\t\\t\\t<svelte:component this={components[2]} {...(props_2 || {})}/>\\n\\t\\t\\t{/if}\\n\\t\\t</svelte:component>\\n\\t{/if}\\n</svelte:component>\\n\\n{#if mounted}\\n\\t<div id=\\"svelte-announcer\\" aria-live=\\"assertive\\" aria-atomic=\\"true\\">\\n\\t\\t{#if navigated}\\n\\t\\t\\t{title}\\n\\t\\t{/if}\\n\\t</div>\\n{/if}\\n\\n<style>#svelte-announcer{clip:rect(0 0 0 0);-webkit-clip-path:inset(50%);clip-path:inset(50%);height:1px;left:0;overflow:hidden;position:absolute;top:0;white-space:nowrap;width:1px}</style>"],"names":[],"mappings":"AAqDO,gCAAiB,CAAC,KAAK,KAAK,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,kBAAkB,MAAM,GAAG,CAAC,CAAC,UAAU,MAAM,GAAG,CAAC,CAAC,OAAO,GAAG,CAAC,KAAK,CAAC,CAAC,SAAS,MAAM,CAAC,SAAS,QAAQ,CAAC,IAAI,CAAC,CAAC,YAAY,MAAM,CAAC,MAAM,GAAG,CAAC"}`
 };
@@ -56127,7 +56187,7 @@ var Root = create_ssr_component(($$result, $$props, $$bindings, slots) => {
     $$bindings.props_1(props_1);
   if ($$props.props_2 === void 0 && $$bindings.props_2 && props_2 !== void 0)
     $$bindings.props_2(props_2);
-  $$result.css.add(css$7);
+  $$result.css.add(css$6);
   {
     stores.page.set(page2);
   }
@@ -56288,9 +56348,9 @@ function init(settings = default_settings) {
     amp: false,
     dev: false,
     entry: {
-      file: assets + "/_app/start-aa558ccd.js",
+      file: assets + "/_app/start-184a9cb6.js",
       css: [assets + "/_app/assets/start-464e9d0a.css", assets + "/_app/assets/vendor-15d9d811.css"],
-      js: [assets + "/_app/start-aa558ccd.js", assets + "/_app/chunks/vendor-dc16c193.js", assets + "/_app/chunks/singletons-12a22614.js"]
+      js: [assets + "/_app/start-184a9cb6.js", assets + "/_app/chunks/vendor-dc16c193.js", assets + "/_app/chunks/singletons-12a22614.js"]
     },
     fetched: void 0,
     floc: false,
@@ -56320,7 +56380,7 @@ function init(settings = default_settings) {
 var d = (s2) => s2.replace(/%23/g, "#").replace(/%3[Bb]/g, ";").replace(/%2[Cc]/g, ",").replace(/%2[Ff]/g, "/").replace(/%3[Ff]/g, "?").replace(/%3[Aa]/g, ":").replace(/%40/g, "@").replace(/%26/g, "&").replace(/%3[Dd]/g, "=").replace(/%2[Bb]/g, "+").replace(/%24/g, "$");
 var empty = () => ({});
 var manifest = {
-  assets: [{ "file": "audio/01.m4a", "size": 25575, "type": "audio/mp4" }, { "file": "audio/02.m4a", "size": 18846, "type": "audio/mp4" }, { "file": "audio/03.m4a", "size": 33878, "type": "audio/mp4" }, { "file": "audio/04.m4a", "size": 38073, "type": "audio/mp4" }, { "file": "audio/05.m4a", "size": 13389, "type": "audio/mp4" }, { "file": "audio/06.m4a", "size": 15203, "type": "audio/mp4" }, { "file": "audio/07.m4a", "size": 22986, "type": "audio/mp4" }, { "file": "audio/08.m4a", "size": 37036, "type": "audio/mp4" }, { "file": "audio/09.m4a", "size": 38583, "type": "audio/mp4" }, { "file": "audio/10.m4a", "size": 45400, "type": "audio/mp4" }, { "file": "audio/11.m4a", "size": 91416, "type": "audio/mp4" }, { "file": "audio/12.m4a", "size": 29236, "type": "audio/mp4" }, { "file": "audio/13.m4a", "size": 34170, "type": "audio/mp4" }, { "file": "audio/14.m4a", "size": 37051, "type": "audio/mp4" }, { "file": "audio/15.m4a", "size": 25805, "type": "audio/mp4" }, { "file": "audio/16.m4a", "size": 25040, "type": "audio/mp4" }, { "file": "audio/17.m4a", "size": 46644, "type": "audio/mp4" }, { "file": "audio/18.m4a", "size": 38855, "type": "audio/mp4" }, { "file": "audio/19.m4a", "size": 40412, "type": "audio/mp4" }, { "file": "audio/20.m4a", "size": 59638, "type": "audio/mp4" }, { "file": "audio/21.m4a", "size": 108789, "type": "audio/mp4" }, { "file": "audio/22.m4a", "size": 61441, "type": "audio/mp4" }, { "file": "audio/23.m4a", "size": 92432, "type": "audio/mp4" }, { "file": "audio/24.m4a", "size": 52153, "type": "audio/mp4" }, { "file": "audio/25.m4a", "size": 31523, "type": "audio/mp4" }, { "file": "audio/26.m4a", "size": 64046, "type": "audio/mp4" }, { "file": "audio/27.m4a", "size": 10330, "type": "audio/mp4" }, { "file": "audio/28.m4a", "size": 11533, "type": "audio/mp4" }, { "file": "audio/29.m4a", "size": 9970, "type": "audio/mp4" }, { "file": "audio/30.m4a", "size": 31577, "type": "audio/mp4" }, { "file": "color_pattern/colorpatterns-01.jpeg", "size": 108749, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-02.jpeg", "size": 107432, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-03.jpeg", "size": 108640, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-04.jpeg", "size": 128423, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-05.jpeg", "size": 127671, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-06.jpeg", "size": 132346, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-07.jpeg", "size": 134224, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-08.jpeg", "size": 132075, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-09.jpeg", "size": 151786, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-10.jpeg", "size": 156422, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-11.jpeg", "size": 132107, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-12.jpeg", "size": 134763, "type": "image/jpeg" }, { "file": "colorpatterns-01.jpeg", "size": 108749, "type": "image/jpeg" }, { "file": "difference/difference-01.jpeg", "size": 71335, "type": "image/jpeg" }, { "file": "difference/difference-02.jpeg", "size": 83679, "type": "image/jpeg" }, { "file": "difference/difference-03.jpeg", "size": 86116, "type": "image/jpeg" }, { "file": "difference/difference-04.jpeg", "size": 70362, "type": "image/jpeg" }, { "file": "difference/difference-05.jpeg", "size": 75759, "type": "image/jpeg" }, { "file": "difference/difference-06.jpeg", "size": 82637, "type": "image/jpeg" }, { "file": "favicon.png", "size": 1571, "type": "image/png" }, { "file": "hidden_number/hiddennumber-01.jpeg", "size": 109072, "type": "image/jpeg" }, { "file": "hidden_number/hiddennumber-02.jpeg", "size": 108984, "type": "image/jpeg" }, { "file": "hidden_number/hiddennumber-03.jpeg", "size": 166768, "type": "image/jpeg" }, { "file": "hidden_number/hiddennumber-04.jpeg", "size": 126110, "type": "image/jpeg" }, { "file": "hidden_number/hiddennumber-05.jpeg", "size": 105489, "type": "image/jpeg" }, { "file": "minus/minus-01.jpeg", "size": 72783, "type": "image/jpeg" }, { "file": "minus/minus-02.jpeg", "size": 74413, "type": "image/jpeg" }, { "file": "minus/minus-03.jpeg", "size": 71339, "type": "image/jpeg" }, { "file": "minus/minus-04.jpeg", "size": 76861, "type": "image/jpeg" }, { "file": "number_comparison/numbercomparison-01.jpeg", "size": 67853, "type": "image/jpeg" }, { "file": "number_comparison/numbercomparison-02.jpeg", "size": 69583, "type": "image/jpeg" }, { "file": "number_comparison/numbercomparison-03.jpeg", "size": 71068, "type": "image/jpeg" }, { "file": "number_comparison/numbercomparison-04.jpeg", "size": 70527, "type": "image/jpeg" }, { "file": "number_comparison/numbercomparison-05.jpeg", "size": 74497, "type": "image/jpeg" }, { "file": "number_comparison/numbercomparison-06.jpeg", "size": 79549, "type": "image/jpeg" }, { "file": "number_line/numberline-01.jpeg", "size": 84538, "type": "image/jpeg" }, { "file": "number_line/numberline-02.jpeg", "size": 84400, "type": "image/jpeg" }, { "file": "number_line/numberline-03.jpeg", "size": 84498, "type": "image/jpeg" }, { "file": "number_line/numberline-04.jpeg", "size": 84475, "type": "image/jpeg" }, { "file": "number_line/numberline-05.jpeg", "size": 84564, "type": "image/jpeg" }, { "file": "number_line/numberline-06.jpeg", "size": 82270, "type": "image/jpeg" }, { "file": "number_line/numberline-07.jpeg", "size": 94270, "type": "image/jpeg" }, { "file": "number_line/numberline-08.jpeg", "size": 87322, "type": "image/jpeg" }, { "file": "number_line/numberline-09.jpeg", "size": 93478, "type": "image/jpeg" }, { "file": "number_line/numberline-10.jpeg", "size": 88423, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-01.jpeg", "size": 101807, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-02.jpeg", "size": 111130, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-03.jpeg", "size": 102234, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-04.jpeg", "size": 111219, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-05.jpeg", "size": 103208, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-06.jpeg", "size": 120511, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-07.jpeg", "size": 106663, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-08.jpeg", "size": 128896, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-09.jpeg", "size": 137700, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-10.jpeg", "size": 99376, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-11.jpeg", "size": 99619, "type": "image/jpeg" }, { "file": "plus/plus-01.jpeg", "size": 74055, "type": "image/jpeg" }, { "file": "plus/plus-02.jpeg", "size": 74143, "type": "image/jpeg" }, { "file": "plus/plus-03.jpeg", "size": 77092, "type": "image/jpeg" }, { "file": "plus/plus-04.jpeg", "size": 74925, "type": "image/jpeg" }, { "file": "quantities/quantities-01.jpeg", "size": 33001, "type": "image/jpeg" }, { "file": "quantities/quantities-02.jpeg", "size": 30969, "type": "image/jpeg" }, { "file": "quantities/quantities-03.jpeg", "size": 39524, "type": "image/jpeg" }, { "file": "quantities/quantities-04.jpeg", "size": 33116, "type": "image/jpeg" }, { "file": "quantities/quantities-05.jpeg", "size": 46355, "type": "image/jpeg" }, { "file": "quantities/quantities-06.jpeg", "size": 35090, "type": "image/jpeg" }, { "file": "quantities/quantities-07.jpeg", "size": 28762, "type": "image/jpeg" }, { "file": "quantities/quantities-08.jpeg", "size": 37626, "type": "image/jpeg" }, { "file": "quantities/quantities-09.jpeg", "size": 37514, "type": "image/jpeg" }, { "file": "quantities/quantities-10.jpeg", "size": 28721, "type": "image/jpeg" }, { "file": "quantities/quantities-11.jpeg", "size": 35294, "type": "image/jpeg" }, { "file": "quantities/quantities-12.jpeg", "size": 41715, "type": "image/jpeg" }, { "file": "quantities/quantities-13.jpeg", "size": 33132, "type": "image/jpeg" }, { "file": "quantities/quantities-14.jpeg", "size": 43860, "type": "image/jpeg" }, { "file": "quantities/quantities-15.jpeg", "size": 30948, "type": "image/jpeg" }, { "file": "quantities/quantities-16.jpeg", "size": 39737, "type": "image/jpeg" }, { "file": "quantities/quantities-17.jpeg", "size": 35283, "type": "image/jpeg" }, { "file": "quantities/quantities-18.jpeg", "size": 28707, "type": "image/jpeg" }, { "file": "quantity_comparison/quantitiycomparison-01.jpeg", "size": 83932, "type": "image/jpeg" }, { "file": "quantity_comparison/quantitiycomparison-02.jpeg", "size": 108448, "type": "image/jpeg" }, { "file": "quantity_comparison/quantitiycomparison-03.jpeg", "size": 121295, "type": "image/jpeg" }, { "file": "quantity_comparison/quantitiycomparison-04.jpeg", "size": 104631, "type": "image/jpeg" }, { "file": "quantity_comparison/quantitiycomparison-05.jpeg", "size": 100515, "type": "image/jpeg" }, { "file": "quantity_comparison/quantitiycomparison-06.jpeg", "size": 93909, "type": "image/jpeg" }, { "file": "star.png", "size": 9287, "type": "image/png" }, { "file": "threeColor/blue.png", "size": 6884, "type": "image/png" }, { "file": "threeColor/red.png", "size": 7234, "type": "image/png" }, { "file": "threeColor/yellow.png", "size": 6787, "type": "image/png" }, { "file": "twoColors/blue.png", "size": 5340, "type": "image/png" }, { "file": "twoColors/equal.png", "size": 4761, "type": "image/png" }, { "file": "twoColors/yellow.png", "size": 5355, "type": "image/png" }],
+  assets: [{ "file": ".DS_Store", "size": 6148, "type": null }, { "file": "audio/01.m4a", "size": 25575, "type": "audio/mp4" }, { "file": "audio/02.m4a", "size": 18846, "type": "audio/mp4" }, { "file": "audio/03.m4a", "size": 33878, "type": "audio/mp4" }, { "file": "audio/04.m4a", "size": 38073, "type": "audio/mp4" }, { "file": "audio/05.m4a", "size": 13389, "type": "audio/mp4" }, { "file": "audio/06.m4a", "size": 15203, "type": "audio/mp4" }, { "file": "audio/07.m4a", "size": 22986, "type": "audio/mp4" }, { "file": "audio/08.m4a", "size": 37036, "type": "audio/mp4" }, { "file": "audio/09.m4a", "size": 38583, "type": "audio/mp4" }, { "file": "audio/10.m4a", "size": 45400, "type": "audio/mp4" }, { "file": "audio/11.m4a", "size": 91416, "type": "audio/mp4" }, { "file": "audio/12.m4a", "size": 29236, "type": "audio/mp4" }, { "file": "audio/13.m4a", "size": 34170, "type": "audio/mp4" }, { "file": "audio/14.m4a", "size": 37051, "type": "audio/mp4" }, { "file": "audio/15.m4a", "size": 25805, "type": "audio/mp4" }, { "file": "audio/16.m4a", "size": 25040, "type": "audio/mp4" }, { "file": "audio/17.m4a", "size": 46644, "type": "audio/mp4" }, { "file": "audio/18.m4a", "size": 38855, "type": "audio/mp4" }, { "file": "audio/19.m4a", "size": 40412, "type": "audio/mp4" }, { "file": "audio/20.m4a", "size": 59638, "type": "audio/mp4" }, { "file": "audio/21.m4a", "size": 108789, "type": "audio/mp4" }, { "file": "audio/22.m4a", "size": 61441, "type": "audio/mp4" }, { "file": "audio/23.m4a", "size": 92432, "type": "audio/mp4" }, { "file": "audio/24.m4a", "size": 52153, "type": "audio/mp4" }, { "file": "audio/25.m4a", "size": 31523, "type": "audio/mp4" }, { "file": "audio/26.m4a", "size": 64046, "type": "audio/mp4" }, { "file": "audio/27.m4a", "size": 10330, "type": "audio/mp4" }, { "file": "audio/28.m4a", "size": 11533, "type": "audio/mp4" }, { "file": "audio/29.m4a", "size": 9970, "type": "audio/mp4" }, { "file": "audio/30.m4a", "size": 31577, "type": "audio/mp4" }, { "file": "color_pattern/colorpatterns-01.jpeg", "size": 108749, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-02.jpeg", "size": 107432, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-03.jpeg", "size": 108640, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-04.jpeg", "size": 128423, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-05.jpeg", "size": 127671, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-06.jpeg", "size": 132346, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-07.jpeg", "size": 134224, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-08.jpeg", "size": 132075, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-09.jpeg", "size": 151786, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-10.jpeg", "size": 156422, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-11.jpeg", "size": 132107, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-12.jpeg", "size": 134763, "type": "image/jpeg" }, { "file": "colorpatterns-01.jpeg", "size": 108749, "type": "image/jpeg" }, { "file": "difference/difference-01.jpeg", "size": 71335, "type": "image/jpeg" }, { "file": "difference/difference-02.jpeg", "size": 83679, "type": "image/jpeg" }, { "file": "difference/difference-03.jpeg", "size": 86116, "type": "image/jpeg" }, { "file": "difference/difference-04.jpeg", "size": 70362, "type": "image/jpeg" }, { "file": "difference/difference-05.jpeg", "size": 75759, "type": "image/jpeg" }, { "file": "difference/difference-06.jpeg", "size": 82637, "type": "image/jpeg" }, { "file": "favicon.png", "size": 1571, "type": "image/png" }, { "file": "hidden_number/hiddennumber-01.jpeg", "size": 109072, "type": "image/jpeg" }, { "file": "hidden_number/hiddennumber-02.jpeg", "size": 108984, "type": "image/jpeg" }, { "file": "hidden_number/hiddennumber-03.jpeg", "size": 166768, "type": "image/jpeg" }, { "file": "hidden_number/hiddennumber-04.jpeg", "size": 126110, "type": "image/jpeg" }, { "file": "hidden_number/hiddennumber-05.jpeg", "size": 105489, "type": "image/jpeg" }, { "file": "minus/minus-01.jpeg", "size": 72783, "type": "image/jpeg" }, { "file": "minus/minus-02.jpeg", "size": 74413, "type": "image/jpeg" }, { "file": "minus/minus-03.jpeg", "size": 71339, "type": "image/jpeg" }, { "file": "minus/minus-04.jpeg", "size": 76861, "type": "image/jpeg" }, { "file": "number_comparison/numbercomparison-01.jpeg", "size": 67853, "type": "image/jpeg" }, { "file": "number_comparison/numbercomparison-02.jpeg", "size": 69583, "type": "image/jpeg" }, { "file": "number_comparison/numbercomparison-03.jpeg", "size": 71068, "type": "image/jpeg" }, { "file": "number_comparison/numbercomparison-04.jpeg", "size": 70527, "type": "image/jpeg" }, { "file": "number_comparison/numbercomparison-05.jpeg", "size": 74497, "type": "image/jpeg" }, { "file": "number_comparison/numbercomparison-06.jpeg", "size": 79549, "type": "image/jpeg" }, { "file": "number_line/numberline-01.jpeg", "size": 84538, "type": "image/jpeg" }, { "file": "number_line/numberline-02.jpeg", "size": 84400, "type": "image/jpeg" }, { "file": "number_line/numberline-03.jpeg", "size": 84498, "type": "image/jpeg" }, { "file": "number_line/numberline-04.jpeg", "size": 84475, "type": "image/jpeg" }, { "file": "number_line/numberline-05.jpeg", "size": 84564, "type": "image/jpeg" }, { "file": "number_line/numberline-06.jpeg", "size": 82270, "type": "image/jpeg" }, { "file": "number_line/numberline-07.jpeg", "size": 94270, "type": "image/jpeg" }, { "file": "number_line/numberline-08.jpeg", "size": 87322, "type": "image/jpeg" }, { "file": "number_line/numberline-09.jpeg", "size": 93478, "type": "image/jpeg" }, { "file": "number_line/numberline-10.jpeg", "size": 88423, "type": "image/jpeg" }, { "file": "number_pattern/.DS_Store", "size": 6148, "type": null }, { "file": "number_pattern/numberpattern-01.jpeg", "size": 101807, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-02.jpeg", "size": 111130, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-03.jpeg", "size": 102234, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-04.jpeg", "size": 111219, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-05.jpeg", "size": 103208, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-06.jpeg", "size": 120511, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-07.jpeg", "size": 106663, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-08.jpeg", "size": 128896, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-09.jpeg", "size": 137700, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-10.jpeg", "size": 99376, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-11.jpeg", "size": 99619, "type": "image/jpeg" }, { "file": "plus/plus-01.jpeg", "size": 74055, "type": "image/jpeg" }, { "file": "plus/plus-02.jpeg", "size": 74143, "type": "image/jpeg" }, { "file": "plus/plus-03.jpeg", "size": 77092, "type": "image/jpeg" }, { "file": "plus/plus-04.jpeg", "size": 74925, "type": "image/jpeg" }, { "file": "quantities/quantities-01.jpeg", "size": 33001, "type": "image/jpeg" }, { "file": "quantities/quantities-02.jpeg", "size": 30969, "type": "image/jpeg" }, { "file": "quantities/quantities-03.jpeg", "size": 39524, "type": "image/jpeg" }, { "file": "quantities/quantities-04.jpeg", "size": 33116, "type": "image/jpeg" }, { "file": "quantities/quantities-05.jpeg", "size": 46355, "type": "image/jpeg" }, { "file": "quantities/quantities-06.jpeg", "size": 35090, "type": "image/jpeg" }, { "file": "quantities/quantities-07.jpeg", "size": 28762, "type": "image/jpeg" }, { "file": "quantities/quantities-08.jpeg", "size": 37626, "type": "image/jpeg" }, { "file": "quantities/quantities-09.jpeg", "size": 37514, "type": "image/jpeg" }, { "file": "quantities/quantities-10.jpeg", "size": 28721, "type": "image/jpeg" }, { "file": "quantities/quantities-11.jpeg", "size": 35294, "type": "image/jpeg" }, { "file": "quantities/quantities-12.jpeg", "size": 41715, "type": "image/jpeg" }, { "file": "quantities/quantities-13.jpeg", "size": 33132, "type": "image/jpeg" }, { "file": "quantities/quantities-14.jpeg", "size": 43860, "type": "image/jpeg" }, { "file": "quantities/quantities-15.jpeg", "size": 30948, "type": "image/jpeg" }, { "file": "quantities/quantities-16.jpeg", "size": 39737, "type": "image/jpeg" }, { "file": "quantities/quantities-17.jpeg", "size": 35283, "type": "image/jpeg" }, { "file": "quantities/quantities-18.jpeg", "size": 28707, "type": "image/jpeg" }, { "file": "quantity_comparison/quantitiycomparison-01.jpeg", "size": 83932, "type": "image/jpeg" }, { "file": "quantity_comparison/quantitiycomparison-02.jpeg", "size": 108448, "type": "image/jpeg" }, { "file": "quantity_comparison/quantitiycomparison-03.jpeg", "size": 121295, "type": "image/jpeg" }, { "file": "quantity_comparison/quantitiycomparison-04.jpeg", "size": 104631, "type": "image/jpeg" }, { "file": "quantity_comparison/quantitiycomparison-05.jpeg", "size": 100515, "type": "image/jpeg" }, { "file": "quantity_comparison/quantitiycomparison-06.jpeg", "size": 93909, "type": "image/jpeg" }, { "file": "star.png", "size": 9287, "type": "image/png" }, { "file": "threeColor/blue.png", "size": 6884, "type": "image/png" }, { "file": "threeColor/red.png", "size": 7234, "type": "image/png" }, { "file": "threeColor/yellow.png", "size": 6787, "type": "image/png" }, { "file": "twoColors/blue.png", "size": 5340, "type": "image/png" }, { "file": "twoColors/equal.png", "size": 4761, "type": "image/png" }, { "file": "twoColors/yellow.png", "size": 5355, "type": "image/png" }],
   layout: "src/routes/__layout.svelte",
   error: ".svelte-kit/build/components/error.svelte",
   routes: [
@@ -56454,7 +56514,7 @@ var module_lookup = {
     return index;
   })
 };
-var metadata_lookup = { "src/routes/__layout.svelte": { "entry": "pages/__layout.svelte-ed79f8b4.js", "css": ["assets/pages/__layout.svelte-597681a7.css", "assets/vendor-15d9d811.css"], "js": ["pages/__layout.svelte-ed79f8b4.js", "chunks/vendor-dc16c193.js"], "styles": [] }, ".svelte-kit/build/components/error.svelte": { "entry": "error.svelte-4e5d1690.js", "css": ["assets/vendor-15d9d811.css"], "js": ["error.svelte-4e5d1690.js", "chunks/vendor-dc16c193.js"], "styles": [] }, "src/routes/index.svelte": { "entry": "pages/index.svelte-e0be3b7a.js", "css": ["assets/pages/index.svelte-58228bff.css", "assets/vendor-15d9d811.css"], "js": ["pages/index.svelte-e0be3b7a.js", "chunks/vendor-dc16c193.js", "chunks/index-a05f69de.js", "chunks/singletons-12a22614.js", "chunks/stores-4f8ab6e8.js"], "styles": [] }, "src/routes/new-user/index.svelte": { "entry": "pages/new-user/index.svelte-ed015279.js", "css": ["assets/vendor-15d9d811.css", "assets/SubmitButton-b30b09f9.css"], "js": ["pages/new-user/index.svelte-ed015279.js", "chunks/vendor-dc16c193.js", "chunks/stores-4f8ab6e8.js", "chunks/SubmitButton-561b3d06.js"], "styles": [] }, "src/routes/profile/index.svelte": { "entry": "pages/profile/index.svelte-bae8cdcc.js", "css": ["assets/vendor-15d9d811.css"], "js": ["pages/profile/index.svelte-bae8cdcc.js", "chunks/vendor-dc16c193.js"], "styles": [] }, "src/routes/profile/[username].svelte": { "entry": "pages/profile/[username].svelte-80e33e2b.js", "css": ["assets/vendor-15d9d811.css"], "js": ["pages/profile/[username].svelte-80e33e2b.js", "chunks/vendor-dc16c193.js", "chunks/stores-4f8ab6e8.js"], "styles": [] }, "src/routes/running/__layout.reset.svelte": { "entry": "pages/running/__layout.reset.svelte-5b2450d6.js", "css": ["assets/vendor-15d9d811.css"], "js": ["pages/running/__layout.reset.svelte-5b2450d6.js", "chunks/vendor-dc16c193.js"], "styles": [] }, "src/routes/running/[type].svelte": { "entry": "pages/running/[type].svelte-0b9b420d.js", "css": ["assets/pages/running/[type].svelte-9bdd0f4b.css", "assets/vendor-15d9d811.css"], "js": ["pages/running/[type].svelte-0b9b420d.js", "chunks/vendor-dc16c193.js", "chunks/stores-4f8ab6e8.js", "chunks/index-a05f69de.js"], "styles": [] }, "src/routes/login/__layout.reset.svelte": { "entry": "pages/login/__layout.reset.svelte-7257d82e.js", "css": ["assets/vendor-15d9d811.css"], "js": ["pages/login/__layout.reset.svelte-7257d82e.js", "chunks/vendor-dc16c193.js"], "styles": [] }, "src/routes/login/index.svelte": { "entry": "pages/login/index.svelte-0908ed3d.js", "css": ["assets/vendor-15d9d811.css", "assets/SubmitButton-b30b09f9.css"], "js": ["pages/login/index.svelte-0908ed3d.js", "chunks/vendor-dc16c193.js", "chunks/SubmitButton-561b3d06.js"], "styles": [] } };
+var metadata_lookup = { "src/routes/__layout.svelte": { "entry": "pages/__layout.svelte-85a8359a.js", "css": ["assets/pages/__layout.svelte-32fa1eb6.css", "assets/vendor-15d9d811.css"], "js": ["pages/__layout.svelte-85a8359a.js", "chunks/vendor-dc16c193.js"], "styles": [] }, ".svelte-kit/build/components/error.svelte": { "entry": "error.svelte-4e5d1690.js", "css": ["assets/vendor-15d9d811.css"], "js": ["error.svelte-4e5d1690.js", "chunks/vendor-dc16c193.js"], "styles": [] }, "src/routes/index.svelte": { "entry": "pages/index.svelte-428124c3.js", "css": ["assets/pages/index.svelte-58228bff.css", "assets/vendor-15d9d811.css"], "js": ["pages/index.svelte-428124c3.js", "chunks/vendor-dc16c193.js", "chunks/index-a05f69de.js", "chunks/singletons-12a22614.js", "chunks/stores-4f8ab6e8.js"], "styles": [] }, "src/routes/new-user/index.svelte": { "entry": "pages/new-user/index.svelte-ed015279.js", "css": ["assets/vendor-15d9d811.css", "assets/SubmitButton-b30b09f9.css"], "js": ["pages/new-user/index.svelte-ed015279.js", "chunks/vendor-dc16c193.js", "chunks/stores-4f8ab6e8.js", "chunks/SubmitButton-561b3d06.js"], "styles": [] }, "src/routes/profile/index.svelte": { "entry": "pages/profile/index.svelte-bae8cdcc.js", "css": ["assets/vendor-15d9d811.css"], "js": ["pages/profile/index.svelte-bae8cdcc.js", "chunks/vendor-dc16c193.js"], "styles": [] }, "src/routes/profile/[username].svelte": { "entry": "pages/profile/[username].svelte-80e33e2b.js", "css": ["assets/vendor-15d9d811.css"], "js": ["pages/profile/[username].svelte-80e33e2b.js", "chunks/vendor-dc16c193.js", "chunks/stores-4f8ab6e8.js"], "styles": [] }, "src/routes/running/__layout.reset.svelte": { "entry": "pages/running/__layout.reset.svelte-5b2450d6.js", "css": ["assets/vendor-15d9d811.css"], "js": ["pages/running/__layout.reset.svelte-5b2450d6.js", "chunks/vendor-dc16c193.js"], "styles": [] }, "src/routes/running/[type].svelte": { "entry": "pages/running/[type].svelte-20eb7d3b.js", "css": ["assets/pages/running/[type].svelte-9bdd0f4b.css", "assets/vendor-15d9d811.css"], "js": ["pages/running/[type].svelte-20eb7d3b.js", "chunks/vendor-dc16c193.js", "chunks/stores-4f8ab6e8.js", "chunks/index-a05f69de.js"], "styles": [] }, "src/routes/login/__layout.reset.svelte": { "entry": "pages/login/__layout.reset.svelte-7257d82e.js", "css": ["assets/vendor-15d9d811.css"], "js": ["pages/login/__layout.reset.svelte-7257d82e.js", "chunks/vendor-dc16c193.js"], "styles": [] }, "src/routes/login/index.svelte": { "entry": "pages/login/index.svelte-0908ed3d.js", "css": ["assets/vendor-15d9d811.css", "assets/SubmitButton-b30b09f9.css"], "js": ["pages/login/index.svelte-0908ed3d.js", "chunks/vendor-dc16c193.js", "chunks/SubmitButton-561b3d06.js"], "styles": [] } };
 async function load_component(file) {
   const { entry, css: css2, js, styles } = metadata_lookup[file];
   return {
@@ -56761,7 +56821,7 @@ var error$1 = /* @__PURE__ */ Object.freeze({
   "default": Error$1,
   load: load$5
 });
-var css$6 = {
+var css$5 = {
   code: "svg.svelte-heylkm{stroke:currentColor;fill:currentColor;stroke-width:0;height:auto;max-height:100%;width:100%}",
   map: '{"version":3,"file":"IconBase.svelte","sources":["IconBase.svelte"],"sourcesContent":["<script>\\n  export let title = null;\\n  export let viewBox;\\n<\/script>\\n\\n<style>svg{stroke:currentColor;fill:currentColor;stroke-width:0;height:auto;max-height:100%;width:100%}</style>\\n\\n<svg xmlns=\\"http://www.w3.org/2000/svg\\" {viewBox}>\\n  {#if title}\\n    <title>{title}</title>\\n  {/if}\\n  <slot />\\n</svg>\\n"],"names":[],"mappings":"AAKO,iBAAG,CAAC,OAAO,YAAY,CAAC,KAAK,YAAY,CAAC,aAAa,CAAC,CAAC,OAAO,IAAI,CAAC,WAAW,IAAI,CAAC,MAAM,IAAI,CAAC"}'
 };
@@ -56772,7 +56832,7 @@ var IconBase = create_ssr_component(($$result, $$props, $$bindings, slots) => {
     $$bindings.title(title);
   if ($$props.viewBox === void 0 && $$bindings.viewBox && viewBox !== void 0)
     $$bindings.viewBox(viewBox);
-  $$result.css.add(css$6);
+  $$result.css.add(css$5);
   return `<svg xmlns="${"http://www.w3.org/2000/svg"}"${add_attribute("viewBox", viewBox, 0)} class="${"svelte-heylkm"}">${title ? `<title>${escape(title)}</title>` : ``}${slots.default ? slots.default({}) : ``}</svg>`;
 });
 var FaRegPlayCircle = create_ssr_component(($$result, $$props, $$bindings, slots) => {
@@ -56935,9 +56995,9 @@ var session = {
   set: () => error("set"),
   update: () => error("update")
 };
-var css$5 = {
+var css$4 = {
   code: ".complete.svelte-13qg6g9{--tw-bg-opacity:1;background-color:rgba(52,211,153,var(--tw-bg-opacity))}",
-  map: `{"version":3,"file":"index.svelte","sources":["index.svelte"],"sourcesContent":["<script context=\\"module\\" lang=\\"ts\\">var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {\\n    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }\\n    return new (P || (P = Promise))(function (resolve, reject) {\\n        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }\\n        function rejected(value) { try { step(generator[\\"throw\\"](value)); } catch (e) { reject(e); } }\\n        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }\\n        step((generator = generator.apply(thisArg, _arguments || [])).next());\\n    });\\n};\\nexport const load = ({ session }) => __awaiter(void 0, void 0, void 0, function* () {\\n    if (!session.authenticated) {\\n        return {\\n            status: 302,\\n            redirect: '/login'\\n        };\\n    }\\n    return {};\\n});\\n<\/script>\\n\\n<script lang=\\"ts\\">var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {\\n    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }\\n    return new (P || (P = Promise))(function (resolve, reject) {\\n        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }\\n        function rejected(value) { try { step(generator[\\"throw\\"](value)); } catch (e) { reject(e); } }\\n        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }\\n        step((generator = generator.apply(thisArg, _arguments || [])).next());\\n    });\\n};\\nimport TextAndAudio from '$lib/components/TextAndAudio.svelte';\\nimport { textAndAudio } from '$lib/audio';\\nimport { goto } from '$app/navigation';\\nimport { session } from '$app/stores';\\n<\/script>\\n\\n<TextAndAudio src={textAndAudio[1].audio} text={textAndAudio[1].text} autoplay={true} />\\n\\n<div class=\\"gap-3 flex flex-col lg:flex-row flex-wrap items-center mx-2 mt-5 mb-5 \\">\\n\\t<button\\n\\t\\ton:click={() => goto('/running/quantities')}\\n\\t\\tclass=\\"flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl\\"\\n\\t\\tclass:complete={$session.user.completed.includes('quantities')}\\n\\t>\\n\\t\\t<img class=\\"rounded-xl mb-3 w-48\\" src=\\"/quantities/quantities-01.jpeg\\" alt=\\"Quantities task\\" />\\n\\t\\t<span>Quantities tasks</span>\\n\\t</button>\\n\\t<button\\n\\t\\ton:click={() => goto('/running/numberPattern')}\\n\\t\\tclass=\\"flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl\\"\\n\\t\\tclass:complete={$session.user.completed.includes('numberPattern')}\\n\\t>\\n\\t\\t<img\\n\\t\\t\\tclass=\\"rounded-xl mb-3 w-48\\"\\n\\t\\t\\tsrc=\\"number_pattern/numberpattern-01.jpeg\\"\\n\\t\\t\\talt=\\"Number pattern task\\"\\n\\t\\t/>\\n\\t\\t<span>Number pattern tasks</span>\\n\\t</button>\\n\\t<button\\n\\t\\ton:click={() => goto('/running/numberLine')}\\n\\t\\tclass=\\"flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl\\"\\n\\t\\tclass:complete={$session.user.completed.includes('numberLine')}\\n\\t>\\n\\t\\t<img\\n\\t\\t\\tclass=\\"rounded-xl mb-3 w-48\\"\\n\\t\\t\\tsrc=\\"number_line/numberline-01.jpeg\\"\\n\\t\\t\\talt=\\"Number line tasks\\"\\n\\t\\t/>\\n\\t\\t<span>Number line tasks</span>\\n\\t</button>\\n\\t<button\\n\\t\\ton:click={() => goto('/running/difference')}\\n\\t\\tclass=\\"flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl\\"\\n\\t\\tclass:complete={$session.user.completed.includes('difference')}\\n\\t>\\n\\t\\t<img class=\\"rounded-xl mb-3 w-48\\" src=\\"/difference/difference-01.jpeg\\" alt=\\"Difference task\\" />\\n\\t\\t<span>Difference tasks</span>\\n\\t</button>\\n\\t<button\\n\\t\\ton:click={() => goto('/running/colorPattern')}\\n\\t\\tclass=\\"flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl\\"\\n\\t\\tclass:complete={$session.user.completed.includes('colorPattern')}\\n\\t>\\n\\t\\t<img\\n\\t\\t\\tclass=\\"rounded-xl mb-3 w-48\\"\\n\\t\\t\\tsrc=\\"/color_pattern/colorpatterns-01.jpeg\\"\\n\\t\\t\\talt=\\"Color pattern task\\"\\n\\t\\t/>\\n\\t\\t<span>Color pattern tasks</span>\\n\\t</button>\\n\\t<button\\n\\t\\ton:click={() => goto('/running/hiddenNumber')}\\n\\t\\tclass=\\"flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl\\"\\n\\t\\tclass:complete={$session.user.completed.includes('hiddenNumber')}\\n\\t>\\n\\t\\t<img\\n\\t\\t\\tclass=\\"rounded-xl mb-3 w-48\\"\\n\\t\\t\\tsrc=\\"/hidden_number/hiddennumber-01.jpeg\\"\\n\\t\\t\\talt=\\"Hidden number task\\"\\n\\t\\t/>\\n\\t\\t<span>Hidden number tasks</span>\\n\\t</button>\\n\\t<button\\n\\t\\ton:click={() => goto('/running/numberComparison')}\\n\\t\\tclass=\\"flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl\\"\\n\\t\\tclass:complete={$session.user.completed.includes('numberComparison')}\\n\\t>\\n\\t\\t<img\\n\\t\\t\\tclass=\\"rounded-xl mb-3 w-48\\"\\n\\t\\t\\tsrc=\\"/number_comparison/numbercomparison-01.jpeg\\"\\n\\t\\t\\talt=\\"Number comparison task\\"\\n\\t\\t/>\\n\\t\\t<span>Number comparison tasks</span>\\n\\t</button>\\n\\t<button\\n\\t\\ton:click={() => goto('/running/quantityComparison')}\\n\\t\\tclass=\\"flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl\\"\\n\\t\\tclass:complete={$session.user.completed.includes('quantityComparison')}\\n\\t>\\n\\t\\t<img\\n\\t\\t\\tclass=\\"rounded-xl mb-3 w-48\\"\\n\\t\\t\\tsrc=\\"/quantity_comparison/quantitiycomparison-01.jpeg\\"\\n\\t\\t\\talt=\\"Quantity comparison task\\"\\n\\t\\t/>\\n\\t\\t<span>Quantity comparison tasks</span>\\n\\t</button>\\n\\t<button\\n\\t\\ton:click={() => goto('/running/plus')}\\n\\t\\tclass=\\"flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl\\"\\n\\t\\tclass:complete={$session.user.completed.includes('plus')}\\n\\t>\\n\\t\\t<img class=\\"rounded-xl mb-3 w-48\\" src=\\"/plus/plus-01.jpeg\\" alt=\\"Plus task\\" />\\n\\t\\t<span>Plus tasks</span>\\n\\t</button>\\n\\t<button\\n\\t\\ton:click={() => goto('/running/minus')}\\n\\t\\tclass=\\"flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl\\"\\n\\t\\tclass:complete={$session.user.completed.includes('minus')}\\n\\t>\\n\\t\\t<img class=\\"rounded-xl mb-3 w-48\\" src=\\"/minus/minus-01.jpeg\\" alt=\\"Minus task\\" />\\n\\t\\t<span>Minus tasks</span>\\n\\t</button>\\n</div>\\n\\n<!-- <TaskRun on:taskComplete={handleTaskAnswer} task={quantities[taskIndex]} /> -->\\n<style>.complete{--tw-bg-opacity:1;background-color:rgba(52,211,153,var(--tw-bg-opacity))}</style>\\n"],"names":[],"mappings":"AAiJO,wBAAS,CAAC,gBAAgB,CAAC,CAAC,iBAAiB,KAAK,EAAE,CAAC,GAAG,CAAC,GAAG,CAAC,IAAI,eAAe,CAAC,CAAC,CAAC"}`
+  map: `{"version":3,"file":"index.svelte","sources":["index.svelte"],"sourcesContent":["<script context=\\"module\\" lang=\\"ts\\">var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {\\n    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }\\n    return new (P || (P = Promise))(function (resolve, reject) {\\n        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }\\n        function rejected(value) { try { step(generator[\\"throw\\"](value)); } catch (e) { reject(e); } }\\n        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }\\n        step((generator = generator.apply(thisArg, _arguments || [])).next());\\n    });\\n};\\nexport const load = ({ session }) => __awaiter(void 0, void 0, void 0, function* () {\\n    if (!session.authenticated) {\\n        return {\\n            status: 302,\\n            redirect: '/login'\\n        };\\n    }\\n    return {};\\n});\\n<\/script>\\n\\n<script lang=\\"ts\\">var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {\\n    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }\\n    return new (P || (P = Promise))(function (resolve, reject) {\\n        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }\\n        function rejected(value) { try { step(generator[\\"throw\\"](value)); } catch (e) { reject(e); } }\\n        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }\\n        step((generator = generator.apply(thisArg, _arguments || [])).next());\\n    });\\n};\\nimport TextAndAudio from '$lib/components/TextAndAudio.svelte';\\nimport { textAndAudio } from '$lib/audio';\\nimport { goto } from '$app/navigation';\\nimport { session } from '$app/stores';\\nimport { onMount } from 'svelte';\\nonMount(() => {\\n    console.log($session.user.completed.length);\\n});\\n<\/script>\\n\\n<TextAndAudio src={textAndAudio[1].audio} text={textAndAudio[1].text} autoplay={true} />\\n\\n<div class=\\"gap-3 flex flex-col lg:flex-row flex-wrap items-center mx-2 mt-5 mb-5 \\">\\n\\t<button\\n\\t\\ton:click={() => goto('/running/quantities')}\\n\\t\\tclass=\\"flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl\\"\\n\\t\\tclass:complete={$session.user.completed.includes('quantities')}\\n\\t>\\n\\t\\t<img class=\\"rounded-xl mb-3 w-48\\" src=\\"/quantities/quantities-01.jpeg\\" alt=\\"Quantities task\\" />\\n\\t\\t<span>Quantities tasks</span>\\n\\t</button>\\n\\t<button\\n\\t\\ton:click={() => goto('/running/numberPattern')}\\n\\t\\tclass=\\"flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl\\"\\n\\t\\tclass:complete={$session.user.completed.includes('numberPattern')}\\n\\t>\\n\\t\\t<img\\n\\t\\t\\tclass=\\"rounded-xl mb-3 w-48\\"\\n\\t\\t\\tsrc=\\"number_pattern/numberpattern-01.jpeg\\"\\n\\t\\t\\talt=\\"Number pattern task\\"\\n\\t\\t/>\\n\\t\\t<span>Number pattern tasks</span>\\n\\t</button>\\n\\t<button\\n\\t\\ton:click={() => goto('/running/numberLine')}\\n\\t\\tclass=\\"flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl\\"\\n\\t\\tclass:complete={$session.user.completed.includes('numberLine')}\\n\\t>\\n\\t\\t<img\\n\\t\\t\\tclass=\\"rounded-xl mb-3 w-48\\"\\n\\t\\t\\tsrc=\\"number_line/numberline-01.jpeg\\"\\n\\t\\t\\talt=\\"Number line tasks\\"\\n\\t\\t/>\\n\\t\\t<span>Number line tasks</span>\\n\\t</button>\\n\\t<button\\n\\t\\ton:click={() => goto('/running/difference')}\\n\\t\\tclass=\\"flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl\\"\\n\\t\\tclass:complete={$session.user.completed.includes('difference')}\\n\\t>\\n\\t\\t<img class=\\"rounded-xl mb-3 w-48\\" src=\\"/difference/difference-01.jpeg\\" alt=\\"Difference task\\" />\\n\\t\\t<span>Difference tasks</span>\\n\\t</button>\\n\\t<button\\n\\t\\ton:click={() => goto('/running/colorPattern')}\\n\\t\\tclass=\\"flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl\\"\\n\\t\\tclass:complete={$session.user.completed.includes('colorPattern')}\\n\\t>\\n\\t\\t<img\\n\\t\\t\\tclass=\\"rounded-xl mb-3 w-48\\"\\n\\t\\t\\tsrc=\\"/color_pattern/colorpatterns-01.jpeg\\"\\n\\t\\t\\talt=\\"Color pattern task\\"\\n\\t\\t/>\\n\\t\\t<span>Color pattern tasks</span>\\n\\t</button>\\n\\t<button\\n\\t\\ton:click={() => goto('/running/hiddenNumber')}\\n\\t\\tclass=\\"flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl\\"\\n\\t\\tclass:complete={$session.user.completed.includes('hiddenNumber')}\\n\\t>\\n\\t\\t<img\\n\\t\\t\\tclass=\\"rounded-xl mb-3 w-48\\"\\n\\t\\t\\tsrc=\\"/hidden_number/hiddennumber-01.jpeg\\"\\n\\t\\t\\talt=\\"Hidden number task\\"\\n\\t\\t/>\\n\\t\\t<span>Hidden number tasks</span>\\n\\t</button>\\n\\t<button\\n\\t\\ton:click={() => goto('/running/numberComparison')}\\n\\t\\tclass=\\"flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl\\"\\n\\t\\tclass:complete={$session.user.completed.includes('numberComparison')}\\n\\t>\\n\\t\\t<img\\n\\t\\t\\tclass=\\"rounded-xl mb-3 w-48\\"\\n\\t\\t\\tsrc=\\"/number_comparison/numbercomparison-01.jpeg\\"\\n\\t\\t\\talt=\\"Number comparison task\\"\\n\\t\\t/>\\n\\t\\t<span>Number comparison tasks</span>\\n\\t</button>\\n\\t<button\\n\\t\\ton:click={() => goto('/running/quantityComparison')}\\n\\t\\tclass=\\"flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl\\"\\n\\t\\tclass:complete={$session.user.completed.includes('quantityComparison')}\\n\\t>\\n\\t\\t<img\\n\\t\\t\\tclass=\\"rounded-xl mb-3 w-48\\"\\n\\t\\t\\tsrc=\\"/quantity_comparison/quantitiycomparison-01.jpeg\\"\\n\\t\\t\\talt=\\"Quantity comparison task\\"\\n\\t\\t/>\\n\\t\\t<span>Quantity comparison tasks</span>\\n\\t</button>\\n\\t<button\\n\\t\\ton:click={() => goto('/running/plus')}\\n\\t\\tclass=\\"flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl\\"\\n\\t\\tclass:complete={$session.user.completed.includes('plus')}\\n\\t>\\n\\t\\t<img class=\\"rounded-xl mb-3 w-48\\" src=\\"/plus/plus-01.jpeg\\" alt=\\"Plus task\\" />\\n\\t\\t<span>Plus tasks</span>\\n\\t</button>\\n\\t<button\\n\\t\\ton:click={() => goto('/running/minus')}\\n\\t\\tclass=\\"flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl\\"\\n\\t\\tclass:complete={$session.user.completed.includes('minus')}\\n\\t>\\n\\t\\t<img class=\\"rounded-xl mb-3 w-48\\" src=\\"/minus/minus-01.jpeg\\" alt=\\"Minus task\\" />\\n\\t\\t<span>Minus tasks</span>\\n\\t</button>\\n</div>\\n\\n<!-- <TaskRun on:taskComplete={handleTaskAnswer} task={quantities[taskIndex]} /> -->\\n<style>.complete{--tw-bg-opacity:1;background-color:rgba(52,211,153,var(--tw-bg-opacity))}</style>\\n"],"names":[],"mappings":"AAqJO,wBAAS,CAAC,gBAAgB,CAAC,CAAC,iBAAiB,KAAK,EAAE,CAAC,GAAG,CAAC,GAAG,CAAC,IAAI,eAAe,CAAC,CAAC,CAAC"}`
 };
 var __awaiter$4 = function(thisArg, _arguments, P, generator) {
   function adopt(value) {
@@ -57002,7 +57062,7 @@ var Routes = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
   });
-  $$result.css.add(css$5);
+  $$result.css.add(css$4);
   $$unsubscribe_session();
   return `${validate_component(TextAndAudio, "TextAndAudio").$$render($$result, {
     src: textAndAudio[1].audio,
@@ -57069,7 +57129,7 @@ var index$3 = /* @__PURE__ */ Object.freeze({
   "default": Routes,
   load: load$4
 });
-var css$4 = {
+var css$3 = {
   code: ".lds-ring.svelte-1xkie6p.svelte-1xkie6p{display:inline-block;height:20px;position:relative;width:20px}.lds-ring.svelte-1xkie6p div.svelte-1xkie6p{-webkit-animation:svelte-1xkie6p-lds-ring 1.2s cubic-bezier(.5,0,.5,1) infinite;animation:svelte-1xkie6p-lds-ring 1.2s cubic-bezier(.5,0,.5,1) infinite;border:3px solid transparent;border-radius:50%;border-top-color:#fff;box-sizing:border-box;display:block;height:20px;margin:3px;position:absolute;width:20px}.lds-ring.svelte-1xkie6p div.svelte-1xkie6p:first-child{-webkit-animation-delay:-.45s;animation-delay:-.45s}.lds-ring.svelte-1xkie6p div.svelte-1xkie6p:nth-child(2){-webkit-animation-delay:-.3s;animation-delay:-.3s}.lds-ring.svelte-1xkie6p div.svelte-1xkie6p:nth-child(3){-webkit-animation-delay:-.15s;animation-delay:-.15s}@-webkit-keyframes svelte-1xkie6p-lds-ring{0%{transform:rotate(0deg)}to{transform:rotate(1turn)}}@keyframes svelte-1xkie6p-lds-ring{0%{transform:rotate(0deg)}to{transform:rotate(1turn)}}",
   map: '{"version":3,"file":"SubmitButton.svelte","sources":["SubmitButton.svelte"],"sourcesContent":["<script>\\n\\texport let disabled;\\n\\texport let action;\\n\\texport let loading;\\n<\/script>\\n\\n<button\\n\\t{disabled}\\n\\ton:click={action}\\n\\tclass={disabled\\n\\t\\t? `bg-green-600 p-4 w-full md:w-72 rounded-xl`\\n\\t\\t: `bg-green-300 p-4 w-full md:w-72 rounded-xl`}\\n\\ttype=\\"submit\\"\\n>\\n\\t{#if !loading}\\n\\t\\t<p class=\\"text-white\\"><slot /></p>\\n\\t{:else}\\n\\t\\t<div class=\\"lds-ring\\">\\n\\t\\t\\t<div />\\n\\t\\t\\t<div />\\n\\t\\t\\t<div />\\n\\t\\t\\t<div />\\n\\t\\t</div>\\n\\t{/if}\\n</button>\\n\\n<style>.lds-ring{display:inline-block;height:20px;position:relative;width:20px}.lds-ring div{-webkit-animation:lds-ring 1.2s cubic-bezier(.5,0,.5,1) infinite;animation:lds-ring 1.2s cubic-bezier(.5,0,.5,1) infinite;border:3px solid transparent;border-radius:50%;border-top-color:#fff;box-sizing:border-box;display:block;height:20px;margin:3px;position:absolute;width:20px}.lds-ring div:first-child{-webkit-animation-delay:-.45s;animation-delay:-.45s}.lds-ring div:nth-child(2){-webkit-animation-delay:-.3s;animation-delay:-.3s}.lds-ring div:nth-child(3){-webkit-animation-delay:-.15s;animation-delay:-.15s}@-webkit-keyframes lds-ring{0%{transform:rotate(0deg)}to{transform:rotate(1turn)}}@keyframes lds-ring{0%{transform:rotate(0deg)}to{transform:rotate(1turn)}}</style>\\n"],"names":[],"mappings":"AA0BO,uCAAS,CAAC,QAAQ,YAAY,CAAC,OAAO,IAAI,CAAC,SAAS,QAAQ,CAAC,MAAM,IAAI,CAAC,wBAAS,CAAC,kBAAG,CAAC,kBAAkB,uBAAQ,CAAC,IAAI,CAAC,aAAa,EAAE,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,QAAQ,CAAC,UAAU,uBAAQ,CAAC,IAAI,CAAC,aAAa,EAAE,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,QAAQ,CAAC,OAAO,GAAG,CAAC,KAAK,CAAC,WAAW,CAAC,cAAc,GAAG,CAAC,iBAAiB,IAAI,CAAC,WAAW,UAAU,CAAC,QAAQ,KAAK,CAAC,OAAO,IAAI,CAAC,OAAO,GAAG,CAAC,SAAS,QAAQ,CAAC,MAAM,IAAI,CAAC,wBAAS,CAAC,kBAAG,YAAY,CAAC,wBAAwB,KAAK,CAAC,gBAAgB,KAAK,CAAC,wBAAS,CAAC,kBAAG,WAAW,CAAC,CAAC,CAAC,wBAAwB,IAAI,CAAC,gBAAgB,IAAI,CAAC,wBAAS,CAAC,kBAAG,WAAW,CAAC,CAAC,CAAC,wBAAwB,KAAK,CAAC,gBAAgB,KAAK,CAAC,mBAAmB,uBAAQ,CAAC,EAAE,CAAC,UAAU,OAAO,IAAI,CAAC,CAAC,EAAE,CAAC,UAAU,OAAO,KAAK,CAAC,CAAC,CAAC,WAAW,uBAAQ,CAAC,EAAE,CAAC,UAAU,OAAO,IAAI,CAAC,CAAC,EAAE,CAAC,UAAU,OAAO,KAAK,CAAC,CAAC,CAAC"}'
 };
@@ -57083,7 +57143,7 @@ var SubmitButton = create_ssr_component(($$result, $$props, $$bindings, slots) =
     $$bindings.action(action);
   if ($$props.loading === void 0 && $$bindings.loading && loading !== void 0)
     $$bindings.loading(loading);
-  $$result.css.add(css$4);
+  $$result.css.add(css$3);
   return `<button ${disabled ? "disabled" : ""} class="${escape(null_to_empty(disabled ? `bg-green-600 p-4 w-full md:w-72 rounded-xl` : `bg-green-300 p-4 w-full md:w-72 rounded-xl`)) + " svelte-1xkie6p"}" type="${"submit"}">${!loading ? `<p class="${"text-white"}">${slots.default ? slots.default({}) : ``}</p>` : `<div class="${"lds-ring svelte-1xkie6p"}"><div class="${"svelte-1xkie6p"}"></div>
 			<div class="${"svelte-1xkie6p"}"></div>
 			<div class="${"svelte-1xkie6p"}"></div>
@@ -57454,11 +57514,15 @@ var tutorials = writable({
   },
   numberPattern: {
     type: "number"
+  },
+  star: {
+    seen: false,
+    type: "star"
   }
 });
-var css$3 = {
+var css$2 = {
   code: ".selected.svelte-1mkw1ot{--tw-bg-opacity:1;background-color:rgba(59,130,246,var(--tw-bg-opacity))}",
-  map: `{"version":3,"file":"Numbers.svelte","sources":["Numbers.svelte"],"sourcesContent":["<script lang=\\"ts\\">var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {\\n    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }\\n    return new (P || (P = Promise))(function (resolve, reject) {\\n        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }\\n        function rejected(value) { try { step(generator[\\"throw\\"](value)); } catch (e) { reject(e); } }\\n        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }\\n        step((generator = generator.apply(thisArg, _arguments || [])).next());\\n    });\\n};\\nimport { createEventDispatcher, onMount } from 'svelte';\\nconst numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];\\nconst dispatch = createEventDispatcher();\\nexport let selected;\\nfunction selectAnswer(answer) {\\n    return __awaiter(this, void 0, void 0, function* () {\\n        dispatch('answer', {\\n            answer\\n        });\\n    });\\n}\\nonMount(() => { });\\n<\/script>\\n\\n<div class=\\"grid grid-cols-11 gap-4 mb-10 pb-10\\">\\n\\t{#each numbers as number}\\n\\t\\t<button\\n\\t\\t\\ton:click={() => selectAnswer(number)}\\n\\t\\t\\tclass=\\"h-16 w-16 border bg-gray-50 border-gray-400 rounded-xl justify-self-end hover:bg-gray-300 focus:bg-blue-500 text-4xl\\"\\n\\t\\t\\tclass:selected={selected === number}\\n\\t\\t>\\n\\t\\t\\t{number}\\n\\t\\t</button>\\n\\t{/each}\\n\\t<div class=\\"col-start-11 row-start-1 row-span-2 self-center justify-self-center\\">\\n\\t\\t<button\\n\\t\\t\\ton:click={() => {\\n\\t\\t\\t\\tdispatch('answer', {\\n\\t\\t\\t\\t\\tanswer: 0\\n\\t\\t\\t\\t});\\n\\t\\t\\t}}\\n\\t\\t\\tclass=\\"h-16 w-16 border bg-gray-50 border-gray-400 rounded-xl justify-self-end hover:bg-gray-300 focus:bg-blue-500 text-4xl\\"\\n\\t\\t\\tclass:selected={selected === 0}\\n\\t\\t>\\n\\t\\t\\t<img src=\\"/star.png\\" alt=\\"Skip star\\" class=\\"w-16 cursor-pointer\\" />\\n\\t\\t</button>\\n\\t</div>\\n</div>\\n\\n<style>.selected{--tw-bg-opacity:1;background-color:rgba(59,130,246,var(--tw-bg-opacity))}</style>\\n"],"names":[],"mappings":"AAgDO,wBAAS,CAAC,gBAAgB,CAAC,CAAC,iBAAiB,KAAK,EAAE,CAAC,GAAG,CAAC,GAAG,CAAC,IAAI,eAAe,CAAC,CAAC,CAAC"}`
+  map: `{"version":3,"file":"Numbers.svelte","sources":["Numbers.svelte"],"sourcesContent":["<script lang=\\"ts\\">var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {\\n    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }\\n    return new (P || (P = Promise))(function (resolve, reject) {\\n        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }\\n        function rejected(value) { try { step(generator[\\"throw\\"](value)); } catch (e) { reject(e); } }\\n        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }\\n        step((generator = generator.apply(thisArg, _arguments || [])).next());\\n    });\\n};\\nimport { createEventDispatcher, onMount } from 'svelte';\\nconst numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];\\nconst dispatch = createEventDispatcher();\\nexport let selected;\\nfunction selectAnswer(answer) {\\n    return __awaiter(this, void 0, void 0, function* () {\\n        dispatch('answer', {\\n            answer\\n        });\\n    });\\n}\\nonMount(() => { });\\n<\/script>\\n\\n<div class=\\"grid grid-cols-11 gap-4 mb-10\\">\\n\\t{#each numbers as number}\\n\\t\\t<button\\n\\t\\t\\ton:click={() => selectAnswer(number)}\\n\\t\\t\\tclass=\\"h-16 w-16 border bg-gray-50 border-gray-400 rounded-xl justify-self-end hover:bg-transparent text-4xl\\"\\n\\t\\t\\tclass:selected={selected === number}\\n\\t\\t>\\n\\t\\t\\t{number}\\n\\t\\t</button>\\n\\t{/each}\\n\\t<div class=\\"col-start-11 row-start-1 row-span-2 self-center justify-self-center\\">\\n\\t\\t<button\\n\\t\\t\\ton:click={() => {\\n\\t\\t\\t\\tdispatch('answer', {\\n\\t\\t\\t\\t\\tanswer: 0\\n\\t\\t\\t\\t});\\n\\t\\t\\t}}\\n\\t\\t\\tclass=\\"h-16 w-16 border bg-gray-50 border-gray-400 rounded-xl justify-self-end hover:bg-transparent text-4xl\\"\\n\\t\\t\\tclass:selected={selected === 0}\\n\\t\\t>\\n\\t\\t\\t<img src=\\"/star.png\\" alt=\\"Skip star\\" class=\\"w-16 cursor-pointer\\" />\\n\\t\\t</button>\\n\\t</div>\\n</div>\\n\\n<style>.selected{--tw-bg-opacity:1;background-color:rgba(59,130,246,var(--tw-bg-opacity))}</style>\\n"],"names":[],"mappings":"AAgDO,wBAAS,CAAC,gBAAgB,CAAC,CAAC,iBAAiB,KAAK,EAAE,CAAC,GAAG,CAAC,GAAG,CAAC,IAAI,eAAe,CAAC,CAAC,CAAC"}`
 };
 var Numbers = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   (function(thisArg, _arguments, P, generator) {
@@ -57493,21 +57557,21 @@ var Numbers = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   let { selected } = $$props;
   if ($$props.selected === void 0 && $$bindings.selected && selected !== void 0)
     $$bindings.selected(selected);
-  $$result.css.add(css$3);
-  return `<div class="${"grid grid-cols-11 gap-4 mb-10 pb-10"}">${each(numbers, (number) => `<button class="${[
-    "h-16 w-16 border bg-gray-50 border-gray-400 rounded-xl justify-self-end hover:bg-gray-300 focus:bg-blue-500 text-4xl svelte-1mkw1ot",
+  $$result.css.add(css$2);
+  return `<div class="${"grid grid-cols-11 gap-4 mb-10"}">${each(numbers, (number) => `<button class="${[
+    "h-16 w-16 border bg-gray-50 border-gray-400 rounded-xl justify-self-end hover:bg-transparent text-4xl svelte-1mkw1ot",
     selected === number ? "selected" : ""
   ].join(" ").trim()}">${escape(number)}
 		</button>`)}
 	<div class="${"col-start-11 row-start-1 row-span-2 self-center justify-self-center"}"><button class="${[
-    "h-16 w-16 border bg-gray-50 border-gray-400 rounded-xl justify-self-end hover:bg-gray-300 focus:bg-blue-500 text-4xl svelte-1mkw1ot",
+    "h-16 w-16 border bg-gray-50 border-gray-400 rounded-xl justify-self-end hover:bg-transparent text-4xl svelte-1mkw1ot",
     selected === 0 ? "selected" : ""
   ].join(" ").trim()}"><img src="${"/star.png"}" alt="${"Skip star"}" class="${"w-16 cursor-pointer"}"></button></div>
 </div>`;
 });
-var css$2 = {
+var css$1 = {
   code: ".pulse.svelte-1b2m7hp{-webkit-animation:pulse 2s cubic-bezier(.4,0,.6,1) infinite;animation:pulse 2s cubic-bezier(.4,0,.6,1) infinite}",
-  map: `{"version":3,"file":"NumberTutorial.svelte","sources":["NumberTutorial.svelte"],"sourcesContent":["<script lang=\\"ts\\">var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {\\n    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }\\n    return new (P || (P = Promise))(function (resolve, reject) {\\n        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }\\n        function rejected(value) { try { step(generator[\\"throw\\"](value)); } catch (e) { reject(e); } }\\n        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }\\n        step((generator = generator.apply(thisArg, _arguments || [])).next());\\n    });\\n};\\nimport '$app/stores';\\nimport { textAndAudio } from '$lib/audio';\\nimport { tutorials } from '$lib/stores/tutorials';\\nimport TextAndAudio from '$lib/components/TextAndAudio.svelte';\\nimport Numbers from './AnswerInputs/Numbers.svelte';\\nlet selected;\\nlet tutorialIndex = 0;\\nlet pulse = false;\\nfunction handleAnswer(event) {\\n    return __awaiter(this, void 0, void 0, function* () {\\n        let audio = new Audio(textAndAudio[27].audio);\\n        selected = event.detail.answer;\\n        // This needs more stuff, like the stars and stuff\\n        yield new Promise((resolve) => {\\n            audio.play();\\n            audio.onended = resolve;\\n        }).then(() => {\\n            tutorialIndex = tutorialIndex + 1;\\n        });\\n    });\\n}\\nfunction handleTutorialEnd() {\\n    return __awaiter(this, void 0, void 0, function* () {\\n        let audio = new Audio(textAndAudio[28].audio);\\n        yield new Promise((resolve) => {\\n            audio.play();\\n            audio.onended = resolve;\\n        }).then(() => {\\n            $tutorials.tutorial.number = true;\\n            pulse = false;\\n        });\\n    });\\n}\\n<\/script>\\n\\n<div class=\\"h-screen flex justify-center items-center flex-col gap-6\\">\\n\\t{#if tutorialIndex === 0}\\n\\t\\t<TextAndAudio src={textAndAudio[3].audio} text={textAndAudio[3].text} autoplay={true} />\\n\\t\\t<Numbers on:answer={handleAnswer} {selected} />\\n\\t{:else if tutorialIndex === 1}\\n\\t\\t<TextAndAudio src={textAndAudio[4].audio} text={textAndAudio[4].text} autoplay={true} />\\n\\t\\t<TextAndAudio src={textAndAudio[5].audio} text={textAndAudio[5].text} />\\n\\t\\t<img\\n\\t\\t\\tclass=\\"cursor-pointer\\"\\n\\t\\t\\tclass:pulse\\n\\t\\t\\tsrc=\\"/star.png\\"\\n\\t\\t\\talt=\\"Big star\\"\\n\\t\\t\\ton:click={() => {\\n\\t\\t\\t\\tpulse = true;\\n\\t\\t\\t\\thandleTutorialEnd();\\n\\t\\t\\t}}\\n\\t\\t/>\\n\\t{/if}\\n</div>\\n\\n<style>.pulse{-webkit-animation:pulse 2s cubic-bezier(.4,0,.6,1) infinite;animation:pulse 2s cubic-bezier(.4,0,.6,1) infinite}</style>\\n"],"names":[],"mappings":"AAgEO,qBAAM,CAAC,kBAAkB,KAAK,CAAC,EAAE,CAAC,aAAa,EAAE,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,QAAQ,CAAC,UAAU,KAAK,CAAC,EAAE,CAAC,aAAa,EAAE,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,QAAQ,CAAC"}`
+  map: `{"version":3,"file":"NumberTutorial.svelte","sources":["NumberTutorial.svelte"],"sourcesContent":["<script lang=\\"ts\\">var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {\\n    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }\\n    return new (P || (P = Promise))(function (resolve, reject) {\\n        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }\\n        function rejected(value) { try { step(generator[\\"throw\\"](value)); } catch (e) { reject(e); } }\\n        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }\\n        step((generator = generator.apply(thisArg, _arguments || [])).next());\\n    });\\n};\\nimport { page } from '$app/stores';\\nimport { textAndAudio } from '$lib/audio';\\nimport { tutorials } from '$lib/stores/tutorials';\\nimport TextAndAudio from '$lib/components/TextAndAudio.svelte';\\nimport Numbers from './AnswerInputs/Numbers.svelte';\\nlet selected;\\nlet tutorialIndex = 0;\\nlet pulse = false;\\nfunction handleAnswer(event) {\\n    return __awaiter(this, void 0, void 0, function* () {\\n        let audio = new Audio(textAndAudio[27].audio);\\n        selected = event.detail.answer;\\n        // This needs more stuff, like the stars and stuff\\n        yield new Promise((resolve) => {\\n            audio.play();\\n            audio.onended = resolve;\\n        }).then(() => {\\n            // console.log($tutorials.star.seen);\\n            // if ($tutorials.star.seen) {\\n            // \\t$tutorials[$page.params.type].seen = true;\\n            // \\t$tutorials.star.seen = true;\\n            // } else {\\n            tutorialIndex = tutorialIndex + 1;\\n            // }\\n        });\\n    });\\n}\\nfunction handleTutorialEnd() {\\n    return __awaiter(this, void 0, void 0, function* () {\\n        let audio = new Audio(textAndAudio[28].audio);\\n        yield new Promise((resolve) => {\\n            audio.play();\\n            audio.onended = resolve;\\n        }).then(() => {\\n            $tutorials.tutorial.number = true;\\n            pulse = false;\\n        });\\n    });\\n}\\n<\/script>\\n\\n<div class=\\"h-screen flex justify-center items-center flex-col gap-6\\">\\n\\t{#if tutorialIndex === 0}\\n\\t\\t<TextAndAudio src={textAndAudio[3].audio} text={textAndAudio[3].text} autoplay={true} />\\n\\t\\t<Numbers on:answer={handleAnswer} {selected} />\\n\\t{:else if tutorialIndex === 1}\\n\\t\\t<TextAndAudio src={textAndAudio[4].audio} text={textAndAudio[4].text} autoplay={true} />\\n\\t\\t<TextAndAudio src={textAndAudio[5].audio} text={textAndAudio[5].text} />\\n\\t\\t<img\\n\\t\\t\\tclass=\\"cursor-pointer\\"\\n\\t\\t\\tclass:pulse\\n\\t\\t\\tsrc=\\"/star.png\\"\\n\\t\\t\\talt=\\"Big star\\"\\n\\t\\t\\ton:click={() => {\\n\\t\\t\\t\\tpulse = true;\\n\\t\\t\\t\\thandleTutorialEnd();\\n\\n\\t\\t\\t\\tvar sounds = document.getElementsByTagName('audio');\\n\\t\\t\\t\\tfor (let i = 0; i < sounds.length; i++) {\\n\\t\\t\\t\\t\\tsounds[i].pause();\\n\\t\\t\\t\\t}\\n\\t\\t\\t}}\\n\\t\\t/>\\n\\t{/if}\\n</div>\\n\\n<style>.pulse{-webkit-animation:pulse 2s cubic-bezier(.4,0,.6,1) infinite;animation:pulse 2s cubic-bezier(.4,0,.6,1) infinite}</style>\\n"],"names":[],"mappings":"AA2EO,qBAAM,CAAC,kBAAkB,KAAK,CAAC,EAAE,CAAC,aAAa,EAAE,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,QAAQ,CAAC,UAAU,KAAK,CAAC,EAAE,CAAC,aAAa,EAAE,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,QAAQ,CAAC"}`
 };
 var NumberTutorial = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   let $$unsubscribe_tutorials;
@@ -57540,7 +57604,7 @@ var NumberTutorial = create_ssr_component(($$result, $$props, $$bindings, slots)
     });
   });
   let selected;
-  $$result.css.add(css$2);
+  $$result.css.add(css$1);
   $$unsubscribe_tutorials();
   return `<div class="${"h-screen flex justify-center items-center flex-col gap-6"}">${`${validate_component(TextAndAudio, "TextAndAudio").$$render($$result, {
     src: textAndAudio[3].audio,
@@ -57550,42 +57614,9 @@ var NumberTutorial = create_ssr_component(($$result, $$props, $$bindings, slots)
 		${validate_component(Numbers, "Numbers").$$render($$result, { selected }, {}, {})}`}
 </div>`;
 });
-var css$1 = {
-  code: ".selected.svelte-1mkw1ot{--tw-bg-opacity:1;background-color:rgba(59,130,246,var(--tw-bg-opacity))}",
-  map: `{"version":3,"file":"Colors.svelte","sources":["Colors.svelte"],"sourcesContent":["<script lang=\\"ts\\">import { createEventDispatcher } from 'svelte';\\nconst threeColors = ['blue', 'yellow', 'red'];\\nconst twoColors = ['blue', 'equal', 'yellow'];\\nconst dispatch = createEventDispatcher();\\nexport let selected;\\nexport let colorType;\\n<\/script>\\n\\n{#if colorType === 'threeColors'}\\n\\t<div class=\\"grid grid-cols-4 gap-4 mb-5\\">\\n\\t\\t{#each threeColors as color}\\n\\t\\t\\t<button\\n\\t\\t\\t\\ton:click={() => {\\n\\t\\t\\t\\t\\tdispatch('answer', {\\n\\t\\t\\t\\t\\t\\tanswer: color\\n\\t\\t\\t\\t\\t});\\n\\t\\t\\t\\t}}\\n\\t\\t\\t\\tclass:selected={selected === color}\\n\\t\\t\\t\\tclass=\\"h-16 w-16 border p-2 bg-gray-50 border-gray-400 rounded-xl justify-self-end hover:bg-gray-300 text-4xl\\"\\n\\t\\t\\t>\\n\\t\\t\\t\\t<img class=\\"rounded-3xl\\" src={\`/threeColor/\${color}.png\`} alt={color} />\\n\\t\\t\\t</button>\\n\\t\\t{/each}\\n\\t\\t<button\\n\\t\\t\\ton:click={() => {\\n\\t\\t\\t\\tdispatch('answer', {\\n\\t\\t\\t\\t\\tanswer: '0'\\n\\t\\t\\t\\t});\\n\\t\\t\\t}}\\n\\t\\t\\tclass=\\"h-16 w-16 border bg-gray-50 border-gray-400 rounded-xl justify-self-end hover:bg-gray-300 text-4xl\\"\\n\\t\\t\\tclass:selected={selected === '0'}\\n\\t\\t>\\n\\t\\t\\t<img src=\\"/star.png\\" alt=\\"Skip star\\" class=\\"w-16 cursor-pointer\\" />\\n\\t\\t</button>\\n\\t</div>\\n{:else if colorType === 'twoColors'}\\n\\t<div class=\\"grid grid-cols-4 gap-4 mb-5\\">\\n\\t\\t{#each twoColors as color}\\n\\t\\t\\t<button\\n\\t\\t\\t\\ton:click={() => {\\n\\t\\t\\t\\t\\tdispatch('answer', {\\n\\t\\t\\t\\t\\t\\tanswer: color\\n\\t\\t\\t\\t\\t});\\n\\t\\t\\t\\t}}\\n\\t\\t\\t\\tclass:selected={selected === color}\\n\\t\\t\\t\\tclass=\\"h-16 w-16 border p-2 bg-gray-50 border-gray-400 rounded-xl justify-self-end hover:bg-gray-300 text-4xl\\"\\n\\t\\t\\t>\\n\\t\\t\\t\\t<img class=\\"rounded-2xl\\" src={\`/twoColors/\${color}.png\`} alt={color} />\\n\\t\\t\\t</button>\\n\\t\\t{/each}\\n\\t\\t<button\\n\\t\\t\\ton:click={() => {\\n\\t\\t\\t\\tdispatch('answer', {\\n\\t\\t\\t\\t\\tanswer: '0'\\n\\t\\t\\t\\t});\\n\\t\\t\\t}}\\n\\t\\t\\tclass=\\"h-16 w-16 border bg-gray-50 border-gray-400 rounded-xl justify-self-end hover:bg-gray-300 text-4xl\\"\\n\\t\\t\\tclass:selected={selected === '0'}\\n\\t\\t>\\n\\t\\t\\t<img src=\\"/star.png\\" alt=\\"Skip star\\" class=\\"w-16 cursor-pointer\\" />\\n\\t\\t</button>\\n\\t</div>\\n{/if}\\n\\n<style>.selected{--tw-bg-opacity:1;background-color:rgba(59,130,246,var(--tw-bg-opacity))}</style>\\n"],"names":[],"mappings":"AAgEO,wBAAS,CAAC,gBAAgB,CAAC,CAAC,iBAAiB,KAAK,EAAE,CAAC,GAAG,CAAC,GAAG,CAAC,IAAI,eAAe,CAAC,CAAC,CAAC"}`
-};
-var Colors = create_ssr_component(($$result, $$props, $$bindings, slots) => {
-  const threeColors = ["blue", "yellow", "red"];
-  const twoColors = ["blue", "equal", "yellow"];
-  createEventDispatcher();
-  let { selected } = $$props;
-  let { colorType } = $$props;
-  if ($$props.selected === void 0 && $$bindings.selected && selected !== void 0)
-    $$bindings.selected(selected);
-  if ($$props.colorType === void 0 && $$bindings.colorType && colorType !== void 0)
-    $$bindings.colorType(colorType);
-  $$result.css.add(css$1);
-  return `${colorType === "threeColors" ? `<div class="${"grid grid-cols-4 gap-4 mb-5"}">${each(threeColors, (color) => `<button class="${[
-    "h-16 w-16 border p-2 bg-gray-50 border-gray-400 rounded-xl justify-self-end hover:bg-gray-300 text-4xl svelte-1mkw1ot",
-    selected === color ? "selected" : ""
-  ].join(" ").trim()}"><img class="${"rounded-3xl"}"${add_attribute("src", `/threeColor/${color}.png`, 0)}${add_attribute("alt", color, 0)}>
-			</button>`)}
-		<button class="${[
-    "h-16 w-16 border bg-gray-50 border-gray-400 rounded-xl justify-self-end hover:bg-gray-300 text-4xl svelte-1mkw1ot",
-    selected === "0" ? "selected" : ""
-  ].join(" ").trim()}"><img src="${"/star.png"}" alt="${"Skip star"}" class="${"w-16 cursor-pointer"}"></button></div>` : `${colorType === "twoColors" ? `<div class="${"grid grid-cols-4 gap-4 mb-5"}">${each(twoColors, (color) => `<button class="${[
-    "h-16 w-16 border p-2 bg-gray-50 border-gray-400 rounded-xl justify-self-end hover:bg-gray-300 text-4xl svelte-1mkw1ot",
-    selected === color ? "selected" : ""
-  ].join(" ").trim()}"><img class="${"rounded-2xl"}"${add_attribute("src", `/twoColors/${color}.png`, 0)}${add_attribute("alt", color, 0)}>
-			</button>`)}
-		<button class="${[
-    "h-16 w-16 border bg-gray-50 border-gray-400 rounded-xl justify-self-end hover:bg-gray-300 text-4xl svelte-1mkw1ot",
-    selected === "0" ? "selected" : ""
-  ].join(" ").trim()}"><img src="${"/star.png"}" alt="${"Skip star"}" class="${"w-16 cursor-pointer"}"></button></div>` : ``}`}`;
-});
 var css = {
   code: ".pulse.svelte-1b2m7hp{-webkit-animation:pulse 2s cubic-bezier(.4,0,.6,1) infinite;animation:pulse 2s cubic-bezier(.4,0,.6,1) infinite}",
-  map: `{"version":3,"file":"TaskRun.svelte","sources":["TaskRun.svelte"],"sourcesContent":["<script lang=\\"ts\\">var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {\\n    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }\\n    return new (P || (P = Promise))(function (resolve, reject) {\\n        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }\\n        function rejected(value) { try { step(generator[\\"throw\\"](value)); } catch (e) { reject(e); } }\\n        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }\\n        step((generator = generator.apply(thisArg, _arguments || [])).next());\\n    });\\n};\\nimport { page } from '$app/stores';\\nimport { textAndAudio } from '$lib/audio';\\nimport { tutorials } from '$lib/stores/tutorials';\\nimport { afterUpdate, createEventDispatcher, onMount } from 'svelte';\\nimport Colors from './AnswerInputs/Colors.svelte';\\nimport Numbers from './AnswerInputs/Numbers.svelte';\\nexport let task;\\nexport let taskIndex;\\nlet pulse = false;\\nlet taskStartTime;\\nlet selected;\\nconst audioArray = [27, 28, 29];\\nconst dispatch = createEventDispatcher();\\nlet taskAudioPlayed = false;\\nlet answer;\\nfunction handleAnswer(star, event) {\\n    return __awaiter(this, void 0, void 0, function* () {\\n        // getting a random audio\\n        let audio = new Audio(textAndAudio[audioArray[(Math.random() * audioArray.length) | 0]].audio);\\n        const taskEndTime = new Date();\\n        if (!star) {\\n            selected = event.detail.answer;\\n            yield new Promise((resolve) => {\\n                audio.play();\\n                audio.onended = resolve;\\n            }).then(() => {\\n                if (event.detail.answer === 0 || event.detail.answer === '0') {\\n                    // skip\\n                    answer = {\\n                        answer: 'skip',\\n                        rightAnswer: task.rightAnswer,\\n                        skip: true,\\n                        time: (taskEndTime.getTime() - taskStartTime.getTime()) / 1000,\\n                        taskId: task.id\\n                    };\\n                }\\n                else {\\n                    answer = {\\n                        answer: event.detail.answer,\\n                        rightAnswer: task.rightAnswer,\\n                        time: (taskEndTime.getTime() - taskStartTime.getTime()) / 1000,\\n                        taskId: task.id\\n                    };\\n                }\\n                taskStartTime = new Date();\\n                selected = undefined;\\n                pulse = false;\\n                dispatch('taskComplete', {\\n                    answer\\n                });\\n            });\\n        }\\n        else {\\n            yield new Promise((resolve) => {\\n                audio.play();\\n                audio.onended = resolve;\\n            }).then(() => {\\n                answer = {\\n                    answer: 'star',\\n                    time: (taskEndTime.getTime() - taskStartTime.getTime()) / 1000\\n                };\\n                taskAudioPlayed = false;\\n                pulse = false;\\n                taskStartTime = new Date();\\n                dispatch('taskComplete', {\\n                    answer\\n                });\\n            });\\n        }\\n    });\\n}\\nonMount(() => {\\n    taskStartTime = new Date();\\n});\\nafterUpdate(() => {\\n    if (taskIndex % 2 === 0 && !taskAudioPlayed) {\\n        taskAudioPlayed = true;\\n        if (task.audio) {\\n            let audio = new Audio(task.audio);\\n            audio.play();\\n        }\\n    }\\n    else {\\n    }\\n});\\n<\/script>\\n\\n{#if $tutorials[$page.params.type].type === 'number'}\\n\\t<div class=\\"h-screen flex flex-col items-center justify-start \\">\\n\\t\\t{#if taskIndex % 2 === 0}\\n\\t\\t\\t<img class=\\"h-1/2\\" src={task.src} alt=\\"Task\\" />\\n\\t\\t\\t<Numbers on:answer={(event) => handleAnswer(false, event)} {selected} />\\n\\t\\t{:else}\\n\\t\\t\\t<div class=\\"cursor-pointer justify-self-center self-center my-auto\\">\\n\\t\\t\\t\\t<img\\n\\t\\t\\t\\t\\tclass:pulse\\n\\t\\t\\t\\t\\tsrc=\\"/star.png\\"\\n\\t\\t\\t\\t\\talt=\\"Big star\\"\\n\\t\\t\\t\\t\\ton:click={() => {\\n\\t\\t\\t\\t\\t\\thandleAnswer(true);\\n\\t\\t\\t\\t\\t\\tpulse = true;\\n\\t\\t\\t\\t\\t}}\\n\\t\\t\\t\\t/>\\n\\t\\t\\t</div>\\n\\t\\t{/if}\\n\\t</div>\\n{:else if $tutorials[$page.params.type].type === 'color'}\\n\\t<div class=\\"h-screen flex flex-col items-center justify-start \\">\\n\\t\\t{#if taskIndex % 2 === 0}\\n\\t\\t\\t<img class=\\"h-1/2\\" src={task.src} alt=\\"Task\\" />\\n\\t\\t\\t<Colors\\n\\t\\t\\t\\tcolorType={task.answerType}\\n\\t\\t\\t\\ton:answer={(event) => handleAnswer(false, event)}\\n\\t\\t\\t\\t{selected}\\n\\t\\t\\t/>\\n\\t\\t\\t<!-- Colors -->\\n\\t\\t\\t<!-- <Numbers on:answer={(event) => handleAnswer(false, event)} {selected} /> -->\\n\\t\\t{:else}\\n\\t\\t\\t<div class=\\"cursor-pointer justify-self-center self-center my-auto\\">\\n\\t\\t\\t\\t<img\\n\\t\\t\\t\\t\\tclass:pulse\\n\\t\\t\\t\\t\\tsrc=\\"/star.png\\"\\n\\t\\t\\t\\t\\talt=\\"Big star\\"\\n\\t\\t\\t\\t\\ton:click={() => {\\n\\t\\t\\t\\t\\t\\thandleAnswer(true);\\n\\t\\t\\t\\t\\t\\tpulse = true;\\n\\t\\t\\t\\t\\t}}\\n\\t\\t\\t\\t/>\\n\\t\\t\\t</div>\\n\\t\\t{/if}\\n\\t</div>\\n{/if}\\n\\n<style>.pulse{-webkit-animation:pulse 2s cubic-bezier(.4,0,.6,1) infinite;animation:pulse 2s cubic-bezier(.4,0,.6,1) infinite}</style>\\n"],"names":[],"mappings":"AA8IO,qBAAM,CAAC,kBAAkB,KAAK,CAAC,EAAE,CAAC,aAAa,EAAE,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,QAAQ,CAAC,UAAU,KAAK,CAAC,EAAE,CAAC,aAAa,EAAE,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,QAAQ,CAAC"}`
+  map: `{"version":3,"file":"TaskRun.svelte","sources":["TaskRun.svelte"],"sourcesContent":["<script lang=\\"ts\\">var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {\\n    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }\\n    return new (P || (P = Promise))(function (resolve, reject) {\\n        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }\\n        function rejected(value) { try { step(generator[\\"throw\\"](value)); } catch (e) { reject(e); } }\\n        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }\\n        step((generator = generator.apply(thisArg, _arguments || [])).next());\\n    });\\n};\\nimport { page } from '$app/stores';\\nimport { textAndAudio } from '$lib/audio';\\nimport { tutorials } from '$lib/stores/tutorials';\\nimport { afterUpdate, createEventDispatcher, onMount } from 'svelte';\\nimport Colors from './AnswerInputs/Colors.svelte';\\nimport Numbers from './AnswerInputs/Numbers.svelte';\\nexport let task;\\nexport let taskIndex;\\nlet pulse = false;\\nlet taskStartTime;\\nlet selected;\\nlet displayNumbers = false;\\nlet bigStarClicked = false;\\nconst audioArray = [27, 28, 29];\\nconst dispatch = createEventDispatcher();\\nlet taskAudioPlayed = false;\\nlet answer;\\nfunction handleAnswer(star, event) {\\n    return __awaiter(this, void 0, void 0, function* () {\\n        // getting a random audio\\n        var sounds = document.getElementsByTagName('audio');\\n        console.log(sounds);\\n        for (let i = 0; i < sounds.length; i++) {\\n            sounds[i].pause();\\n            document.removeChild(sounds[i]);\\n        }\\n        let audio = new Audio(textAndAudio[audioArray[(Math.random() * audioArray.length) | 0]].audio);\\n        const taskEndTime = new Date();\\n        if (!star) {\\n            selected = event.detail.answer;\\n            yield new Promise((resolve) => {\\n                audio.play();\\n                audio.onended = resolve;\\n            }).then(() => {\\n                if (event.detail.answer === 0 || event.detail.answer === '0') {\\n                    // skip\\n                    answer = {\\n                        answer: 'skip',\\n                        rightAnswer: task.rightAnswer,\\n                        skip: true,\\n                        time: (taskEndTime.getTime() - taskStartTime.getTime()) / 1000,\\n                        taskId: task.id\\n                    };\\n                }\\n                else {\\n                    answer = {\\n                        answer: event.detail.answer,\\n                        rightAnswer: task.rightAnswer,\\n                        time: (taskEndTime.getTime() - taskStartTime.getTime()) / 1000,\\n                        taskId: task.id\\n                    };\\n                }\\n                taskStartTime = new Date();\\n                selected = undefined;\\n                pulse = false;\\n                dispatch('taskComplete', {\\n                    answer\\n                });\\n            });\\n        }\\n        else {\\n            yield new Promise((resolve) => {\\n                audio.play();\\n                audio.onended = resolve;\\n            }).then(() => {\\n                answer = {\\n                    answer: 'star',\\n                    time: (taskEndTime.getTime() - taskStartTime.getTime()) / 1000\\n                };\\n                taskAudioPlayed = false;\\n                pulse = false;\\n                taskStartTime = new Date();\\n                dispatch('taskComplete', {\\n                    answer\\n                });\\n            });\\n            selected = undefined;\\n            bigStarClicked = false;\\n        }\\n    });\\n}\\nonMount(() => {\\n    taskStartTime = new Date();\\n});\\nafterUpdate(() => {\\n    if (taskIndex % 2 === 0 && !taskAudioPlayed) {\\n        let audio = document.body.appendChild(new Audio(task.audio));\\n        taskAudioPlayed = true;\\n        if (task.audio) {\\n            audio.play();\\n        }\\n    }\\n    else {\\n    }\\n});\\n<\/script>\\n\\n{#if $tutorials[$page.params.type].type === 'number'}\\n\\t<div class=\\"h-screen flex flex-col items-center justify-start \\">\\n\\t\\t{#if taskIndex % 2 === 0}\\n\\t\\t\\t<img\\n\\t\\t\\t\\ton:load={() => {\\n\\t\\t\\t\\t\\tdisplayNumbers = true;\\n\\t\\t\\t\\t}}\\n\\t\\t\\t\\tclass=\\"h-3/4\\"\\n\\t\\t\\t\\tsrc={task.src}\\n\\t\\t\\t\\talt=\\"Task\\"\\n\\t\\t\\t/>\\n\\t\\t\\t{#if displayNumbers}\\n\\t\\t\\t\\t<Numbers on:answer={(event) => handleAnswer(false, event)} {selected} />\\n\\t\\t\\t{/if}\\n\\t\\t{:else}\\n\\t\\t\\t<div class=\\"cursor-pointer justify-self-center self-center my-auto\\">\\n\\t\\t\\t\\t<img\\n\\t\\t\\t\\t\\tsrc=\\"/star.png\\"\\n\\t\\t\\t\\t\\talt=\\"Big star\\"\\n\\t\\t\\t\\t\\tclass:pulse\\n\\t\\t\\t\\t\\ton:click={() => {\\n\\t\\t\\t\\t\\t\\tpulse = true;\\n\\t\\t\\t\\t\\t\\tif (!bigStarClicked) {\\n\\t\\t\\t\\t\\t\\t\\tbigStarClicked = true;\\n\\t\\t\\t\\t\\t\\t\\thandleAnswer(true);\\n\\t\\t\\t\\t\\t\\t\\tdisplayNumbers = false;\\n\\t\\t\\t\\t\\t\\t} else {\\n\\t\\t\\t\\t\\t\\t\\tconsole.log('dont click!!!');\\n\\t\\t\\t\\t\\t\\t}\\n\\t\\t\\t\\t\\t}}\\n\\t\\t\\t\\t/>\\n\\t\\t\\t</div>\\n\\t\\t{/if}\\n\\t</div>\\n{:else if $tutorials[$page.params.type].type === 'color'}\\n\\t<div class=\\"h-screen flex flex-col items-center justify-start \\">\\n\\t\\t{#if taskIndex % 2 === 0}\\n\\t\\t\\t<img\\n\\t\\t\\t\\ton:load={() => {\\n\\t\\t\\t\\t\\tdisplayNumbers = true;\\n\\t\\t\\t\\t}}\\n\\t\\t\\t\\tclass=\\"h-3/4\\"\\n\\t\\t\\t\\tsrc={task.src}\\n\\t\\t\\t\\talt=\\"Task\\"\\n\\t\\t\\t/>\\n\\t\\t\\t{#if displayNumbers}\\n\\t\\t\\t\\t<Colors\\n\\t\\t\\t\\t\\tcolorType={task.answerType}\\n\\t\\t\\t\\t\\ton:answer={(event) => handleAnswer(false, event)}\\n\\t\\t\\t\\t\\t{selected}\\n\\t\\t\\t\\t/>\\n\\t\\t\\t{/if}\\n\\t\\t{:else}\\n\\t\\t\\t<div class=\\"cursor-pointer justify-self-center self-center my-auto\\">\\n\\t\\t\\t\\t<img\\n\\t\\t\\t\\t\\tclass:pulse\\n\\t\\t\\t\\t\\tsrc=\\"/star.png\\"\\n\\t\\t\\t\\t\\talt=\\"Big star\\"\\n\\t\\t\\t\\t\\ton:click={() => {\\n\\t\\t\\t\\t\\t\\tpulse = true;\\n\\t\\t\\t\\t\\t\\tif (!bigStarClicked) {\\n\\t\\t\\t\\t\\t\\t\\tbigStarClicked = true;\\n\\t\\t\\t\\t\\t\\t\\thandleAnswer(true);\\n\\t\\t\\t\\t\\t\\t\\tdisplayNumbers = false;\\n\\t\\t\\t\\t\\t\\t} else {\\n\\t\\t\\t\\t\\t\\t\\tconsole.log('dont click!!!');\\n\\t\\t\\t\\t\\t\\t}\\n\\t\\t\\t\\t\\t}}\\n\\t\\t\\t\\t/>\\n\\t\\t\\t</div>\\n\\t\\t{/if}\\n\\t</div>\\n{/if}\\n\\n<style>.pulse{-webkit-animation:pulse 2s cubic-bezier(.4,0,.6,1) infinite;animation:pulse 2s cubic-bezier(.4,0,.6,1) infinite}</style>\\n"],"names":[],"mappings":"AAoLO,qBAAM,CAAC,kBAAkB,KAAK,CAAC,EAAE,CAAC,aAAa,EAAE,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,QAAQ,CAAC,UAAU,KAAK,CAAC,EAAE,CAAC,aAAa,EAAE,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,QAAQ,CAAC"}`
 };
 var TaskRun = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   let $tutorials, $$unsubscribe_tutorials;
@@ -57621,7 +57652,6 @@ var TaskRun = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   });
   let { task } = $$props;
   let { taskIndex } = $$props;
-  let selected;
   createEventDispatcher();
   if ($$props.task === void 0 && $$bindings.task && task !== void 0)
     $$bindings.task(task);
@@ -57630,11 +57660,9 @@ var TaskRun = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   $$result.css.add(css);
   $$unsubscribe_tutorials();
   $$unsubscribe_page();
-  return `${$tutorials[$page.params.type].type === "number" ? `<div class="${"h-screen flex flex-col items-center justify-start "}">${taskIndex % 2 === 0 ? `<img class="${"h-1/2"}"${add_attribute("src", task.src, 0)} alt="${"Task"}">
-			${validate_component(Numbers, "Numbers").$$render($$result, { selected }, {}, {})}` : `<div class="${"cursor-pointer justify-self-center self-center my-auto"}"><img src="${"/star.png"}" alt="${"Big star"}" class="${["svelte-1b2m7hp", ""].join(" ").trim()}"></div>`}</div>` : `${$tutorials[$page.params.type].type === "color" ? `<div class="${"h-screen flex flex-col items-center justify-start "}">${taskIndex % 2 === 0 ? `<img class="${"h-1/2"}"${add_attribute("src", task.src, 0)} alt="${"Task"}">
-			${validate_component(Colors, "Colors").$$render($$result, { colorType: task.answerType, selected }, {}, {})}
-			
-			` : `<div class="${"cursor-pointer justify-self-center self-center my-auto"}"><img src="${"/star.png"}" alt="${"Big star"}" class="${["svelte-1b2m7hp", ""].join(" ").trim()}"></div>`}</div>` : ``}`}`;
+  return `${$tutorials[$page.params.type].type === "number" ? `<div class="${"h-screen flex flex-col items-center justify-start "}">${taskIndex % 2 === 0 ? `<img class="${"h-3/4"}"${add_attribute("src", task.src, 0)} alt="${"Task"}">
+			${``}` : `<div class="${"cursor-pointer justify-self-center self-center my-auto"}"><img src="${"/star.png"}" alt="${"Big star"}" class="${["svelte-1b2m7hp", ""].join(" ").trim()}"></div>`}</div>` : `${$tutorials[$page.params.type].type === "color" ? `<div class="${"h-screen flex flex-col items-center justify-start "}">${taskIndex % 2 === 0 ? `<img class="${"h-3/4"}"${add_attribute("src", task.src, 0)} alt="${"Task"}">
+			${``}` : `<div class="${"cursor-pointer justify-self-center self-center my-auto"}"><img src="${"/star.png"}" alt="${"Big star"}" class="${["svelte-1b2m7hp", ""].join(" ").trim()}"></div>`}</div>` : ``}`}`;
 });
 var U5Btypeu5D = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   let $page, $$unsubscribe_page;
