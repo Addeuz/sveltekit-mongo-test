@@ -32,7 +32,6 @@
 		console.log(sounds);
 		for (let i = 0; i < sounds.length; i++) {
 			sounds[i].pause();
-			document.removeChild(sounds[i]);
 		}
 
 		let audio = new Audio(textAndAudio[audioArray[(Math.random() * audioArray.length) | 0]].audio);
