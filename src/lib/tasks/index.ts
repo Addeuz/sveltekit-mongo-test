@@ -515,7 +515,7 @@ export const sampleTasks: { [key in TaskKeys]: TaskAttributes[] } = {
 			rightAnswer: 'equal',
 			src: '/quantity_comparison/quantitiycomparison-01.jpeg',
 			answerType: 'twoColors',
-			audio: '/audio/21.m4a'
+			audio: '/audio/20.m4a'
 		},
 		{
 			id: 1,

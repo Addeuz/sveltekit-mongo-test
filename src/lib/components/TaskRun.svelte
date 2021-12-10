@@ -124,7 +124,7 @@
 					src="/star.png"
 					alt="Big star"
 					class:pulse
-					on:click={() => {
+					on:click|once={() => {
 						pulse = true;
 						if (!bigStarClicked) {
 							bigStarClicked = true;
