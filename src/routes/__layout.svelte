@@ -20,6 +20,7 @@
 	import type { IUser } from '$lib/database/models/users.models';
 
 	import '../app.postcss';
+	import { goto } from '$app/navigation';
 
 	export let user: IUser;
 
@@ -27,8 +28,15 @@
 	$: nav = navOpen;
 </script>
 
-<header class="flex flex-wrap flex-row justify-between lg:items-center lg:space-x-4 p-6 relative">
-	<a href="/"><img src="/logo.png" alt="Didunas logo" class="w-1/12" /></a>
+<header class="flex flex-wrap flex-row justify-between lg:items-center lg:space-x-4 p-6">
+	<img
+		src="/logo.png"
+		alt="Didunas logo"
+		class="w-1/12 cursor-pointer"
+		on:click={() => {
+			goto('/');
+		}}
+	/>
 	<button
 		on:click={() => (navOpen = !navOpen)}
 		class="inline-block lg:hidden w-8 h-8 bg-gray-200 text-gray-600 p-1 rounded"
