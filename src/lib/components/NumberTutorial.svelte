@@ -15,24 +15,16 @@
 		let audio = new Audio(textAndAudio[27].audio);
 		selected = event.detail.answer;
 
-		// This needs more stuff, like the stars and stuff
-
 		await new Promise((resolve) => {
 			audio.play();
 			audio.onended = resolve;
 		}).then(() => {
-			// console.log($tutorials.star.seen);
-			// if ($tutorials.star.seen) {
-			// 	$tutorials[$page.params.type].seen = true;
-			// 	$tutorials.star.seen = true;
-			// } else {
 			tutorialIndex = tutorialIndex + 1;
-			// }
 		});
 	}
 
 	async function handleTutorialEnd() {
-		let audio = new Audio(textAndAudio[28].audio);
+		let audio = new Audio(textAndAudio[36].audio);
 
 		await new Promise((resolve) => {
 			audio.play();

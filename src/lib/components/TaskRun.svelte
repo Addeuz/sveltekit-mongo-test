@@ -20,7 +20,7 @@
 
 	let bigStarClicked = false;
 
-	const audioArray = [27, 28, 29];
+	const audioArray = [27, 28, 29, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41];
 	const dispatch = createEventDispatcher();
 	let taskAudioPlayed = false;
 
@@ -124,7 +124,7 @@
 					src="/star.png"
 					alt="Big star"
 					class:pulse
-					on:click|once={() => {
+					on:click={() => {
 						pulse = true;
 						if (!bigStarClicked) {
 							bigStarClicked = true;
@@ -180,6 +180,6 @@
 
 <style>
 	.pulse {
-		@apply animate-pulse;
+		/* @apply animate-pulse; */
 	}
 </style>

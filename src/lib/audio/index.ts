@@ -85,5 +85,39 @@ export const textAndAudio = {
 	'30': {
 		audio: '/audio/30.m4a',
 		text: 'Έχεις ολοκληρώσει τις εργασίες. Πες το στη δασκάλα ή στο δάσκαλό σου.'
+	},
+	//bing
+	'31': {
+		audio: '/audio/31.m4a'
+	},
+	'32': {
+		audio: '/audio/32.m4a'
+	},
+	'33': {
+		audio: '/audio/33.m4a'
+	},
+	'34': {
+		audio: '/audio/34.m4a'
+	},
+	'35': {
+		audio: '/audio/35.m4a'
+	},
+	'36': {
+		audio: '/audio/36.m4a'
+	},
+	'37': {
+		audio: '/audio/37.m4a'
+	},
+	'38': {
+		audio: '/audio/38.m4a'
+	},
+	'39': {
+		audio: '/audio/39.m4a'
+	},
+	'40': {
+		audio: '/audio/40.m4a'
+	},
+	'41': {
+		audio: '/audio/41.m4a'
 	}
 };
