@@ -28,7 +28,7 @@
 </script>
 
 <header class="flex flex-wrap flex-row justify-between lg:items-center lg:space-x-4 p-6 relative">
-	<a href="/"><h1 class="text-xl">DIDUNAS</h1></a>
+	<a href="/"><img src="/logo.png" alt="Didunas logo" class="w-1/12" /></a>
 	<button
 		on:click={() => (navOpen = !navOpen)}
 		class="inline-block lg:hidden w-8 h-8 bg-gray-200 text-gray-600 p-1 rounded"
