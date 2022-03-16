@@ -38,7 +38,7 @@
 		let audio = selectAudio(0, true);
 		const taskEndTime = new Date();
 		if (!star) {
-			selected = userAnswer;
+			selected = parseInt(userAnswer);
 			await new Promise((resolve) => {
 				audio.play();
 				audio.onended = resolve;
@@ -141,14 +141,14 @@
 			{/if}
 		</div>
 	{:else}
-		<div class="h-screen flex gap-16 items-center justify-center">
+		<div class="h-screen flex gap-72 items-center justify-center">
 			{#if taskIndex % 2 === 0}
 				{#each numberComparisonNumbers[task.id].numbers as task}
 					<img
 						class="cursor-pointer h-1/6"
 						src={task.src}
 						alt="Number comparison number"
-						on:click={() => handleAnswer(false, task.answer.toString())}
+						on:click|once={() => handleAnswer(false, task.answer.toString())}
 					/>
 				{/each}
 			{:else}

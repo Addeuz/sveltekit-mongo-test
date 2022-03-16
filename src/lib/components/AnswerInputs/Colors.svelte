@@ -15,7 +15,7 @@
 	<div class="grid grid-cols-4 gap-4 mb-5">
 		{#each threeColors as color}
 			<button
-				on:click={() => {
+				on:click|once={() => {
 					dispatch('answer', {
 						answer: color
 					});
@@ -27,7 +27,7 @@
 			</button>
 		{/each}
 		<button
-			on:click={() => {
+			on:click|once={() => {
 				dispatch('answer', {
 					answer: '0'
 				});
@@ -42,7 +42,7 @@
 	<div class="grid grid-cols-4 gap-4 mb-5">
 		{#each twoColors as color}
 			<button
-				on:click={() => {
+				on:click|once={() => {
 					dispatch('answer', {
 						answer: color
 					});
@@ -54,7 +54,7 @@
 			</button>
 		{/each}
 		<button
-			on:click={() => {
+			on:click|once={() => {
 				dispatch('answer', {
 					answer: '0'
 				});

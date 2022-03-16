@@ -8,6 +8,7 @@
 	export let selected: number | string;
 
 	async function selectAnswer(answer: number) {
+		selected = answer;
 		dispatch('answer', {
 			answer
 		});
@@ -19,9 +20,9 @@
 <div class="grid grid-cols-4 gap-4 mb-10">
 	<div />
 	<div class="grid grid-cols-10 col-span-2 gap-4">
-		{#each numbers as number}
+		{#each numbers as number (number)}
 			<button
-				on:click={() => selectAnswer(number)}
+				on:click|once={() => selectAnswer(number)}
 				class="h-16 w-16 border bg-gray-50 border-gray-400 rounded-xl justify-self-end hover:bg-transparent text-4xl"
 				class:selected={selected === number}
 			>
@@ -31,7 +32,7 @@
 	</div>
 	<div class="self-center justify-self-center">
 		<button
-			on:click={() => {
+			on:click|once={() => {
 				dispatch('answer', {
 					answer: 0
 				});
@@ -46,6 +47,6 @@
 
 <style lang="postcss">
 	.selected {
-		@apply bg-blue-500;
+		@apply bg-blue-500 !important;
 	}
 </style>
