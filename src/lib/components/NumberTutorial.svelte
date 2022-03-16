@@ -1,10 +1,11 @@
 <script lang="ts">
-	import { page } from '$app/stores';
+	import { page, session } from '$app/stores';
 	import { textAndAudio } from '$lib/audio';
 
 	import { tutorials } from '$lib/stores/tutorials';
 	import TextAndAudio from '$lib/components/TextAndAudio.svelte';
 	import Numbers from './AnswerInputs/Numbers.svelte';
+	import { selectAudio } from '$lib/audio/selectAudio';
 
 	let selected: number;
 
@@ -12,7 +13,7 @@
 	let pulse = false;
 
 	async function handleAnswer(event) {
-		let audio = new Audio(textAndAudio[27].audio);
+		let audio = selectAudio(21);
 		selected = event.detail.answer;
 
 		await new Promise((resolve) => {
@@ -24,13 +25,15 @@
 	}
 
 	async function handleTutorialEnd() {
-		let audio = new Audio(textAndAudio[36].audio);
+		let audio = selectAudio(36);
 
 		await new Promise((resolve) => {
 			audio.play();
 			audio.onended = resolve;
 		}).then(() => {
+			console.log('janne');
 			$tutorials.tutorial.number = true;
+			localStorage.setItem(`${$session.user.username}-number`, 'true');
 			pulse = false;
 		});
 	}
@@ -48,7 +51,7 @@
 			class:pulse
 			src="/star.png"
 			alt="Big star"
-			on:click={() => {
+			on:click|once={() => {
 				pulse = true;
 				handleTutorialEnd();
 
@@ -61,7 +64,7 @@
 	{/if}
 </div>
 
-<style>
+<style lang="postcss">
 	.pulse {
 		@apply animate-pulse;
 	}

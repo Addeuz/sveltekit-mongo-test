@@ -57,7 +57,7 @@
 		{#if user && user.type}
 			<a href="/profile" class="nav-item">Profile</a>
 			{#if user.type === 'teacher' || user.type === 'researcher'}
-				<a href="/profile" class="nav-item">Statistics</a>
+				<a href="/statistics" class="nav-item">Statistics</a>
 				<a href="/new-user" class="nav-item">New user</a>
 			{/if}
 			{#if user.type === 'researcher'}

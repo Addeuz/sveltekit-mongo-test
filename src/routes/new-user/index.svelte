@@ -44,6 +44,7 @@
 		username: '',
 		password: '',
 		passwordConfirmation: '',
+		language: 'de',
 		type: 'student',
 		school_id: null
 	};
@@ -52,6 +53,11 @@
 		{ value: 'student', text: 'Student' },
 		{ value: 'teacher', text: 'Teacher' },
 		{ value: 'researcher', text: 'Researcher' }
+	];
+
+	let languageTypes = [
+		{ value: 'de', text: 'German' },
+		{ value: 'el', text: 'Greek' }
 	];
 
 	let submitted: boolean = false;
@@ -136,6 +142,18 @@
 			submitted = false;
 		}}
 	/>
+	<select
+		bind:value={fields.language}
+		on:change={() => {
+			submitted = false;
+		}}
+	>
+		{#each languageTypes as languageType}
+			<option value={languageType.value}>
+				{languageType.text}
+			</option>
+		{/each}
+	</select>
 	<select
 		bind:value={fields.type}
 		on:change={() => {

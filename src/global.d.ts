@@ -4,6 +4,7 @@ export interface RegisterAttributes {
 	username: string;
 	password: string;
 	passwordConfirmation: string;
+	language: 'de' | 'el';
 	type: 'student' | 'teacher' | 'researcher';
 	school_id: string;
 }
