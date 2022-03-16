@@ -1,14 +1,12 @@
 <script lang="ts">
-	import { page } from '$app/stores';
+	import { page, session } from '$app/stores';
 	import { sampleTasks } from '$lib/tasks';
 	import { tutorials } from '$lib/stores/tutorials';
 	import type { AnswerAttributes, TaskAttributes } from 'src/global';
-
 	import { onMount } from 'svelte';
 	import NumberTutorial from '$lib/components/NumberTutorial.svelte';
 	import TaskRun from '$lib/components/TaskRun.svelte';
 	import TasksComplete from '$lib/components/TasksComplete.svelte';
-	import AudioPlayer from '$lib/components/AudioPlayer.svelte';
 
 	let tasks: TaskAttributes[] = [];
 
@@ -16,6 +14,8 @@
 	let allTaskComplete = false;
 
 	let completions: AnswerAttributes[] = [];
+
+	let hasSeenTutorial: string;
 
 	function handleTaskAnswer(event) {
 		completions.push(event.detail.answer);
@@ -27,8 +27,12 @@
 		}
 	}
 	onMount(() => {
+		console.log($page.params);
 		tasks = sampleTasks[$page.params.type];
+		hasSeenTutorial = localStorage.getItem(`${$session.user.username}-number`);
 	});
+
+	$: hasSeenTutorial = $tutorials.tutorial.number.toString();
 </script>
 
 {#if $tutorials[$page.params.type].type === 'number'}
@@ -37,13 +41,18 @@
 			<h1>Not yet implemented</h1>
 			<a href="/">Go back</a>
 		</div>
-	{:else if !$tutorials.tutorial.number}
+	{:else if hasSeenTutorial === 'false'}
 		<NumberTutorial />
 	{:else if allTaskComplete}
 		<TasksComplete {completions} />
 	{:else}
 		<!-- If taskIndex is even it means that there should be a real task not a star -->
-		<TaskRun task={tasks[taskIndex / 2]} on:taskComplete={handleTaskAnswer} {taskIndex} />
+		<TaskRun
+			numberComparison={$page.params.type === 'numberComparison'}
+			task={tasks[taskIndex / 2]}
+			on:taskComplete={handleTaskAnswer}
+			{taskIndex}
+		/>
 	{/if}
 {:else if $tutorials[$page.params.type].type === 'color'}
 	{#if tasks.length === 0}
@@ -58,6 +67,11 @@
 		<TasksComplete {completions} />
 	{:else}
 		<!-- If taskIndex is even it means that there should be a real task not a star -->
-		<TaskRun task={tasks[taskIndex / 2]} on:taskComplete={handleTaskAnswer} {taskIndex} />
+		<TaskRun
+			numberComparison={$page.params.type === 'numberComparison'}
+			task={tasks[taskIndex / 2]}
+			on:taskComplete={handleTaskAnswer}
+			{taskIndex}
+		/>
 	{/if}
 {/if}

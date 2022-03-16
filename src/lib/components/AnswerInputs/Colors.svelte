@@ -4,7 +4,7 @@
 	const threeColors = ['blue', 'yellow', 'red'];
 	const twoColors = ['blue', 'equal', 'yellow'];
 
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<{ answer: { answer: string } }>();
 
 	export let selected: string | number;
 

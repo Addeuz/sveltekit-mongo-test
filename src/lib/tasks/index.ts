@@ -12,332 +12,334 @@ type TaskKeys =
 	| 'quantities'
 	| 'numberPattern'
 	| 'numberLine'
-	| 'difference'
 	| 'hiddenNumber'
 	| 'numberComparison'
 	| 'plus'
 	| 'minus'
 	| 'colorPattern'
-	| 'quantityComparison';
+	| 'quantityComparison'
+	| 'completionToTen';
 
 export const sampleTasks: { [key in TaskKeys]: TaskAttributes[] } = {
+	// vvvvvvv done vvvvvvvv
 	quantities: [
 		{
 			id: 0,
 			rightAnswer: '3',
-			src: '/quantities/quantities-01.jpeg',
+			src: '/quantities/quantities-01.png',
 			answerType: 'numbers',
-			audio: '/audio/08.m4a'
+			audio: '/audio/08_de.MP3'
 		},
 		{
 			id: 1,
 			rightAnswer: '2',
-			src: '/quantities/quantities-02.jpeg',
+			src: '/quantities/quantities-02.png',
 			answerType: 'numbers'
 		},
 		{
 			id: 2,
 			rightAnswer: '6',
-			src: '/quantities/quantities-03.jpeg',
+			src: '/quantities/quantities-03.png',
 			answerType: 'numbers'
 		},
 		{
 			id: 3,
 			rightAnswer: '3',
-			src: '/quantities/quantities-04.jpeg',
+			src: '/quantities/quantities-04.png',
 			answerType: 'numbers'
 		},
 		{
 			id: 4,
 			rightAnswer: '9',
-			src: '/quantities/quantities-05.jpeg',
+			src: '/quantities/quantities-05.png',
 			answerType: 'numbers'
 		},
 		{
 			id: 5,
 			rightAnswer: '4',
-			src: '/quantities/quantities-06.jpeg',
+			src: '/quantities/quantities-06.png',
 			answerType: 'numbers'
 		},
 		{
 			id: 6,
 			rightAnswer: '1',
-			src: '/quantities/quantities-07.jpeg',
+			src: '/quantities/quantities-07.png',
 			answerType: 'numbers'
 		},
 		{
 			id: 7,
 			rightAnswer: '5',
-			src: '/quantities/quantities-08.jpeg',
+			src: '/quantities/quantities-08.png',
 			answerType: 'numbers'
 		},
 		{
 			id: 8,
 			rightAnswer: '5',
-			src: '/quantities/quantities-09.jpeg',
+			src: '/quantities/quantities-09.png',
 			answerType: 'numbers'
 		},
 		{
 			id: 9,
-			rightAnswer: '2',
-			src: '/quantities/quantities-10.jpeg',
+			rightAnswer: '1',
+			src: '/quantities/quantities-10.png',
 			answerType: 'numbers'
 		},
 		{
 			id: 10,
-			rightAnswer: '1',
-			src: '/quantities/quantities-11.jpeg',
+			rightAnswer: '4',
+			src: '/quantities/quantities-11.png',
 			answerType: 'numbers'
 		},
 		{
 			id: 11,
-			rightAnswer: '4',
-			src: '/quantities/quantities-12.jpeg',
+			rightAnswer: '7',
+			src: '/quantities/quantities-12.png',
 			answerType: 'numbers'
 		},
 		{
 			id: 12,
-			rightAnswer: '7',
-			src: '/quantities/quantities-13.jpeg',
+			rightAnswer: '3',
+			src: '/quantities/quantities-13.png',
 			answerType: 'numbers'
 		},
 		{
 			id: 13,
-			rightAnswer: '3',
-			src: '/quantities/quantities-14.jpeg',
+			rightAnswer: '8',
+			src: '/quantities/quantities-14.png',
 			answerType: 'numbers'
 		},
 		{
 			id: 14,
-			rightAnswer: '8',
-			src: '/quantities/quantities-15.jpeg',
+			rightAnswer: '2',
+			src: '/quantities/quantities-15.png',
 			answerType: 'numbers'
 		},
 		{
 			id: 15,
-			rightAnswer: '2',
-			src: '/quantities/quantities-16.jpeg',
+			rightAnswer: '6',
+			src: '/quantities/quantities-16.png',
 			answerType: 'numbers'
 		},
 		{
 			id: 16,
+			rightAnswer: '4',
+			src: '/quantities/quantities-17.png',
+			answerType: 'numbers'
+		},
+		{
+			id: 17,
+			rightAnswer: '1',
+			src: '/quantities/quantities-18.png',
+			answerType: 'numbers'
+		}
+	],
+	// vvvvvvv done vvvvvvvv
+	numberPattern: [
+		{
+			id: 0,
+			rightAnswer: '1',
+			src: '/number_pattern/numberpattern-01.png',
+			answerType: 'numbers',
+			audio: '/audio/18_de.MP3'
+		},
+		{
+			id: 1,
+			rightAnswer: '5',
+			src: '/number_pattern/numberpattern-02.png',
+			answerType: 'numbers'
+		},
+		{
+			id: 2,
+			rightAnswer: '4',
+			src: '/number_pattern/numberpattern-03.png',
+			answerType: 'numbers'
+		},
+		{
+			id: 3,
+			rightAnswer: '1',
+			src: '/number_pattern/numberpattern-04.png',
+			answerType: 'numbers'
+		},
+		{
+			id: 4,
+			rightAnswer: '8',
+			src: '/number_pattern/numberpattern-05.png',
+			answerType: 'numbers'
+		},
+		{
+			id: 5,
+			rightAnswer: '3',
+			src: '/number_pattern/numberpattern-06.png',
+			answerType: 'numbers'
+		},
+		{
+			id: 6,
+			rightAnswer: '7',
+			src: '/number_pattern/numberpattern-07.png',
+			answerType: 'numbers'
+		}
+	],
+	// vvvvvvv done vvvvvvvv
+	numberLine: [
+		{
+			id: 0,
+			rightAnswer: '2',
+			src: '/number_line/numberline-01.png',
+			answerType: 'numbers',
+			audio: '/audio/09_de.MP3'
+		},
+		{
+			id: 1,
+			rightAnswer: '9',
+			src: '/number_line/numberline-02.png',
+			answerType: 'numbers'
+		},
+		{
+			id: 2,
 			rightAnswer: '6',
-			src: '/quantities/quantities-17.jpeg',
+			src: '/number_line/numberline-03.png',
+			answerType: 'numbers'
+		},
+		{
+			id: 3,
+			rightAnswer: '4',
+			src: '/number_line/numberline-04.png',
+			answerType: 'numbers'
+		},
+		{
+			id: 4,
+			rightAnswer: '8',
+			src: '/number_line/numberline-05.png',
+			answerType: 'numbers'
+		},
+		{
+			id: 5,
+			rightAnswer: '5',
+			src: '/number_line/numberline-06.png',
+			answerType: 'numbers'
+		},
+		{
+			id: 6,
+			rightAnswer: '7',
+			src: '/number_line/numberline-07.png',
+			answerType: 'numbers'
+		},
+		{
+			id: 7,
+			rightAnswer: '3',
+			src: '/number_line/numberline-08.png',
+			answerType: 'numbers'
+		},
+		{
+			id: 8,
+			rightAnswer: '18',
+			src: '/number_line/numberline-09.png',
+			answerType: 'numbers'
+		},
+		{
+			id: 9,
+			rightAnswer: '3',
+			src: '/number_line/numberline-10.png',
+			answerType: 'numbers'
+		},
+		{
+			id: 10,
+			rightAnswer: '6',
+			src: '/number_line/numberline-11.png',
+			answerType: 'numbers'
+		},
+		{
+			id: 11,
+			rightAnswer: '15',
+			src: '/number_line/numberline-12.png',
+			answerType: 'numbers'
+		},
+		{
+			id: 12,
+			rightAnswer: '8',
+			src: '/number_line/numberline-13.png',
+			answerType: 'numbers'
+		},
+		{
+			id: 13,
+			rightAnswer: '10',
+			src: '/number_line/numberline-14.png',
+			answerType: 'numbers'
+		},
+		{
+			id: 14,
+			rightAnswer: '19',
+			src: '/number_line/numberline-15.png',
+			answerType: 'numbers'
+		},
+		{
+			id: 15,
+			rightAnswer: '11',
+			src: '/number_line/numberline-16.png',
+			answerType: 'numbers'
+		},
+		{
+			id: 16,
+			rightAnswer: '13',
+			src: '/number_line/numberline-17.png',
 			answerType: 'numbers'
 		},
 		{
 			id: 17,
 			rightAnswer: '4',
-			src: '/quantities/quantities-18.jpeg',
+			src: '/number_line/numberline-18.png',
+			answerType: 'numbers'
+		},
+		{
+			id: 18,
+			rightAnswer: '16',
+			src: '/number_line/numberline-19.png',
 			answerType: 'numbers'
 		}
 	],
-	numberPattern: [
-		{
-			id: 0,
-			rightAnswer: '1',
-			src: '/number_pattern/numberpattern-01.jpeg',
-			answerType: 'numbers',
-			audio: '/audio/23.m4a'
-		},
-		{
-			id: 1,
-			rightAnswer: '2',
-			src: '/number_pattern/numberpattern-02.jpeg',
-			answerType: 'numbers'
-		},
-		{
-			id: 2,
-			rightAnswer: '6',
-			src: '/number_pattern/numberpattern-03.jpeg',
-			answerType: 'numbers'
-		},
-		{
-			id: 3,
-			rightAnswer: '3',
-			src: '/number_pattern/numberpattern-04.jpeg',
-			answerType: 'numbers'
-		},
-		{
-			id: 4,
-			rightAnswer: '9',
-			src: '/number_pattern/numberpattern-05.jpeg',
-			answerType: 'numbers'
-		},
-		{
-			id: 5,
-			rightAnswer: '4',
-			src: '/number_pattern/numberpattern-06.jpeg',
-			answerType: 'numbers'
-		},
-		{
-			id: 6,
-			rightAnswer: '1',
-			src: '/number_pattern/numberpattern-07.jpeg',
-			answerType: 'numbers'
-		},
-		{
-			id: 7,
-			rightAnswer: '5',
-			src: '/number_pattern/numberpattern-08.jpeg',
-			answerType: 'numbers'
-		},
-		{
-			id: 8,
-			rightAnswer: '5',
-			src: '/number_pattern/numberpattern-09.jpeg',
-			answerType: 'numbers'
-		},
-		{
-			id: 9,
-			rightAnswer: '2',
-			src: '/number_pattern/numberpattern-10.jpeg',
-			answerType: 'numbers'
-		},
-		{
-			id: 10,
-			rightAnswer: '1',
-			src: '/number_pattern/numberpattern-11.jpeg',
-			answerType: 'numbers'
-		}
-	],
-	numberLine: [
-		{
-			id: 0,
-			rightAnswer: '2',
-			src: '/number_line/numberline-01.jpeg',
-			answerType: 'numbers',
-			audio: '/audio/09.m4a'
-		},
-		{
-			id: 1,
-			rightAnswer: '4',
-			src: '/number_line/numberline-02.jpeg',
-			answerType: 'numbers'
-		},
-		{
-			id: 2,
-			rightAnswer: '8',
-			src: '/number_line/numberline-03.jpeg',
-			answerType: 'numbers'
-		},
-		{
-			id: 3,
-			rightAnswer: '6',
-			src: '/number_line/numberline-04.jpeg',
-			answerType: 'numbers'
-		},
-		{
-			id: 4,
-			rightAnswer: '5',
-			src: '/number_line/numberline-05.jpeg',
-			answerType: 'numbers'
-		},
-		{
-			id: 5,
-			rightAnswer: '8',
-			src: '/number_line/numberline-06.jpeg',
-			answerType: 'numbers'
-		},
-		{
-			id: 6,
-			rightAnswer: '10',
-			src: '/number_line/numberline-07.jpeg',
-			answerType: 'numbers'
-		},
-		{
-			id: 7,
-			rightAnswer: '15',
-			src: '/number_line/numberline-08.jpeg',
-			answerType: 'numbers'
-		},
-		{
-			id: 8,
-			rightAnswer: '12',
-			src: '/number_line/numberline-09.jpeg',
-			answerType: 'numbers'
-		},
-		{
-			id: 9,
-			rightAnswer: '14',
-			src: '/number_line/numberline-10.jpeg',
-			answerType: 'numbers'
-		}
-	],
-	difference: [
-		{
-			id: 0,
-			rightAnswer: '2',
-			src: '/difference/difference-01.jpeg',
-			answerType: 'numbers',
-			audio: '/audio/11.m4a'
-		},
-		{
-			id: 1,
-			rightAnswer: '3',
-			src: '/difference/difference-02.jpeg',
-			answerType: 'numbers',
-			audio: '/audio/12.m4a'
-		},
-		{
-			id: 2,
-			rightAnswer: '3',
-			src: '/difference/difference-03.jpeg',
-			answerType: 'numbers',
-			audio: '/audio/13.m4a'
-		},
-		{
-			id: 3,
-			rightAnswer: '1',
-			src: '/difference/difference-04.jpeg',
-			answerType: 'numbers',
-			audio: '/audio/14.m4a'
-		},
-		{
-			id: 4,
-			rightAnswer: '4',
-			src: '/difference/difference-05.jpeg',
-			answerType: 'numbers',
-			audio: '/audio/15.m4a'
-		},
-		{
-			id: 5,
-			rightAnswer: '3',
-			src: '/difference/difference-06.jpeg',
-			answerType: 'numbers',
-			audio: '/audio/16.m4a'
-		}
-	],
+	// vvvvvvv done vvvvvvvv
 	hiddenNumber: [
 		{
 			id: 0,
-			rightAnswer: '2',
-			src: '/hidden_number/hiddennumber-01.jpeg',
+			rightAnswer: '10',
+			src: '/hidden_number/hiddennumber-01.png',
 			answerType: 'numbers',
-			audio: '/audio/10.m4a'
+			audio: '/audio/10_de.MP3'
 		},
 		{
 			id: 1,
-			rightAnswer: '6',
-			src: '/hidden_number/hiddennumber-02.jpeg',
+			rightAnswer: '4',
+			src: '/hidden_number/hiddennumber-02.png',
 			answerType: 'numbers'
 		},
 		{
 			id: 2,
-			rightAnswer: '14',
-			src: '/hidden_number/hiddennumber-03.jpeg',
+			rightAnswer: '12',
+			src: '/hidden_number/hiddennumber-03.png',
 			answerType: 'numbers'
 		},
 		{
 			id: 3,
-			rightAnswer: '9',
-			src: '/hidden_number/hiddennumber-04.jpeg',
+			rightAnswer: '6',
+			src: '/hidden_number/hiddennumber-04.png',
 			answerType: 'numbers'
 		},
 		{
 			id: 4,
-			rightAnswer: '8',
-			src: '/hidden_number/hiddennumber-05.jpeg',
+			rightAnswer: '17',
+			src: '/hidden_number/hiddennumber-05.png',
+			answerType: 'numbers'
+		},
+		{
+			id: 5,
+			rightAnswer: '4',
+			src: '/hidden_number/hiddennumber-06.png',
+			answerType: 'numbers'
+		},
+		{
+			id: 6,
+			rightAnswer: '16',
+			src: '/hidden_number/hiddennumber-07.png',
 			answerType: 'numbers'
 		}
 	],
@@ -347,7 +349,7 @@ export const sampleTasks: { [key in TaskKeys]: TaskAttributes[] } = {
 			rightAnswer: '5',
 			src: '/number_comparison/numbercomparison-01.jpeg',
 			answerType: 'numbers',
-			audio: '/audio/17.m4a'
+			audio: '/audio/13_de.MP3'
 		},
 		{
 			id: 1,
@@ -380,13 +382,14 @@ export const sampleTasks: { [key in TaskKeys]: TaskAttributes[] } = {
 			answerType: 'numbers'
 		}
 	],
+	// vvvvvvv done vvvvvvvv
 	plus: [
 		{
 			id: 0,
 			rightAnswer: '8',
 			src: '/plus/plus-01.jpeg',
 			answerType: 'numbers',
-			audio: '/audio/18.m4a'
+			audio: '/audio/14_de.MP3'
 		},
 		{
 			id: 1,
@@ -407,13 +410,14 @@ export const sampleTasks: { [key in TaskKeys]: TaskAttributes[] } = {
 			answerType: 'numbers'
 		}
 	],
+	// vvvvvvv done vvvvvvvv
 	minus: [
 		{
 			id: 0,
 			rightAnswer: '3',
 			src: '/minus/minus-01.jpeg',
 			answerType: 'numbers',
-			audio: '/audio/19.m4a'
+			audio: '/audio/14_de.MP3'
 		},
 		{
 			id: 1,
@@ -434,118 +438,240 @@ export const sampleTasks: { [key in TaskKeys]: TaskAttributes[] } = {
 			answerType: 'numbers'
 		}
 	],
+	// vvvvvvv done vvvvvvvv
 	colorPattern: [
 		{
 			id: 0,
 			rightAnswer: 'red',
-			src: '/color_pattern/colorpatterns-01.jpeg',
+			src: '/color_pattern/colorpatterns-01.png',
 			answerType: 'threeColors',
-			audio: '/audio/21.m4a'
+			audio: '/audio/16_de.MP3'
 		},
 		{
 			id: 1,
-			rightAnswer: 'yellow',
-			src: '/color_pattern/colorpatterns-02.jpeg',
+			rightAnswer: 'blue',
+			src: '/color_pattern/colorpatterns-02.png',
 			answerType: 'threeColors'
 		},
 		{
 			id: 2,
-			rightAnswer: 'red',
-			src: '/color_pattern/colorpatterns-03.jpeg',
+			rightAnswer: 'yellow',
+			src: '/color_pattern/colorpatterns-03.png',
 			answerType: 'threeColors'
 		},
 		{
 			id: 3,
-			rightAnswer: 'blue',
-			src: '/color_pattern/colorpatterns-04.jpeg',
+			rightAnswer: 'red',
+			src: '/color_pattern/colorpatterns-04.png',
 			answerType: 'threeColors'
 		},
 		{
 			id: 4,
-			rightAnswer: 'yellow',
-			src: '/color_pattern/colorpatterns-05.jpeg',
+			rightAnswer: 'red',
+			src: '/color_pattern/colorpatterns-05.png',
 			answerType: 'threeColors'
 		},
 		{
 			id: 5,
 			rightAnswer: 'blue',
-			src: '/color_pattern/colorpatterns-06.jpeg',
+			src: '/color_pattern/colorpatterns-06.png',
 			answerType: 'threeColors'
 		},
 		{
 			id: 6,
-			rightAnswer: 'yellow',
-			src: '/color_pattern/colorpatterns-07.jpeg',
-			answerType: 'threeColors'
-		},
-		{
-			id: 7,
-			rightAnswer: 'yellow',
-			src: '/color_pattern/colorpatterns-08.jpeg',
-			answerType: 'threeColors'
-		},
-		{
-			id: 8,
-			rightAnswer: 'yellow',
-			src: '/color_pattern/colorpatterns-09.jpeg',
-			answerType: 'threeColors'
-		},
-		{
-			id: 9,
-			rightAnswer: 'red',
-			src: '/color_pattern/colorpatterns-10.jpeg',
-			answerType: 'threeColors'
-		},
-		{
-			id: 10,
-			rightAnswer: 'red',
-			src: '/color_pattern/colorpatterns-11.jpeg',
-			answerType: 'threeColors'
-		},
-		{
-			id: 11,
 			rightAnswer: 'blue',
-			src: '/color_pattern/colorpatterns-12.jpeg',
+			src: '/color_pattern/colorpatterns-07.png',
 			answerType: 'threeColors'
 		}
 	],
+	// vvvvvvv done vvvvvvvv
 	quantityComparison: [
 		{
 			id: 0,
 			rightAnswer: 'equal',
-			src: '/quantity_comparison/quantitiycomparison-01.jpeg',
+			src: '/quantity_comparison/quantitiycomparison-01.png',
 			answerType: 'twoColors',
-			audio: '/audio/20.m4a'
+			audio: '/audio/15_de.MP3'
 		},
 		{
 			id: 1,
 			rightAnswer: 'equal',
-			src: '/quantity_comparison/quantitiycomparison-02.jpeg',
+			src: '/quantity_comparison/quantitiycomparison-02.png',
 			answerType: 'twoColors'
 		},
 		{
 			id: 2,
-			rightAnswer: 'equal',
-			src: '/quantity_comparison/quantitiycomparison-03.jpeg',
+			rightAnswer: 'yellow',
+			src: '/quantity_comparison/quantitiycomparison-03.png',
 			answerType: 'twoColors'
 		},
 		{
 			id: 3,
-			rightAnswer: 'blue',
-			src: '/quantity_comparison/quantitiycomparison-04.jpeg',
+			rightAnswer: 'yellow',
+			src: '/quantity_comparison/quantitiycomparison-04.png',
 			answerType: 'twoColors'
 		},
 		{
 			id: 4,
 			rightAnswer: 'equal',
-			src: '/quantity_comparison/quantitiycomparison-05.jpeg',
+			src: '/quantity_comparison/quantitiycomparison-05.png',
 			answerType: 'twoColors'
 		},
 		{
 			id: 5,
+			rightAnswer: 'equal',
+			src: '/quantity_comparison/quantitiycomparison-06.png',
+			answerType: 'twoColors'
+		},
+		{
+			id: 6,
 			rightAnswer: 'blue',
-			src: '/quantity_comparison/quantitiycomparison-06.jpeg',
+			src: '/quantity_comparison/quantitiycomparison-07.png',
+			answerType: 'twoColors'
+		},
+		{
+			id: 7,
+			rightAnswer: 'yellow',
+			src: '/quantity_comparison/quantitiycomparison-08.png',
+			answerType: 'twoColors'
+		},
+		{
+			id: 8,
+			rightAnswer: 'yellow',
+			src: '/quantity_comparison/quantitiycomparison-09.png',
+			answerType: 'twoColors'
+		},
+		{
+			id: 9,
+			rightAnswer: 'equal',
+			src: '/quantity_comparison/quantitiycomparison-10.png',
+			answerType: 'twoColors'
+		},
+		{
+			id: 10,
+			rightAnswer: 'blue',
+			src: '/quantity_comparison/quantitiycomparison-11.png',
+			answerType: 'twoColors'
+		},
+		{
+			id: 11,
+			rightAnswer: 'blue',
+			src: '/quantity_comparison/quantitiycomparison-12.png',
+			answerType: 'twoColors'
+		},
+		{
+			id: 12,
+			rightAnswer: 'blue',
+			src: '/quantity_comparison/quantitiycomparison-13.png',
 			answerType: 'twoColors'
 		}
+	],
+	// vvvvvvv done vvvvvvvv
+	completionToTen: [
+		{
+			id: 0,
+			rightAnswer: '10',
+			src: '/completion_to_ten/completionto10-01.png',
+			answerType: 'numbers',
+			audio: '/audio/11_de.MP3'
+		},
+		{
+			id: 1,
+			rightAnswer: '2',
+			src: '/completion_to_ten/completionto10-02.png',
+			answerType: 'numbers',
+			audio: '/audio/12_de.MP3'
+		},
+		{
+			id: 2,
+			rightAnswer: '8',
+			src: '/completion_to_ten/completionto10-03.png',
+			answerType: 'numbers'
+		},
+		{
+			id: 3,
+			rightAnswer: '4',
+			src: '/completion_to_ten/completionto10-04.png',
+			answerType: 'numbers'
+		},
+		{
+			id: 4,
+			rightAnswer: '9',
+			src: '/completion_to_ten/completionto10-05.png',
+			answerType: 'numbers'
+		},
+		{
+			id: 5,
+			rightAnswer: '4',
+			src: '/completion_to_ten/completionto10-06.png',
+			answerType: 'numbers'
+		},
+		{
+			id: 6,
+			rightAnswer: '6',
+			src: '/completion_to_ten/completionto10-07.png',
+			answerType: 'numbers'
+		},
+		{
+			id: 7,
+			rightAnswer: '1',
+			src: '/completion_to_ten/completionto10-08.png',
+			answerType: 'numbers'
+		},
+		{
+			id: 8,
+			rightAnswer: '7',
+			src: '/completion_to_ten/completionto10-09.png',
+			answerType: 'numbers'
+		},
+		{
+			id: 9,
+			rightAnswer: '5',
+			src: '/completion_to_ten/completionto10-10.png',
+			answerType: 'numbers'
+		}
 	]
+};
+
+export const numberComparisonNumbers: {
+	[key: string]: { numbers: { answer: number; src: string }[] };
+} = {
+	'0': {
+		numbers: [
+			{ answer: 2, src: '/number_comparison/numbers/numbercomparison-1-2.jpeg' },
+			{ answer: 5, src: '/number_comparison/numbers/numbercomparison-1-5.jpeg' }
+		]
+	},
+	'1': {
+		numbers: [
+			{ answer: 9, src: '/number_comparison/numbers/numbercomparison-2-9.jpeg' },
+			{ answer: 3, src: '/number_comparison/numbers/numbercomparison-2-3.jpeg' }
+		]
+	},
+	'2': {
+		numbers: [
+			{ answer: 5, src: '/number_comparison/numbers/numbercomparison-3-5.jpeg' },
+			{ answer: 6, src: '/number_comparison/numbers/numbercomparison-3-16.jpeg' }
+		]
+	},
+	'3': {
+		numbers: [
+			{ answer: 7, src: '/number_comparison/numbers/numbercomparison-4-7.jpeg' },
+			{ answer: 13, src: '/number_comparison/numbers/numbercomparison-4-13.jpeg' }
+		]
+	},
+	'4': {
+		numbers: [
+			{ answer: 5, src: '/number_comparison/numbers/numbercomparison-5-5.jpeg' },
+			{ answer: 3, src: '/number_comparison/numbers/numbercomparison-5-3.jpeg' },
+			{ answer: 15, src: '/number_comparison/numbers/numbercomparison-5-14.jpeg' }
+		]
+	},
+	'5': {
+		numbers: [
+			{ answer: 13, src: '/number_comparison/numbers/numbercomparison-6-13.jpeg' },
+			{ answer: 15, src: '/number_comparison/numbers/numbercomparison-6-15.jpeg' },
+			{ answer: 9, src: '/number_comparison/numbers/numbercomparison-6-9.jpeg' }
+		]
+	}
 };

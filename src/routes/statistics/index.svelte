@@ -18,7 +18,6 @@
 <script lang="ts">
 	import type { ICompletedRun } from '$lib/database/models/completedTasks.models';
 	import { onMount } from 'svelte';
-	import { run } from 'svelte/internal';
 
 	export let runs: ICompletedRun[];
 

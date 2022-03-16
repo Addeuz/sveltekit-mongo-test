@@ -11,7 +11,7 @@ export const tutorials = writable({
 	colorPattern: {
 		type: 'color'
 	},
-	difference: {
+	completionToTen: {
 		type: 'number'
 	},
 	hiddenNumber: {

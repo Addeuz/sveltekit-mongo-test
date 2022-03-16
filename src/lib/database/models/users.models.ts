@@ -20,6 +20,9 @@ const UserSchema: Schema = new mongoose.Schema({
 	type: {
 		type: String
 	},
+	language: {
+		type: String
+	},
 	completed: {
 		type: [String]
 	},
