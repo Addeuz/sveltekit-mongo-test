@@ -13,7 +13,7 @@
 	});
 </script>
 
-<div class="flex justify-center items-center gap-2">
+<div class="flex justify-center items-center gap-2 font-grund text-xl">
 	<span class="whitespace-pre-line">{text}</span>
 	<AudioPlayer {src} {autoplay} />
 </div>

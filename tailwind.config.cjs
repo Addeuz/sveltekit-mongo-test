@@ -19,6 +19,9 @@ const config = {
 		extend: {
 			fontFamily: {
 				grund: ['Grundschrift Regular']
+			},
+			animation: {
+				'fast-pulse': 'pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite'
 			}
 		}
 	},

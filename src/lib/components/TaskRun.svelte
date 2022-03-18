@@ -10,6 +10,7 @@
 	import { afterUpdate, createEventDispatcher, onMount } from 'svelte';
 	import Colors from './AnswerInputs/Colors.svelte';
 	import Numbers from './AnswerInputs/Numbers.svelte';
+	import VideoModal from './VideoModal.svelte';
 
 	export let task: TaskAttributes;
 	export let taskIndex: number;
@@ -21,9 +22,11 @@
 
 	let displayNumbers = false;
 
-	const audioArray = [27, 28, 29, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41];
 	const dispatch = createEventDispatcher();
 	let taskAudioPlayed = false;
+	let taskVideoPlayed = false;
+	let videoOpen = false;
+	let videoUrl = undefined;
 
 	let answer: AnswerAttributes;
 
@@ -38,7 +41,13 @@
 		let audio = selectAudio(0, true);
 		const taskEndTime = new Date();
 		if (!star) {
-			selected = parseInt(userAnswer);
+			if (isNaN(parseInt(userAnswer))) {
+				console.log('janne');
+				selected = userAnswer;
+				console.log(selected);
+			} else {
+				selected = parseInt(userAnswer);
+			}
 			await new Promise((resolve) => {
 				audio.play();
 				audio.onended = resolve;
@@ -69,44 +78,67 @@
 				});
 			});
 		} else {
-			await new Promise((resolve) => {
-				audio.play();
-				audio.onended = resolve;
-			}).then(() => {
+			setTimeout(() => {
 				answer = {
 					answer: 'star',
 					time: (taskEndTime.getTime() - taskStartTime.getTime()) / 1000
 				};
 				taskAudioPlayed = false;
+				taskVideoPlayed = false;
 				pulse = false;
 				taskStartTime = new Date();
 				dispatch('taskComplete', {
 					answer
 				});
-			});
-			selected = undefined;
+				selected = undefined;
+			}, 1000);
 		}
 	}
 
+	function playVideo() {
+		videoOpen = true;
+		videoUrl = task.video;
+	}
+
 	onMount(() => {
-		taskStartTime = new Date();
-		console.log(numberComparison);
+		if (task.video) {
+			playVideo();
+		} else {
+			taskStartTime = new Date();
+		}
 	});
 
 	afterUpdate(() => {
-		if (taskIndex % 2 === 0 && !taskAudioPlayed) {
+		console.log(taskVideoPlayed);
+		if (!taskVideoPlayed && task?.video !== undefined) {
+			playVideo();
+		}
+		if (taskIndex % 2 === 0 && !taskAudioPlayed && !task.video) {
 			let audio = document.body.appendChild(new Audio(task.audio));
 			taskAudioPlayed = true;
 			if (task.audio) {
 				audio.play();
 			}
-		} else {
 		}
 	});
 
 	$: console.log(task);
 </script>
 
+<VideoModal
+	bind:open={videoOpen}
+	{videoUrl}
+	on:ended={() => {
+		videoOpen = false;
+		taskVideoPlayed = true;
+		taskStartTime = new Date();
+		let audio = document.body.appendChild(new Audio(task.audio));
+		taskAudioPlayed = true;
+		if (task.audio) {
+			audio.play();
+		}
+	}}
+/>
 {#if $tutorials[$page.params.type].type === 'number'}
 	{#if !numberComparison}
 		<div class="h-screen flex flex-col items-center justify-start ">
@@ -145,7 +177,11 @@
 			{#if taskIndex % 2 === 0}
 				{#each numberComparisonNumbers[task.id].numbers as task}
 					<img
+						on:load={() => {
+							displayNumbers = true;
+						}}
 						class="cursor-pointer h-1/6"
+						style={`margin-top: ${task.margin}rem`}
 						src={task.src}
 						alt="Number comparison number"
 						on:click|once={() => handleAnswer(false, task.answer.toString())}
@@ -204,6 +240,6 @@
 
 <style lang="postcss">
 	.pulse {
-		@apply animate-pulse;
+		@apply animate-fast-pulse;
 	}
 </style>

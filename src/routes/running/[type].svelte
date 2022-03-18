@@ -7,6 +7,7 @@
 	import NumberTutorial from '$lib/components/NumberTutorial.svelte';
 	import TaskRun from '$lib/components/TaskRun.svelte';
 	import TasksComplete from '$lib/components/TasksComplete.svelte';
+	import { dev } from '$app/env';
 
 	let tasks: TaskAttributes[] = [];
 
@@ -17,13 +18,24 @@
 
 	let hasSeenTutorial: string;
 
-	function handleTaskAnswer(event) {
+	async function handleTaskAnswer(event) {
 		completions.push(event.detail.answer);
 		// Needs times 2 here because there is double amount of "tasks" when there are stars between every task
 		if (taskIndex !== tasks.length * 2 - 1) {
 			taskIndex++;
 		} else {
 			allTaskComplete = true;
+			const res = await fetch('/api/run/complete', {
+				method: 'POST',
+				body: JSON.stringify({ completions, taskType: $page.params.type }),
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			}).then(() => {
+				location.replace(
+					dev ? 'http://localhost:3000?completed=true' : 'https://didunas.vercel.app?completed=true'
+				);
+			});
 		}
 	}
 	onMount(() => {
@@ -43,8 +55,8 @@
 		</div>
 	{:else if hasSeenTutorial === 'false'}
 		<NumberTutorial />
-	{:else if allTaskComplete}
-		<TasksComplete {completions} />
+		<!-- {:else if allTaskComplete}
+		<TasksComplete {completions} /> -->
 	{:else}
 		<!-- If taskIndex is even it means that there should be a real task not a star -->
 		<TaskRun
@@ -63,8 +75,6 @@
 	{:else if !$tutorials.tutorial.color}
 		<!-- Color tutorial -->
 		<!-- <NumberTutorial /> -->
-	{:else if allTaskComplete}
-		<TasksComplete {completions} />
 	{:else}
 		<!-- If taskIndex is even it means that there should be a real task not a star -->
 		<TaskRun
