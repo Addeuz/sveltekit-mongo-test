@@ -186,7 +186,8 @@ export const sampleTasks: { [key in TaskKeys]: TaskAttributes[] } = {
 			rightAnswer: '2',
 			src: '/number_line/numberline-01.png',
 			answerType: 'numbers',
-			audio: '/audio/09_de.MP3'
+			audio: '/audio/09_de.MP3',
+			video: '/video/numberline_10.mp4'
 		},
 		{
 			id: 1,
@@ -234,7 +235,9 @@ export const sampleTasks: { [key in TaskKeys]: TaskAttributes[] } = {
 			id: 8,
 			rightAnswer: '18',
 			src: '/number_line/numberline-09.png',
-			answerType: 'numbers'
+			answerType: 'numbers',
+			audio: '/audio/09_de.MP3',
+			video: '/video/numberline_20.mp4'
 		},
 		{
 			id: 9,
@@ -634,44 +637,44 @@ export const sampleTasks: { [key in TaskKeys]: TaskAttributes[] } = {
 };
 
 export const numberComparisonNumbers: {
-	[key: string]: { numbers: { answer: number; src: string }[] };
+	[key: string]: { numbers: { answer: number; src: string; margin: number }[] };
 } = {
 	'0': {
 		numbers: [
-			{ answer: 2, src: '/number_comparison/numbers/numbercomparison-1-2.jpeg' },
-			{ answer: 5, src: '/number_comparison/numbers/numbercomparison-1-5.jpeg' }
+			{ answer: 2, src: '/number_comparison/numbers/numbercomparison-1-2.jpeg', margin: -10 },
+			{ answer: 5, src: '/number_comparison/numbers/numbercomparison-1-5.jpeg', margin: 10 }
 		]
 	},
 	'1': {
 		numbers: [
-			{ answer: 9, src: '/number_comparison/numbers/numbercomparison-2-9.jpeg' },
-			{ answer: 3, src: '/number_comparison/numbers/numbercomparison-2-3.jpeg' }
+			{ answer: 9, src: '/number_comparison/numbers/numbercomparison-2-9.jpeg', margin: 10 },
+			{ answer: 3, src: '/number_comparison/numbers/numbercomparison-2-3.jpeg', margin: -7 }
 		]
 	},
 	'2': {
 		numbers: [
-			{ answer: 5, src: '/number_comparison/numbers/numbercomparison-3-5.jpeg' },
-			{ answer: 6, src: '/number_comparison/numbers/numbercomparison-3-16.jpeg' }
+			{ answer: 5, src: '/number_comparison/numbers/numbercomparison-3-5.jpeg', margin: 0 },
+			{ answer: 6, src: '/number_comparison/numbers/numbercomparison-3-16.jpeg', margin: 7 }
 		]
 	},
 	'3': {
 		numbers: [
-			{ answer: 7, src: '/number_comparison/numbers/numbercomparison-4-7.jpeg' },
-			{ answer: 13, src: '/number_comparison/numbers/numbercomparison-4-13.jpeg' }
+			{ answer: 7, src: '/number_comparison/numbers/numbercomparison-4-7.jpeg', margin: -3 },
+			{ answer: 13, src: '/number_comparison/numbers/numbercomparison-4-13.jpeg', margin: 5 }
 		]
 	},
 	'4': {
 		numbers: [
-			{ answer: 5, src: '/number_comparison/numbers/numbercomparison-5-5.jpeg' },
-			{ answer: 3, src: '/number_comparison/numbers/numbercomparison-5-3.jpeg' },
-			{ answer: 15, src: '/number_comparison/numbers/numbercomparison-5-14.jpeg' }
+			{ answer: 5, src: '/number_comparison/numbers/numbercomparison-5-5.jpeg', margin: -2 },
+			{ answer: 3, src: '/number_comparison/numbers/numbercomparison-5-3.jpeg', margin: 15 },
+			{ answer: 15, src: '/number_comparison/numbers/numbercomparison-5-14.jpeg', margin: -10 }
 		]
 	},
 	'5': {
 		numbers: [
-			{ answer: 13, src: '/number_comparison/numbers/numbercomparison-6-13.jpeg' },
-			{ answer: 15, src: '/number_comparison/numbers/numbercomparison-6-15.jpeg' },
-			{ answer: 9, src: '/number_comparison/numbers/numbercomparison-6-9.jpeg' }
+			{ answer: 13, src: '/number_comparison/numbers/numbercomparison-6-13.jpeg', margin: 12 },
+			{ answer: 15, src: '/number_comparison/numbers/numbercomparison-6-15.jpeg', margin: -17 },
+			{ answer: 9, src: '/number_comparison/numbers/numbercomparison-6-9.jpeg', margin: 8 }
 		]
 	}
 };

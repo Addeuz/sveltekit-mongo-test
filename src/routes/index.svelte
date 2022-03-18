@@ -16,8 +16,12 @@
 	import TextAndAudio from '$lib/components/TextAndAudio.svelte';
 	import { textAndAudio } from '$lib/audio';
 	import { goto } from '$app/navigation';
-	import { session } from '$app/stores';
+	import { page, session } from '$app/stores';
 	import { onMount } from 'svelte';
+	import { getCompletedSound } from '$lib/audio/getCompletedSound';
+
+	let completed: string[];
+	let soundIndex = 1;
 
 	onMount(() => {
 		if (localStorage.getItem(`${$session.user.username}-color`) === null) {
@@ -26,12 +30,26 @@
 		if (localStorage.getItem(`${$session.user.username}-number`) === null) {
 			localStorage.setItem(`${$session.user.username}-number`, 'false');
 		}
+
+		completed = $session.user.completed.filter(
+			(item, index) => $session.user.completed.indexOf(item) === index
+		);
+
+		if ($page.query.get('completed') === 'true') {
+			soundIndex = getCompletedSound(completed.length);
+		}
 	});
 </script>
 
-<TextAndAudio src={textAndAudio[1].audio} text={textAndAudio[1].text} autoplay={true} />
+<TextAndAudio
+	src={textAndAudio[soundIndex].audio}
+	text={textAndAudio[soundIndex].text}
+	autoplay={true}
+/>
 
-<div class="gap-3 flex flex-col lg:flex-row flex-wrap items-center mx-2 mt-5 mb-5 ">
+<div
+	class="gap-3 flex flex-col lg:flex-row flex-wrap items-center mx-2 mt-5 mb-5 font-grund text-2xl"
+>
 	<button
 		on:click={() => goto('/running/quantities')}
 		class="flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl"
@@ -63,7 +81,7 @@
 	<button
 		on:click={() => goto('/running/completionToTen')}
 		class="flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl"
-		class:complete={$session.user.completed.includes('difference')}
+		class:complete={$session.user.completed.includes('completionToTen')}
 	>
 		<img
 			class="rounded-xl mb-3 w-48"
