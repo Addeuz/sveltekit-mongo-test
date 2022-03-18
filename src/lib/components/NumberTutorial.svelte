@@ -25,7 +25,7 @@
 	}
 
 	async function handleTutorialEnd() {
-		let audio = selectAudio(36);
+		let audio = selectAudio(35, true);
 
 		await new Promise((resolve) => {
 			audio.play();

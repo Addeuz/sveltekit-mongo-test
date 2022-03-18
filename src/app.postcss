@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+	@font-face {
+		font-family: 'Grundschrift Regular';
+		font-style: normal;
+		font-weight: normal;
+		src: local('Grundschrift Regular'), url('/fonts/Grundschrift-Regular.woff') format('woff');
+	}
+}
+
 @layer components {
 	h1 {
 		@apply text-3xl mb-3;
