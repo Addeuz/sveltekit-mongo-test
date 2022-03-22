@@ -51,17 +51,27 @@
 	class="gap-3 flex flex-col lg:flex-row flex-wrap items-center mx-2 mt-5 mb-5 font-grund text-2xl"
 >
 	<button
-		on:click={() => goto('/running/quantities')}
+		on:click={() => {
+			if (!$session.user.completed.includes('quantities')) {
+				goto('/running/quantities');
+			}
+		}}
 		class="flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl"
 		class:complete={$session.user.completed.includes('quantities')}
+		class:not-completed={!$session.user.completed.includes('quantities')}
 	>
 		<img class="rounded-xl mb-3 w-48" src="/quantities/quantities-01.png" alt="Quantities task" />
 		<span>Mengen</span>
 	</button>
 	<button
-		on:click={() => goto('/running/numberPattern')}
+		on:click={() => {
+			if (!$session.user.completed.includes('numberPattern')) {
+				goto('/running/numberPattern');
+			}
+		}}
 		class="flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl"
 		class:complete={$session.user.completed.includes('numberPattern')}
+		class:not-completed={!$session.user.completed.includes('numberPattern')}
 	>
 		<img
 			class="rounded-xl mb-3 w-48"
@@ -71,17 +81,27 @@
 		<span>Zahlenmuster</span>
 	</button>
 	<button
-		on:click={() => goto('/running/numberLine')}
+		on:click={() => {
+			if (!$session.user.completed.includes('numberLine')) {
+				goto('/running/numberLine');
+			}
+		}}
 		class="flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl"
 		class:complete={$session.user.completed.includes('numberLine')}
+		class:not-completed={!$session.user.completed.includes('numberLine')}
 	>
 		<img class="rounded-xl mb-3 w-48" src="number_line/numberline-01.png" alt="Number line tasks" />
 		<span>Zahlenstrahl</span>
 	</button>
 	<button
-		on:click={() => goto('/running/completionToTen')}
+		on:click={() => {
+			if (!$session.user.completed.includes('completionToTen')) {
+				goto('/running/completionToTen');
+			}
+		}}
 		class="flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl"
 		class:complete={$session.user.completed.includes('completionToTen')}
+		class:not-completed={!$session.user.completed.includes('completionToTen')}
 	>
 		<img
 			class="rounded-xl mb-3 w-48"
@@ -91,9 +111,14 @@
 		<span>Ergänzen zur 10</span>
 	</button>
 	<button
-		on:click={() => goto('/running/colorPattern')}
+		on:click={() => {
+			if (!$session.user.completed.includes('colorPattern')) {
+				goto('/running/colorPattern');
+			}
+		}}
 		class="flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl"
 		class:complete={$session.user.completed.includes('colorPattern')}
+		class:not-completed={!$session.user.completed.includes('colorPattern')}
 	>
 		<img
 			class="rounded-xl mb-3 w-48"
@@ -103,9 +128,14 @@
 		<span>Farbmuster</span>
 	</button>
 	<button
-		on:click={() => goto('/running/hiddenNumber')}
+		on:click={() => {
+			if (!$session.user.completed.includes('hiddenNumber')) {
+				goto('/running/hiddenNumber');
+			}
+		}}
 		class="flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl"
 		class:complete={$session.user.completed.includes('hiddenNumber')}
+		class:not-completed={!$session.user.completed.includes('hiddenNumber')}
 	>
 		<img
 			class="rounded-xl mb-3 w-48"
@@ -115,9 +145,14 @@
 		<span>Vorgänger und Nachfolger</span>
 	</button>
 	<button
-		on:click={() => goto('/running/numberComparison')}
+		on:click={() => {
+			if (!$session.user.completed.includes('numberComparison')) {
+				goto('/running/numberComparison');
+			}
+		}}
 		class="flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl"
 		class:complete={$session.user.completed.includes('numberComparison')}
+		class:not-completed={!$session.user.completed.includes('numberComparison')}
 	>
 		<img
 			class="rounded-xl mb-3 w-48"
@@ -127,9 +162,14 @@
 		<span>Zahlvergleich</span>
 	</button>
 	<button
-		on:click={() => goto('/running/quantityComparison')}
+		on:click={() => {
+			if (!$session.user.completed.includes('quantityComparison')) {
+				goto('/running/quantityComparison');
+			}
+		}}
 		class="flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl"
 		class:complete={$session.user.completed.includes('quantityComparison')}
+		class:not-completed={!$session.user.completed.includes('quantityComparison')}
 	>
 		<img
 			class="rounded-xl mb-3 w-48"
@@ -139,17 +179,27 @@
 		<span>Mengenvergleich</span>
 	</button>
 	<button
-		on:click={() => goto('/running/plus')}
+		on:click={() => {
+			if (!$session.user.completed.includes('plus')) {
+				goto('/running/plus');
+			}
+		}}
 		class="flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl"
 		class:complete={$session.user.completed.includes('plus')}
+		class:not-completed={!$session.user.completed.includes('plus')}
 	>
 		<img class="rounded-xl mb-3 w-48" src="/plus/plus-01.jpeg" alt="Plus task" />
 		<span>Plus-Aufgaben</span>
 	</button>
 	<button
-		on:click={() => goto('/running/minus')}
+		on:click={() => {
+			if (!$session.user.completed.includes('minus')) {
+				goto('/running/minus');
+			}
+		}}
 		class="flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl"
 		class:complete={$session.user.completed.includes('minus')}
+		class:not-completed={!$session.user.completed.includes('minus')}
 	>
 		<img class="rounded-xl mb-3 w-48" src="/minus/minus-01.jpeg" alt="Minus task" />
 		<span>Minus-Aufgaben</span>
@@ -159,5 +209,11 @@
 <style lang="postcss">
 	.complete {
 		@apply bg-green-400;
+		@apply text-gray-500;
+		@apply cursor-default;
+	}
+
+	.not-completed {
+		@apply cursor-pointer;
 	}
 </style>
