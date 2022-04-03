@@ -13,7 +13,7 @@
 	let pulse = false;
 
 	async function handleAnswer(event) {
-		let audio = selectAudio(21);
+		let audio = selectAudio(21, $session.language);
 		selected = event.detail.answer;
 
 		await new Promise((resolve) => {
@@ -25,7 +25,7 @@
 	}
 
 	async function handleTutorialEnd() {
-		let audio = selectAudio(35, true);
+		let audio = selectAudio(35, $session.language, true);
 
 		await new Promise((resolve) => {
 			audio.play();
@@ -41,11 +41,22 @@
 
 <div class="h-screen flex justify-center items-center flex-col gap-6">
 	{#if tutorialIndex === 0}
-		<TextAndAudio src={textAndAudio[3].audio} text={textAndAudio[3].text} autoplay={true} />
+		<TextAndAudio
+			src={textAndAudio[3].audio[$session.language]}
+			text={textAndAudio[3].text[$session.language]}
+			autoplay={true}
+		/>
 		<Numbers on:answer={handleAnswer} {selected} />
 	{:else if tutorialIndex === 1}
-		<TextAndAudio src={textAndAudio[4].audio} text={textAndAudio[4].text} autoplay={true} />
-		<TextAndAudio src={textAndAudio[5].audio} text={textAndAudio[5].text} />
+		<TextAndAudio
+			src={textAndAudio[4].audio[$session.language]}
+			text={textAndAudio[4].text[$session.language]}
+			autoplay={true}
+		/>
+		<TextAndAudio
+			src={textAndAudio[5].audio[$session.language]}
+			text={textAndAudio[5].text[$session.language]}
+		/>
 		<img
 			class="cursor-pointer"
 			class:pulse

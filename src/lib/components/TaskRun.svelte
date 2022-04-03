@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { page } from '$app/stores';
+	import { page, session } from '$app/stores';
 
 	import { textAndAudio } from '$lib/audio';
 	import { selectAudio } from '$lib/audio/selectAudio';
@@ -38,7 +38,7 @@
 			sounds[i].pause();
 		}
 
-		let audio = selectAudio(0, true);
+		let audio = selectAudio(0, $session.language, true);
 		const taskEndTime = new Date();
 		if (!star) {
 			if (isNaN(parseInt(userAnswer))) {
@@ -97,7 +97,7 @@
 
 	function playVideo() {
 		videoOpen = true;
-		videoUrl = task.video;
+		videoUrl = task.video[$session.language];
 	}
 
 	onMount(() => {
@@ -109,12 +109,11 @@
 	});
 
 	afterUpdate(() => {
-		console.log(taskVideoPlayed);
-		if (!taskVideoPlayed && task?.video !== undefined) {
+		if (!taskVideoPlayed && task?.video) {
 			playVideo();
 		}
-		if (taskIndex % 2 === 0 && !taskAudioPlayed && !task.video) {
-			let audio = document.body.appendChild(new Audio(task.audio));
+		if (taskIndex % 2 === 0 && !taskAudioPlayed && !task.video && task.audio) {
+			let audio = document.body.appendChild(new Audio(task.audio[$session.language]));
 			taskAudioPlayed = true;
 			if (task.audio) {
 				audio.play();
@@ -132,9 +131,9 @@
 		videoOpen = false;
 		taskVideoPlayed = true;
 		taskStartTime = new Date();
-		let audio = document.body.appendChild(new Audio(task.audio));
+		let audio = document.body.appendChild(new Audio(task.audio[$session.language]));
 		taskAudioPlayed = true;
-		if (task.audio) {
+		if (task.audio[$session.language]) {
 			audio.play();
 		}
 	}}

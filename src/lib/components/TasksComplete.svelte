@@ -27,7 +27,11 @@
 
 <div class="h-screen flex items-center justify-center flex-col gap-6">
 	<div class="text-2xl">
-		<TextAndAudio src={textAndAudio[30].audio} text={textAndAudio[30].text} autoplay={true} />
+		<TextAndAudio
+			src={textAndAudio[30].audio[$session.language]}
+			text={textAndAudio[30].text[$session.language]}
+			autoplay={true}
+		/>
 	</div>
 	<div>
 		<span>Congratulations, you have completed {$session.user.completed.length} task(s)!</span>

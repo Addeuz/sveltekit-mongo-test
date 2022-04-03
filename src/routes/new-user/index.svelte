@@ -57,7 +57,7 @@
 
 	let languageTypes = [
 		{ value: 'de', text: 'German' },
-		{ value: 'el', text: 'Greek' }
+		{ value: 'el_cy', text: 'Greek' }
 	];
 
 	let submitted: boolean = false;
