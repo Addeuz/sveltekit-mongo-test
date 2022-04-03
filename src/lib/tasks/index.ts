@@ -28,7 +28,7 @@ export const sampleTasks: { [key in TaskKeys]: TaskAttributes[] } = {
 			rightAnswer: '3',
 			src: '/quantities/quantities-01.png',
 			answerType: 'numbers',
-			audio: '/audio/08_de.MP3'
+			audio: { de: '/audio/08_de.MP3', el_cy: '/audio/08_el_cy.m4a' }
 		},
 		{
 			id: 1,
@@ -140,7 +140,7 @@ export const sampleTasks: { [key in TaskKeys]: TaskAttributes[] } = {
 			rightAnswer: '1',
 			src: '/number_pattern/numberpattern-01.png',
 			answerType: 'numbers',
-			audio: '/audio/18_de.MP3'
+			audio: { de: '/audio/18_de.MP3', el_cy: '/audio/18_el_cy.m4a' }
 		},
 		{
 			id: 1,
@@ -186,8 +186,8 @@ export const sampleTasks: { [key in TaskKeys]: TaskAttributes[] } = {
 			rightAnswer: '2',
 			src: '/number_line/numberline-01.png',
 			answerType: 'numbers',
-			audio: '/audio/09_de.MP3',
-			video: '/video/numberline_10.mp4'
+			audio: { de: '/audio/09_de.MP3', el_cy: '/audio/09_el_cy.m4a' },
+			video: { de: '/video/numberline_10_de.mp4', el_cy: '/video/numberline_10_el_cy.mp4' }
 		},
 		{
 			id: 1,
@@ -236,8 +236,8 @@ export const sampleTasks: { [key in TaskKeys]: TaskAttributes[] } = {
 			rightAnswer: '18',
 			src: '/number_line/numberline-09.png',
 			answerType: 'numbers',
-			audio: '/audio/09_de.MP3',
-			video: '/video/numberline_20.mp4'
+			audio: { de: '/audio/09_de.MP3', el_cy: '/audio/09_el_cy.m4a' },
+			video: { de: '/video/numberline_20_de.mp4', el_cy: '/video/numberline_20_el_cy.mp4' }
 		},
 		{
 			id: 9,
@@ -307,7 +307,7 @@ export const sampleTasks: { [key in TaskKeys]: TaskAttributes[] } = {
 			rightAnswer: '10',
 			src: '/hidden_number/hiddennumber-01.png',
 			answerType: 'numbers',
-			audio: '/audio/10_de.MP3'
+			audio: { de: '/audio/10_de.MP3', el_cy: '/audio/10_el_cy.m4a' }
 		},
 		{
 			id: 1,
@@ -352,7 +352,7 @@ export const sampleTasks: { [key in TaskKeys]: TaskAttributes[] } = {
 			rightAnswer: '5',
 			src: '/number_comparison/numbercomparison-01.jpeg',
 			answerType: 'numbers',
-			audio: '/audio/13_de.MP3'
+			audio: { de: '/audio/13_de.MP3', el_cy: '/audio/13_el_cy.m4a' }
 		},
 		{
 			id: 1,
@@ -392,7 +392,7 @@ export const sampleTasks: { [key in TaskKeys]: TaskAttributes[] } = {
 			rightAnswer: '8',
 			src: '/plus/plus-01.jpeg',
 			answerType: 'numbers',
-			audio: '/audio/14_de.MP3'
+			audio: { de: '/audio/14_de.MP3', el_cy: '/audio/14_el_cy.m4a' }
 		},
 		{
 			id: 1,
@@ -420,7 +420,7 @@ export const sampleTasks: { [key in TaskKeys]: TaskAttributes[] } = {
 			rightAnswer: '3',
 			src: '/minus/minus-01.jpeg',
 			answerType: 'numbers',
-			audio: '/audio/14_de.MP3'
+			audio: { de: '/audio/14_de.MP3', el_cy: '/audio/14_el_cy.m4a' }
 		},
 		{
 			id: 1,
@@ -448,7 +448,7 @@ export const sampleTasks: { [key in TaskKeys]: TaskAttributes[] } = {
 			rightAnswer: 'red',
 			src: '/color_pattern/colorpatterns-01.png',
 			answerType: 'threeColors',
-			audio: '/audio/16_de.MP3'
+			audio: { de: '/audio/16_de.MP3', el_cy: '/audio/16_el_cy.m4a' }
 		},
 		{
 			id: 1,
@@ -494,7 +494,7 @@ export const sampleTasks: { [key in TaskKeys]: TaskAttributes[] } = {
 			rightAnswer: 'equal',
 			src: '/quantity_comparison/quantitiycomparison-01.png',
 			answerType: 'twoColors',
-			audio: '/audio/15_de.MP3'
+			audio: { de: '/audio/15_de.MP3', el_cy: '/audio/15_el_cy.m4a' }
 		},
 		{
 			id: 1,
@@ -576,14 +576,14 @@ export const sampleTasks: { [key in TaskKeys]: TaskAttributes[] } = {
 			rightAnswer: '10',
 			src: '/completion_to_ten/completionto10-01.png',
 			answerType: 'numbers',
-			audio: '/audio/11_de.MP3'
+			audio: { de: '/audio/11_de.MP3', el_cy: '/audio/11_el_cy.m4a' }
 		},
 		{
 			id: 1,
 			rightAnswer: '2',
 			src: '/completion_to_ten/completionto10-02.png',
 			answerType: 'numbers',
-			audio: '/audio/12_de.MP3'
+			audio: { de: '/audio/12_de.MP3', el_cy: '/audio/12_el_cy.m4a' }
 		},
 		{
 			id: 2,

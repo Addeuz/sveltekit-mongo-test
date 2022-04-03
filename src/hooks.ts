@@ -30,6 +30,7 @@ export const getSession: GetSession = ({ locals }) => {
 
 	return {
 		authenticated: locals.authenticated,
-		user: locals.user
+		user: locals.user,
+		language: locals.user.language ?? 'el_cy'
 	};
 };

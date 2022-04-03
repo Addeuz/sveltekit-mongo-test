@@ -14,8 +14,8 @@ export interface TaskAttributes {
 	rightAnswer: string;
 	src: string;
 	answerType: 'numbers' | 'twoColors' | 'threeColors';
-	audio?: string;
-	video?: string;
+	audio?: { de: string; el_cy: string };
+	video?: { de: string; el_cy: string };
 }
 
 export interface AnswerAttributes {
