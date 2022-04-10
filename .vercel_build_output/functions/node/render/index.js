@@ -8742,45 +8742,43 @@ var require_constants2 = __commonJS({
 var require_package = __commonJS({
   "node_modules/mongoose/node_modules/mongodb/package.json"(exports, module2) {
     module2.exports = {
-      _from: "mongodb@4.1.1",
-      _id: "mongodb@4.1.1",
-      _inBundle: false,
-      _integrity: "sha512-fbACrWEyvr6yl0sSiCGV0sqEiBwTtDJ8iSojmkDjAfw9JnOZSAkUyv9seFSPYhPPKwxp1PDtyjvBNfMDz0WBLQ==",
-      _location: "/mongoose/mongodb",
-      _phantomChildren: {},
-      _requested: {
-        type: "version",
-        registry: true,
-        raw: "mongodb@4.1.1",
-        name: "mongodb",
-        escapedName: "mongodb",
-        rawSpec: "4.1.1",
-        saveSpec: null,
-        fetchSpec: "4.1.1"
-      },
-      _requiredBy: [
-        "/mongoose"
+      name: "mongodb",
+      version: "4.1.1",
+      description: "The official MongoDB driver for Node.js",
+      main: "lib/index.js",
+      files: [
+        "lib",
+        "src",
+        "etc/prepare.js",
+        "mongodb.d.ts",
+        "mongodb.ts34.d.ts"
       ],
-      _resolved: "https://registry.npmjs.org/mongodb/-/mongodb-4.1.1.tgz",
-      _shasum: "d328e832675e7351f58b642f833126dc89ac2e66",
-      _spec: "mongodb@4.1.1",
-      _where: "/Users/Andreas/CodeProjects/testseq/node_modules/mongoose",
+      types: "mongodb.d.ts",
+      typesVersions: {
+        "<=4.0.2": {
+          "mongodb.d.ts": [
+            "mongodb.ts34.d.ts"
+          ]
+        }
+      },
+      repository: {
+        type: "git",
+        url: "git@github.com:mongodb/node-mongodb-native.git"
+      },
+      keywords: [
+        "mongodb",
+        "driver",
+        "official"
+      ],
       author: {
         name: "The MongoDB NodeJS Team",
         email: "dbx-node@mongodb.com"
       },
-      bugs: {
-        url: "https://jira.mongodb.org/projects/NODE/issues/"
-      },
-      bundleDependencies: false,
       dependencies: {
         bson: "^4.5.1",
         denque: "^1.5.0",
-        "mongodb-connection-string-url": "^2.0.0",
-        saslprep: "^1.0.0"
+        "mongodb-connection-string-url": "^2.0.0"
       },
-      deprecated: false,
-      description: "The official MongoDB driver for Node.js",
       devDependencies: {
         "@istanbuljs/nyc-config-typescript": "^1.0.1",
         "@microsoft/api-extractor": "^7.16.1",
@@ -8834,52 +8832,37 @@ var require_package = __commonJS({
         xml2js: "^0.4.23",
         yargs: "^14.2.0"
       },
+      license: "Apache-2.0",
       engines: {
         node: ">=12.9.0"
       },
-      files: [
-        "lib",
-        "src",
-        "etc/prepare.js",
-        "mongodb.d.ts",
-        "mongodb.ts34.d.ts"
-      ],
+      bugs: {
+        url: "https://jira.mongodb.org/projects/NODE/issues/"
+      },
       homepage: "https://github.com/mongodb/node-mongodb-native",
-      keywords: [
-        "mongodb",
-        "driver",
-        "official"
-      ],
-      license: "Apache-2.0",
-      main: "lib/index.js",
-      name: "mongodb",
       optionalDependencies: {
         saslprep: "^1.0.0"
       },
-      repository: {
-        type: "git",
-        url: "git+ssh://git@github.com/mongodb/node-mongodb-native.git"
-      },
       scripts: {
-        "build:docs": "typedoc",
-        "build:dts": "npm run build:ts && api-extractor run && rimraf 'lib/**/*.d.ts*' && downlevel-dts mongodb.d.ts mongodb.ts34.d.ts",
         "build:evergreen": "node .evergreen/generate_evergreen_tasks.js",
         "build:ts": "rimraf lib && tsc",
-        "check:adl": "mocha test/manual/data_lake.test.js",
-        "check:atlas": 'mocha --config "test/manual/mocharc.json" test/manual/atlas_connectivity.test.js',
+        "build:dts": "npm run build:ts && api-extractor run && rimraf 'lib/**/*.d.ts*' && downlevel-dts mongodb.d.ts mongodb.ts34.d.ts",
+        "build:docs": "typedoc",
         "check:bench": "node test/benchmarks/driverBench",
         "check:coverage": "nyc npm run check:test",
-        "check:csfle": "mocha test/functional/client_side_encryption",
-        "check:dts": "tsc --noEmit mongodb.d.ts && tsd",
-        "check:eslint": "eslint -v && eslint --max-warnings=0 --ext '.js,.ts' src test",
-        "check:kerberos": 'mocha --config "test/manual/mocharc.json" test/manual/kerberos.test.js',
-        "check:ldap": 'mocha --config "test/manual/mocharc.json" test/manual/ldap.test.js',
         "check:lint": "npm run build:dts && npm run check:dts && npm run check:eslint && npm run check:tsd",
-        "check:ocsp": 'mocha --config "test/manual/mocharc.json" test/manual/ocsp_support.test.js',
-        "check:test": "mocha --recursive test/functional test/unit",
-        "check:tls": 'mocha --config "test/manual/mocharc.json" test/manual/tls_support.test.js',
-        "check:ts": "tsc -v && tsc --noEmit",
+        "check:eslint": "eslint -v && eslint --max-warnings=0 --ext '.js,.ts' src test",
         "check:tsd": "tsd --version && tsd",
+        "check:dts": "tsc --noEmit mongodb.d.ts && tsd",
+        "check:test": "mocha --recursive test/functional test/unit",
+        "check:ts": "tsc -v && tsc --noEmit",
+        "check:atlas": 'mocha --config "test/manual/mocharc.json" test/manual/atlas_connectivity.test.js',
+        "check:adl": "mocha test/manual/data_lake.test.js",
+        "check:ocsp": 'mocha --config "test/manual/mocharc.json" test/manual/ocsp_support.test.js',
+        "check:kerberos": 'mocha --config "test/manual/mocharc.json" test/manual/kerberos.test.js',
+        "check:tls": 'mocha --config "test/manual/mocharc.json" test/manual/tls_support.test.js',
+        "check:ldap": 'mocha --config "test/manual/mocharc.json" test/manual/ldap.test.js',
+        "check:csfle": "mocha test/functional/client_side_encryption",
         prepare: "node etc/prepare.js",
         release: "standard-version -i HISTORY.md",
         test: "npm run check:lint && npm run check:test"
@@ -8892,16 +8875,7 @@ var require_package = __commonJS({
           module: "commonjs",
           moduleResolution: "node"
         }
-      },
-      types: "mongodb.d.ts",
-      typesVersions: {
-        "<=4.0.2": {
-          "mongodb.d.ts": [
-            "mongodb.ts34.d.ts"
-          ]
-        }
-      },
-      version: "4.1.1"
+      }
     };
   }
 });
@@ -43610,44 +43584,25 @@ var require_applyPlugins = __commonJS({
 var require_package2 = __commonJS({
   "node_modules/mongoose/package.json"(exports, module2) {
     module2.exports = {
-      _from: "mongoose",
-      _id: "mongoose@6.0.8",
-      _inBundle: false,
-      _integrity: "sha512-7XZ5TUoDtF8af7+mKfL58s8dN2BKmldQPTlmkb41PaRAleBVGeAck7Mj6JlIh9SOCi+64GT+afebiJaeyXe1Lw==",
-      _location: "/mongoose",
-      _phantomChildren: {
-        bson: "4.5.2",
-        "mongodb-connection-string-url": "2.1.0",
-        saslprep: "1.0.3"
-      },
-      _requested: {
-        type: "tag",
-        registry: true,
-        raw: "mongoose",
-        name: "mongoose",
-        escapedName: "mongoose",
-        rawSpec: "",
-        saveSpec: null,
-        fetchSpec: "latest"
-      },
-      _requiredBy: [
-        "#USER",
-        "/",
-        "/@types/mongoose"
+      name: "mongoose",
+      description: "Mongoose MongoDB ODM",
+      version: "6.0.8",
+      author: "Guillermo Rauch <guillermo@learnboost.com>",
+      keywords: [
+        "mongodb",
+        "document",
+        "model",
+        "schema",
+        "database",
+        "odm",
+        "data",
+        "datastore",
+        "query",
+        "nosql",
+        "orm",
+        "db"
       ],
-      _resolved: "https://registry.npmjs.org/mongoose/-/mongoose-6.0.8.tgz",
-      _shasum: "44324387e2b4ed200f04e486aaa60f1dfcf486a1",
-      _spec: "mongoose",
-      _where: "/Users/Andreas/CodeProjects/testseq",
-      author: {
-        name: "Guillermo Rauch",
-        email: "guillermo@learnboost.com"
-      },
-      browser: "./dist/browser.umd.js",
-      bugs: {
-        url: "https://github.com/Automattic/mongoose/issues/new"
-      },
-      bundleDependencies: false,
+      license: "MIT",
       dependencies: {
         bson: "^4.2.2",
         kareem: "2.3.2",
@@ -43659,8 +43614,6 @@ var require_package2 = __commonJS({
         sift: "13.5.2",
         sliced: "1.0.1"
       },
-      deprecated: false,
-      description: "Mongoose MongoDB ODM",
       devDependencies: {
         "@babel/core": "7.10.5",
         "@babel/preset-env": "7.10.4",
@@ -43700,8 +43653,37 @@ var require_package2 = __commonJS({
       directories: {
         lib: "./lib/mongoose"
       },
+      scripts: {
+        lint: "eslint .",
+        "build-browser": "node build-browser.js",
+        prepublishOnly: "npm run build-browser",
+        release: "git pull && git push origin master --tags && npm publish",
+        "release-legacy": "git pull origin 5.x && git push origin 5.x --tags && npm publish --tag legacy",
+        test: "mocha --exit ./test/*.test.js ./test/typescript/main.test.js",
+        tdd: "mocha ./test/*.test.js ./test/typescript/main.test.js --inspect --watch --recursive --watch-files ./**/*.js",
+        "test-cov": "nyc --reporter=html --reporter=text npm test"
+      },
+      main: "./index.js",
+      types: "./index.d.ts",
       engines: {
         node: ">=12.0.0"
+      },
+      bugs: {
+        url: "https://github.com/Automattic/mongoose/issues/new"
+      },
+      repository: {
+        type: "git",
+        url: "git://github.com/Automattic/mongoose.git"
+      },
+      homepage: "https://mongoosejs.com",
+      browser: "./dist/browser.umd.js",
+      mocha: {
+        extension: [
+          "test.js"
+        ],
+        "watch-files": [
+          "test/**/*.js"
+        ]
       },
       eslintConfig: {
         extends: [
@@ -43849,49 +43831,7 @@ var require_package2 = __commonJS({
       funding: {
         type: "opencollective",
         url: "https://opencollective.com/mongoose"
-      },
-      homepage: "https://mongoosejs.com",
-      keywords: [
-        "mongodb",
-        "document",
-        "model",
-        "schema",
-        "database",
-        "odm",
-        "data",
-        "datastore",
-        "query",
-        "nosql",
-        "orm",
-        "db"
-      ],
-      license: "MIT",
-      main: "./index.js",
-      mocha: {
-        extension: [
-          "test.js"
-        ],
-        "watch-files": [
-          "test/**/*.js"
-        ]
-      },
-      name: "mongoose",
-      repository: {
-        type: "git",
-        url: "git://github.com/Automattic/mongoose.git"
-      },
-      scripts: {
-        "build-browser": "node build-browser.js",
-        lint: "eslint .",
-        prepublishOnly: "npm run build-browser",
-        release: "git pull && git push origin master --tags && npm publish",
-        "release-legacy": "git pull origin 5.x && git push origin 5.x --tags && npm publish --tag legacy",
-        tdd: "mocha ./test/*.test.js ./test/typescript/main.test.js --inspect --watch --recursive --watch-files ./**/*.js",
-        test: "mocha --exit ./test/*.test.js ./test/typescript/main.test.js",
-        "test-cov": "nyc --reporter=html --reporter=text npm test"
-      },
-      types: "./index.d.ts",
-      version: "6.0.8"
+      }
     };
   }
 });
@@ -56221,6 +56161,9 @@ var UserSchema = new import_mongoose.default.Schema({
   type: {
     type: String
   },
+  language: {
+    type: String
+  },
   completed: {
     type: [String]
   },
@@ -56266,11 +56209,6 @@ function makeJSONIntoString(v) {
     }
   });
 }
-function getJSONFromString(v) {
-  return v.map((value) => {
-    return JSON.parse(value);
-  });
-}
 var CompletetedRunSchema = new import_mongoose.default.Schema({
   totalTime: {
     type: Number
@@ -56280,13 +56218,14 @@ var CompletetedRunSchema = new import_mongoose.default.Schema({
   },
   tasks: {
     type: [String],
-    set: makeJSONIntoString,
-    get: getJSONFromString
+    set: makeJSONIntoString
   },
   user_id: {
     ref: "User",
     type: import_mongoose.default.Schema.Types.ObjectId
   }
+}, {
+  timestamps: true
 });
 var CompletedRun = import_mongoose.default.models.CompletedRun || model("CompletedRun", CompletetedRunSchema);
 var variables = {
@@ -56321,6 +56260,7 @@ var handle = async ({ request, resolve: resolve2 }) => {
   return await resolve2(request);
 };
 var getSession = ({ locals }) => {
+  var _a;
   if (!locals.authenticated) {
     return {
       authenticated: locals.authenticated
@@ -56328,7 +56268,8 @@ var getSession = ({ locals }) => {
   }
   return {
     authenticated: locals.authenticated,
-    user: locals.user
+    user: locals.user,
+    language: (_a = locals.user.language) != null ? _a : "el_cy"
   };
 };
 var user_hooks = /* @__PURE__ */ Object.freeze({
@@ -56348,9 +56289,9 @@ function init(settings = default_settings) {
     amp: false,
     dev: false,
     entry: {
-      file: assets + "/_app/start-184a9cb6.js",
+      file: assets + "/_app/start-8b0a224d.js",
       css: [assets + "/_app/assets/start-464e9d0a.css", assets + "/_app/assets/vendor-15d9d811.css"],
-      js: [assets + "/_app/start-184a9cb6.js", assets + "/_app/chunks/vendor-dc16c193.js", assets + "/_app/chunks/singletons-12a22614.js"]
+      js: [assets + "/_app/start-8b0a224d.js", assets + "/_app/chunks/vendor-5b9965f5.js", assets + "/_app/chunks/singletons-12a22614.js"]
     },
     fetched: void 0,
     floc: false,
@@ -56380,7 +56321,7 @@ function init(settings = default_settings) {
 var d = (s2) => s2.replace(/%23/g, "#").replace(/%3[Bb]/g, ";").replace(/%2[Cc]/g, ",").replace(/%2[Ff]/g, "/").replace(/%3[Ff]/g, "?").replace(/%3[Aa]/g, ":").replace(/%40/g, "@").replace(/%26/g, "&").replace(/%3[Dd]/g, "=").replace(/%2[Bb]/g, "+").replace(/%24/g, "$");
 var empty = () => ({});
 var manifest = {
-  assets: [{ "file": ".DS_Store", "size": 6148, "type": null }, { "file": "audio/01.m4a", "size": 25575, "type": "audio/mp4" }, { "file": "audio/02.m4a", "size": 18846, "type": "audio/mp4" }, { "file": "audio/03.m4a", "size": 33878, "type": "audio/mp4" }, { "file": "audio/04.m4a", "size": 38073, "type": "audio/mp4" }, { "file": "audio/05.m4a", "size": 13389, "type": "audio/mp4" }, { "file": "audio/06.m4a", "size": 15203, "type": "audio/mp4" }, { "file": "audio/07.m4a", "size": 22986, "type": "audio/mp4" }, { "file": "audio/08.m4a", "size": 37036, "type": "audio/mp4" }, { "file": "audio/09.m4a", "size": 38583, "type": "audio/mp4" }, { "file": "audio/10.m4a", "size": 45400, "type": "audio/mp4" }, { "file": "audio/11.m4a", "size": 91416, "type": "audio/mp4" }, { "file": "audio/12.m4a", "size": 29236, "type": "audio/mp4" }, { "file": "audio/13.m4a", "size": 34170, "type": "audio/mp4" }, { "file": "audio/14.m4a", "size": 37051, "type": "audio/mp4" }, { "file": "audio/15.m4a", "size": 25805, "type": "audio/mp4" }, { "file": "audio/16.m4a", "size": 25040, "type": "audio/mp4" }, { "file": "audio/17.m4a", "size": 46644, "type": "audio/mp4" }, { "file": "audio/18.m4a", "size": 38855, "type": "audio/mp4" }, { "file": "audio/19.m4a", "size": 40412, "type": "audio/mp4" }, { "file": "audio/20.m4a", "size": 59638, "type": "audio/mp4" }, { "file": "audio/21.m4a", "size": 108789, "type": "audio/mp4" }, { "file": "audio/22.m4a", "size": 61441, "type": "audio/mp4" }, { "file": "audio/23.m4a", "size": 92432, "type": "audio/mp4" }, { "file": "audio/24.m4a", "size": 52153, "type": "audio/mp4" }, { "file": "audio/25.m4a", "size": 31523, "type": "audio/mp4" }, { "file": "audio/26.m4a", "size": 64046, "type": "audio/mp4" }, { "file": "audio/27.m4a", "size": 10330, "type": "audio/mp4" }, { "file": "audio/28.m4a", "size": 11533, "type": "audio/mp4" }, { "file": "audio/29.m4a", "size": 9970, "type": "audio/mp4" }, { "file": "audio/30.m4a", "size": 31577, "type": "audio/mp4" }, { "file": "color_pattern/colorpatterns-01.jpeg", "size": 108749, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-02.jpeg", "size": 107432, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-03.jpeg", "size": 108640, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-04.jpeg", "size": 128423, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-05.jpeg", "size": 127671, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-06.jpeg", "size": 132346, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-07.jpeg", "size": 134224, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-08.jpeg", "size": 132075, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-09.jpeg", "size": 151786, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-10.jpeg", "size": 156422, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-11.jpeg", "size": 132107, "type": "image/jpeg" }, { "file": "color_pattern/colorpatterns-12.jpeg", "size": 134763, "type": "image/jpeg" }, { "file": "colorpatterns-01.jpeg", "size": 108749, "type": "image/jpeg" }, { "file": "difference/difference-01.jpeg", "size": 71335, "type": "image/jpeg" }, { "file": "difference/difference-02.jpeg", "size": 83679, "type": "image/jpeg" }, { "file": "difference/difference-03.jpeg", "size": 86116, "type": "image/jpeg" }, { "file": "difference/difference-04.jpeg", "size": 70362, "type": "image/jpeg" }, { "file": "difference/difference-05.jpeg", "size": 75759, "type": "image/jpeg" }, { "file": "difference/difference-06.jpeg", "size": 82637, "type": "image/jpeg" }, { "file": "favicon.png", "size": 1571, "type": "image/png" }, { "file": "hidden_number/hiddennumber-01.jpeg", "size": 109072, "type": "image/jpeg" }, { "file": "hidden_number/hiddennumber-02.jpeg", "size": 108984, "type": "image/jpeg" }, { "file": "hidden_number/hiddennumber-03.jpeg", "size": 166768, "type": "image/jpeg" }, { "file": "hidden_number/hiddennumber-04.jpeg", "size": 126110, "type": "image/jpeg" }, { "file": "hidden_number/hiddennumber-05.jpeg", "size": 105489, "type": "image/jpeg" }, { "file": "minus/minus-01.jpeg", "size": 72783, "type": "image/jpeg" }, { "file": "minus/minus-02.jpeg", "size": 74413, "type": "image/jpeg" }, { "file": "minus/minus-03.jpeg", "size": 71339, "type": "image/jpeg" }, { "file": "minus/minus-04.jpeg", "size": 76861, "type": "image/jpeg" }, { "file": "number_comparison/numbercomparison-01.jpeg", "size": 67853, "type": "image/jpeg" }, { "file": "number_comparison/numbercomparison-02.jpeg", "size": 69583, "type": "image/jpeg" }, { "file": "number_comparison/numbercomparison-03.jpeg", "size": 71068, "type": "image/jpeg" }, { "file": "number_comparison/numbercomparison-04.jpeg", "size": 70527, "type": "image/jpeg" }, { "file": "number_comparison/numbercomparison-05.jpeg", "size": 74497, "type": "image/jpeg" }, { "file": "number_comparison/numbercomparison-06.jpeg", "size": 79549, "type": "image/jpeg" }, { "file": "number_line/numberline-01.jpeg", "size": 84538, "type": "image/jpeg" }, { "file": "number_line/numberline-02.jpeg", "size": 84400, "type": "image/jpeg" }, { "file": "number_line/numberline-03.jpeg", "size": 84498, "type": "image/jpeg" }, { "file": "number_line/numberline-04.jpeg", "size": 84475, "type": "image/jpeg" }, { "file": "number_line/numberline-05.jpeg", "size": 84564, "type": "image/jpeg" }, { "file": "number_line/numberline-06.jpeg", "size": 82270, "type": "image/jpeg" }, { "file": "number_line/numberline-07.jpeg", "size": 94270, "type": "image/jpeg" }, { "file": "number_line/numberline-08.jpeg", "size": 87322, "type": "image/jpeg" }, { "file": "number_line/numberline-09.jpeg", "size": 93478, "type": "image/jpeg" }, { "file": "number_line/numberline-10.jpeg", "size": 88423, "type": "image/jpeg" }, { "file": "number_pattern/.DS_Store", "size": 6148, "type": null }, { "file": "number_pattern/numberpattern-01.jpeg", "size": 101807, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-02.jpeg", "size": 111130, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-03.jpeg", "size": 102234, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-04.jpeg", "size": 111219, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-05.jpeg", "size": 103208, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-06.jpeg", "size": 120511, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-07.jpeg", "size": 106663, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-08.jpeg", "size": 128896, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-09.jpeg", "size": 137700, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-10.jpeg", "size": 99376, "type": "image/jpeg" }, { "file": "number_pattern/numberpattern-11.jpeg", "size": 99619, "type": "image/jpeg" }, { "file": "plus/plus-01.jpeg", "size": 74055, "type": "image/jpeg" }, { "file": "plus/plus-02.jpeg", "size": 74143, "type": "image/jpeg" }, { "file": "plus/plus-03.jpeg", "size": 77092, "type": "image/jpeg" }, { "file": "plus/plus-04.jpeg", "size": 74925, "type": "image/jpeg" }, { "file": "quantities/quantities-01.jpeg", "size": 33001, "type": "image/jpeg" }, { "file": "quantities/quantities-02.jpeg", "size": 30969, "type": "image/jpeg" }, { "file": "quantities/quantities-03.jpeg", "size": 39524, "type": "image/jpeg" }, { "file": "quantities/quantities-04.jpeg", "size": 33116, "type": "image/jpeg" }, { "file": "quantities/quantities-05.jpeg", "size": 46355, "type": "image/jpeg" }, { "file": "quantities/quantities-06.jpeg", "size": 35090, "type": "image/jpeg" }, { "file": "quantities/quantities-07.jpeg", "size": 28762, "type": "image/jpeg" }, { "file": "quantities/quantities-08.jpeg", "size": 37626, "type": "image/jpeg" }, { "file": "quantities/quantities-09.jpeg", "size": 37514, "type": "image/jpeg" }, { "file": "quantities/quantities-10.jpeg", "size": 28721, "type": "image/jpeg" }, { "file": "quantities/quantities-11.jpeg", "size": 35294, "type": "image/jpeg" }, { "file": "quantities/quantities-12.jpeg", "size": 41715, "type": "image/jpeg" }, { "file": "quantities/quantities-13.jpeg", "size": 33132, "type": "image/jpeg" }, { "file": "quantities/quantities-14.jpeg", "size": 43860, "type": "image/jpeg" }, { "file": "quantities/quantities-15.jpeg", "size": 30948, "type": "image/jpeg" }, { "file": "quantities/quantities-16.jpeg", "size": 39737, "type": "image/jpeg" }, { "file": "quantities/quantities-17.jpeg", "size": 35283, "type": "image/jpeg" }, { "file": "quantities/quantities-18.jpeg", "size": 28707, "type": "image/jpeg" }, { "file": "quantity_comparison/quantitiycomparison-01.jpeg", "size": 83932, "type": "image/jpeg" }, { "file": "quantity_comparison/quantitiycomparison-02.jpeg", "size": 108448, "type": "image/jpeg" }, { "file": "quantity_comparison/quantitiycomparison-03.jpeg", "size": 121295, "type": "image/jpeg" }, { "file": "quantity_comparison/quantitiycomparison-04.jpeg", "size": 104631, "type": "image/jpeg" }, { "file": "quantity_comparison/quantitiycomparison-05.jpeg", "size": 100515, "type": "image/jpeg" }, { "file": "quantity_comparison/quantitiycomparison-06.jpeg", "size": 93909, "type": "image/jpeg" }, { "file": "star.png", "size": 9287, "type": "image/png" }, { "file": "threeColor/blue.png", "size": 6884, "type": "image/png" }, { "file": "threeColor/red.png", "size": 7234, "type": "image/png" }, { "file": "threeColor/yellow.png", "size": 6787, "type": "image/png" }, { "file": "twoColors/blue.png", "size": 5340, "type": "image/png" }, { "file": "twoColors/equal.png", "size": 4761, "type": "image/png" }, { "file": "twoColors/yellow.png", "size": 5355, "type": "image/png" }],
+  assets: [{ "file": ".DS_Store", "size": 14340, "type": null }, { "file": "audio/.DS_Store", "size": 8196, "type": null }, { "file": "audio/01_de.MP3", "size": 157153, "type": "audio/mpeg" }, { "file": "audio/01_el_cy.m4a", "size": 26366, "type": "audio/mp4" }, { "file": "audio/02_de.MP3", "size": 228206, "type": "audio/mpeg" }, { "file": "audio/02_el_cy.m4a", "size": 37512, "type": "audio/mp4" }, { "file": "audio/03_de.MP3", "size": 206472, "type": "audio/mpeg" }, { "file": "audio/03_el_cy.m4a", "size": 34434, "type": "audio/mp4" }, { "file": "audio/04_de.MP3", "size": 215667, "type": "audio/mpeg" }, { "file": "audio/04_el_cy.m4a", "size": 35979, "type": "audio/mp4" }, { "file": "audio/05_de.MP3", "size": 96967, "type": "audio/mpeg" }, { "file": "audio/05_el_cy.m4a", "size": 12334, "type": "audio/mp4" }, { "file": "audio/06_de.MP3", "size": 108669, "type": "audio/mpeg" }, { "file": "audio/06_el_cy.m4a", "size": 15704, "type": "audio/mp4" }, { "file": "audio/07_de.MP3", "size": 157153, "type": "audio/mpeg" }, { "file": "audio/07_el_cy.m4a", "size": 22466, "type": "audio/mp4" }, { "file": "audio/08_de.MP3", "size": 168020, "type": "audio/mpeg" }, { "file": "audio/08_el_cy.m4a", "size": 35231, "type": "audio/mp4" }, { "file": "audio/09_de.MP3", "size": 166348, "type": "audio/mpeg" }, { "file": "audio/09_el_cy.m4a", "size": 41461, "type": "audio/mp4" }, { "file": "audio/10_de.MP3", "size": 274181, "type": "audio/mpeg" }, { "file": "audio/10_el_cy.m4a", "size": 63055, "type": "audio/mp4" }, { "file": "audio/11_de.MP3", "size": 191425, "type": "audio/mpeg" }, { "file": "audio/11_el_cy.m4a", "size": 34988, "type": "audio/mp4" }, { "file": "audio/12_de.MP3", "size": 203964, "type": "audio/mpeg" }, { "file": "audio/12_el_cy.m4a", "size": 45632, "type": "audio/mp4" }, { "file": "audio/13_de.MP3", "size": 180558, "type": "audio/mpeg" }, { "file": "audio/13_el_cy.m4a", "size": 40377, "type": "audio/mp4" }, { "file": "audio/14_de.MP3", "size": 157153, "type": "audio/mpeg" }, { "file": "audio/14_el_cy.m4a", "size": 34200, "type": "audio/mp4" }, { "file": "audio/15_de.MP3", "size": 358609, "type": "audio/mpeg" }, { "file": "audio/15_el_cy.m4a", "size": 53147, "type": "audio/mp4" }, { "file": "audio/16_de.MP3", "size": 560065, "type": "audio/mpeg" }, { "file": "audio/16_el_cy.m4a", "size": 93979, "type": "audio/mp4" }, { "file": "audio/17_de.MP3", "size": 265822, "type": "audio/mpeg" }, { "file": "audio/17_el_cy.m4a", "size": 53446, "type": "audio/mp4" }, { "file": "audio/18_de.MP3", "size": 477309, "type": "audio/mpeg" }, { "file": "audio/18_el_cy.m4a", "size": 94775, "type": "audio/mp4" }, { "file": "audio/19_de.MP3", "size": 215667, "type": "audio/mpeg" }, { "file": "audio/19_el_cy.m4a", "size": 47940, "type": "audio/mp4" }, { "file": "audio/20_de.MP3", "size": 242416, "type": "audio/mpeg" }, { "file": "audio/20_el_cy.m4a", "size": 46623, "type": "audio/mp4" }, { "file": "audio/21_de.MP3", "size": 73561, "type": "audio/mpeg" }, { "file": "audio/21_el_cy.m4a", "size": 12572, "type": "audio/mp4" }, { "file": "audio/22_de.MP3", "size": 62694, "type": "audio/mpeg" }, { "file": "audio/22_el_cy.m4a", "size": 14650, "type": "audio/mp4" }, { "file": "audio/23_de.MP3", "size": 73561, "type": "audio/mpeg" }, { "file": "audio/23_el_cy.m4a", "size": 8948, "type": "audio/mp4" }, { "file": "audio/24_de.MP3", "size": 72725, "type": "audio/mpeg" }, { "file": "audio/24_el_cy.m4a", "size": 9978, "type": "audio/mp4" }, { "file": "audio/25_de.MP3", "size": 73561, "type": "audio/mpeg" }, { "file": "audio/25_el_cy.m4a", "size": 11277, "type": "audio/mp4" }, { "file": "audio/26_de.MP3", "size": 85264, "type": "audio/mpeg" }, { "file": "audio/26_el_cy.m4a", "size": 10059, "type": "audio/mp4" }, { "file": "audio/27_de.MP3", "size": 62694, "type": "audio/mpeg" }, { "file": "audio/27_el_cy.m4a", "size": 11777, "type": "audio/mp4" }, { "file": "audio/28_de.MP3", "size": 73561, "type": "audio/mpeg" }, { "file": "audio/28_el_cy.m4a", "size": 7122, "type": "audio/mp4" }, { "file": "audio/29_de.MP3", "size": 73561, "type": "audio/mpeg" }, { "file": "audio/29_el_cy.m4a", "size": 8945, "type": "audio/mp4" }, { "file": "audio/30_de.MP3", "size": 60186, "type": "audio/mpeg" }, { "file": "audio/30_el_cy.m4a", "size": 10295, "type": "audio/mp4" }, { "file": "audio/31_de.MP3", "size": 61022, "type": "audio/mpeg" }, { "file": "audio/31_el_cy.m4a", "size": 9200, "type": "audio/mp4" }, { "file": "audio/32_de.MP3", "size": 61022, "type": "audio/mpeg" }, { "file": "audio/32_el_cy.m4a", "size": 9701, "type": "audio/mp4" }, { "file": "audio/33_de.MP3", "size": 73561, "type": "audio/mpeg" }, { "file": "audio/33_el_cy.m4a", "size": 9189, "type": "audio/mp4" }, { "file": "audio/34_de.MP3", "size": 73561, "type": "audio/mpeg" }, { "file": "audio/34_el_cy.m4a", "size": 11264, "type": "audio/mp4" }, { "file": "audio/35_de.MP3", "size": 72725, "type": "audio/mpeg" }, { "file": "audio/35_el_cy.m4a", "size": 11818, "type": "audio/mp4" }, { "file": "audio/36_de.MP3", "size": 157153, "type": "audio/mpeg" }, { "file": "audio/36_el_cy.m4a", "size": 20904, "type": "audio/mp4" }, { "file": "audio/37_de.MP3", "size": 245760, "type": "audio/mpeg" }, { "file": "audio/37_el_cy.m4a", "size": 41712, "type": "audio/mp4" }, { "file": "audio/38_de.MP3", "size": 275017, "type": "audio/mpeg" }, { "file": "audio/38_el_cy.m4a", "size": 44825, "type": "audio/mp4" }, { "file": "audio/39_de.MP3", "size": 251611, "type": "audio/mpeg" }, { "file": "audio/39_el_cy.m4a", "size": 42246, "type": "audio/mp4" }, { "file": "audio/40_de.MP3", "size": 280033, "type": "audio/mpeg" }, { "file": "audio/40_el_cy.m4a", "size": 45879, "type": "audio/mp4" }, { "file": "audio/41_de.MP3", "size": 263314, "type": "audio/mpeg" }, { "file": "audio/41_el_cy.m4a", "size": 43246, "type": "audio/mp4" }, { "file": "audio/42_de.MP3", "size": 287556, "type": "audio/mpeg" }, { "file": "audio/42_el_cy.m4a", "size": 48969, "type": "audio/mp4" }, { "file": "audio/43_de.MP3", "size": 310962, "type": "audio/mpeg" }, { "file": "audio/43_el_cy.m4a", "size": 48712, "type": "audio/mp4" }, { "file": "audio/44_de.MP3", "size": 299259, "type": "audio/mpeg" }, { "file": "audio/44_el_cy.m4a", "size": 48971, "type": "audio/mp4" }, { "file": "audio/45_de.MP3", "size": 289228, "type": "audio/mpeg" }, { "file": "audio/45_el_cy.m4a", "size": 45109, "type": "audio/mp4" }, { "file": "audio/46_de.MP3", "size": 76069, "type": "audio/mpeg" }, { "file": "audio/46_el_cy.m4a", "size": 12035, "type": "audio/mp4" }, { "file": "audio/47_de.MP3", "size": 87771, "type": "audio/mpeg" }, { "file": "audio/47_el_cy.m4a", "size": 12594, "type": "audio/mp4" }, { "file": "audio/48_de.MP3", "size": 75233, "type": "audio/mpeg" }, { "file": "audio/48_el_cy.m4a", "size": 13646, "type": "audio/mp4" }, { "file": "audio/49_de.MP3", "size": 96967, "type": "audio/mpeg" }, { "file": "audio/49_el_cy.m4a", "size": 18320, "type": "audio/mp4" }, { "file": "audio/50_de.MP3", "size": 62694, "type": "audio/mpeg" }, { "file": "audio/50_el_cy.m4a", "size": 14124, "type": "audio/mp4" }, { "file": "audio/51_de.MP3", "size": 108669, "type": "audio/mpeg" }, { "file": "audio/51_el_cy.m4a", "size": 20152, "type": "audio/mp4" }, { "file": "audio/52_de.MP3", "size": 85264, "type": "audio/mpeg" }, { "file": "audio/52_el_cy.m4a", "size": 16747, "type": "audio/mp4" }, { "file": "audio/53_de.MP3", "size": 73561, "type": "audio/mpeg" }, { "file": "audio/53_el_cy.m4a", "size": 16209, "type": "audio/mp4" }, { "file": "audio/54_de.MP3", "size": 85264, "type": "audio/mpeg" }, { "file": "audio/54_el_cy.m4a", "size": 11778, "type": "audio/mp4" }, { "file": "audio/55_de.MP3", "size": 85264, "type": "audio/mpeg" }, { "file": "audio/55_el_cy.m4a", "size": 9710, "type": "audio/mp4" }, { "file": "color_pattern/.DS_Store", "size": 6148, "type": null }, { "file": "color_pattern/colorpatterns-01.png", "size": 66944, "type": "image/png" }, { "file": "color_pattern/colorpatterns-02.png", "size": 68824, "type": "image/png" }, { "file": "color_pattern/colorpatterns-03.png", "size": 70530, "type": "image/png" }, { "file": "color_pattern/colorpatterns-04.png", "size": 73135, "type": "image/png" }, { "file": "color_pattern/colorpatterns-05.png", "size": 71362, "type": "image/png" }, { "file": "color_pattern/colorpatterns-06.png", "size": 72286, "type": "image/png" }, { "file": "color_pattern/colorpatterns-07.png", "size": 71408, "type": "image/png" }, { "file": "colorpatterns-01.jpeg", "size": 108749, "type": "image/jpeg" }, { "file": "completion_to_ten/completionto10-01.png", "size": 64172, "type": "image/png" }, { "file": "completion_to_ten/completionto10-02.png", "size": 61201, "type": "image/png" }, { "file": "completion_to_ten/completionto10-03.png", "size": 49938, "type": "image/png" }, { "file": "completion_to_ten/completionto10-04.png", "size": 57626, "type": "image/png" }, { "file": "completion_to_ten/completionto10-05.png", "size": 47669, "type": "image/png" }, { "file": "completion_to_ten/completionto10-06.png", "size": 59430, "type": "image/png" }, { "file": "completion_to_ten/completionto10-07.png", "size": 53882, "type": "image/png" }, { "file": "completion_to_ten/completionto10-08.png", "size": 62672, "type": "image/png" }, { "file": "completion_to_ten/completionto10-09.png", "size": 52e3, "type": "image/png" }, { "file": "completion_to_ten/completionto10-10.png", "size": 55829, "type": "image/png" }, { "file": "favicon.png", "size": 1571, "type": "image/png" }, { "file": "fonts/Grundschrift-Regular.woff", "size": 16392, "type": "font/woff" }, { "file": "hidden_number/hiddennumber-01.png", "size": 73277, "type": "image/png" }, { "file": "hidden_number/hiddennumber-02.png", "size": 69486, "type": "image/png" }, { "file": "hidden_number/hiddennumber-03.png", "size": 75693, "type": "image/png" }, { "file": "hidden_number/hiddennumber-04.png", "size": 72104, "type": "image/png" }, { "file": "hidden_number/hiddennumber-05.png", "size": 77235, "type": "image/png" }, { "file": "hidden_number/hiddennumber-06.png", "size": 73174, "type": "image/png" }, { "file": "hidden_number/hiddennumber-07.png", "size": 76606, "type": "image/png" }, { "file": "logo.png", "size": 114085, "type": "image/png" }, { "file": "minus/minus-01.jpeg", "size": 72783, "type": "image/jpeg" }, { "file": "minus/minus-02.jpeg", "size": 74413, "type": "image/jpeg" }, { "file": "minus/minus-03.jpeg", "size": 71339, "type": "image/jpeg" }, { "file": "minus/minus-04.jpeg", "size": 76861, "type": "image/jpeg" }, { "file": "number_comparison/.DS_Store", "size": 6148, "type": null }, { "file": "number_comparison/numbercomparison-01.jpeg", "size": 67853, "type": "image/jpeg" }, { "file": "number_comparison/numbercomparison-02.jpeg", "size": 69583, "type": "image/jpeg" }, { "file": "number_comparison/numbercomparison-03.jpeg", "size": 71068, "type": "image/jpeg" }, { "file": "number_comparison/numbercomparison-04.jpeg", "size": 70527, "type": "image/jpeg" }, { "file": "number_comparison/numbercomparison-05.jpeg", "size": 74497, "type": "image/jpeg" }, { "file": "number_comparison/numbercomparison-06.jpeg", "size": 79549, "type": "image/jpeg" }, { "file": "number_comparison/numbers/numbercomparison-1-2.jpeg", "size": 8006, "type": "image/jpeg" }, { "file": "number_comparison/numbers/numbercomparison-1-5.jpeg", "size": 6324, "type": "image/jpeg" }, { "file": "number_comparison/numbers/numbercomparison-2-3.jpeg", "size": 7925, "type": "image/jpeg" }, { "file": "number_comparison/numbers/numbercomparison-2-9.jpeg", "size": 8714, "type": "image/jpeg" }, { "file": "number_comparison/numbers/numbercomparison-3-16.jpeg", "size": 11663, "type": "image/jpeg" }, { "file": "number_comparison/numbers/numbercomparison-3-5.jpeg", "size": 6496, "type": "image/jpeg" }, { "file": "number_comparison/numbers/numbercomparison-4-13.jpeg", "size": 10551, "type": "image/jpeg" }, { "file": "number_comparison/numbers/numbercomparison-4-7.jpeg", "size": 6374, "type": "image/jpeg" }, { "file": "number_comparison/numbers/numbercomparison-5-14.jpeg", "size": 9645, "type": "image/jpeg" }, { "file": "number_comparison/numbers/numbercomparison-5-3.jpeg", "size": 7325, "type": "image/jpeg" }, { "file": "number_comparison/numbers/numbercomparison-5-5.jpeg", "size": 6401, "type": "image/jpeg" }, { "file": "number_comparison/numbers/numbercomparison-6-13.jpeg", "size": 10341, "type": "image/jpeg" }, { "file": "number_comparison/numbers/numbercomparison-6-15.jpeg", "size": 9644, "type": "image/jpeg" }, { "file": "number_comparison/numbers/numbercomparison-6-9.jpeg", "size": 8226, "type": "image/jpeg" }, { "file": "number_line/numberline-01.png", "size": 49762, "type": "image/png" }, { "file": "number_line/numberline-02.png", "size": 49280, "type": "image/png" }, { "file": "number_line/numberline-03.png", "size": 49287, "type": "image/png" }, { "file": "number_line/numberline-04.png", "size": 49234, "type": "image/png" }, { "file": "number_line/numberline-05.png", "size": 49215, "type": "image/png" }, { "file": "number_line/numberline-06.png", "size": 49260, "type": "image/png" }, { "file": "number_line/numberline-07.png", "size": 49281, "type": "image/png" }, { "file": "number_line/numberline-08.png", "size": 49285, "type": "image/png" }, { "file": "number_line/numberline-09.png", "size": 50209, "type": "image/png" }, { "file": "number_line/numberline-10.png", "size": 50230, "type": "image/png" }, { "file": "number_line/numberline-11.png", "size": 50130, "type": "image/png" }, { "file": "number_line/numberline-12.png", "size": 50314, "type": "image/png" }, { "file": "number_line/numberline-13.png", "size": 50271, "type": "image/png" }, { "file": "number_line/numberline-14.png", "size": 50238, "type": "image/png" }, { "file": "number_line/numberline-15.png", "size": 50191, "type": "image/png" }, { "file": "number_line/numberline-16.png", "size": 50150, "type": "image/png" }, { "file": "number_line/numberline-17.png", "size": 50305, "type": "image/png" }, { "file": "number_line/numberline-18.png", "size": 50210, "type": "image/png" }, { "file": "number_line/numberline-19.png", "size": 50169, "type": "image/png" }, { "file": "number_pattern/numberpattern-01.png", "size": 74509, "type": "image/png" }, { "file": "number_pattern/numberpattern-02.png", "size": 78259, "type": "image/png" }, { "file": "number_pattern/numberpattern-03.png", "size": 70723, "type": "image/png" }, { "file": "number_pattern/numberpattern-04.png", "size": 70306, "type": "image/png" }, { "file": "number_pattern/numberpattern-05.png", "size": 74334, "type": "image/png" }, { "file": "number_pattern/numberpattern-06.png", "size": 75363, "type": "image/png" }, { "file": "number_pattern/numberpattern-07.png", "size": 68413, "type": "image/png" }, { "file": "plus/plus-01.jpeg", "size": 74055, "type": "image/jpeg" }, { "file": "plus/plus-02.jpeg", "size": 74143, "type": "image/jpeg" }, { "file": "plus/plus-03.jpeg", "size": 77092, "type": "image/jpeg" }, { "file": "plus/plus-04.jpeg", "size": 74925, "type": "image/jpeg" }, { "file": "quantities/quantities-01.png", "size": 47429, "type": "image/png" }, { "file": "quantities/quantities-02.png", "size": 45323, "type": "image/png" }, { "file": "quantities/quantities-03.png", "size": 56575, "type": "image/png" }, { "file": "quantities/quantities-04.png", "size": 48165, "type": "image/png" }, { "file": "quantities/quantities-05.png", "size": 63474, "type": "image/png" }, { "file": "quantities/quantities-06.png", "size": 49151, "type": "image/png" }, { "file": "quantities/quantities-07.png", "size": 42586, "type": "image/png" }, { "file": "quantities/quantities-08.png", "size": 53215, "type": "image/png" }, { "file": "quantities/quantities-09.png", "size": 52164, "type": "image/png" }, { "file": "quantities/quantities-10.png", "size": 42330, "type": "image/png" }, { "file": "quantities/quantities-11.png", "size": 50335, "type": "image/png" }, { "file": "quantities/quantities-12.png", "size": 57982, "type": "image/png" }, { "file": "quantities/quantities-13.png", "size": 47901, "type": "image/png" }, { "file": "quantities/quantities-14.png", "size": 60376, "type": "image/png" }, { "file": "quantities/quantities-15.png", "size": 45186, "type": "image/png" }, { "file": "quantities/quantities-16.png", "size": 55279, "type": "image/png" }, { "file": "quantities/quantities-17.png", "size": 50296, "type": "image/png" }, { "file": "quantities/quantities-18.png", "size": 42511, "type": "image/png" }, { "file": "quantity_comparison/quantitiycomparison-01.png", "size": 50211, "type": "image/png" }, { "file": "quantity_comparison/quantitiycomparison-02.png", "size": 60192, "type": "image/png" }, { "file": "quantity_comparison/quantitiycomparison-03.png", "size": 55443, "type": "image/png" }, { "file": "quantity_comparison/quantitiycomparison-04.png", "size": 62896, "type": "image/png" }, { "file": "quantity_comparison/quantitiycomparison-05.png", "size": 61352, "type": "image/png" }, { "file": "quantity_comparison/quantitiycomparison-06.png", "size": 60261, "type": "image/png" }, { "file": "quantity_comparison/quantitiycomparison-07.png", "size": 59255, "type": "image/png" }, { "file": "quantity_comparison/quantitiycomparison-08.png", "size": 62310, "type": "image/png" }, { "file": "quantity_comparison/quantitiycomparison-09.png", "size": 59396, "type": "image/png" }, { "file": "quantity_comparison/quantitiycomparison-10.png", "size": 57621, "type": "image/png" }, { "file": "quantity_comparison/quantitiycomparison-11.png", "size": 59987, "type": "image/png" }, { "file": "quantity_comparison/quantitiycomparison-12.png", "size": 57756, "type": "image/png" }, { "file": "quantity_comparison/quantitiycomparison-13.png", "size": 57565, "type": "image/png" }, { "file": "star.png", "size": 9287, "type": "image/png" }, { "file": "threeColor/blue.png", "size": 6884, "type": "image/png" }, { "file": "threeColor/red.png", "size": 7234, "type": "image/png" }, { "file": "threeColor/yellow.png", "size": 6787, "type": "image/png" }, { "file": "twoColors/blue.png", "size": 5340, "type": "image/png" }, { "file": "twoColors/equal.png", "size": 4761, "type": "image/png" }, { "file": "twoColors/yellow.png", "size": 5355, "type": "image/png" }, { "file": "video/numberline_10_de.mp4", "size": 257179, "type": "video/mp4" }, { "file": "video/numberline_10_el_cy.mp4", "size": 186201, "type": "video/mp4" }, { "file": "video/numberline_20_de.mp4", "size": 298851, "type": "video/mp4" }, { "file": "video/numberline_20_el_cy.mp4", "size": 204804, "type": "video/mp4" }],
   layout: "src/routes/__layout.svelte",
   error: ".svelte-kit/build/components/error.svelte",
   routes: [
@@ -56389,6 +56330,13 @@ var manifest = {
       pattern: /^\/$/,
       params: empty,
       a: ["src/routes/__layout.svelte", "src/routes/index.svelte"],
+      b: [".svelte-kit/build/components/error.svelte"]
+    },
+    {
+      type: "page",
+      pattern: /^\/statistics\/?$/,
+      params: empty,
+      a: ["src/routes/__layout.svelte", "src/routes/statistics/index.svelte"],
       b: [".svelte-kit/build/components/error.svelte"]
     },
     {
@@ -56428,10 +56376,18 @@ var manifest = {
     },
     {
       type: "endpoint",
+      pattern: /^\/api\/statistics\/?$/,
+      params: empty,
+      load: () => Promise.resolve().then(function() {
+        return index$9;
+      })
+    },
+    {
+      type: "endpoint",
       pattern: /^\/api\/school\/?$/,
       params: empty,
       load: () => Promise.resolve().then(function() {
-        return index$7;
+        return index$8;
       })
     },
     {
@@ -56439,7 +56395,7 @@ var manifest = {
       pattern: /^\/api\/auth\/logout\/?$/,
       params: empty,
       load: () => Promise.resolve().then(function() {
-        return index$6;
+        return index$7;
       })
     },
     {
@@ -56447,7 +56403,7 @@ var manifest = {
       pattern: /^\/api\/auth\/login\/?$/,
       params: empty,
       load: () => Promise.resolve().then(function() {
-        return index$5;
+        return index$6;
       })
     },
     {
@@ -56463,7 +56419,7 @@ var manifest = {
       pattern: /^\/api\/user\/?$/,
       params: empty,
       load: () => Promise.resolve().then(function() {
-        return index$4;
+        return index$5;
       })
     },
     {
@@ -56490,6 +56446,9 @@ var module_lookup = {
     return error$1;
   }),
   "src/routes/index.svelte": () => Promise.resolve().then(function() {
+    return index$4;
+  }),
+  "src/routes/statistics/index.svelte": () => Promise.resolve().then(function() {
     return index$3;
   }),
   "src/routes/new-user/index.svelte": () => Promise.resolve().then(function() {
@@ -56514,7 +56473,7 @@ var module_lookup = {
     return index;
   })
 };
-var metadata_lookup = { "src/routes/__layout.svelte": { "entry": "pages/__layout.svelte-85a8359a.js", "css": ["assets/pages/__layout.svelte-32fa1eb6.css", "assets/vendor-15d9d811.css"], "js": ["pages/__layout.svelte-85a8359a.js", "chunks/vendor-dc16c193.js"], "styles": [] }, ".svelte-kit/build/components/error.svelte": { "entry": "error.svelte-4e5d1690.js", "css": ["assets/vendor-15d9d811.css"], "js": ["error.svelte-4e5d1690.js", "chunks/vendor-dc16c193.js"], "styles": [] }, "src/routes/index.svelte": { "entry": "pages/index.svelte-428124c3.js", "css": ["assets/pages/index.svelte-58228bff.css", "assets/vendor-15d9d811.css"], "js": ["pages/index.svelte-428124c3.js", "chunks/vendor-dc16c193.js", "chunks/index-a05f69de.js", "chunks/singletons-12a22614.js", "chunks/stores-4f8ab6e8.js"], "styles": [] }, "src/routes/new-user/index.svelte": { "entry": "pages/new-user/index.svelte-ed015279.js", "css": ["assets/vendor-15d9d811.css", "assets/SubmitButton-b30b09f9.css"], "js": ["pages/new-user/index.svelte-ed015279.js", "chunks/vendor-dc16c193.js", "chunks/stores-4f8ab6e8.js", "chunks/SubmitButton-561b3d06.js"], "styles": [] }, "src/routes/profile/index.svelte": { "entry": "pages/profile/index.svelte-bae8cdcc.js", "css": ["assets/vendor-15d9d811.css"], "js": ["pages/profile/index.svelte-bae8cdcc.js", "chunks/vendor-dc16c193.js"], "styles": [] }, "src/routes/profile/[username].svelte": { "entry": "pages/profile/[username].svelte-80e33e2b.js", "css": ["assets/vendor-15d9d811.css"], "js": ["pages/profile/[username].svelte-80e33e2b.js", "chunks/vendor-dc16c193.js", "chunks/stores-4f8ab6e8.js"], "styles": [] }, "src/routes/running/__layout.reset.svelte": { "entry": "pages/running/__layout.reset.svelte-5b2450d6.js", "css": ["assets/vendor-15d9d811.css"], "js": ["pages/running/__layout.reset.svelte-5b2450d6.js", "chunks/vendor-dc16c193.js"], "styles": [] }, "src/routes/running/[type].svelte": { "entry": "pages/running/[type].svelte-20eb7d3b.js", "css": ["assets/pages/running/[type].svelte-9bdd0f4b.css", "assets/vendor-15d9d811.css"], "js": ["pages/running/[type].svelte-20eb7d3b.js", "chunks/vendor-dc16c193.js", "chunks/stores-4f8ab6e8.js", "chunks/index-a05f69de.js"], "styles": [] }, "src/routes/login/__layout.reset.svelte": { "entry": "pages/login/__layout.reset.svelte-7257d82e.js", "css": ["assets/vendor-15d9d811.css"], "js": ["pages/login/__layout.reset.svelte-7257d82e.js", "chunks/vendor-dc16c193.js"], "styles": [] }, "src/routes/login/index.svelte": { "entry": "pages/login/index.svelte-0908ed3d.js", "css": ["assets/vendor-15d9d811.css", "assets/SubmitButton-b30b09f9.css"], "js": ["pages/login/index.svelte-0908ed3d.js", "chunks/vendor-dc16c193.js", "chunks/SubmitButton-561b3d06.js"], "styles": [] } };
+var metadata_lookup = { "src/routes/__layout.svelte": { "entry": "pages/__layout.svelte-bb8e86e3.js", "css": ["assets/pages/__layout.svelte-2d677eb7.css", "assets/vendor-15d9d811.css"], "js": ["pages/__layout.svelte-bb8e86e3.js", "chunks/vendor-5b9965f5.js", "chunks/navigation-51f4a605.js", "chunks/singletons-12a22614.js"], "styles": [] }, ".svelte-kit/build/components/error.svelte": { "entry": "error.svelte-76073fca.js", "css": ["assets/vendor-15d9d811.css"], "js": ["error.svelte-76073fca.js", "chunks/vendor-5b9965f5.js"], "styles": [] }, "src/routes/index.svelte": { "entry": "pages/index.svelte-6857c07b.js", "css": ["assets/pages/index.svelte-a4a57853.css", "assets/vendor-15d9d811.css"], "js": ["pages/index.svelte-6857c07b.js", "chunks/vendor-5b9965f5.js", "chunks/index-e4e60d94.js", "chunks/navigation-51f4a605.js", "chunks/singletons-12a22614.js", "chunks/stores-684e907a.js"], "styles": [] }, "src/routes/statistics/index.svelte": { "entry": "pages/statistics/index.svelte-564d5106.js", "css": ["assets/vendor-15d9d811.css"], "js": ["pages/statistics/index.svelte-564d5106.js", "chunks/vendor-5b9965f5.js"], "styles": [] }, "src/routes/new-user/index.svelte": { "entry": "pages/new-user/index.svelte-d560f3bf.js", "css": ["assets/vendor-15d9d811.css", "assets/SubmitButton-b30b09f9.css"], "js": ["pages/new-user/index.svelte-d560f3bf.js", "chunks/vendor-5b9965f5.js", "chunks/stores-684e907a.js", "chunks/SubmitButton-a91b4c9b.js"], "styles": [] }, "src/routes/profile/index.svelte": { "entry": "pages/profile/index.svelte-88449003.js", "css": ["assets/vendor-15d9d811.css"], "js": ["pages/profile/index.svelte-88449003.js", "chunks/vendor-5b9965f5.js"], "styles": [] }, "src/routes/profile/[username].svelte": { "entry": "pages/profile/[username].svelte-a5eb571d.js", "css": ["assets/vendor-15d9d811.css"], "js": ["pages/profile/[username].svelte-a5eb571d.js", "chunks/vendor-5b9965f5.js", "chunks/stores-684e907a.js"], "styles": [] }, "src/routes/running/__layout.reset.svelte": { "entry": "pages/running/__layout.reset.svelte-aebe7c92.js", "css": ["assets/vendor-15d9d811.css"], "js": ["pages/running/__layout.reset.svelte-aebe7c92.js", "chunks/vendor-5b9965f5.js"], "styles": [] }, "src/routes/running/[type].svelte": { "entry": "pages/running/[type].svelte-0136b2eb.js", "css": ["assets/pages/running/[type].svelte-aa0a5b9e.css", "assets/vendor-15d9d811.css"], "js": ["pages/running/[type].svelte-0136b2eb.js", "chunks/vendor-5b9965f5.js", "chunks/stores-684e907a.js", "chunks/index-e4e60d94.js"], "styles": [] }, "src/routes/login/__layout.reset.svelte": { "entry": "pages/login/__layout.reset.svelte-896281e9.js", "css": ["assets/vendor-15d9d811.css"], "js": ["pages/login/__layout.reset.svelte-896281e9.js", "chunks/vendor-5b9965f5.js"], "styles": [] }, "src/routes/login/index.svelte": { "entry": "pages/login/index.svelte-296cd7b7.js", "css": ["assets/vendor-15d9d811.css", "assets/SubmitButton-b30b09f9.css"], "js": ["pages/login/index.svelte-296cd7b7.js", "chunks/vendor-5b9965f5.js", "chunks/SubmitButton-a91b4c9b.js"], "styles": [] } };
 async function load_component(file) {
   const { entry, css: css2, js, styles } = metadata_lookup[file];
   return {
@@ -56531,6 +56490,28 @@ function render(request, {
   const host = request.headers["host"];
   return respond({ ...request, host }, options, { prerender });
 }
+var get$1 = async (request) => {
+  if (request.locals.authenticated) {
+    const completedRuns = await CompletedRun.find().populate({ path: "user_id", model: User });
+    return {
+      status: 200,
+      body: {
+        completedRuns
+      }
+    };
+  }
+  return {
+    status: 204,
+    body: {
+      message: "Not a researcher"
+    }
+  };
+};
+var index$9 = /* @__PURE__ */ Object.freeze({
+  __proto__: null,
+  [Symbol.toStringTag]: "Module",
+  get: get$1
+});
 var post$5 = async ({ body }) => {
   await connect();
   const req = JSON.parse(body);
@@ -56563,7 +56544,7 @@ var get = async (request) => {
     }
   };
 };
-var index$7 = /* @__PURE__ */ Object.freeze({
+var index$8 = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
   post: post$5,
@@ -56590,7 +56571,7 @@ var post$4 = async (request) => {
     }
   };
 };
-var index$6 = /* @__PURE__ */ Object.freeze({
+var index$7 = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
   post: post$4
@@ -56634,7 +56615,7 @@ var post$3 = async (request) => {
     }
   };
 };
-var index$5 = /* @__PURE__ */ Object.freeze({
+var index$6 = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
   post: post$3
@@ -56658,7 +56639,7 @@ var test = /* @__PURE__ */ Object.freeze({
   post: post$2
 });
 var post$1 = async (request) => {
-  const { username, password, type, school_id } = request.body.valueOf();
+  const { username, password, language, type, school_id } = request.body.valueOf();
   const user = await User.findOne({ username });
   if (user) {
     return {
@@ -56668,7 +56649,7 @@ var post$1 = async (request) => {
       }
     };
   }
-  const newUser = new User({ username, password, type, school_id });
+  const newUser = new User({ username, password, language, type, school_id });
   await newUser.save();
   const school = await School.findById(school_id);
   school.users = [...school.users, newUser.id];
@@ -56680,7 +56661,7 @@ var post$1 = async (request) => {
     }
   };
 };
-var index$4 = /* @__PURE__ */ Object.freeze({
+var index$5 = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
   post: post$1
@@ -56713,7 +56694,7 @@ var complete = /* @__PURE__ */ Object.freeze({
   [Symbol.toStringTag]: "Module",
   post
 });
-var __awaiter$5 = function(thisArg, _arguments, P, generator) {
+var __awaiter$6 = function(thisArg, _arguments, P, generator) {
   function adopt(value) {
     return value instanceof P ? value : new P(function(resolve2) {
       resolve2(value);
@@ -56740,7 +56721,7 @@ var __awaiter$5 = function(thisArg, _arguments, P, generator) {
     step((generator = generator.apply(thisArg, _arguments || [])).next());
   });
 };
-var load$6 = ({ session: session2 }) => __awaiter$5(void 0, void 0, void 0, function* () {
+var load$7 = ({ session: session2 }) => __awaiter$6(void 0, void 0, void 0, function* () {
   if (session2.user) {
     delete session2.user.password;
     return { props: { user: session2.user } };
@@ -56781,10 +56762,10 @@ var _layout = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   if ($$props.user === void 0 && $$bindings.user && user !== void 0)
     $$bindings.user(user);
   nav = navOpen;
-  return `<header class="${"flex flex-wrap flex-row justify-between lg:items-center lg:space-x-4 p-6 relative"}"><a href="${"/"}"><h1 class="${"text-xl"}">DIDUNAS</h1></a>
+  return `<header class="${"flex flex-wrap flex-row justify-between lg:items-center lg:space-x-4 p-6"}"><img src="${"/logo.png"}" alt="${"Didunas logo"}" class="${"w-1/12 cursor-pointer"}">
 	<button class="${"inline-block lg:hidden w-8 h-8 bg-gray-200 text-gray-600 p-1 rounded"}"><svg fill="${"currentColor"}" viewBox="${"0 0 20 20"}" xmlns="${"http://www.w3.org/2000/svg"}"><path fill-rule="${"evenodd"}" d="${"M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"}" clip-rule="${"evenodd"}"></path></svg></button>
 	<nav${add_attribute("class", `${nav ? `flex` : `hidden`} absolute lg:relative lg:block top-16 lg:top-0 left-0 z-20 flex flex-col lg:flex-row lg:space-x-6 font-semibold w-full lg:w-auto bg-white shadow-md rounded-lg lg:shadow-none lg:rounded-none lg:bg-transparent p-6 pt-0 lg:p-0`, 0)}>${user && user.type ? `<a href="${"/profile"}" class="${"nav-item"}">Profile</a>
-			${user.type === "teacher" || user.type === "researcher" ? `<a href="${"/profile"}" class="${"nav-item"}">Statistics</a>
+			${user.type === "teacher" || user.type === "researcher" ? `<a href="${"/statistics"}" class="${"nav-item"}">Statistics</a>
 				<a href="${"/new-user"}" class="${"nav-item"}">New user</a>` : ``}
 			${user.type === "researcher" ? `<a href="${"/tasks"}" class="${"nav-item"}">Tasks</a>` : ``}` : `<a href="${"/login"}" class="${"nav-item"}">Login</a>`}</nav></header>
 
@@ -56794,9 +56775,9 @@ var __layout = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
   "default": _layout,
-  load: load$6
+  load: load$7
 });
-function load$5({ error: error2, status }) {
+function load$6({ error: error2, status }) {
   return { props: { error: error2, status } };
 }
 var Error$1 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
@@ -56819,7 +56800,7 @@ var error$1 = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
   "default": Error$1,
-  load: load$5
+  load: load$6
 });
 var css$5 = {
   code: "svg.svelte-heylkm{stroke:currentColor;fill:currentColor;stroke-width:0;height:auto;max-height:100%;width:100%}",
@@ -56856,7 +56837,7 @@ var AudioPlayer = create_ssr_component(($$result, $$props, $$bindings, slots) =>
     $$bindings.autoplay(autoplay);
   return `<button class="${"w-12 p-1 rounded-md border-gray-400 border-2 hover:bg-blue-400"}">${paused ? `${validate_component(FaRegPlayCircle, "FaRegPlayCircle").$$render($$result, {}, {}, {})}` : `${validate_component(FaRegPauseCircle, "FaRegPauseCircle").$$render($$result, {}, {}, {})}`}</button>
 
-<audio${add_attribute("src", src2, 0)} controls ${autoplay ? "autoplay" : ""} class="${"hidden"}"${add_attribute("this", player, 0)}${add_attribute("paused", paused, 0)}><track kind="${"captions"}"></audio>`;
+<audio${add_attribute("src", src2, 0)} controls ${autoplay ? "autoplay" : ""} class="${"hidden"}"${add_attribute("this", player, 0)}${add_attribute("paused", paused, 0)}></audio>`;
 });
 var TextAndAudio = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   let { text } = $$props;
@@ -56868,96 +56849,313 @@ var TextAndAudio = create_ssr_component(($$result, $$props, $$bindings, slots) =
     $$bindings.src(src2);
   if ($$props.autoplay === void 0 && $$bindings.autoplay && autoplay !== void 0)
     $$bindings.autoplay(autoplay);
-  return `<div class="${"flex justify-center items-center gap-2"}"><span class="${"whitespace-pre-line"}">${escape(text)}</span>
+  return `<div class="${"flex justify-center items-center gap-2 font-grund text-xl"}"><span class="${"whitespace-pre-line"}">${escape(text)}</span>
 	${validate_component(AudioPlayer, "AudioPlayer").$$render($$result, { src: src2, autoplay }, {}, {})}</div>`;
 });
 var textAndAudio = {
-  "1": { audio: "/audio/01.m4a", text: "\u039C\u03B5 \u03C4\u03B9 \u03B8\u03B1 \u03AE\u03B8\u03B5\u03BB\u03B5\u03C2 \u03BD\u03B1 \u03B1\u03C3\u03C7\u03BF\u03BB\u03B7\u03B8\u03B5\u03AF\u03C2; \u0394\u03B9\u03AC\u03BB\u03B5\u03BE\u03B5 \u03BC\u03AF\u03B1 \u03B5\u03C1\u03B3\u03B1\u03C3\u03AF\u03B1." },
-  "2": { audio: "/audio/02.m4a", text: "\u03A3\u03C5\u03B3\u03BA\u03B5\u03BD\u03C4\u03C1\u03CE\u03C3\u03BF\u03C5 \u03BA\u03B1\u03B9 \u03B4\u03BF\u03CD\u03BB\u03B5\u03C8\u03B5 \u03C3\u03C4\u03B9\u03C2 \u03B5\u03C1\u03B3\u03B1\u03C3\u03AF\u03B5\u03C2." },
+  "1": {
+    audio: { de: "/audio/01_de.MP3", el_cy: "/audio/01_el_cy.m4a" },
+    text: {
+      de: "Woran m\xF6chtest du arbeiten?\nW\xE4hle eine Aufgabe.",
+      el_cy: "\u039C\u03B5 \u03C4\u03B9 \u03B8\u03B1 \u03AE\u03B8\u03B5\u03BB\u03B5\u03C2 \u03BD\u03B1 \u03B1\u03C3\u03C7\u03BF\u03BB\u03B7\u03B8\u03B5\u03AF\u03C2; \u0395\u03C0\u03AD\u03BB\u03B5\u03BE\u03B5 \u03BC\u03AF\u03B1 \u03B5\u03C1\u03B3\u03B1\u03C3\u03AF\u03B1."
+    }
+  },
+  "2": {
+    audio: { de: "/audio/02_de.MP3", el_cy: "/audio/02_el_cy.m4a" },
+    text: {
+      de: "Konzentrier dich, bearbeite alle Aufgaben nacheinander und lass dich nicht ablenken.",
+      el_cy: "\u03A3\u03C5\u03B3\u03BA\u03B5\u03BD\u03C4\u03C1\u03CE\u03C3\u03BF\u03C5 \u03BA\u03B1\u03B9 \u03B4\u03BF\u03CD\u03BB\u03B5\u03C8\u03B5 \u03C3\u03C4\u03B9\u03C2 \u03B5\u03C1\u03B3\u03B1\u03C3\u03AF\u03B5\u03C2, \u03BA\u03AC\u03BD\u03BF\u03BD\u03C4\u03B1\u03C2 \u03C4\u03B7\u03BD \u03BC\u03AF\u03B1 \u03B5\u03C1\u03B3\u03B1\u03C3\u03AF\u03B1 \u03BC\u03B5\u03C4\u03AC \u03C4\u03B7\u03BD \u03AC\u03BB\u03BB\u03B7 \u03BC\u03B5 \u03C0\u03C1\u03BF\u03C3\u03BF\u03C7\u03AE."
+    }
+  },
   "3": {
-    audio: "/audio/03.m4a",
-    text: "\u03A0\u03B9\u03BF \u03BA\u03AC\u03C4\u03C9 \u03B2\u03BB\u03AD\u03C0\u03B5\u03B9\u03C2 \u03AD\u03BD\u03B1\u03BD \u03C0\u03AF\u03BD\u03B1\u03BA\u03B1 \u03BC\u03B5 \u03B1\u03C1\u03B9\u03B8\u03BC\u03BF\u03CD\u03C2. \u0392\u03C1\u03B5\u03C2 \u03C4\u03BF\u03BD \u03B1\u03C1\u03B9\u03B8\u03BC\u03CC 7 \u03BA\u03B1\u03B9 \u03B5\u03C0\u03AD\u03BB\u03B5\u03BE\u03B5 \u03C4\u03BF\u03BD. "
+    audio: { de: "/audio/03_de.MP3", el_cy: "/audio/03_el_cy.m4a" },
+    text: {
+      de: "Hier siehst du ein Zahlenfeld.\nFinde die 7 und dr\xFCck mit dem Finger drauf.",
+      el_cy: "\u03A0\u03B9\u03BF \u03BA\u03AC\u03C4\u03C9 \u03B2\u03BB\u03AD\u03C0\u03B5\u03B9\u03C2 \u03AD\u03BD\u03B1\u03BD \u03C0\u03AF\u03BD\u03B1\u03BA\u03B1 \u03BC\u03B5 \u03B1\u03C1\u03B9\u03B8\u03BC\u03BF\u03CD\u03C2. \u0392\u03C1\u03B5\u03C2 \u03C4\u03BF\u03BD \u03B1\u03C1\u03B9\u03B8\u03BC\u03CC 7 \u03BA\u03B1\u03B9 \u03C0\u03AC\u03C4\u03B7\u03C3\u03B5 \u03C4\u03BF\u03BD. "
+    }
   },
   "4": {
-    audio: "/audio/04.m4a",
-    text: "\u0395\u03B4\u03CE \u03B2\u03BB\u03AD\u03C0\u03B5\u03B9\u03C2 \u03AD\u03BD\u03B1 \u03B1\u03C3\u03C4\u03AD\u03C1\u03B9. \u038C\u03C4\u03B1\u03BD \u03B5\u03C0\u03B9\u03BB\u03AD\u03BE\u03B5\u03B9\u03C2 \u03C4\u03BF \u03B1\u03C3\u03C4\u03AD\u03C1\u03B9, \u03B8\u03B1 \u03C0\u03C1\u03BF\u03C7\u03C9\u03C1\u03AE\u03C3\u03B5\u03B9\u03C2 \u03C3\u03C4\u03B7\u03BD \u03B5\u03C0\u03CC\u03BC\u03B5\u03BD\u03B7 \u03B5\u03C1\u03B3\u03B1\u03C3\u03AF\u03B1."
+    audio: { de: "/audio/04_de.MP3", el_cy: "/audio/04_el_cy.m4a" },
+    text: {
+      de: "Hier siehst du einen Stern.\nDr\xFCck auf den Stern, dann kommt die n\xE4chste Aufgabe. ",
+      el_cy: "\u0395\u03B4\u03CE \u03B2\u03BB\u03AD\u03C0\u03B5\u03B9\u03C2 \u03AD\u03BD\u03B1 \u03B1\u03C3\u03C4\u03AD\u03C1\u03B9. \u038C\u03C4\u03B1\u03BD \u03C0\u03B1\u03C4\u03AE\u03C3\u03B5\u03B9\u03C2 \u03C4\u03BF \u03B1\u03C3\u03C4\u03AD\u03C1\u03B9, \u03B8\u03B1 \u03C0\u03C1\u03BF\u03C7\u03C9\u03C1\u03AE\u03C3\u03B5\u03B9\u03C2 \u03C3\u03C4\u03B7\u03BD \u03B5\u03C0\u03CC\u03BC\u03B5\u03BD\u03B7 \u03B5\u03C1\u03B3\u03B1\u03C3\u03AF\u03B1."
+    }
   },
-  "5": { audio: "/audio/05.m4a", text: "\u03A0\u03AC\u03C4\u03B7\u03C3\u03B5 / \u0395\u03C0\u03AD\u03BB\u03B5\u03BE\u03B5 \u03C4\u03BF \u03B1\u03C3\u03C4\u03AD\u03C1\u03B9." },
-  "6": { audio: "/audio/06.m4a", text: "\u03A0\u03AC\u03C4\u03B7\u03C3\u03B5 / \u0395\u03C0\u03AD\u03BB\u03B5\u03BE\u03B5 \u03C4\u03BF\u03BD \u03B1\u03C1\u03B9\u03B8\u03BC\u03CC 11." },
-  "7": { audio: "/audio/07.m4a", text: "\u0395\u03AC\u03BD \u03B4\u03B5\u03BD \u03B3\u03BD\u03C9\u03C1\u03AF\u03B6\u03B5\u03B9\u03C2 \u03C4\u03B7\u03BD \u03B1\u03C0\u03AC\u03BD\u03C4\u03B7\u03C3\u03B7, \u03B5\u03C0\u03AD\u03BB\u03B5\u03BE\u03B5 \u03C4\u03BF \u03B1\u03C3\u03C4\u03AD\u03C1\u03B9." },
+  "5": {
+    audio: { de: "/audio/05_de.MP3", el_cy: "/audio/05_el_cy.m4a" },
+    text: { de: "Dr\xFCck auf den Stern.", el_cy: "\u03A0\u03AC\u03C4\u03B7\u03C3\u03B5 \u03C4\u03BF \u03B1\u03C3\u03C4\u03AD\u03C1\u03B9." }
+  },
+  "6": {
+    audio: { de: "/audio/06_de.MP3", el_cy: "/audio/06_el_cy.m4a" },
+    text: { de: "Dr\xFCck auf die 11.", el_cy: "\u03A0\u03AC\u03C4\u03B7\u03C3\u03B5 \u03C4\u03BF\u03BD \u03B1\u03C1\u03B9\u03B8\u03BC\u03CC 11." }
+  },
+  "7": {
+    audio: { de: "/audio/07_de.MP3", el_cy: "/audio/07_el_cy.m4a" },
+    text: {
+      de: "Wenn du bei einer Aufgabe nicht weiter wei\xDFt, dr\xFCck auf den Stern.",
+      el_cy: "\u0395\u03AC\u03BD \u03B4\u03B5\u03BD \u03B3\u03BD\u03C9\u03C1\u03AF\u03B6\u03B5\u03B9\u03C2 \u03C4\u03B7\u03BD \u03B1\u03C0\u03AC\u03BD\u03C4\u03B7\u03C3\u03B7, \u03C0\u03AC\u03C4\u03B7\u03C3\u03B5 \u03C4\u03BF \u03B1\u03C3\u03C4\u03AD\u03C1\u03B9."
+    }
+  },
   "8": {
-    audio: "/audio/08.m4a",
-    text: "\u03A0\u03CC\u03C3\u03B5\u03C2 \u03BA\u03BF\u03C5\u03BA\u03BA\u03AF\u03B4\u03B5\u03C2 \u03B2\u03BB\u03AD\u03C0\u03B5\u03B9\u03C2; \u0395\u03C0\u03AD\u03BB\u03B5\u03BE\u03B5 \u03C4\u03BF\u03BD \u03C3\u03C9\u03C3\u03C4\u03CC \u03B1\u03C1\u03B9\u03B8\u03BC\u03CC \u03B1\u03C0\u03CC \u03C4\u03BF \u03C0\u03BB\u03AD\u03B3\u03BC\u03B1 \u03BC\u03B5 \u03C4\u03BF\u03C5\u03C2 \u03B1\u03C1\u03B9\u03B8\u03BC\u03BF\u03CD\u03C2."
+    audio: { de: "/audio/08_de.MP3", el_cy: "/audio/08_el_cy.m4a" },
+    text: {
+      de: "Wie viele Punkte siehst du?\nDr\xFCck auf die Zahl auf dem Zahlenfeld.",
+      el_cy: "\u03A0\u03CC\u03C3\u03B5\u03C2 \u03BA\u03BF\u03C5\u03BA\u03BA\u03AF\u03B4\u03B5\u03C2 \u03B2\u03BB\u03AD\u03C0\u03B5\u03B9\u03C2; \u03A0\u03AC\u03C4\u03B7\u03C3\u03B5 \u03C4\u03BF\u03BD \u03BF\u03C1\u03B8\u03CC \u03B1\u03C1\u03B9\u03B8\u03BC\u03CC \u03B1\u03C0\u03CC \u03C4\u03BF \u03C0\u03BB\u03AD\u03B3\u03BC\u03B1 \u03BC\u03B5 \u03C4\u03BF\u03C5\u03C2 \u03B1\u03C1\u03B9\u03B8\u03BC\u03BF\u03CD\u03C2."
+    }
   },
   "9": {
-    audio: "/audio/09.m4a",
-    text: "\u03A0\u03BF\u03B9\u03BF\u03BD \u03B1\u03C1\u03B9\u03B8\u03BC\u03CC \u03B4\u03B5\u03AF\u03C7\u03BD\u03B5\u03B9 \u03C4\u03BF \u03C4\u03CC\u03BE\u03BF;\n\u0395\u03C0\u03AD\u03BB\u03B5\u03BE\u03B5 \u03C4\u03BF\u03BD \u03C3\u03C9\u03C3\u03C4\u03CC \u03B1\u03C1\u03B9\u03B8\u03BC\u03CC \u03B1\u03C0\u03CC \u03C4\u03BF\u03BD \u03C0\u03AF\u03BD\u03B1\u03BA\u03B1 \u03BC\u03B5 \u03C4\u03BF\u03C5\u03C2 \u03B1\u03C1\u03B9\u03B8\u03BC\u03BF\u03CD\u03C2."
+    audio: { de: "/audio/09_de.MP3", el_cy: "/audio/09_el_cy.m4a" },
+    text: {
+      de: "Bei welcher Zahl ist das rote Kreuz?\nDr\xFCck auf die Zahl auf dem Zahlenfeld.",
+      el_cy: "\u03A0\u03BF\u03B9\u03BF\u03BD \u03B1\u03C1\u03B9\u03B8\u03BC\u03CC \u03B4\u03B5\u03AF\u03C7\u03BD\u03B5\u03B9 \u03C4\u03BF \u03C4\u03CC\u03BE\u03BF;\n\u03A0\u03AC\u03C4\u03B7\u03C3\u03B5 \u03C4\u03BF\u03BD \u03BF\u03C1\u03B8\u03CC \u03B1\u03C1\u03B9\u03B8\u03BC\u03CC \u03B1\u03C0\u03CC \u03C4\u03BF\u03BD \u03C0\u03AF\u03BD\u03B1\u03BA\u03B1 \u03BC\u03B5 \u03C4\u03BF\u03C5\u03C2 \u03B1\u03C1\u03B9\u03B8\u03BC\u03BF\u03CD\u03C2."
+    }
   },
   "10": {
-    audio: "/audio/10.m4a",
-    text: "\u03A0\u03BF\u03B9\u03BF\u03C2 \u03B1\u03C1\u03B9\u03B8\u03BC\u03CC\u03C2 \u03BA\u03C1\u03CD\u03B2\u03B5\u03C4\u03B1\u03B9 \u03C0\u03AF\u03C3\u03C9 \u03B1\u03C0\u03CC \u03C4\u03BF\u03BD \u03AE\u03BB\u03B9\u03BF; \u0395\u03C0\u03AD\u03BB\u03B5\u03BE\u03B5 \u03C4\u03BF\u03BD \u03C3\u03C9\u03C3\u03C4\u03CC \u03B1\u03C1\u03B9\u03B8\u03BC\u03CC \u03B1\u03C0\u03CC \u03C4\u03BF\u03BD \u03C0\u03AF\u03BD\u03B1\u03BA\u03B1 \u03BC\u03B5 \u03C4\u03BF\u03C5\u03C2 \u03B1\u03C1\u03B9\u03B8\u03BC\u03BF\u03CD\u03C2."
+    audio: { de: "/audio/10_de.MP3", el_cy: "/audio/10_el_cy.m4a" },
+    text: {
+      de: "Hier siehst du aufeinander folgende Zahlen. Welche Zahl ist hinter der Sonne?\nDr\xFCck auf die Zahl auf dem Zahlenfeld.",
+      el_cy: "\u0395\u03B4\u03CE \u03B2\u03BB\u03AD\u03C0\u03B5\u03B9\u03C2 \u03BC\u03B9\u03B1 \u03C3\u03B5\u03B9\u03C1\u03AC \u03BC\u03B5 \u03C3\u03C5\u03BD\u03B5\u03C7\u03CC\u03BC\u03B5\u03BD\u03BF\u03C5\u03C2 \u03B1\u03C1\u03B9\u03B8\u03BC\u03BF\u03CD\u03C2. \u03A0\u03BF\u03B9\u03BF\u03C2 \u03B1\u03C1\u03B9\u03B8\u03BC\u03CC\u03C2 \u03BA\u03C1\u03CD\u03B2\u03B5\u03C4\u03B1\u03B9 \u03C0\u03AF\u03C3\u03C9 \u03B1\u03C0\u03CC \u03C4\u03BF\u03BD \u03AE\u03BB\u03B9\u03BF; \u03A0\u03AC\u03C4\u03B7\u03C3\u03B5 \u03C4\u03BF\u03BD \u03BF\u03C1\u03B8\u03CC \u03B1\u03C1\u03B9\u03B8\u03BC\u03CC \u03B1\u03C0\u03CC \u03C4\u03BF\u03BD \u03C0\u03AF\u03BD\u03B1\u03BA\u03B1 \u03BC\u03B5 \u03C4\u03BF\u03C5\u03C2 \u03B1\u03C1\u03B9\u03B8\u03BC\u03BF\u03CD\u03C2."
+    }
   },
   "11": {
-    audio: "/audio/11.m4a",
-    text: "\u0395\u03B4\u03CE, \u03B2\u03BB\u03AD\u03C0\u03B5\u03B9\u03C2 3 \u03BA\u03BF\u03C5\u03BA\u03BA\u03AF\u03B4\u03B5\u03C2. \u0394\u03B5\u03BD \u03C0\u03C1\u03AD\u03C0\u03B5\u03B9 \u03BD\u03B1 \u03B5\u03C0\u03B9\u03BB\u03AD\u03BE\u03B5\u03B9\u03C2 \u03C0\u03CC\u03C3\u03B5\u03C2 \u03BA\u03BF\u03C5\u03BA\u03BA\u03AF\u03B4\u03B5\u03C2 \u03B2\u03BB\u03AD\u03C0\u03B5\u03B9\u03C2 \u03B1\u03BB\u03BB\u03AC \u03BD\u03B1 \u03B5\u03C0\u03B9\u03BB\u03AD\u03BE\u03B5\u03B9\u03C2 \u03C0\u03CC\u03C3\u03B5\u03C2 \u03BA\u03BF\u03C5\u03BA\u03BA\u03AF\u03B4\u03B5\u03C2 \u03C0\u03C1\u03AD\u03C0\u03B5\u03B9 \u03BD\u03B1 \u03B1\u03C6\u03B1\u03B9\u03C1\u03B5\u03B8\u03BF\u03CD\u03BD \u03CE\u03C3\u03C4\u03B5 \u03BD\u03B1 \u03BC\u03B5\u03AF\u03BD\u03B5\u03B9 \u03BC\u03CC\u03BD\u03BF \u03BC\u03AF\u03B1 \u03BA\u03BF\u03C5\u03BA\u03BA\u03AF\u03B4\u03B1.\n\u0395\u03C0\u03AD\u03BB\u03B5\u03BE\u03B5 \u03C4\u03BF\u03BD \u03C3\u03C9\u03C3\u03C4\u03CC \u03B1\u03C1\u03B9\u03B8\u03BC\u03CC \u03B1\u03C0\u03CC \u03C4\u03BF\u03BD \u03C0\u03AF\u03BD\u03B1\u03BA\u03B1 \u03BC\u03B5 \u03C4\u03BF\u03C5\u03C2 \u03B1\u03C1\u03B9\u03B8\u03BC\u03BF\u03CD\u03C2."
+    audio: { de: "/audio/11_de.MP3", el_cy: "/audio/11_el_cy.m4a" },
+    text: {
+      de: "Hier siehst du 10 Punkte. Dr\xFCck auf die 10 auf dem Zahlenfeld.",
+      el_cy: "\u0395\u03B4\u03CE, \u03B2\u03BB\u03AD\u03C0\u03B5\u03B9\u03C2 10 \u03BA\u03BF\u03C5\u03BA\u03BA\u03AF\u03B4\u03B5\u03C2. \u03A0\u03AC\u03C4\u03B7\u03C3\u03B5 \u03C4\u03BF\u03BD \u03B1\u03C1\u03B9\u03B8\u03BC\u03CC 10 \u03B1\u03C0\u03CC \u03C4\u03BF\u03BD \u03C0\u03AF\u03BD\u03B1\u03BA\u03B1 \u03BC\u03B5 \u03C4\u03BF\u03C5\u03C2 \u03B1\u03C1\u03B9\u03B8\u03BC\u03BF\u03CD\u03C2."
+    }
   },
   "12": {
-    audio: "/audio/12.m4a",
-    text: "\u03A0\u03CC\u03C3\u03B5\u03C2 \u03BA\u03BF\u03C5\u03BA\u03BA\u03AF\u03B4\u03B5\u03C2 \u03C0\u03C1\u03AD\u03C0\u03B5\u03B9 \u03BD\u03B1 \u03B1\u03C6\u03B1\u03B9\u03C1\u03AD\u03C3\u03B5\u03B9\u03C2 \u03B3\u03B9\u03B1 \u03BD\u03B1 \u03BC\u03B5\u03AF\u03BD\u03BF\u03C5\u03BD \u03BC\u03CC\u03BD\u03BF 3;"
+    audio: { de: "/audio/12_de.MP3", el_cy: "/audio/12_el_cy.m4a" },
+    text: {
+      de: "Wie viele Punkte fehlen bis zur 10?\nDr\xFCck auf die Zahl auf dem Zahlenfeld.",
+      el_cy: "\u03A0\u03CC\u03C3\u03B5\u03C2 \u03C4\u03B5\u03BB\u03B5\u03AF\u03B5\u03C2 \u03C7\u03C1\u03B5\u03B9\u03AC\u03B6\u03BF\u03BD\u03C4\u03B1\u03B9 \u03B3\u03B9\u03B1 \u03BD\u03B1 \u03B3\u03AF\u03BD\u03BF\u03C5\u03BD \u03B4\u03AD\u03BA\u03B1;\n\u03A0\u03AC\u03C4\u03B7\u03C3\u03B5 \u03C4\u03BF\u03BD \u03B1\u03C0\u03CC \u03C4\u03BF\u03BD \u03C0\u03AF\u03BD\u03B1\u03BA\u03B1 \u03BC\u03B5 \u03C4\u03BF\u03C5\u03C2 \u03B1\u03C1\u03B9\u03B8\u03BC\u03BF\u03CD\u03C2."
+    }
   },
   "13": {
-    audio: "/audio/13.m4a",
-    text: "\u03A0\u03CC\u03C3\u03B5\u03C2 \u03BA\u03BF\u03C5\u03BA\u03BA\u03AF\u03B4\u03B5\u03C2 \u03C0\u03C1\u03AD\u03C0\u03B5\u03B9 \u03BD\u03B1 \u03B1\u03C6\u03B1\u03B9\u03C1\u03AD\u03C3\u03B5\u03B9\u03C2 \u03B3\u03B9\u03B1 \u03BD\u03B1 \u03BC\u03B5\u03AF\u03BD\u03BF\u03C5\u03BD \u03BC\u03CC\u03BD\u03BF 4;"
+    audio: { de: "/audio/13_de.MP3", el_cy: "/audio/13_el_cy.m4a" },
+    text: {
+      de: "Welche Zahl ist gr\xF6\xDFer?\nDr\xFCck auf die gr\xF6\xDFere Zahl.",
+      el_cy: "\u03A0\u03BF\u03B9\u03BF\u03C2 \u03B1\u03C1\u03B9\u03B8\u03BC\u03CC\u03C2 \u03B5\u03AF\u03BD\u03B1\u03B9 \u03BF \u03BC\u03B5\u03B3\u03B1\u03BB\u03CD\u03C4\u03B5\u03C1\u03BF\u03C2;\n\u03A0\u03AC\u03C4\u03B7\u03C3\u03B5 \u03C4\u03BF\u03BD \u03BF\u03C1\u03B8\u03CC \u03B1\u03C1\u03B9\u03B8\u03BC\u03CC \u03B1\u03C0\u03CC \u03C4\u03BF\u03BD \u03C0\u03AF\u03BD\u03B1\u03BA\u03B1 \u03BC\u03B5 \u03C4\u03BF\u03C5\u03C2 \u03B1\u03C1\u03B9\u03B8\u03BC\u03BF\u03CD\u03C2."
+    }
   },
   "14": {
-    audio: "/audio/14.m4a",
-    text: "\u0395\u03B4\u03CE, \u03B2\u03BB\u03AD\u03C0\u03B5\u03B9\u03C2 2 \u03BA\u03BF\u03C5\u03BA\u03BA\u03AF\u03B4\u03B5\u03C2. \u03A0\u03CC\u03C3\u03B5\u03C2 \u03C0\u03C1\u03AD\u03C0\u03B5\u03B9 \u03BD\u03B1 \u03C0\u03C1\u03BF\u03C3\u03B8\u03AD\u03C3\u03B5\u03B9\u03C2 \u03B3\u03B9\u03B1 \u03BD\u03B1 \u03AD\u03C7\u03B5\u03B9\u03C2 3;"
+    audio: { de: "/audio/14_de.MP3", el_cy: "/audio/14_el_cy.m4a" },
+    text: {
+      de: "Was kommt raus?\nDr\xFCck auf die Zahl auf dem Zahlenfeld.",
+      el_cy: "\u039D\u03B1 \u03B2\u03C1\u03B5\u03B9\u03C2 \u03C4\u03BF \u03B1\u03C0\u03BF\u03C4\u03AD\u03BB\u03B5\u03C3\u03BC\u03B1.\n\u03A0\u03AC\u03C4\u03B7\u03C3\u03B5 \u03C4\u03BF\u03BD \u03BF\u03C1\u03B8\u03CC \u03B1\u03C1\u03B9\u03B8\u03BC\u03CC \u03B1\u03C0\u03CC \u03C4\u03BF\u03BD \u03C0\u03AF\u03BD\u03B1\u03BA\u03B1 \u03BC\u03B5 \u03C4\u03BF\u03C5\u03C2 \u03B1\u03C1\u03B9\u03B8\u03BC\u03BF\u03CD\u03C2."
+    }
   },
-  "15": { audio: "/audio/15.m4a", text: "\u03A0\u03CC\u03C3\u03B5\u03C2 \u03C0\u03C1\u03AD\u03C0\u03B5\u03B9 \u03BD\u03B1 \u03C0\u03C1\u03BF\u03C3\u03B8\u03AD\u03C3\u03B5\u03B9\u03C2 \u03B3\u03B9\u03B1 \u03BD\u03B1 \u03AD\u03C7\u03B5\u03B9\u03C2 7;" },
-  "16": { audio: "/audio/16.m4a", text: "\u03A0\u03CC\u03C3\u03B5\u03C2 \u03C0\u03C1\u03AD\u03C0\u03B5\u03B9 \u03BD\u03B1 \u03C0\u03C1\u03BF\u03C3\u03B8\u03AD\u03C3\u03B5\u03B9\u03C2 \u03B3\u03B9\u03B1 \u03BD\u03B1 \u03AD\u03C7\u03B5\u03B9\u03C2 8;" },
+  "15": {
+    audio: { de: "/audio/15_de.MP3", el_cy: "/audio/15_el_cy.m4a" },
+    text: {
+      de: "Was ist mehr? Blau, oder gelb, oder beide gleich?\nDr\xFCck auf die blaue, die gelbe oder die \u201EGleich\u201C-Taste.",
+      el_cy: "\u03A0\u03BF\u03B9\u03B1 \u03B5\u03AF\u03BD\u03B1\u03B9 \u03C0\u03B5\u03C1\u03B9\u03C3\u03C3\u03CC\u03C4\u03B5\u03C1\u03B1; \u03A4\u03B1 \u03BC\u03C0\u03BB\u03B5; \u0389 \u03C4\u03B1 \u03BA\u03AF\u03C4\u03C1\u03B9\u03BD\u03B1; \u0389 \u03B5\u03AF\u03BD\u03B1\u03B9 \u03AF\u03C3\u03B1;\n\u03A0\u03AC\u03C4\u03B7\u03C3\u03B5 \u03C4\u03BF \u03BC\u03C0\u03BB\u03B5 \u03AE \u03C4\u03BF \u03BA\u03AF\u03C4\u03C1\u03B9\u03BD\u03BF \u03AE \u03C4\u03BF \u03AF\u03C3\u03BF\u03BD."
+    }
+  },
+  "16": {
+    audio: { de: "/audio/16_de.MP3", el_cy: "/audio/16_el_cy.m4a" },
+    text: {
+      de: "Hier siehst du Punkte. Erst rot, dann gelb, rot, gelb, rot, gelb \u2026 und so weiter. \nWelche Farbe ist hinter dem wei\xDFen Klecks?\nDr\xFCck auf die blaue, gelbe oder rote Taste.",
+      el_cy: "\u0395\u03B4\u03CE \u03B2\u03BB\u03AD\u03C0\u03B5\u03B9\u03C2 \u03BA\u03BF\u03C5\u03BA\u03BA\u03AF\u03B4\u03B5\u03C2. \u03A0\u03C1\u03CE\u03C4\u03B1 \u03B5\u03AF\u03BD\u03B1\u03B9 \u03B7 \u03BA\u03CC\u03BA\u03BA\u03B9\u03BD\u03B7, \u03BC\u03B5\u03C4\u03AC \u03BA\u03AF\u03C4\u03C1\u03B9\u03BD\u03B7, \u03BA\u03CC\u03BA\u03BA\u03B9\u03BD\u03B7, \u03BA\u03AF\u03C4\u03C1\u03B9\u03BD\u03B7, \u03BA\u03CC\u03BA\u03BA\u03B9\u03BD\u03B7, \u03BA\u03AF\u03C4\u03C1\u03B9\u03BD\u03B7\u2026 \u03BA\u03C4\u03BB. \u03A4\u03B9 \u03C7\u03C1\u03CE\u03BC\u03B1 \u03AD\u03C7\u03B5\u03B9 \u03B7 \u03BA\u03C1\u03C5\u03BC\u03BC\u03AD\u03BD\u03B7 \u03BA\u03BF\u03C5\u03BA\u03BA\u03AF\u03B4\u03B1 \u03C0\u03AF\u03C3\u03C9 \u03B1\u03C0\u03CC \u03C4\u03B7 \u03C3\u03C4\u03B1\u03B3\u03CC\u03BD\u03B1;\n\u03A0\u03AC\u03C4\u03B7\u03C3\u03B5 \u03C4\u03B7\u03BD \u03BC\u03C0\u03BB\u03B5 \u03AE \u03C4\u03B7\u03BD \u03BA\u03CC\u03BA\u03BA\u03B9\u03BD\u03B7 \u03AE \u03C4\u03B7\u03BD \u03BA\u03AF\u03C4\u03C1\u03B9\u03BD\u03B7 \u03BA\u03BF\u03C5\u03BA\u03BA\u03AF\u03B4\u03B1 \u03B1\u03C0\u03CC \u03C4\u03BF\u03BD \u03C0\u03AF\u03BD\u03B1\u03BA\u03B1."
+    }
+  },
   "17": {
-    audio: "/audio/17.m4a",
-    text: "\u03A0\u03BF\u03B9\u03BF\u03C2 \u03B1\u03C1\u03B9\u03B8\u03BC\u03CC\u03C2 \u03B5\u03AF\u03BD\u03B1\u03B9 \u03BF \u03BC\u03B5\u03B3\u03B1\u03BB\u03CD\u03C4\u03B5\u03C1\u03BF\u03C2;\n\u0395\u03C0\u03AD\u03BB\u03B5\u03BE\u03B5 \u03C4\u03BF\u03BD \u03C3\u03C9\u03C3\u03C4\u03CC \u03B1\u03C1\u03B9\u03B8\u03BC\u03CC \u03B1\u03C0\u03CC \u03C4\u03BF\u03BD \u03C0\u03AF\u03BD\u03B1\u03BA\u03B1 \u03BC\u03B5 \u03C4\u03BF\u03C5\u03C2 \u03B1\u03C1\u03B9\u03B8\u03BC\u03BF\u03CD\u03C2."
+    audio: { de: "/audio/17_de.MP3", el_cy: "/audio/17_el_cy.m4a" },
+    text: {
+      de: "Welche Farbe ist hinter dem wei\xDFen Klecks?\nDr\xFCck auf die blaue, gelbe oder rote Taste.",
+      el_cy: "\u03A4\u03B9 \u03C7\u03C1\u03CE\u03BC\u03B1 \u03AD\u03C7\u03B5\u03B9 \u03B7 \u03BA\u03C1\u03C5\u03BC\u03BC\u03AD\u03BD\u03B7 \u03BA\u03BF\u03C5\u03BA\u03BA\u03AF\u03B4\u03B1 \u03C0\u03AF\u03C3\u03C9 \u03B1\u03C0\u03CC \u03C4\u03B7 \u03C3\u03C4\u03B1\u03B3\u03CC\u03BD\u03B1;\n\u03A0\u03AC\u03C4\u03B7\u03C3\u03B5 \u03C4\u03B7\u03BD \u03BC\u03C0\u03BB\u03B5 \u03AE \u03C4\u03B7\u03BD \u03BA\u03CC\u03BA\u03BA\u03B9\u03BD\u03B7 \u03AE \u03C4\u03B7\u03BD \u03BA\u03AF\u03C4\u03C1\u03B9\u03BD\u03B7 \u03BA\u03BF\u03C5\u03BA\u03BA\u03AF\u03B4\u03B1 \u03B1\u03C0\u03CC \u03C4\u03BF\u03BD \u03C0\u03AF\u03BD\u03B1\u03BA\u03B1."
+    }
   },
   "18": {
-    audio: "/audio/18.m4a",
-    text: "\u039A\u03AC\u03BD\u03B5 \u03C4\u03B7\u03BD \u03C0\u03C1\u03CC\u03C3\u03B8\u03B5\u03C3\u03B7 / \u03A5\u03C0\u03BF\u03BB\u03CC\u03B3\u03B9\u03C3\u03B5 \u03C4\u03BF \u03AC\u03B8\u03C1\u03BF\u03B9\u03C3\u03BC\u03B1.\n\u0395\u03C0\u03AD\u03BB\u03B5\u03BE\u03B5 \u03C4\u03BF\u03BD \u03C3\u03C9\u03C3\u03C4\u03CC \u03B1\u03C1\u03B9\u03B8\u03BC\u03CC \u03B1\u03C0\u03CC \u03C4\u03BF\u03BD \u03C0\u03AF\u03BD\u03B1\u03BA\u03B1 \u03BC\u03B5 \u03C4\u03BF\u03C5\u03C2 \u03B1\u03C1\u03B9\u03B8\u03BC\u03BF\u03CD\u03C2."
+    audio: { de: "/audio/18_de.MP3", el_cy: "/audio/18_el_cy.m4a" },
+    text: {
+      de: "Hier siehst du Zahlen. Erst 1, dann 2, 1, 2, 1, 2\u2026 und so weiter.\nWelche Zahl ist hinter dem wei\xDFen Klecks?\nDr\xFCck auf die Zahl auf dem Zahlenfeld.",
+      el_cy: "\u0395\u03B4\u03CE \u03B2\u03BB\u03AD\u03C0\u03B5\u03B9\u03C2 \u03B1\u03C1\u03B9\u03B8\u03BC\u03BF\u03CD\u03C2. \u03A0\u03C1\u03CE\u03C4\u03B1 \u03C4\u03BF\u03BD \u03B1\u03C1\u03B9\u03B8\u03BC\u03CC 1, \u03BC\u03B5\u03C4\u03AC \u03C4\u03BF 2, \u03C4\u03BF 1, \u03C4\u03BF 2, \u03C4\u03BF 1, \u03C4\u03BF 2\u2026 \u03BA\u03C4\u03BB. \u03A0\u03BF\u03B9\u03BF\u03C2 \u03B1\u03C1\u03B9\u03B8\u03BC\u03CC\u03C2 \u03B5\u03AF\u03BD\u03B1\u03B9 \u03BA\u03C1\u03C5\u03BC\u03BC\u03AD\u03BD\u03BF\u03C2 \u03C0\u03AF\u03C3\u03C9 \u03B1\u03C0\u03CC \u03C4\u03B7 \u03C3\u03C4\u03B1\u03B3\u03CC\u03BD\u03B1;\n\u03A0\u03AC\u03C4\u03B7\u03C3\u03B5 \u03C4\u03BF\u03BD \u03BF\u03C1\u03B8\u03CC \u03B1\u03C1\u03B9\u03B8\u03BC\u03CC \u03B1\u03C0\u03CC \u03C4\u03BF\u03BD \u03C0\u03AF\u03BD\u03B1\u03BA\u03B1 \u03BC\u03B5 \u03C4\u03BF\u03C5\u03C2 \u03B1\u03C1\u03B9\u03B8\u03BC\u03BF\u03CD\u03C2."
+    }
   },
   "19": {
-    audio: "/audio/19.m4a",
-    text: "\u039A\u03AC\u03BD\u03B5 \u03C4\u03B7\u03BD \u03B1\u03C6\u03B1\u03AF\u03C1\u03B5\u03C3\u03B7 / \u03A5\u03C0\u03BF\u03BB\u03CC\u03B3\u03B9\u03C3\u03B5 \u03C4\u03B7 \u03B4\u03B9\u03B1\u03C6\u03BF\u03C1\u03AC.\n\u0395\u03C0\u03AD\u03BB\u03B5\u03BE\u03B5 \u03C4\u03BF\u03BD \u03C3\u03C9\u03C3\u03C4\u03CC \u03B1\u03C1\u03B9\u03B8\u03BC\u03CC \u03B1\u03C0\u03CC \u03C4\u03BF\u03BD \u03C0\u03AF\u03BD\u03B1\u03BA\u03B1 \u03BC\u03B5 \u03C4\u03BF\u03C5\u03C2 \u03B1\u03C1\u03B9\u03B8\u03BC\u03BF\u03CD\u03C2."
+    audio: { de: "/audio/19_de.MP3", el_cy: "/audio/19_el_cy.m4a" },
+    text: {
+      de: "Welche Zahl ist hinter dem wei\xDFen Klecks?\nDr\xFCck auf die Zahl auf dem Zahlenfeld.",
+      el_cy: "\u03A0\u03BF\u03B9\u03BF\u03C2 \u03B1\u03C1\u03B9\u03B8\u03BC\u03CC\u03C2 \u03B5\u03AF\u03BD\u03B1\u03B9 \u03BA\u03C1\u03C5\u03BC\u03BC\u03AD\u03BD\u03BF\u03C2 \u03C0\u03AF\u03C3\u03C9 \u03B1\u03C0\u03CC \u03C4\u03B7 \u03C3\u03C4\u03B1\u03B3\u03CC\u03BD\u03B1;\n\u03A0\u03AC\u03C4\u03B7\u03C3\u03B5 \u03C4\u03BF\u03BD \u03BF\u03C1\u03B8\u03CC \u03B1\u03C1\u03B9\u03B8\u03BC\u03CC \u03B1\u03C0\u03CC \u03C4\u03BF\u03BD \u03C0\u03AF\u03BD\u03B1\u03BA\u03B1 \u03BC\u03B5 \u03C4\u03BF\u03C5\u03C2 \u03B1\u03C1\u03B9\u03B8\u03BC\u03BF\u03CD\u03C2."
+    }
   },
   "20": {
-    audio: "/audio/20.m4a",
-    text: "\u03A0\u03BF\u03B9\u03B1 \u03B5\u03AF\u03BD\u03B1\u03B9 \u03C0\u03B5\u03C1\u03B9\u03C3\u03C3\u03CC\u03C4\u03B5\u03C1\u03B1; \u03A4\u03B1 \u03BC\u03C0\u03BB\u03B5; \u0389 \u03C4\u03B1 \u03BA\u03AF\u03C4\u03C1\u03B9\u03BD\u03B1; \u0389 \u03B5\u03AF\u03BD\u03B1\u03B9 \u03AF\u03C3\u03B1;\n\u0395\u03C0\u03AD\u03BB\u03B5\u03BE\u03B5 \u03C4\u03BF \u03BC\u03C0\u03BB\u03B5 \u03AE \u03C4\u03BF \u03BA\u03AF\u03C4\u03C1\u03B9\u03BD\u03BF \u03AE \u03C4\u03BF \u03AF\u03C3\u03BF\u03BD."
+    audio: { de: "/audio/20_de.MP3", el_cy: "/audio/20_el_cy.m4a" },
+    text: {
+      de: "Welche Farbe ist hinter dem wei\xDFen Klecks?\nDr\xFCck auf die blaue, gelbe oder rote Taste.",
+      el_cy: "\u03A0\u03BF\u03B9\u03BF \u03C7\u03C1\u03CE\u03BC\u03B1 \u03B5\u03AF\u03BD\u03B1\u03B9 \u03BA\u03C1\u03C5\u03BC\u03BC\u03AD\u03BD\u03BF \u03C0\u03AF\u03C3\u03C9 \u03B1\u03C0\u03CC \u03C4\u03B7\u03BD \u03AC\u03C3\u03C0\u03C1\u03B7 \u03C3\u03C4\u03B1\u03B3\u03CC\u03BD\u03B1;\n\u03A0\u03AC\u03C4\u03B7\u03C3\u03B5 \u03C4\u03BF \u03BC\u03C0\u03BB\u03B5, \u03C4\u03BF \u03BA\u03CC\u03BA\u03BA\u03B9\u03BD\u03BF \u03AE \u03C4\u03BF \u03BA\u03AF\u03C4\u03C1\u03B9\u03BD\u03BF \u03C7\u03C1\u03CE\u03BC\u03B1."
+    }
   },
   "21": {
-    audio: "/audio/21.m4a",
-    text: "\u0395\u03B4\u03CE \u03B2\u03BB\u03AD\u03C0\u03B5\u03B9\u03C2 \u03BA\u03BF\u03C5\u03BA\u03BA\u03AF\u03B4\u03B5\u03C2. \u03A0\u03C1\u03CE\u03C4\u03B1 \u03B5\u03AF\u03BD\u03B1\u03B9 \u03BA\u03CC\u03BA\u03BA\u03B9\u03BD\u03B7, \u03BC\u03B5\u03C4\u03AC \u03BA\u03AF\u03C4\u03C1\u03B9\u03BD\u03B7, \u03BA\u03CC\u03BA\u03BA\u03B9\u03BD\u03B7, \u03BA\u03AF\u03C4\u03C1\u03B9\u03BD\u03B7, \u03BA\u03CC\u03BA\u03BA\u03B9\u03BD\u03B7, \u03BA\u03AF\u03C4\u03C1\u03B9\u03BD\u03B7\u2026 \u03A4\u03B9 \u03C7\u03C1\u03CE\u03BC\u03B1 \u03B5\u03AF\u03BD\u03B1\u03B9 \u03B7 \u03BA\u03C1\u03C5\u03BC\u03BC\u03AD\u03BD\u03B7 \u03BA\u03BF\u03C5\u03BA\u03BA\u03AF\u03B4\u03B1 \u03C0\u03AF\u03C3\u03C9 \u03B1\u03C0\u03CC \u03C4\u03B7\u03BD \u03C3\u03C4\u03B1\u03B3\u03CC\u03BD\u03B1;\n\u0395\u03C0\u03AD\u03BB\u03B5\u03BE\u03B5 \u03C4\u03B7\u03BD \u03BC\u03C0\u03BB\u03B5 \u03AE \u03C4\u03B7\u03BD \u03BA\u03CC\u03BA\u03BA\u03B9\u03BD\u03B7 \u03AE \u03C4\u03B7\u03BD \u03BA\u03AF\u03C4\u03C1\u03B9\u03BD\u03B7 \u03BA\u03BF\u03C5\u03BA\u03BA\u03AF\u03B4\u03B1 \u03B1\u03C0\u03CC \u03C4\u03BF\u03BD \u03C0\u03AF\u03BD\u03B1\u03BA\u03B1."
+    audio: { de: "/audio/21_de.MP3", el_cy: "/audio/21_el_cy.m4a" },
+    text: { de: "Super!", el_cy: "\u03A4\u03AD\u03BB\u03B5\u03B9\u03B1!" }
   },
   "22": {
-    audio: "/audio/22.m4a",
-    text: "\u03A4\u03B9 \u03C7\u03C1\u03CE\u03BC\u03B1 \u03B5\u03AF\u03BD\u03B1\u03B9 \u03B7 \u03BA\u03C1\u03C5\u03BC\u03BC\u03AD\u03BD\u03B7 \u03BA\u03BF\u03C5\u03BA\u03BA\u03AF\u03B4\u03B1 \u03C0\u03AF\u03C3\u03C9 \u03B1\u03C0\u03CC \u03C4\u03B7\u03BD \u03C3\u03C4\u03B1\u03B3\u03CC\u03BD\u03B1;\n\u0395\u03C0\u03AD\u03BB\u03B5\u03BE\u03B5 \u03C4\u03B7\u03BD \u03BC\u03C0\u03BB\u03B5 \u03AE \u03C4\u03B7\u03BD \u03BA\u03CC\u03BA\u03BA\u03B9\u03BD\u03B7 \u03AE \u03C4\u03B7\u03BD \u03BA\u03AF\u03C4\u03C1\u03B9\u03BD\u03B7 \u03BA\u03BF\u03C5\u03BA\u03BA\u03AF\u03B4\u03B1 \u03B1\u03C0\u03CC \u03C4\u03BF\u03BD \u03C0\u03AF\u03BD\u03B1\u03BA\u03B1."
+    audio: { de: "/audio/22_de.MP3", el_cy: "/audio/22_el_cy.m4a" },
+    text: { de: "Super!", el_cy: "\u03A4\u03AD\u03BB\u03B5\u03B9\u03B1!" }
   },
   "23": {
-    audio: "/audio/23.m4a",
-    text: "\u0395\u03B4\u03CE \u03B2\u03BB\u03AD\u03C0\u03B5\u03B9\u03C2 \u03B1\u03C1\u03B9\u03B8\u03BC\u03BF\u03CD\u03C2. \u03A0\u03C1\u03CE\u03C4\u03B1 \u03C4\u03BF 1, \u03BC\u03B5\u03C4\u03AC \u03C4\u03BF 2, \u03C4\u03BF 1, \u03C4\u03BF 2, \u03C4\u03BF 1, \u03C4\u03BF 2\u2026 \u03A0\u03BF\u03B9\u03BF\u03C2 \u03B1\u03C1\u03B9\u03B8\u03BC\u03CC\u03C2 \u03B5\u03AF\u03BD\u03B1\u03B9 \u03BA\u03C1\u03C5\u03BC\u03BC\u03AD\u03BD\u03BF\u03C2 \u03C0\u03AF\u03C3\u03C9 \u03B1\u03C0\u03CC \u03C4\u03B7\u03BD \u03C3\u03C4\u03B1\u03B3\u03CC\u03BD\u03B1;\n\u0395\u03C0\u03AD\u03BB\u03B5\u03BE\u03B5 \u03C4\u03BF\u03BD \u03C3\u03C9\u03C3\u03C4\u03CC \u03B1\u03C1\u03B9\u03B8\u03BC\u03CC \u03B1\u03C0\u03CC \u03C4\u03BF\u03BD \u03C0\u03AF\u03BD\u03B1\u03BA\u03B1 \u03BC\u03B5 \u03C4\u03BF\u03C5\u03C2 \u03B1\u03C1\u03B9\u03B8\u03BC\u03BF\u03CD\u03C2."
+    audio: { de: "/audio/23_de.MP3", el_cy: "/audio/23_el_cy.m4a" },
+    text: { de: "Super!", el_cy: "\u03A4\u03AD\u03BB\u03B5\u03B9\u03B1!" }
   },
   "24": {
-    audio: "/audio/24.m4a",
-    text: "\u03A0\u03BF\u03B9\u03BF\u03C2 \u03B1\u03C1\u03B9\u03B8\u03BC\u03CC\u03C2 \u03B5\u03AF\u03BD\u03B1\u03B9 \u03BA\u03C1\u03C5\u03BC\u03BC\u03AD\u03BD\u03BF\u03C2 \u03C0\u03AF\u03C3\u03C9 \u03B1\u03C0\u03CC \u03C4\u03B7\u03BD \u03C3\u03C4\u03B1\u03B3\u03CC\u03BD\u03B1;\n\u0395\u03C0\u03AD\u03BB\u03B5\u03BE\u03B5 \u03C4\u03BF\u03BD \u03C3\u03C9\u03C3\u03C4\u03CC \u03B1\u03C1\u03B9\u03B8\u03BC\u03CC \u03B1\u03C0\u03CC \u03C4\u03BF\u03BD \u03C0\u03AF\u03BD\u03B1\u03BA\u03B1 \u03BC\u03B5 \u03C4\u03BF\u03C5\u03C2 \u03B1\u03C1\u03B9\u03B8\u03BC\u03BF\u03CD\u03C2."
+    audio: { de: "/audio/24_de.MP3", el_cy: "/audio/24_el_cy.m4a" },
+    text: { de: "Gut gemacht!", el_cy: "\u03A0\u03BF\u03BB\u03CD \u03BA\u03B1\u03BB\u03AC!" }
   },
-  "25": { audio: "/audio/25.m4a", text: "\u03A0\u03BF\u03B9\u03BF\u03C2 \u03B1\u03C1\u03B9\u03B8\u03BC\u03CC\u03C2 \u03B5\u03AF\u03BD\u03B1\u03B9 \u03BA\u03C1\u03C5\u03BC\u03BC\u03AD\u03BD\u03BF\u03C2 \u03C0\u03AF\u03C3\u03C9 \u03B1\u03C0\u03CC \u03C4\u03B7\u03BD \u03C3\u03C4\u03B1\u03B3\u03CC\u03BD\u03B1;" },
+  "25": {
+    audio: { de: "/audio/25_de.MP3", el_cy: "/audio/25_el_cy.m4a" },
+    text: { de: "Gut gemacht!", el_cy: "\u03A0\u03BF\u03BB\u03CD \u03BA\u03B1\u03BB\u03AC!" }
+  },
   "26": {
-    audio: "/audio/26.m4a",
-    text: "\u0395\u03B4\u03CE \u03B2\u03BB\u03AD\u03C0\u03B5\u03B9\u03C2 \u03BA\u03B1\u03B9 \u03B3\u03BA\u03C1\u03AF\u03B6\u03B5\u03C2 \u03C3\u03C4\u03B1\u03B3\u03CC\u03BD\u03B5\u03C2 \u03B1\u03BB\u03BB\u03AC \u03C0\u03C1\u03AD\u03C0\u03B5\u03B9 \u03BD\u03B1 \u03B2\u03C1\u03B5\u03B9\u03C2 \u03C0\u03BF\u03B9\u03BF \u03B5\u03AF\u03BD\u03B1\u03B9 \u03C4\u03BF \u03C7\u03C1\u03CE\u03BC\u03B1 \u03C4\u03B7\u03C2 \u03BA\u03BF\u03C5\u03BA\u03BA\u03AF\u03B4\u03B1\u03C2 \u03C0\u03BF\u03C5 \u03B5\u03AF\u03BD\u03B1\u03B9 \u03BA\u03C1\u03C5\u03BC\u03BC\u03AD\u03BD\u03B7 \u03C0\u03AF\u03C3\u03C9 \u03B1\u03C0\u03CC \u03C4\u03B7\u03BD \u03AC\u03C3\u03C0\u03C1\u03B7 \u03C3\u03C4\u03B1\u03B3\u03CC\u03BD\u03B1."
+    audio: { de: "/audio/26_de.MP3", el_cy: "/audio/26_el_cy.m4a" },
+    text: { de: "Gut gemacht!", el_cy: "\u03A0\u03BF\u03BB\u03CD \u03BA\u03B1\u03BB\u03AC!" }
   },
-  "27": { audio: "/audio/27.m4a", text: "\u03A4\u03AD\u03BB\u03B5\u03B9\u03B1!" },
-  "28": { audio: "/audio/28.m4a", text: "\u03A0\u03BF\u03BB\u03CD \u03BA\u03B1\u03BB\u03AC!" },
-  "29": { audio: "/audio/29.m4a", text: "\u03A3\u03C9\u03C3\u03C4\u03AC!" },
+  "27": {
+    audio: { de: "/audio/27_de.MP3", el_cy: "/audio/27_el_cy.m4a" },
+    text: { de: "Prima!", el_cy: "\u03A9\u03C1\u03B1\u03AF\u03B1!" }
+  },
+  "28": {
+    audio: { de: "/audio/28_de.MP3", el_cy: "/audio/28_el_cy.m4a" },
+    text: { de: "Prima!", el_cy: "\u03A9\u03C1\u03B1\u03AF\u03B1!" }
+  },
+  "29": {
+    audio: { de: "/audio/29_de.MP3", el_cy: "/audio/29_el_cy.m4a" },
+    text: { de: "Prima!", el_cy: "\u03A9\u03C1\u03B1\u03AF\u03B1!" }
+  },
   "30": {
-    audio: "/audio/30.m4a",
-    text: "\u0388\u03C7\u03B5\u03B9\u03C2 \u03BF\u03BB\u03BF\u03BA\u03BB\u03B7\u03C1\u03CE\u03C3\u03B5\u03B9 \u03C4\u03B9\u03C2 \u03B5\u03C1\u03B3\u03B1\u03C3\u03AF\u03B5\u03C2. \u03A0\u03B5\u03C2 \u03C4\u03BF \u03C3\u03C4\u03B7 \u03B4\u03B1\u03C3\u03BA\u03AC\u03BB\u03B1 \u03AE \u03C3\u03C4\u03BF \u03B4\u03AC\u03C3\u03BA\u03B1\u03BB\u03CC \u03C3\u03BF\u03C5."
+    audio: { de: "/audio/30_de.MP3", el_cy: "/audio/30_el_cy.m4a" },
+    text: { de: "Klasse!", el_cy: "\u039A\u03B1\u03C4\u03B1\u03C0\u03BB\u03B7\u03BA\u03C4\u03B9\u03BA\u03AC!" }
+  },
+  "31": {
+    audio: { de: "/audio/31_de.MP3", el_cy: "/audio/31_el_cy.m4a" },
+    text: { de: "Klasse!", el_cy: "\u039A\u03B1\u03C4\u03B1\u03C0\u03BB\u03B7\u03BA\u03C4\u03B9\u03BA\u03AC!" }
+  },
+  "32": {
+    audio: { de: "/audio/32_de.MP3", el_cy: "/audio/32_el_cy.m4a" },
+    text: { de: "Klasse!", el_cy: "\u039A\u03B1\u03C4\u03B1\u03C0\u03BB\u03B7\u03BA\u03C4\u03B9\u03BA\u03AC!" }
+  },
+  "33": {
+    audio: { de: "/audio/33_de.MP3", el_cy: "/audio/33_el_cy.m4a" },
+    text: { de: "Spitze!", el_cy: "\u039A\u03B1\u03BB\u03AE \u03B4\u03BF\u03C5\u03BB\u03B5\u03B9\u03AC!" }
+  },
+  "34": {
+    audio: { de: "/audio/34_de.MP3", el_cy: "/audio/34_el_cy.m4a" },
+    text: { de: "Spitze!", el_cy: "\u039A\u03B1\u03BB\u03AE \u03B4\u03BF\u03C5\u03BB\u03B5\u03B9\u03AC!" }
+  },
+  "35": {
+    audio: { de: "/audio/35_de.MP3", el_cy: "/audio/35_el_cy.m4a" },
+    text: { de: "Spitze!", el_cy: "\u039A\u03B1\u03BB\u03AE \u03B4\u03BF\u03C5\u03BB\u03B5\u03B9\u03AC!" }
+  },
+  "36": {
+    audio: { de: "/audio/36_de.MP3", el_cy: "/audio/36_el_cy.m4a" },
+    text: {
+      de: "Super! Du hast alle Aufgaben geschafft! Toll gemacht!",
+      el_cy: "\u03A4\u03AD\u03BB\u03B5\u03B9\u03B1! \u0388\u03C7\u03B5\u03B9\u03C2 \u03BF\u03BB\u03BF\u03BA\u03BB\u03B7\u03C1\u03CE\u03C3\u03B5\u03B9 \u03CC\u03BB\u03B5\u03C2 \u03C4\u03B9\u03C2 \u03B5\u03C1\u03B3\u03B1\u03C3\u03AF\u03B5\u03C2."
+    }
+  },
+  "37": {
+    audio: { de: "/audio/37_de.MP3", el_cy: "/audio/37_el_cy.m4a" },
+    text: {
+      de: "Du hast schon eine Aufgabe geschafft. Woran m\xF6chtest du als n\xE4chstes arbeiten?\nW\xE4hle eine Aufgabe.",
+      el_cy: "\u0388\u03C7\u03B5\u03B9\u03C2 \u03BF\u03BB\u03BF\u03BA\u03BB\u03B7\u03C1\u03CE\u03C3\u03B5\u03B9 \u03BC\u03AF\u03B1 \u03B5\u03C1\u03B3\u03B1\u03C3\u03AF\u03B1. \u039C\u03B5 \u03C4\u03B9 \u03B8\u03B1 \u03AE\u03B8\u03B5\u03BB\u03B5\u03C2 \u03BD\u03B1 \u03B1\u03C3\u03C7\u03BF\u03BB\u03B7\u03B8\u03B5\u03AF\u03C2 \u03C4\u03CE\u03C1\u03B1; \u0395\u03C0\u03AD\u03BB\u03B5\u03BE\u03B5 \u03BC\u03AF\u03B1 \u03AC\u03BB\u03BB\u03B7 \u03B5\u03C1\u03B3\u03B1\u03C3\u03AF\u03B1."
+    }
+  },
+  "38": {
+    audio: { de: "/audio/38_de.MP3", el_cy: "/audio/38_el_cy.m4a" },
+    text: {
+      de: "Du hast schon zwei Aufgaben geschafft. Woran m\xF6chtest du als n\xE4chstes arbeiten?\nW\xE4hle eine Aufgabe.",
+      el_cy: "\u0388\u03C7\u03B5\u03B9\u03C2 \u03BF\u03BB\u03BF\u03BA\u03BB\u03B7\u03C1\u03CE\u03C3\u03B5\u03B9 \u03B4\u03CD\u03BF \u03B5\u03C1\u03B3\u03B1\u03C3\u03AF\u03B5\u03C2. \u039C\u03B5 \u03C4\u03B9 \u03B8\u03B1 \u03AE\u03B8\u03B5\u03BB\u03B5\u03C2 \u03BD\u03B1 \u03B1\u03C3\u03C7\u03BF\u03BB\u03B7\u03B8\u03B5\u03AF\u03C2 \u03C4\u03CE\u03C1\u03B1; \u0395\u03C0\u03AD\u03BB\u03B5\u03BE\u03B5 \u03BC\u03AF\u03B1 \u03AC\u03BB\u03BB\u03B7 \u03B5\u03C1\u03B3\u03B1\u03C3\u03AF\u03B1."
+    }
+  },
+  "39": {
+    audio: { de: "/audio/39_de.MP3", el_cy: "/audio/39_el_cy.m4a" },
+    text: {
+      de: "Du hast schon drei Aufgaben geschafft. Woran m\xF6chtest du als n\xE4chstes arbeiten?\nW\xE4hle eine Aufgabe.",
+      el_cy: "\u0388\u03C7\u03B5\u03B9\u03C2 \u03BF\u03BB\u03BF\u03BA\u03BB\u03B7\u03C1\u03CE\u03C3\u03B5\u03B9 \u03C4\u03C1\u03B5\u03B9\u03C2 \u03B5\u03C1\u03B3\u03B1\u03C3\u03AF\u03B5\u03C2. \u039C\u03B5 \u03C4\u03B9 \u03B8\u03B1 \u03AE\u03B8\u03B5\u03BB\u03B5\u03C2 \u03BD\u03B1 \u03B1\u03C3\u03C7\u03BF\u03BB\u03B7\u03B8\u03B5\u03AF\u03C2 \u03C4\u03CE\u03C1\u03B1; \u0395\u03C0\u03AD\u03BB\u03B5\u03BE\u03B5 \u03BC\u03AF\u03B1 \u03AC\u03BB\u03BB\u03B7 \u03B5\u03C1\u03B3\u03B1\u03C3\u03AF\u03B1."
+    }
+  },
+  "40": {
+    audio: { de: "/audio/40_de.MP3", el_cy: "/audio/40_el_cy.m4a" },
+    text: {
+      de: "Du hast schon vier Aufgaben geschafft. Woran m\xF6chtest du als n\xE4chstes arbeiten?\nW\xE4hle eine Aufgabe.",
+      el_cy: "\u0388\u03C7\u03B5\u03B9\u03C2 \u03BF\u03BB\u03BF\u03BA\u03BB\u03B7\u03C1\u03CE\u03C3\u03B5\u03B9 \u03C4\u03AD\u03C3\u03C3\u03B5\u03C1\u03B9\u03C2 \u03B5\u03C1\u03B3\u03B1\u03C3\u03AF\u03B5\u03C2. \u039C\u03B5 \u03C4\u03B9 \u03B8\u03B1 \u03AE\u03B8\u03B5\u03BB\u03B5\u03C2 \u03BD\u03B1 \u03B1\u03C3\u03C7\u03BF\u03BB\u03B7\u03B8\u03B5\u03AF\u03C2 \u03C4\u03CE\u03C1\u03B1; \u0395\u03C0\u03AD\u03BB\u03B5\u03BE\u03B5 \u03BC\u03AF\u03B1 \u03AC\u03BB\u03BB\u03B7 \u03B5\u03C1\u03B3\u03B1\u03C3\u03AF\u03B1."
+    }
+  },
+  "41": {
+    audio: { de: "/audio/41_de.MP3", el_cy: "/audio/41_el_cy.m4a" },
+    text: {
+      de: "Du hast schon f\xFCnf Aufgaben geschafft. Woran m\xF6chtest du als n\xE4chstes arbeiten?\nW\xE4hle eine Aufgabe.",
+      el_cy: "\u0388\u03C7\u03B5\u03B9\u03C2 \u03BF\u03BB\u03BF\u03BA\u03BB\u03B7\u03C1\u03CE\u03C3\u03B5\u03B9 \u03C0\u03AD\u03BD\u03C4\u03B5 \u03B5\u03C1\u03B3\u03B1\u03C3\u03AF\u03B5\u03C2. \u039C\u03B5 \u03C4\u03B9 \u03B8\u03B1 \u03AE\u03B8\u03B5\u03BB\u03B5\u03C2 \u03BD\u03B1 \u03B1\u03C3\u03C7\u03BF\u03BB\u03B7\u03B8\u03B5\u03AF\u03C2 \u03C4\u03CE\u03C1\u03B1; \u0395\u03C0\u03AD\u03BB\u03B5\u03BE\u03B5 \u03BC\u03AF\u03B1 \u03AC\u03BB\u03BB\u03B7 \u03B5\u03C1\u03B3\u03B1\u03C3\u03AF\u03B1."
+    }
+  },
+  "42": {
+    audio: { de: "/audio/42_de.MP3", el_cy: "/audio/42_el_cy.m4a" },
+    text: {
+      de: "Du hast schon sechs Aufgaben geschafft. Woran m\xF6chtest du als n\xE4chstes arbeiten?\nW\xE4hle eine Aufgabe.",
+      el_cy: "\u0388\u03C7\u03B5\u03B9\u03C2 \u03BF\u03BB\u03BF\u03BA\u03BB\u03B7\u03C1\u03CE\u03C3\u03B5\u03B9 \u03AD\u03BE\u03B9 \u03B5\u03C1\u03B3\u03B1\u03C3\u03AF\u03B5\u03C2. \u039C\u03B5 \u03C4\u03B9 \u03B8\u03B1 \u03AE\u03B8\u03B5\u03BB\u03B5\u03C2 \u03BD\u03B1 \u03B1\u03C3\u03C7\u03BF\u03BB\u03B7\u03B8\u03B5\u03AF\u03C2 \u03C4\u03CE\u03C1\u03B1; \u0395\u03C0\u03AD\u03BB\u03B5\u03BE\u03B5 \u03BC\u03AF\u03B1 \u03AC\u03BB\u03BB\u03B7 \u03B5\u03C1\u03B3\u03B1\u03C3\u03AF\u03B1."
+    }
+  },
+  "43": {
+    audio: { de: "/audio/43_de.MP3", el_cy: "/audio/43_el_cy.m4a" },
+    text: {
+      de: "Du hast schon sieben Aufgaben geschafft. Woran m\xF6chtest du als n\xE4chstes arbeiten?\nW\xE4hle eine Aufgabe.",
+      el_cy: "\u0388\u03C7\u03B5\u03B9\u03C2 \u03BF\u03BB\u03BF\u03BA\u03BB\u03B7\u03C1\u03CE\u03C3\u03B5\u03B9 \u03B5\u03C0\u03C4\u03AC \u03B5\u03C1\u03B3\u03B1\u03C3\u03AF\u03B5\u03C2. \u039C\u03B5 \u03C4\u03B9 \u03B8\u03B1 \u03AE\u03B8\u03B5\u03BB\u03B5\u03C2 \u03BD\u03B1 \u03B1\u03C3\u03C7\u03BF\u03BB\u03B7\u03B8\u03B5\u03AF\u03C2 \u03C4\u03CE\u03C1\u03B1; \u0395\u03C0\u03AD\u03BB\u03B5\u03BE\u03B5 \u03BC\u03AF\u03B1 \u03AC\u03BB\u03BB\u03B7 \u03B5\u03C1\u03B3\u03B1\u03C3\u03AF\u03B1."
+    }
+  },
+  "44": {
+    audio: { de: "/audio/44_de.MP3", el_cy: "/audio/44_el_cy.m4a" },
+    text: {
+      de: "Du hast schon acht Aufgaben geschafft. Woran m\xF6chtest du als n\xE4chstes arbeiten?\nW\xE4hle eine Aufgabe.",
+      el_cy: "\u0388\u03C7\u03B5\u03B9\u03C2 \u03BF\u03BB\u03BF\u03BA\u03BB\u03B7\u03C1\u03CE\u03C3\u03B5\u03B9 \u03BF\u03C7\u03C4\u03CE \u03B5\u03C1\u03B3\u03B1\u03C3\u03AF\u03B5\u03C2. \u039C\u03B5 \u03C4\u03B9 \u03B8\u03B1 \u03AE\u03B8\u03B5\u03BB\u03B5\u03C2 \u03BD\u03B1 \u03B1\u03C3\u03C7\u03BF\u03BB\u03B7\u03B8\u03B5\u03AF\u03C2 \u03C4\u03CE\u03C1\u03B1; \u0395\u03C0\u03AD\u03BB\u03B5\u03BE\u03B5 \u03BC\u03AF\u03B1 \u03AC\u03BB\u03BB\u03B7 \u03B5\u03C1\u03B3\u03B1\u03C3\u03AF\u03B1."
+    }
+  },
+  "45": {
+    audio: { de: "/audio/45_de.MP3", el_cy: "/audio/45_el_cy.m4a" },
+    text: {
+      de: "Du hast schon neun Aufgaben geschafft. Woran m\xF6chtest du als n\xE4chstes arbeiten?\nW\xE4hle eine Aufgabe.",
+      el_cy: "\u0388\u03C7\u03B5\u03B9\u03C2 \u03BF\u03BB\u03BF\u03BA\u03BB\u03B7\u03C1\u03CE\u03C3\u03B5\u03B9 \u03B5\u03BD\u03BD\u03B9\u03AC \u03B5\u03C1\u03B3\u03B1\u03C3\u03AF\u03B5\u03C2. \u039C\u03B5 \u03C4\u03B9 \u03B8\u03B1 \u03AE\u03B8\u03B5\u03BB\u03B5\u03C2 \u03BD\u03B1 \u03B1\u03C3\u03C7\u03BF\u03BB\u03B7\u03B8\u03B5\u03AF\u03C2 \u03C4\u03CE\u03C1\u03B1; \u0395\u03C0\u03AD\u03BB\u03B5\u03BE\u03B5 \u03BC\u03AF\u03B1 \u03AC\u03BB\u03BB\u03B7 \u03B5\u03C1\u03B3\u03B1\u03C3\u03AF\u03B1."
+    }
+  },
+  "46": {
+    audio: { de: "/audio/46_de.MP3", el_cy: "/audio/46_el_cy.m4a" },
+    text: { de: "Mengen", el_cy: "\u03A0\u03BF\u03C3\u03CC\u03C4\u03B7\u03C4\u03B5\u03C2" }
+  },
+  "47": {
+    audio: { de: "/audio/47_de.MP3", el_cy: "/audio/47_el_cy.m4a" },
+    text: { de: "Zahlenmuster", el_cy: "\u039C\u03BF\u03C4\u03AF\u03B2\u03B1 \u03BC\u03B5 \u03B1\u03C1\u03B9\u03B8\u03BC\u03BF\u03CD\u03C2" }
+  },
+  "48": {
+    audio: { de: "/audio/48_de.MP3", el_cy: "/audio/48_el_cy.m4a" },
+    text: { de: "Zahlenstrahl", el_cy: "\u0391\u03C1\u03B9\u03B8\u03BC\u03B7\u03C4\u03B9\u03BA\u03AE \u03B3\u03C1\u03B1\u03BC\u03BC\u03AE" }
+  },
+  "49": {
+    audio: { de: "/audio/49_de.MP3", el_cy: "/audio/49_el_cy.m4a" },
+    text: { de: "Erg\xE4nzen zur 10", el_cy: "\u03A3\u03C5\u03BC\u03C0\u03BB\u03AE\u03C1\u03C9\u03C3\u03B7 \u03BC\u03AD\u03C7\u03C1\u03B9 \u03C4\u03BF 10" }
+  },
+  "50": {
+    audio: { de: "/audio/50_de.MP3", el_cy: "/audio/50_el_cy.m4a" },
+    text: { de: "Farbmuster", el_cy: "\u039C\u03BF\u03C4\u03AF\u03B2\u03B1 \u03BC\u03B5 \u03C7\u03C1\u03CE\u03BC\u03B1\u03C4\u03B1" }
+  },
+  "51": {
+    audio: { de: "/audio/51_de.MP3", el_cy: "/audio/51_el_cy.m4a" },
+    text: { de: "Vorg\xE4nger und Nachfolger", el_cy: "\u03A0\u03C1\u03BF\u03B7\u03B3\u03BF\u03CD\u03BC\u03B5\u03BD\u03BF\u03C2 \u03BA\u03B1\u03B9 \u03B5\u03C0\u03CC\u03BC\u03B5\u03BD\u03BF\u03C2 \u03B1\u03C1\u03B9\u03B8\u03BC\u03CC\u03C2" }
+  },
+  "52": {
+    audio: { de: "/audio/52_de.MP3", el_cy: "/audio/52_el_cy.m4a" },
+    text: { de: "Zahlvergleich", el_cy: "\u03A3\u03CD\u03B3\u03BA\u03C1\u03B9\u03C3\u03B7 \u03B1\u03C1\u03B9\u03B8\u03BC\u03CE\u03BD" }
+  },
+  "53": {
+    audio: { de: "/audio/53_de.MP3", el_cy: "/audio/53_el_cy.m4a" },
+    text: { de: "Mengenvergleich", el_cy: "\u03A3\u03CD\u03B3\u03BA\u03C1\u03B9\u03C3\u03B7 \u03C0\u03BF\u03C3\u03BF\u03C4\u03AE\u03C4\u03C9\u03BD" }
+  },
+  "54": {
+    audio: { de: "/audio/54_de.MP3", el_cy: "/audio/54_el_cy.m4a" },
+    text: { de: "Plus-Aufgaben", el_cy: "\u03A0\u03C1\u03CC\u03C3\u03B8\u03B5\u03C3\u03B7" }
+  },
+  "55": {
+    audio: { de: "/audio/55_de.MP3", el_cy: "/audio/55_el_cy.m4a" },
+    text: { de: "Minus-Aufgaben", el_cy: "\u0391\u03C6\u03B1\u03AF\u03C1\u03B5\u03C3\u03B7" }
   }
 };
 var getStores = () => {
@@ -56996,10 +57194,10 @@ var session = {
   update: () => error("update")
 };
 var css$4 = {
-  code: ".complete.svelte-13qg6g9{--tw-bg-opacity:1;background-color:rgba(52,211,153,var(--tw-bg-opacity))}",
-  map: `{"version":3,"file":"index.svelte","sources":["index.svelte"],"sourcesContent":["<script context=\\"module\\" lang=\\"ts\\">var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {\\n    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }\\n    return new (P || (P = Promise))(function (resolve, reject) {\\n        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }\\n        function rejected(value) { try { step(generator[\\"throw\\"](value)); } catch (e) { reject(e); } }\\n        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }\\n        step((generator = generator.apply(thisArg, _arguments || [])).next());\\n    });\\n};\\nexport const load = ({ session }) => __awaiter(void 0, void 0, void 0, function* () {\\n    if (!session.authenticated) {\\n        return {\\n            status: 302,\\n            redirect: '/login'\\n        };\\n    }\\n    return {};\\n});\\n<\/script>\\n\\n<script lang=\\"ts\\">var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {\\n    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }\\n    return new (P || (P = Promise))(function (resolve, reject) {\\n        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }\\n        function rejected(value) { try { step(generator[\\"throw\\"](value)); } catch (e) { reject(e); } }\\n        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }\\n        step((generator = generator.apply(thisArg, _arguments || [])).next());\\n    });\\n};\\nimport TextAndAudio from '$lib/components/TextAndAudio.svelte';\\nimport { textAndAudio } from '$lib/audio';\\nimport { goto } from '$app/navigation';\\nimport { session } from '$app/stores';\\nimport { onMount } from 'svelte';\\nonMount(() => {\\n    console.log($session.user.completed.length);\\n});\\n<\/script>\\n\\n<TextAndAudio src={textAndAudio[1].audio} text={textAndAudio[1].text} autoplay={true} />\\n\\n<div class=\\"gap-3 flex flex-col lg:flex-row flex-wrap items-center mx-2 mt-5 mb-5 \\">\\n\\t<button\\n\\t\\ton:click={() => goto('/running/quantities')}\\n\\t\\tclass=\\"flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl\\"\\n\\t\\tclass:complete={$session.user.completed.includes('quantities')}\\n\\t>\\n\\t\\t<img class=\\"rounded-xl mb-3 w-48\\" src=\\"/quantities/quantities-01.jpeg\\" alt=\\"Quantities task\\" />\\n\\t\\t<span>Quantities tasks</span>\\n\\t</button>\\n\\t<button\\n\\t\\ton:click={() => goto('/running/numberPattern')}\\n\\t\\tclass=\\"flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl\\"\\n\\t\\tclass:complete={$session.user.completed.includes('numberPattern')}\\n\\t>\\n\\t\\t<img\\n\\t\\t\\tclass=\\"rounded-xl mb-3 w-48\\"\\n\\t\\t\\tsrc=\\"number_pattern/numberpattern-01.jpeg\\"\\n\\t\\t\\talt=\\"Number pattern task\\"\\n\\t\\t/>\\n\\t\\t<span>Number pattern tasks</span>\\n\\t</button>\\n\\t<button\\n\\t\\ton:click={() => goto('/running/numberLine')}\\n\\t\\tclass=\\"flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl\\"\\n\\t\\tclass:complete={$session.user.completed.includes('numberLine')}\\n\\t>\\n\\t\\t<img\\n\\t\\t\\tclass=\\"rounded-xl mb-3 w-48\\"\\n\\t\\t\\tsrc=\\"number_line/numberline-01.jpeg\\"\\n\\t\\t\\talt=\\"Number line tasks\\"\\n\\t\\t/>\\n\\t\\t<span>Number line tasks</span>\\n\\t</button>\\n\\t<button\\n\\t\\ton:click={() => goto('/running/difference')}\\n\\t\\tclass=\\"flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl\\"\\n\\t\\tclass:complete={$session.user.completed.includes('difference')}\\n\\t>\\n\\t\\t<img class=\\"rounded-xl mb-3 w-48\\" src=\\"/difference/difference-01.jpeg\\" alt=\\"Difference task\\" />\\n\\t\\t<span>Difference tasks</span>\\n\\t</button>\\n\\t<button\\n\\t\\ton:click={() => goto('/running/colorPattern')}\\n\\t\\tclass=\\"flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl\\"\\n\\t\\tclass:complete={$session.user.completed.includes('colorPattern')}\\n\\t>\\n\\t\\t<img\\n\\t\\t\\tclass=\\"rounded-xl mb-3 w-48\\"\\n\\t\\t\\tsrc=\\"/color_pattern/colorpatterns-01.jpeg\\"\\n\\t\\t\\talt=\\"Color pattern task\\"\\n\\t\\t/>\\n\\t\\t<span>Color pattern tasks</span>\\n\\t</button>\\n\\t<button\\n\\t\\ton:click={() => goto('/running/hiddenNumber')}\\n\\t\\tclass=\\"flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl\\"\\n\\t\\tclass:complete={$session.user.completed.includes('hiddenNumber')}\\n\\t>\\n\\t\\t<img\\n\\t\\t\\tclass=\\"rounded-xl mb-3 w-48\\"\\n\\t\\t\\tsrc=\\"/hidden_number/hiddennumber-01.jpeg\\"\\n\\t\\t\\talt=\\"Hidden number task\\"\\n\\t\\t/>\\n\\t\\t<span>Hidden number tasks</span>\\n\\t</button>\\n\\t<button\\n\\t\\ton:click={() => goto('/running/numberComparison')}\\n\\t\\tclass=\\"flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl\\"\\n\\t\\tclass:complete={$session.user.completed.includes('numberComparison')}\\n\\t>\\n\\t\\t<img\\n\\t\\t\\tclass=\\"rounded-xl mb-3 w-48\\"\\n\\t\\t\\tsrc=\\"/number_comparison/numbercomparison-01.jpeg\\"\\n\\t\\t\\talt=\\"Number comparison task\\"\\n\\t\\t/>\\n\\t\\t<span>Number comparison tasks</span>\\n\\t</button>\\n\\t<button\\n\\t\\ton:click={() => goto('/running/quantityComparison')}\\n\\t\\tclass=\\"flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl\\"\\n\\t\\tclass:complete={$session.user.completed.includes('quantityComparison')}\\n\\t>\\n\\t\\t<img\\n\\t\\t\\tclass=\\"rounded-xl mb-3 w-48\\"\\n\\t\\t\\tsrc=\\"/quantity_comparison/quantitiycomparison-01.jpeg\\"\\n\\t\\t\\talt=\\"Quantity comparison task\\"\\n\\t\\t/>\\n\\t\\t<span>Quantity comparison tasks</span>\\n\\t</button>\\n\\t<button\\n\\t\\ton:click={() => goto('/running/plus')}\\n\\t\\tclass=\\"flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl\\"\\n\\t\\tclass:complete={$session.user.completed.includes('plus')}\\n\\t>\\n\\t\\t<img class=\\"rounded-xl mb-3 w-48\\" src=\\"/plus/plus-01.jpeg\\" alt=\\"Plus task\\" />\\n\\t\\t<span>Plus tasks</span>\\n\\t</button>\\n\\t<button\\n\\t\\ton:click={() => goto('/running/minus')}\\n\\t\\tclass=\\"flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl\\"\\n\\t\\tclass:complete={$session.user.completed.includes('minus')}\\n\\t>\\n\\t\\t<img class=\\"rounded-xl mb-3 w-48\\" src=\\"/minus/minus-01.jpeg\\" alt=\\"Minus task\\" />\\n\\t\\t<span>Minus tasks</span>\\n\\t</button>\\n</div>\\n\\n<!-- <TaskRun on:taskComplete={handleTaskAnswer} task={quantities[taskIndex]} /> -->\\n<style>.complete{--tw-bg-opacity:1;background-color:rgba(52,211,153,var(--tw-bg-opacity))}</style>\\n"],"names":[],"mappings":"AAqJO,wBAAS,CAAC,gBAAgB,CAAC,CAAC,iBAAiB,KAAK,EAAE,CAAC,GAAG,CAAC,GAAG,CAAC,IAAI,eAAe,CAAC,CAAC,CAAC"}`
+  code: ".complete.svelte-1x46sx3{--tw-bg-opacity:1;--tw-text-opacity:1;background-color:rgb(74 222 128/var(--tw-bg-opacity));color:rgb(107 114 128/var(--tw-text-opacity));cursor:default}.not-completed.svelte-1x46sx3{cursor:pointer}",
+  map: `{"version":3,"file":"index.svelte","sources":["index.svelte"],"sourcesContent":["<script context=\\"module\\" lang=\\"ts\\">var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {\\n    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }\\n    return new (P || (P = Promise))(function (resolve, reject) {\\n        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }\\n        function rejected(value) { try { step(generator[\\"throw\\"](value)); } catch (e) { reject(e); } }\\n        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }\\n        step((generator = generator.apply(thisArg, _arguments || [])).next());\\n    });\\n};\\nexport const load = ({ session }) => __awaiter(void 0, void 0, void 0, function* () {\\n    if (!session.authenticated) {\\n        return {\\n            status: 302,\\n            redirect: '/login'\\n        };\\n    }\\n    return {};\\n});\\n<\/script>\\n\\n<script lang=\\"ts\\">var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {\\n    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }\\n    return new (P || (P = Promise))(function (resolve, reject) {\\n        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }\\n        function rejected(value) { try { step(generator[\\"throw\\"](value)); } catch (e) { reject(e); } }\\n        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }\\n        step((generator = generator.apply(thisArg, _arguments || [])).next());\\n    });\\n};\\nimport TextAndAudio from '$lib/components/TextAndAudio.svelte';\\nimport { textAndAudio } from '$lib/audio';\\nimport { goto } from '$app/navigation';\\nimport { page, session } from '$app/stores';\\nimport { onMount } from 'svelte';\\nimport { getCompletedSound } from '$lib/audio/getCompletedSound';\\nlet completed;\\nlet soundIndex = 1;\\nonMount(() => {\\n    if (localStorage.getItem(\`\${$session.user.username}-color\`) === null) {\\n        localStorage.setItem(\`\${$session.user.username}-color\`, 'true');\\n    }\\n    if (localStorage.getItem(\`\${$session.user.username}-number\`) === null) {\\n        localStorage.setItem(\`\${$session.user.username}-number\`, 'false');\\n    }\\n    completed = $session.user.completed.filter((item, index) => $session.user.completed.indexOf(item) === index);\\n    if ($page.query.get('completed') === 'true') {\\n        soundIndex = getCompletedSound(completed.length);\\n    }\\n});\\n$: console.log($session.language);\\n<\/script>\\n\\n<TextAndAudio\\n\\tsrc={textAndAudio[soundIndex].audio[$session.language]}\\n\\ttext={textAndAudio[soundIndex].text[$session.language]}\\n\\tautoplay={true}\\n/>\\n\\n<div\\n\\tclass=\\"gap-3 flex flex-col lg:flex-row flex-wrap items-center mx-2 mt-5 mb-5 font-grund text-2xl\\"\\n>\\n\\t<button\\n\\t\\ton:click={() => {\\n\\t\\t\\tif (!$session.user.completed.includes('quantities')) {\\n\\t\\t\\t\\tgoto('/running/quantities');\\n\\t\\t\\t}\\n\\t\\t}}\\n\\t\\tclass=\\"flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl\\"\\n\\t\\tclass:complete={$session.user.completed.includes('quantities')}\\n\\t\\tclass:not-completed={!$session.user.completed.includes('quantities')}\\n\\t>\\n\\t\\t<img class=\\"rounded-xl mb-3 w-48\\" src=\\"/quantities/quantities-01.png\\" alt=\\"Quantities task\\" />\\n\\t\\t{#if $session.language === 'de'}\\n\\t\\t\\t<span>Mengen</span>\\n\\t\\t{:else if $session.language === 'el_cy'}\\n\\t\\t\\t<span class=\\"font-sans\\">\u03A0\u03BF\u03C3\u03CC\u03C4\u03B7\u03C4\u03B5\u03C2</span>\\n\\t\\t{/if}\\n\\t</button>\\n\\t<button\\n\\t\\ton:click={() => {\\n\\t\\t\\tif (!$session.user.completed.includes('numberPattern')) {\\n\\t\\t\\t\\tgoto('/running/numberPattern');\\n\\t\\t\\t}\\n\\t\\t}}\\n\\t\\tclass=\\"flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl\\"\\n\\t\\tclass:complete={$session.user.completed.includes('numberPattern')}\\n\\t\\tclass:not-completed={!$session.user.completed.includes('numberPattern')}\\n\\t>\\n\\t\\t<img\\n\\t\\t\\tclass=\\"rounded-xl mb-3 w-48\\"\\n\\t\\t\\tsrc=\\"number_pattern/numberpattern-01.png\\"\\n\\t\\t\\talt=\\"Number pattern task\\"\\n\\t\\t/>\\n\\t\\t{#if $session.language === 'de'}\\n\\t\\t\\t<span>Zahlenmuster</span>\\n\\t\\t{:else if $session.language === 'el_cy'}\\n\\t\\t\\t<span class=\\"font-sans\\">\u039C\u03BF\u03C4\u03AF\u03B2\u03B1 \u03BC\u03B5 \u03B1\u03C1\u03B9\u03B8\u03BC\u03BF\u03CD\u03C2</span>\\n\\t\\t{/if}\\n\\t</button>\\n\\t<button\\n\\t\\ton:click={() => {\\n\\t\\t\\tif (!$session.user.completed.includes('numberLine')) {\\n\\t\\t\\t\\tgoto('/running/numberLine');\\n\\t\\t\\t}\\n\\t\\t}}\\n\\t\\tclass=\\"flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl\\"\\n\\t\\tclass:complete={$session.user.completed.includes('numberLine')}\\n\\t\\tclass:not-completed={!$session.user.completed.includes('numberLine')}\\n\\t>\\n\\t\\t<img class=\\"rounded-xl mb-3 w-48\\" src=\\"number_line/numberline-01.png\\" alt=\\"Number line tasks\\" />\\n\\t\\t{#if $session.language === 'de'}\\n\\t\\t\\t<span>Zahlenstrahl</span>\\n\\t\\t{:else if $session.language === 'el_cy'}\\n\\t\\t\\t<span class=\\"font-sans\\">\u0391\u03C1\u03B9\u03B8\u03BC\u03B7\u03C4\u03B9\u03BA\u03AE \u03B3\u03C1\u03B1\u03BC\u03BC\u03AE</span>\\n\\t\\t{/if}\\n\\t</button>\\n\\t<button\\n\\t\\ton:click={() => {\\n\\t\\t\\tif (!$session.user.completed.includes('completionToTen')) {\\n\\t\\t\\t\\tgoto('/running/completionToTen');\\n\\t\\t\\t}\\n\\t\\t}}\\n\\t\\tclass=\\"flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl\\"\\n\\t\\tclass:complete={$session.user.completed.includes('completionToTen')}\\n\\t\\tclass:not-completed={!$session.user.completed.includes('completionToTen')}\\n\\t>\\n\\t\\t<img\\n\\t\\t\\tclass=\\"rounded-xl mb-3 w-48\\"\\n\\t\\t\\tsrc=\\"/completion_to_ten/completionto10-01.png\\"\\n\\t\\t\\talt=\\"Difference task\\"\\n\\t\\t/>\\n\\t\\t{#if $session.language === 'de'}\\n\\t\\t\\t<span>Erg\xE4nzen zur 10</span>\\n\\t\\t{:else if $session.language === 'el_cy'}\\n\\t\\t\\t<span class=\\"font-sans\\">\u03A3\u03C5\u03BC\u03C0\u03BB\u03AE\u03C1\u03C9\u03C3\u03B7 \u03BC\u03AD\u03C7\u03C1\u03B9 \u03C4\u03BF 10</span>\\n\\t\\t{/if}\\n\\t</button>\\n\\t<button\\n\\t\\ton:click={() => {\\n\\t\\t\\tif (!$session.user.completed.includes('colorPattern')) {\\n\\t\\t\\t\\tgoto('/running/colorPattern');\\n\\t\\t\\t}\\n\\t\\t}}\\n\\t\\tclass=\\"flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl\\"\\n\\t\\tclass:complete={$session.user.completed.includes('colorPattern')}\\n\\t\\tclass:not-completed={!$session.user.completed.includes('colorPattern')}\\n\\t>\\n\\t\\t<img\\n\\t\\t\\tclass=\\"rounded-xl mb-3 w-48\\"\\n\\t\\t\\tsrc=\\"/color_pattern/colorpatterns-01.png\\"\\n\\t\\t\\talt=\\"Color pattern task\\"\\n\\t\\t/>\\n\\t\\t{#if $session.language === 'de'}\\n\\t\\t\\t<span>Farbmuster</span>\\n\\t\\t{:else if $session.language === 'el_cy'}\\n\\t\\t\\t<span class=\\"font-sans\\">\u039C\u03BF\u03C4\u03AF\u03B2\u03B1 \u03BC\u03B5 \u03C7\u03C1\u03CE\u03BC\u03B1\u03C4\u03B1</span>\\n\\t\\t{/if}\\n\\t</button>\\n\\t<button\\n\\t\\ton:click={() => {\\n\\t\\t\\tif (!$session.user.completed.includes('hiddenNumber')) {\\n\\t\\t\\t\\tgoto('/running/hiddenNumber');\\n\\t\\t\\t}\\n\\t\\t}}\\n\\t\\tclass=\\"flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl\\"\\n\\t\\tclass:complete={$session.user.completed.includes('hiddenNumber')}\\n\\t\\tclass:not-completed={!$session.user.completed.includes('hiddenNumber')}\\n\\t>\\n\\t\\t<img\\n\\t\\t\\tclass=\\"rounded-xl mb-3 w-48\\"\\n\\t\\t\\tsrc=\\"/hidden_number/hiddennumber-01.png\\"\\n\\t\\t\\talt=\\"Hidden number task\\"\\n\\t\\t/>\\n\\t\\t{#if $session.language === 'de'}\\n\\t\\t\\t<span>Vorg\xE4nger und Nachfolger</span>\\n\\t\\t{:else if $session.language === 'el_cy'}\\n\\t\\t\\t<span class=\\"font-sans\\">\u03A0\u03C1\u03BF\u03B7\u03B3\u03BF\u03CD\u03BC\u03B5\u03BD\u03BF\u03C2 \u03BA\u03B1\u03B9 \u03B5\u03C0\u03CC\u03BC\u03B5\u03BD\u03BF\u03C2 \u03B1\u03C1\u03B9\u03B8\u03BC\u03CC\u03C2</span>\\n\\t\\t{/if}\\n\\t</button>\\n\\t<button\\n\\t\\ton:click={() => {\\n\\t\\t\\tif (!$session.user.completed.includes('numberComparison')) {\\n\\t\\t\\t\\tgoto('/running/numberComparison');\\n\\t\\t\\t}\\n\\t\\t}}\\n\\t\\tclass=\\"flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl\\"\\n\\t\\tclass:complete={$session.user.completed.includes('numberComparison')}\\n\\t\\tclass:not-completed={!$session.user.completed.includes('numberComparison')}\\n\\t>\\n\\t\\t<img\\n\\t\\t\\tclass=\\"rounded-xl mb-3 w-48\\"\\n\\t\\t\\tsrc=\\"/number_comparison/numbercomparison-01.jpeg\\"\\n\\t\\t\\talt=\\"Number comparison task\\"\\n\\t\\t/>\\n\\t\\t{#if $session.language === 'de'}\\n\\t\\t\\t<span>Zahlvergleich</span>\\n\\t\\t{:else if $session.language === 'el_cy'}\\n\\t\\t\\t<span class=\\"font-sans\\">\u03A3\u03CD\u03B3\u03BA\u03C1\u03B9\u03C3\u03B7 \u03B1\u03C1\u03B9\u03B8\u03BC\u03CE\u03BD</span>\\n\\t\\t{/if}\\n\\t</button>\\n\\t<button\\n\\t\\ton:click={() => {\\n\\t\\t\\tif (!$session.user.completed.includes('quantityComparison')) {\\n\\t\\t\\t\\tgoto('/running/quantityComparison');\\n\\t\\t\\t}\\n\\t\\t}}\\n\\t\\tclass=\\"flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl\\"\\n\\t\\tclass:complete={$session.user.completed.includes('quantityComparison')}\\n\\t\\tclass:not-completed={!$session.user.completed.includes('quantityComparison')}\\n\\t>\\n\\t\\t<img\\n\\t\\t\\tclass=\\"rounded-xl mb-3 w-48\\"\\n\\t\\t\\tsrc=\\"/quantity_comparison/quantitiycomparison-01.png\\"\\n\\t\\t\\talt=\\"Quantity comparison task\\"\\n\\t\\t/>\\n\\t\\t{#if $session.language === 'de'}\\n\\t\\t\\t<span>Mengenvergleich</span>\\n\\t\\t{:else if $session.language === 'el_cy'}\\n\\t\\t\\t<span class=\\"font-sans\\">\u03A3\u03CD\u03B3\u03BA\u03C1\u03B9\u03C3\u03B7 \u03C0\u03BF\u03C3\u03BF\u03C4\u03AE\u03C4\u03C9\u03BD</span>\\n\\t\\t{/if}\\n\\t</button>\\n\\t<button\\n\\t\\ton:click={() => {\\n\\t\\t\\tif (!$session.user.completed.includes('plus')) {\\n\\t\\t\\t\\tgoto('/running/plus');\\n\\t\\t\\t}\\n\\t\\t}}\\n\\t\\tclass=\\"flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl\\"\\n\\t\\tclass:complete={$session.user.completed.includes('plus')}\\n\\t\\tclass:not-completed={!$session.user.completed.includes('plus')}\\n\\t>\\n\\t\\t<img class=\\"rounded-xl mb-3 w-48\\" src=\\"/plus/plus-01.jpeg\\" alt=\\"Plus task\\" />\\n\\t\\t{#if $session.language === 'de'}\\n\\t\\t\\t<span>Plus-Aufgaben</span>\\n\\t\\t{:else if $session.language === 'el_cy'}\\n\\t\\t\\t<span class=\\"font-sans\\">\u03A0\u03C1\u03CC\u03C3\u03B8\u03B5\u03C3\u03B7</span>\\n\\t\\t{/if}\\n\\t</button>\\n\\t<button\\n\\t\\ton:click={() => {\\n\\t\\t\\tif (!$session.user.completed.includes('minus')) {\\n\\t\\t\\t\\tgoto('/running/minus');\\n\\t\\t\\t}\\n\\t\\t}}\\n\\t\\tclass=\\"flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl\\"\\n\\t\\tclass:complete={$session.user.completed.includes('minus')}\\n\\t\\tclass:not-completed={!$session.user.completed.includes('minus')}\\n\\t>\\n\\t\\t<img class=\\"rounded-xl mb-3 w-48\\" src=\\"/minus/minus-01.jpeg\\" alt=\\"Minus task\\" />\\n\\t\\t{#if $session.language === 'de'}\\n\\t\\t\\t<span>Minus-Aufgaben</span>\\n\\t\\t{:else if $session.language === 'el_cy'}\\n\\t\\t\\t<span class=\\"font-sans\\">\u0391\u03C6\u03B1\u03AF\u03C1\u03B5\u03C3\u03B7</span>\\n\\t\\t{/if}\\n\\t</button>\\n</div>\\n\\n<style lang=\\"postcss\\">.complete{--tw-bg-opacity:1;--tw-text-opacity:1;background-color:rgb(74 222 128/var(--tw-bg-opacity));color:rgb(107 114 128/var(--tw-text-opacity));cursor:default}.not-completed{cursor:pointer}</style>\\n"],"names":[],"mappings":"AAiQsB,wBAAS,CAAC,gBAAgB,CAAC,CAAC,kBAAkB,CAAC,CAAC,iBAAiB,IAAI,EAAE,CAAC,GAAG,CAAC,GAAG,CAAC,IAAI,eAAe,CAAC,CAAC,CAAC,MAAM,IAAI,GAAG,CAAC,GAAG,CAAC,GAAG,CAAC,IAAI,iBAAiB,CAAC,CAAC,CAAC,OAAO,OAAO,CAAC,6BAAc,CAAC,OAAO,OAAO,CAAC"}`
 };
-var __awaiter$4 = function(thisArg, _arguments, P, generator) {
+var __awaiter$5 = function(thisArg, _arguments, P, generator) {
   function adopt(value) {
     return value instanceof P ? value : new P(function(resolve2) {
       resolve2(value);
@@ -57026,7 +57224,7 @@ var __awaiter$4 = function(thisArg, _arguments, P, generator) {
     step((generator = generator.apply(thisArg, _arguments || [])).next());
   });
 };
-var load$4 = ({ session: session2 }) => __awaiter$4(void 0, void 0, void 0, function* () {
+var load$5 = ({ session: session2 }) => __awaiter$5(void 0, void 0, void 0, function* () {
   if (!session2.authenticated) {
     return { status: 302, redirect: "/login" };
   }
@@ -57034,7 +57232,9 @@ var load$4 = ({ session: session2 }) => __awaiter$4(void 0, void 0, void 0, func
 });
 var Routes = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   let $session, $$unsubscribe_session;
+  let $$unsubscribe_page;
   $$unsubscribe_session = subscribe(session, (value) => $session = value);
+  $$unsubscribe_page = subscribe(page, (value) => value);
   (function(thisArg, _arguments, P, generator) {
     function adopt(value) {
       return value instanceof P ? value : new P(function(resolve2) {
@@ -57062,71 +57262,148 @@ var Routes = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
   });
+  let soundIndex = 1;
   $$result.css.add(css$4);
+  {
+    console.log($session.language);
+  }
   $$unsubscribe_session();
+  $$unsubscribe_page();
   return `${validate_component(TextAndAudio, "TextAndAudio").$$render($$result, {
-    src: textAndAudio[1].audio,
-    text: textAndAudio[1].text,
+    src: textAndAudio[soundIndex].audio[$session.language],
+    text: textAndAudio[soundIndex].text[$session.language],
     autoplay: true
   }, {}, {})}
 
-<div class="${"gap-3 flex flex-col lg:flex-row flex-wrap items-center mx-2 mt-5 mb-5 "}"><button class="${[
-    "flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl svelte-13qg6g9",
-    $session.user.completed.includes("quantities") ? "complete" : ""
-  ].join(" ").trim()}"><img class="${"rounded-xl mb-3 w-48"}" src="${"/quantities/quantities-01.jpeg"}" alt="${"Quantities task"}">
-		<span>Quantities tasks</span></button>
+<div class="${"gap-3 flex flex-col lg:flex-row flex-wrap items-center mx-2 mt-5 mb-5 font-grund text-2xl"}"><button class="${[
+    "flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl svelte-1x46sx3",
+    ($session.user.completed.includes("quantities") ? "complete" : "") + " " + (!$session.user.completed.includes("quantities") ? "not-completed" : "")
+  ].join(" ").trim()}"><img class="${"rounded-xl mb-3 w-48"}" src="${"/quantities/quantities-01.png"}" alt="${"Quantities task"}">
+		${$session.language === "de" ? `<span>Mengen</span>` : `${$session.language === "el_cy" ? `<span class="${"font-sans"}">\u03A0\u03BF\u03C3\u03CC\u03C4\u03B7\u03C4\u03B5\u03C2</span>` : ``}`}</button>
 	<button class="${[
-    "flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl svelte-13qg6g9",
-    $session.user.completed.includes("numberPattern") ? "complete" : ""
-  ].join(" ").trim()}"><img class="${"rounded-xl mb-3 w-48"}" src="${"number_pattern/numberpattern-01.jpeg"}" alt="${"Number pattern task"}">
-		<span>Number pattern tasks</span></button>
+    "flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl svelte-1x46sx3",
+    ($session.user.completed.includes("numberPattern") ? "complete" : "") + " " + (!$session.user.completed.includes("numberPattern") ? "not-completed" : "")
+  ].join(" ").trim()}"><img class="${"rounded-xl mb-3 w-48"}" src="${"number_pattern/numberpattern-01.png"}" alt="${"Number pattern task"}">
+		${$session.language === "de" ? `<span>Zahlenmuster</span>` : `${$session.language === "el_cy" ? `<span class="${"font-sans"}">\u039C\u03BF\u03C4\u03AF\u03B2\u03B1 \u03BC\u03B5 \u03B1\u03C1\u03B9\u03B8\u03BC\u03BF\u03CD\u03C2</span>` : ``}`}</button>
 	<button class="${[
-    "flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl svelte-13qg6g9",
-    $session.user.completed.includes("numberLine") ? "complete" : ""
-  ].join(" ").trim()}"><img class="${"rounded-xl mb-3 w-48"}" src="${"number_line/numberline-01.jpeg"}" alt="${"Number line tasks"}">
-		<span>Number line tasks</span></button>
+    "flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl svelte-1x46sx3",
+    ($session.user.completed.includes("numberLine") ? "complete" : "") + " " + (!$session.user.completed.includes("numberLine") ? "not-completed" : "")
+  ].join(" ").trim()}"><img class="${"rounded-xl mb-3 w-48"}" src="${"number_line/numberline-01.png"}" alt="${"Number line tasks"}">
+		${$session.language === "de" ? `<span>Zahlenstrahl</span>` : `${$session.language === "el_cy" ? `<span class="${"font-sans"}">\u0391\u03C1\u03B9\u03B8\u03BC\u03B7\u03C4\u03B9\u03BA\u03AE \u03B3\u03C1\u03B1\u03BC\u03BC\u03AE</span>` : ``}`}</button>
 	<button class="${[
-    "flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl svelte-13qg6g9",
-    $session.user.completed.includes("difference") ? "complete" : ""
-  ].join(" ").trim()}"><img class="${"rounded-xl mb-3 w-48"}" src="${"/difference/difference-01.jpeg"}" alt="${"Difference task"}">
-		<span>Difference tasks</span></button>
+    "flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl svelte-1x46sx3",
+    ($session.user.completed.includes("completionToTen") ? "complete" : "") + " " + (!$session.user.completed.includes("completionToTen") ? "not-completed" : "")
+  ].join(" ").trim()}"><img class="${"rounded-xl mb-3 w-48"}" src="${"/completion_to_ten/completionto10-01.png"}" alt="${"Difference task"}">
+		${$session.language === "de" ? `<span>Erg\xE4nzen zur 10</span>` : `${$session.language === "el_cy" ? `<span class="${"font-sans"}">\u03A3\u03C5\u03BC\u03C0\u03BB\u03AE\u03C1\u03C9\u03C3\u03B7 \u03BC\u03AD\u03C7\u03C1\u03B9 \u03C4\u03BF 10</span>` : ``}`}</button>
 	<button class="${[
-    "flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl svelte-13qg6g9",
-    $session.user.completed.includes("colorPattern") ? "complete" : ""
-  ].join(" ").trim()}"><img class="${"rounded-xl mb-3 w-48"}" src="${"/color_pattern/colorpatterns-01.jpeg"}" alt="${"Color pattern task"}">
-		<span>Color pattern tasks</span></button>
+    "flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl svelte-1x46sx3",
+    ($session.user.completed.includes("colorPattern") ? "complete" : "") + " " + (!$session.user.completed.includes("colorPattern") ? "not-completed" : "")
+  ].join(" ").trim()}"><img class="${"rounded-xl mb-3 w-48"}" src="${"/color_pattern/colorpatterns-01.png"}" alt="${"Color pattern task"}">
+		${$session.language === "de" ? `<span>Farbmuster</span>` : `${$session.language === "el_cy" ? `<span class="${"font-sans"}">\u039C\u03BF\u03C4\u03AF\u03B2\u03B1 \u03BC\u03B5 \u03C7\u03C1\u03CE\u03BC\u03B1\u03C4\u03B1</span>` : ``}`}</button>
 	<button class="${[
-    "flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl svelte-13qg6g9",
-    $session.user.completed.includes("hiddenNumber") ? "complete" : ""
-  ].join(" ").trim()}"><img class="${"rounded-xl mb-3 w-48"}" src="${"/hidden_number/hiddennumber-01.jpeg"}" alt="${"Hidden number task"}">
-		<span>Hidden number tasks</span></button>
+    "flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl svelte-1x46sx3",
+    ($session.user.completed.includes("hiddenNumber") ? "complete" : "") + " " + (!$session.user.completed.includes("hiddenNumber") ? "not-completed" : "")
+  ].join(" ").trim()}"><img class="${"rounded-xl mb-3 w-48"}" src="${"/hidden_number/hiddennumber-01.png"}" alt="${"Hidden number task"}">
+		${$session.language === "de" ? `<span>Vorg\xE4nger und Nachfolger</span>` : `${$session.language === "el_cy" ? `<span class="${"font-sans"}">\u03A0\u03C1\u03BF\u03B7\u03B3\u03BF\u03CD\u03BC\u03B5\u03BD\u03BF\u03C2 \u03BA\u03B1\u03B9 \u03B5\u03C0\u03CC\u03BC\u03B5\u03BD\u03BF\u03C2 \u03B1\u03C1\u03B9\u03B8\u03BC\u03CC\u03C2</span>` : ``}`}</button>
 	<button class="${[
-    "flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl svelte-13qg6g9",
-    $session.user.completed.includes("numberComparison") ? "complete" : ""
+    "flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl svelte-1x46sx3",
+    ($session.user.completed.includes("numberComparison") ? "complete" : "") + " " + (!$session.user.completed.includes("numberComparison") ? "not-completed" : "")
   ].join(" ").trim()}"><img class="${"rounded-xl mb-3 w-48"}" src="${"/number_comparison/numbercomparison-01.jpeg"}" alt="${"Number comparison task"}">
-		<span>Number comparison tasks</span></button>
+		${$session.language === "de" ? `<span>Zahlvergleich</span>` : `${$session.language === "el_cy" ? `<span class="${"font-sans"}">\u03A3\u03CD\u03B3\u03BA\u03C1\u03B9\u03C3\u03B7 \u03B1\u03C1\u03B9\u03B8\u03BC\u03CE\u03BD</span>` : ``}`}</button>
 	<button class="${[
-    "flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl svelte-13qg6g9",
-    $session.user.completed.includes("quantityComparison") ? "complete" : ""
-  ].join(" ").trim()}"><img class="${"rounded-xl mb-3 w-48"}" src="${"/quantity_comparison/quantitiycomparison-01.jpeg"}" alt="${"Quantity comparison task"}">
-		<span>Quantity comparison tasks</span></button>
+    "flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl svelte-1x46sx3",
+    ($session.user.completed.includes("quantityComparison") ? "complete" : "") + " " + (!$session.user.completed.includes("quantityComparison") ? "not-completed" : "")
+  ].join(" ").trim()}"><img class="${"rounded-xl mb-3 w-48"}" src="${"/quantity_comparison/quantitiycomparison-01.png"}" alt="${"Quantity comparison task"}">
+		${$session.language === "de" ? `<span>Mengenvergleich</span>` : `${$session.language === "el_cy" ? `<span class="${"font-sans"}">\u03A3\u03CD\u03B3\u03BA\u03C1\u03B9\u03C3\u03B7 \u03C0\u03BF\u03C3\u03BF\u03C4\u03AE\u03C4\u03C9\u03BD</span>` : ``}`}</button>
 	<button class="${[
-    "flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl svelte-13qg6g9",
-    $session.user.completed.includes("plus") ? "complete" : ""
+    "flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl svelte-1x46sx3",
+    ($session.user.completed.includes("plus") ? "complete" : "") + " " + (!$session.user.completed.includes("plus") ? "not-completed" : "")
   ].join(" ").trim()}"><img class="${"rounded-xl mb-3 w-48"}" src="${"/plus/plus-01.jpeg"}" alt="${"Plus task"}">
-		<span>Plus tasks</span></button>
+		${$session.language === "de" ? `<span>Plus-Aufgaben</span>` : `${$session.language === "el_cy" ? `<span class="${"font-sans"}">\u03A0\u03C1\u03CC\u03C3\u03B8\u03B5\u03C3\u03B7</span>` : ``}`}</button>
 	<button class="${[
-    "flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl svelte-13qg6g9",
-    $session.user.completed.includes("minus") ? "complete" : ""
+    "flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl svelte-1x46sx3",
+    ($session.user.completed.includes("minus") ? "complete" : "") + " " + (!$session.user.completed.includes("minus") ? "not-completed" : "")
   ].join(" ").trim()}"><img class="${"rounded-xl mb-3 w-48"}" src="${"/minus/minus-01.jpeg"}" alt="${"Minus task"}">
-		<span>Minus tasks</span></button></div>
-
-`;
+		${$session.language === "de" ? `<span>Minus-Aufgaben</span>` : `${$session.language === "el_cy" ? `<span class="${"font-sans"}">\u0391\u03C6\u03B1\u03AF\u03C1\u03B5\u03C3\u03B7</span>` : ``}`}</button>
+</div>`;
+});
+var index$4 = /* @__PURE__ */ Object.freeze({
+  __proto__: null,
+  [Symbol.toStringTag]: "Module",
+  "default": Routes,
+  load: load$5
+});
+var __awaiter$4 = function(thisArg, _arguments, P, generator) {
+  function adopt(value) {
+    return value instanceof P ? value : new P(function(resolve2) {
+      resolve2(value);
+    });
+  }
+  return new (P || (P = Promise))(function(resolve2, reject) {
+    function fulfilled(value) {
+      try {
+        step(generator.next(value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+    function rejected(value) {
+      try {
+        step(generator["throw"](value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+    function step(result) {
+      result.done ? resolve2(result.value) : adopt(result.value).then(fulfilled, rejected);
+    }
+    step((generator = generator.apply(thisArg, _arguments || [])).next());
+  });
+};
+var load$4 = () => __awaiter$4(void 0, void 0, void 0, function* () {
+  const res = yield fetch("http://localhost:3000/api/statistics");
+  const data = yield res.json();
+  console.log(data);
+  return { props: { runs: [...data.completedRuns] } };
+});
+var Statistics = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+  (function(thisArg, _arguments, P, generator) {
+    function adopt(value) {
+      return value instanceof P ? value : new P(function(resolve2) {
+        resolve2(value);
+      });
+    }
+    return new (P || (P = Promise))(function(resolve2, reject) {
+      function fulfilled(value) {
+        try {
+          step(generator.next(value));
+        } catch (e) {
+          reject(e);
+        }
+      }
+      function rejected(value) {
+        try {
+          step(generator["throw"](value));
+        } catch (e) {
+          reject(e);
+        }
+      }
+      function step(result) {
+        result.done ? resolve2(result.value) : adopt(result.value).then(fulfilled, rejected);
+      }
+      step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+  });
+  let { runs } = $$props;
+  if ($$props.runs === void 0 && $$bindings.runs && runs !== void 0)
+    $$bindings.runs(runs);
+  return `<h1>Statistics</h1>
+${each(runs, (run2) => `<p>${escape(run2.totalTime)}</p>`)}`;
 });
 var index$3 = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
-  "default": Routes,
+  "default": Statistics,
   load: load$4
 });
 var css$3 = {
@@ -57229,6 +57506,7 @@ var New_user = create_ssr_component(($$result, $$props, $$bindings, slots) => {
     username: "",
     password: "",
     passwordConfirmation: "",
+    language: "de",
     type: "student",
     school_id: null
   };
@@ -57237,6 +57515,7 @@ var New_user = create_ssr_component(($$result, $$props, $$bindings, slots) => {
     { value: "teacher", text: "Teacher" },
     { value: "researcher", text: "Researcher" }
   ];
+  let languageTypes = [{ value: "de", text: "German" }, { value: "el_cy", text: "Greek" }];
   let submitted = false;
   let error2;
   let success;
@@ -57288,6 +57567,8 @@ var New_user = create_ssr_component(($$result, $$props, $$bindings, slots) => {
 
 	<input type="${"password"}" name="${"username"}" placeholder="${"Password"}"${add_attribute("value", fields.password, 0)}>
 	<input type="${"password"}" name="${"passwordConfirmation"}" placeholder="${"Confirm password"}"${add_attribute("value", fields.passwordConfirmation, 0)}>
+	<select>${each(languageTypes, (languageType) => `<option${add_attribute("value", languageType.value, 0)}>${escape(languageType.text)}
+			</option>`)}</select>
 	<select>${each(userTypes, (userType) => `
 			${$session.user.type === "teacher" && userType.value === "researcher" ? `${escape(null)}` : `<option${add_attribute("value", userType.value, 0)}>${escape(userType.text)}
 				</option>`}`)}</select>
@@ -57431,13 +57712,55 @@ var _username_ = /* @__PURE__ */ Object.freeze({
   load: load$1
 });
 var _layout_reset$1 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
-  return `${slots.default ? slots.default({}) : ``}`;
+  return `<img src="${"/logo.png"}" alt="${"Didunas logo"}" class="${"w-1/6 absolute top-2 left-2"}">
+
+${slots.default ? slots.default({}) : ``}`;
 });
 var __layout_reset$1 = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
   "default": _layout_reset$1
 });
+var numberComparisonNumbers = {
+  "0": {
+    numbers: [
+      { answer: 2, src: "/number_comparison/numbers/numbercomparison-1-2.jpeg", margin: -10 },
+      { answer: 5, src: "/number_comparison/numbers/numbercomparison-1-5.jpeg", margin: 10 }
+    ]
+  },
+  "1": {
+    numbers: [
+      { answer: 9, src: "/number_comparison/numbers/numbercomparison-2-9.jpeg", margin: 10 },
+      { answer: 3, src: "/number_comparison/numbers/numbercomparison-2-3.jpeg", margin: -7 }
+    ]
+  },
+  "2": {
+    numbers: [
+      { answer: 5, src: "/number_comparison/numbers/numbercomparison-3-5.jpeg", margin: 0 },
+      { answer: 6, src: "/number_comparison/numbers/numbercomparison-3-16.jpeg", margin: 7 }
+    ]
+  },
+  "3": {
+    numbers: [
+      { answer: 7, src: "/number_comparison/numbers/numbercomparison-4-7.jpeg", margin: -3 },
+      { answer: 13, src: "/number_comparison/numbers/numbercomparison-4-13.jpeg", margin: 5 }
+    ]
+  },
+  "4": {
+    numbers: [
+      { answer: 5, src: "/number_comparison/numbers/numbercomparison-5-5.jpeg", margin: -2 },
+      { answer: 3, src: "/number_comparison/numbers/numbercomparison-5-3.jpeg", margin: 15 },
+      { answer: 15, src: "/number_comparison/numbers/numbercomparison-5-14.jpeg", margin: -10 }
+    ]
+  },
+  "5": {
+    numbers: [
+      { answer: 13, src: "/number_comparison/numbers/numbercomparison-6-13.jpeg", margin: 12 },
+      { answer: 15, src: "/number_comparison/numbers/numbercomparison-6-15.jpeg", margin: -17 },
+      { answer: 9, src: "/number_comparison/numbers/numbercomparison-6-9.jpeg", margin: 8 }
+    ]
+  }
+};
 var subscriber_queue = [];
 function writable(value, start = noop) {
   let stop;
@@ -57491,7 +57814,7 @@ var tutorials = writable({
   colorPattern: {
     type: "color"
   },
-  difference: {
+  completionToTen: {
     type: "number"
   },
   hiddenNumber: {
@@ -57521,8 +57844,8 @@ var tutorials = writable({
   }
 });
 var css$2 = {
-  code: ".selected.svelte-1mkw1ot{--tw-bg-opacity:1;background-color:rgba(59,130,246,var(--tw-bg-opacity))}",
-  map: `{"version":3,"file":"Numbers.svelte","sources":["Numbers.svelte"],"sourcesContent":["<script lang=\\"ts\\">var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {\\n    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }\\n    return new (P || (P = Promise))(function (resolve, reject) {\\n        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }\\n        function rejected(value) { try { step(generator[\\"throw\\"](value)); } catch (e) { reject(e); } }\\n        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }\\n        step((generator = generator.apply(thisArg, _arguments || [])).next());\\n    });\\n};\\nimport { createEventDispatcher, onMount } from 'svelte';\\nconst numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];\\nconst dispatch = createEventDispatcher();\\nexport let selected;\\nfunction selectAnswer(answer) {\\n    return __awaiter(this, void 0, void 0, function* () {\\n        dispatch('answer', {\\n            answer\\n        });\\n    });\\n}\\nonMount(() => { });\\n<\/script>\\n\\n<div class=\\"grid grid-cols-11 gap-4 mb-10\\">\\n\\t{#each numbers as number}\\n\\t\\t<button\\n\\t\\t\\ton:click={() => selectAnswer(number)}\\n\\t\\t\\tclass=\\"h-16 w-16 border bg-gray-50 border-gray-400 rounded-xl justify-self-end hover:bg-transparent text-4xl\\"\\n\\t\\t\\tclass:selected={selected === number}\\n\\t\\t>\\n\\t\\t\\t{number}\\n\\t\\t</button>\\n\\t{/each}\\n\\t<div class=\\"col-start-11 row-start-1 row-span-2 self-center justify-self-center\\">\\n\\t\\t<button\\n\\t\\t\\ton:click={() => {\\n\\t\\t\\t\\tdispatch('answer', {\\n\\t\\t\\t\\t\\tanswer: 0\\n\\t\\t\\t\\t});\\n\\t\\t\\t}}\\n\\t\\t\\tclass=\\"h-16 w-16 border bg-gray-50 border-gray-400 rounded-xl justify-self-end hover:bg-transparent text-4xl\\"\\n\\t\\t\\tclass:selected={selected === 0}\\n\\t\\t>\\n\\t\\t\\t<img src=\\"/star.png\\" alt=\\"Skip star\\" class=\\"w-16 cursor-pointer\\" />\\n\\t\\t</button>\\n\\t</div>\\n</div>\\n\\n<style>.selected{--tw-bg-opacity:1;background-color:rgba(59,130,246,var(--tw-bg-opacity))}</style>\\n"],"names":[],"mappings":"AAgDO,wBAAS,CAAC,gBAAgB,CAAC,CAAC,iBAAiB,KAAK,EAAE,CAAC,GAAG,CAAC,GAAG,CAAC,IAAI,eAAe,CAAC,CAAC,CAAC"}`
+  code: ".selected.svelte-33odv1{--tw-bg-opacity:1!important;background-color:rgb(59 130 246/var(--tw-bg-opacity))!important}",
+  map: `{"version":3,"file":"Numbers.svelte","sources":["Numbers.svelte"],"sourcesContent":["<script lang=\\"ts\\">var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {\\n    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }\\n    return new (P || (P = Promise))(function (resolve, reject) {\\n        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }\\n        function rejected(value) { try { step(generator[\\"throw\\"](value)); } catch (e) { reject(e); } }\\n        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }\\n        step((generator = generator.apply(thisArg, _arguments || [])).next());\\n    });\\n};\\nimport { createEventDispatcher } from 'svelte';\\nconst numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];\\nconst dispatch = createEventDispatcher();\\nexport let selected;\\nfunction selectAnswer(answer) {\\n    return __awaiter(this, void 0, void 0, function* () {\\n        selected = answer;\\n        dispatch('answer', {\\n            answer\\n        });\\n    });\\n}\\n<\/script>\\n\\n<div class=\\"relative grid grid-cols-10 gap-4 mb-10\\">\\n\\t{#each numbers as number}\\n\\t\\t<button\\n\\t\\t\\ton:click|once={() => selectAnswer(number)}\\n\\t\\t\\tclass=\\"h-16 w-16 border bg-gray-50 border-gray-400 rounded-xl justify-self-end hover:bg-transparent text-4xl font-grund pt-1\\"\\n\\t\\t\\tclass:selected={selected === number}\\n\\t\\t>\\n\\t\\t\\t{number}\\n\\t\\t</button>\\n\\t{/each}\\n\\t<div class=\\"absolute\\" style=\\"right: -11rem; top: 2.5rem;\\">\\n\\t\\t<button\\n\\t\\t\\ton:click|once={() => {\\n\\t\\t\\t\\tif (selected === undefined) {\\n\\t\\t\\t\\t\\tselected = 0;\\n\\t\\t\\t\\t\\tdispatch('answer', {\\n\\t\\t\\t\\t\\t\\tanswer: 0\\n\\t\\t\\t\\t\\t});\\n\\t\\t\\t\\t}\\n\\t\\t\\t}}\\n\\t\\t\\tclass=\\"h-16 w-16 border bg-gray-50 border-gray-400 rounded-xl justify-self-end hover:bg-transparent text-4xl\\"\\n\\t\\t\\tclass:selected={selected === 0}\\n\\t\\t>\\n\\t\\t\\t<img src=\\"/star.png\\" alt=\\"Skip star\\" class=\\"w-16 cursor-pointer\\" />\\n\\t\\t</button>\\n\\t</div>\\n</div>\\n\\n<style lang=\\"postcss\\">.selected{--tw-bg-opacity:1!important;background-color:rgb(59 130 246/var(--tw-bg-opacity))!important}</style>\\n"],"names":[],"mappings":"AAmDsB,uBAAS,CAAC,gBAAgB,CAAC,UAAU,CAAC,iBAAiB,IAAI,EAAE,CAAC,GAAG,CAAC,GAAG,CAAC,IAAI,eAAe,CAAC,CAAC,UAAU,CAAC"}`
 };
 var Numbers = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   (function(thisArg, _arguments, P, generator) {
@@ -57558,23 +57881,25 @@ var Numbers = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   if ($$props.selected === void 0 && $$bindings.selected && selected !== void 0)
     $$bindings.selected(selected);
   $$result.css.add(css$2);
-  return `<div class="${"grid grid-cols-11 gap-4 mb-10"}">${each(numbers, (number) => `<button class="${[
-    "h-16 w-16 border bg-gray-50 border-gray-400 rounded-xl justify-self-end hover:bg-transparent text-4xl svelte-1mkw1ot",
+  return `<div class="${"relative grid grid-cols-10 gap-4 mb-10"}">${each(numbers, (number) => `<button class="${[
+    "h-16 w-16 border bg-gray-50 border-gray-400 rounded-xl justify-self-end hover:bg-transparent text-4xl font-grund pt-1 svelte-33odv1",
     selected === number ? "selected" : ""
   ].join(" ").trim()}">${escape(number)}
 		</button>`)}
-	<div class="${"col-start-11 row-start-1 row-span-2 self-center justify-self-center"}"><button class="${[
-    "h-16 w-16 border bg-gray-50 border-gray-400 rounded-xl justify-self-end hover:bg-transparent text-4xl svelte-1mkw1ot",
+	<div class="${"absolute"}" style="${"right: -11rem; top: 2.5rem;"}"><button class="${[
+    "h-16 w-16 border bg-gray-50 border-gray-400 rounded-xl justify-self-end hover:bg-transparent text-4xl svelte-33odv1",
     selected === 0 ? "selected" : ""
   ].join(" ").trim()}"><img src="${"/star.png"}" alt="${"Skip star"}" class="${"w-16 cursor-pointer"}"></button></div>
 </div>`;
 });
 var css$1 = {
-  code: ".pulse.svelte-1b2m7hp{-webkit-animation:pulse 2s cubic-bezier(.4,0,.6,1) infinite;animation:pulse 2s cubic-bezier(.4,0,.6,1) infinite}",
-  map: `{"version":3,"file":"NumberTutorial.svelte","sources":["NumberTutorial.svelte"],"sourcesContent":["<script lang=\\"ts\\">var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {\\n    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }\\n    return new (P || (P = Promise))(function (resolve, reject) {\\n        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }\\n        function rejected(value) { try { step(generator[\\"throw\\"](value)); } catch (e) { reject(e); } }\\n        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }\\n        step((generator = generator.apply(thisArg, _arguments || [])).next());\\n    });\\n};\\nimport { page } from '$app/stores';\\nimport { textAndAudio } from '$lib/audio';\\nimport { tutorials } from '$lib/stores/tutorials';\\nimport TextAndAudio from '$lib/components/TextAndAudio.svelte';\\nimport Numbers from './AnswerInputs/Numbers.svelte';\\nlet selected;\\nlet tutorialIndex = 0;\\nlet pulse = false;\\nfunction handleAnswer(event) {\\n    return __awaiter(this, void 0, void 0, function* () {\\n        let audio = new Audio(textAndAudio[27].audio);\\n        selected = event.detail.answer;\\n        // This needs more stuff, like the stars and stuff\\n        yield new Promise((resolve) => {\\n            audio.play();\\n            audio.onended = resolve;\\n        }).then(() => {\\n            // console.log($tutorials.star.seen);\\n            // if ($tutorials.star.seen) {\\n            // \\t$tutorials[$page.params.type].seen = true;\\n            // \\t$tutorials.star.seen = true;\\n            // } else {\\n            tutorialIndex = tutorialIndex + 1;\\n            // }\\n        });\\n    });\\n}\\nfunction handleTutorialEnd() {\\n    return __awaiter(this, void 0, void 0, function* () {\\n        let audio = new Audio(textAndAudio[28].audio);\\n        yield new Promise((resolve) => {\\n            audio.play();\\n            audio.onended = resolve;\\n        }).then(() => {\\n            $tutorials.tutorial.number = true;\\n            pulse = false;\\n        });\\n    });\\n}\\n<\/script>\\n\\n<div class=\\"h-screen flex justify-center items-center flex-col gap-6\\">\\n\\t{#if tutorialIndex === 0}\\n\\t\\t<TextAndAudio src={textAndAudio[3].audio} text={textAndAudio[3].text} autoplay={true} />\\n\\t\\t<Numbers on:answer={handleAnswer} {selected} />\\n\\t{:else if tutorialIndex === 1}\\n\\t\\t<TextAndAudio src={textAndAudio[4].audio} text={textAndAudio[4].text} autoplay={true} />\\n\\t\\t<TextAndAudio src={textAndAudio[5].audio} text={textAndAudio[5].text} />\\n\\t\\t<img\\n\\t\\t\\tclass=\\"cursor-pointer\\"\\n\\t\\t\\tclass:pulse\\n\\t\\t\\tsrc=\\"/star.png\\"\\n\\t\\t\\talt=\\"Big star\\"\\n\\t\\t\\ton:click={() => {\\n\\t\\t\\t\\tpulse = true;\\n\\t\\t\\t\\thandleTutorialEnd();\\n\\n\\t\\t\\t\\tvar sounds = document.getElementsByTagName('audio');\\n\\t\\t\\t\\tfor (let i = 0; i < sounds.length; i++) {\\n\\t\\t\\t\\t\\tsounds[i].pause();\\n\\t\\t\\t\\t}\\n\\t\\t\\t}}\\n\\t\\t/>\\n\\t{/if}\\n</div>\\n\\n<style>.pulse{-webkit-animation:pulse 2s cubic-bezier(.4,0,.6,1) infinite;animation:pulse 2s cubic-bezier(.4,0,.6,1) infinite}</style>\\n"],"names":[],"mappings":"AA2EO,qBAAM,CAAC,kBAAkB,KAAK,CAAC,EAAE,CAAC,aAAa,EAAE,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,QAAQ,CAAC,UAAU,KAAK,CAAC,EAAE,CAAC,aAAa,EAAE,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,QAAQ,CAAC"}`
+  code: "@-webkit-keyframes svelte-1ykbv2t-pulse{50%{opacity:.5}}@keyframes svelte-1ykbv2t-pulse{50%{opacity:.5}}.pulse.svelte-1ykbv2t{-webkit-animation:svelte-1ykbv2t-pulse 2s cubic-bezier(.4,0,.6,1) infinite;animation:svelte-1ykbv2t-pulse 2s cubic-bezier(.4,0,.6,1) infinite}",
+  map: `{"version":3,"file":"NumberTutorial.svelte","sources":["NumberTutorial.svelte"],"sourcesContent":["<script lang=\\"ts\\">var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {\\n    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }\\n    return new (P || (P = Promise))(function (resolve, reject) {\\n        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }\\n        function rejected(value) { try { step(generator[\\"throw\\"](value)); } catch (e) { reject(e); } }\\n        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }\\n        step((generator = generator.apply(thisArg, _arguments || [])).next());\\n    });\\n};\\nimport { session } from '$app/stores';\\nimport { textAndAudio } from '$lib/audio';\\nimport { tutorials } from '$lib/stores/tutorials';\\nimport TextAndAudio from '$lib/components/TextAndAudio.svelte';\\nimport Numbers from './AnswerInputs/Numbers.svelte';\\nimport { selectAudio } from '$lib/audio/selectAudio';\\nlet selected;\\nlet tutorialIndex = 0;\\nlet pulse = false;\\nfunction handleAnswer(event) {\\n    return __awaiter(this, void 0, void 0, function* () {\\n        let audio = selectAudio(21, $session.language);\\n        selected = event.detail.answer;\\n        yield new Promise((resolve) => {\\n            audio.play();\\n            audio.onended = resolve;\\n        }).then(() => {\\n            tutorialIndex = tutorialIndex + 1;\\n        });\\n    });\\n}\\nfunction handleTutorialEnd() {\\n    return __awaiter(this, void 0, void 0, function* () {\\n        let audio = selectAudio(35, $session.language, true);\\n        yield new Promise((resolve) => {\\n            audio.play();\\n            audio.onended = resolve;\\n        }).then(() => {\\n            console.log('janne');\\n            $tutorials.tutorial.number = true;\\n            localStorage.setItem(\`\${$session.user.username}-number\`, 'true');\\n            pulse = false;\\n        });\\n    });\\n}\\n<\/script>\\n\\n<div class=\\"h-screen flex justify-center items-center flex-col gap-6\\">\\n\\t{#if tutorialIndex === 0}\\n\\t\\t<TextAndAudio\\n\\t\\t\\tsrc={textAndAudio[3].audio[$session.language]}\\n\\t\\t\\ttext={textAndAudio[3].text[$session.language]}\\n\\t\\t\\tautoplay={true}\\n\\t\\t/>\\n\\t\\t<Numbers on:answer={handleAnswer} {selected} />\\n\\t{:else if tutorialIndex === 1}\\n\\t\\t<TextAndAudio\\n\\t\\t\\tsrc={textAndAudio[4].audio[$session.language]}\\n\\t\\t\\ttext={textAndAudio[4].text[$session.language]}\\n\\t\\t\\tautoplay={true}\\n\\t\\t/>\\n\\t\\t<TextAndAudio\\n\\t\\t\\tsrc={textAndAudio[5].audio[$session.language]}\\n\\t\\t\\ttext={textAndAudio[5].text[$session.language]}\\n\\t\\t/>\\n\\t\\t<img\\n\\t\\t\\tclass=\\"cursor-pointer\\"\\n\\t\\t\\tclass:pulse\\n\\t\\t\\tsrc=\\"/star.png\\"\\n\\t\\t\\talt=\\"Big star\\"\\n\\t\\t\\ton:click|once={() => {\\n\\t\\t\\t\\tpulse = true;\\n\\t\\t\\t\\thandleTutorialEnd();\\n\\n\\t\\t\\t\\tvar sounds = document.getElementsByTagName('audio');\\n\\t\\t\\t\\tfor (let i = 0; i < sounds.length; i++) {\\n\\t\\t\\t\\t\\tsounds[i].pause();\\n\\t\\t\\t\\t}\\n\\t\\t\\t}}\\n\\t\\t/>\\n\\t{/if}\\n</div>\\n\\n<style lang=\\"postcss\\">@-webkit-keyframes pulse{50%{opacity:.5}}@keyframes pulse{50%{opacity:.5}}.pulse{-webkit-animation:pulse 2s cubic-bezier(.4,0,.6,1) infinite;animation:pulse 2s cubic-bezier(.4,0,.6,1) infinite}</style>\\n"],"names":[],"mappings":"AAkFsB,mBAAmB,oBAAK,CAAC,GAAG,CAAC,QAAQ,EAAE,CAAC,CAAC,WAAW,oBAAK,CAAC,GAAG,CAAC,QAAQ,EAAE,CAAC,CAAC,qBAAM,CAAC,kBAAkB,oBAAK,CAAC,EAAE,CAAC,aAAa,EAAE,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,QAAQ,CAAC,UAAU,oBAAK,CAAC,EAAE,CAAC,aAAa,EAAE,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,QAAQ,CAAC"}`
 };
 var NumberTutorial = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+  let $session, $$unsubscribe_session;
   let $$unsubscribe_tutorials;
+  $$unsubscribe_session = subscribe(session, (value) => $session = value);
   $$unsubscribe_tutorials = subscribe(tutorials, (value) => value);
   (function(thisArg, _arguments, P, generator) {
     function adopt(value) {
@@ -57605,22 +57930,40 @@ var NumberTutorial = create_ssr_component(($$result, $$props, $$bindings, slots)
   });
   let selected;
   $$result.css.add(css$1);
+  $$unsubscribe_session();
   $$unsubscribe_tutorials();
   return `<div class="${"h-screen flex justify-center items-center flex-col gap-6"}">${`${validate_component(TextAndAudio, "TextAndAudio").$$render($$result, {
-    src: textAndAudio[3].audio,
-    text: textAndAudio[3].text,
+    src: textAndAudio[3].audio[$session.language],
+    text: textAndAudio[3].text[$session.language],
     autoplay: true
   }, {}, {})}
 		${validate_component(Numbers, "Numbers").$$render($$result, { selected }, {}, {})}`}
 </div>`;
 });
+var VideoModal = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+  let { open } = $$props;
+  let { videoUrl } = $$props;
+  createEventDispatcher();
+  if ($$props.open === void 0 && $$bindings.open && open !== void 0)
+    $$bindings.open(open);
+  if ($$props.videoUrl === void 0 && $$bindings.videoUrl && videoUrl !== void 0)
+    $$bindings.videoUrl(videoUrl);
+  return `${open ? `<div class="${"fixed z-10 inset-0 overflow-y-auto"}" aria-labelledby="${"modal-title"}" role="${"dialog"}" aria-modal="${"true"}"><div class="${"flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"}"><div class="${"fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"}" aria-hidden="${"true"}"></div>
+
+			
+			<span class="${"hidden sm:inline-block sm:align-middle sm:h-screen"}" aria-hidden="${"true"}">\u200B</span>
+
+			<div class="${"relative inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle w-3/4"}"><div class="${"bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4"}"><div class="${"sm:flex sm:items-start"}"><video autoplay controls${add_attribute("src", videoUrl, 0)}><track kind="${"captions"}"></video></div></div></div></div></div>` : ``}`;
+});
 var css = {
-  code: ".pulse.svelte-1b2m7hp{-webkit-animation:pulse 2s cubic-bezier(.4,0,.6,1) infinite;animation:pulse 2s cubic-bezier(.4,0,.6,1) infinite}",
-  map: `{"version":3,"file":"TaskRun.svelte","sources":["TaskRun.svelte"],"sourcesContent":["<script lang=\\"ts\\">var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {\\n    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }\\n    return new (P || (P = Promise))(function (resolve, reject) {\\n        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }\\n        function rejected(value) { try { step(generator[\\"throw\\"](value)); } catch (e) { reject(e); } }\\n        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }\\n        step((generator = generator.apply(thisArg, _arguments || [])).next());\\n    });\\n};\\nimport { page } from '$app/stores';\\nimport { textAndAudio } from '$lib/audio';\\nimport { tutorials } from '$lib/stores/tutorials';\\nimport { afterUpdate, createEventDispatcher, onMount } from 'svelte';\\nimport Colors from './AnswerInputs/Colors.svelte';\\nimport Numbers from './AnswerInputs/Numbers.svelte';\\nexport let task;\\nexport let taskIndex;\\nlet pulse = false;\\nlet taskStartTime;\\nlet selected;\\nlet displayNumbers = false;\\nlet bigStarClicked = false;\\nconst audioArray = [27, 28, 29];\\nconst dispatch = createEventDispatcher();\\nlet taskAudioPlayed = false;\\nlet answer;\\nfunction handleAnswer(star, event) {\\n    return __awaiter(this, void 0, void 0, function* () {\\n        // getting a random audio\\n        var sounds = document.getElementsByTagName('audio');\\n        console.log(sounds);\\n        for (let i = 0; i < sounds.length; i++) {\\n            sounds[i].pause();\\n            document.removeChild(sounds[i]);\\n        }\\n        let audio = new Audio(textAndAudio[audioArray[(Math.random() * audioArray.length) | 0]].audio);\\n        const taskEndTime = new Date();\\n        if (!star) {\\n            selected = event.detail.answer;\\n            yield new Promise((resolve) => {\\n                audio.play();\\n                audio.onended = resolve;\\n            }).then(() => {\\n                if (event.detail.answer === 0 || event.detail.answer === '0') {\\n                    // skip\\n                    answer = {\\n                        answer: 'skip',\\n                        rightAnswer: task.rightAnswer,\\n                        skip: true,\\n                        time: (taskEndTime.getTime() - taskStartTime.getTime()) / 1000,\\n                        taskId: task.id\\n                    };\\n                }\\n                else {\\n                    answer = {\\n                        answer: event.detail.answer,\\n                        rightAnswer: task.rightAnswer,\\n                        time: (taskEndTime.getTime() - taskStartTime.getTime()) / 1000,\\n                        taskId: task.id\\n                    };\\n                }\\n                taskStartTime = new Date();\\n                selected = undefined;\\n                pulse = false;\\n                dispatch('taskComplete', {\\n                    answer\\n                });\\n            });\\n        }\\n        else {\\n            yield new Promise((resolve) => {\\n                audio.play();\\n                audio.onended = resolve;\\n            }).then(() => {\\n                answer = {\\n                    answer: 'star',\\n                    time: (taskEndTime.getTime() - taskStartTime.getTime()) / 1000\\n                };\\n                taskAudioPlayed = false;\\n                pulse = false;\\n                taskStartTime = new Date();\\n                dispatch('taskComplete', {\\n                    answer\\n                });\\n            });\\n            selected = undefined;\\n            bigStarClicked = false;\\n        }\\n    });\\n}\\nonMount(() => {\\n    taskStartTime = new Date();\\n});\\nafterUpdate(() => {\\n    if (taskIndex % 2 === 0 && !taskAudioPlayed) {\\n        let audio = document.body.appendChild(new Audio(task.audio));\\n        taskAudioPlayed = true;\\n        if (task.audio) {\\n            audio.play();\\n        }\\n    }\\n    else {\\n    }\\n});\\n<\/script>\\n\\n{#if $tutorials[$page.params.type].type === 'number'}\\n\\t<div class=\\"h-screen flex flex-col items-center justify-start \\">\\n\\t\\t{#if taskIndex % 2 === 0}\\n\\t\\t\\t<img\\n\\t\\t\\t\\ton:load={() => {\\n\\t\\t\\t\\t\\tdisplayNumbers = true;\\n\\t\\t\\t\\t}}\\n\\t\\t\\t\\tclass=\\"h-3/4\\"\\n\\t\\t\\t\\tsrc={task.src}\\n\\t\\t\\t\\talt=\\"Task\\"\\n\\t\\t\\t/>\\n\\t\\t\\t{#if displayNumbers}\\n\\t\\t\\t\\t<Numbers on:answer={(event) => handleAnswer(false, event)} {selected} />\\n\\t\\t\\t{/if}\\n\\t\\t{:else}\\n\\t\\t\\t<div class=\\"cursor-pointer justify-self-center self-center my-auto\\">\\n\\t\\t\\t\\t<img\\n\\t\\t\\t\\t\\tsrc=\\"/star.png\\"\\n\\t\\t\\t\\t\\talt=\\"Big star\\"\\n\\t\\t\\t\\t\\tclass:pulse\\n\\t\\t\\t\\t\\ton:click={() => {\\n\\t\\t\\t\\t\\t\\tpulse = true;\\n\\t\\t\\t\\t\\t\\tif (!bigStarClicked) {\\n\\t\\t\\t\\t\\t\\t\\tbigStarClicked = true;\\n\\t\\t\\t\\t\\t\\t\\thandleAnswer(true);\\n\\t\\t\\t\\t\\t\\t\\tdisplayNumbers = false;\\n\\t\\t\\t\\t\\t\\t} else {\\n\\t\\t\\t\\t\\t\\t\\tconsole.log('dont click!!!');\\n\\t\\t\\t\\t\\t\\t}\\n\\t\\t\\t\\t\\t}}\\n\\t\\t\\t\\t/>\\n\\t\\t\\t</div>\\n\\t\\t{/if}\\n\\t</div>\\n{:else if $tutorials[$page.params.type].type === 'color'}\\n\\t<div class=\\"h-screen flex flex-col items-center justify-start \\">\\n\\t\\t{#if taskIndex % 2 === 0}\\n\\t\\t\\t<img\\n\\t\\t\\t\\ton:load={() => {\\n\\t\\t\\t\\t\\tdisplayNumbers = true;\\n\\t\\t\\t\\t}}\\n\\t\\t\\t\\tclass=\\"h-3/4\\"\\n\\t\\t\\t\\tsrc={task.src}\\n\\t\\t\\t\\talt=\\"Task\\"\\n\\t\\t\\t/>\\n\\t\\t\\t{#if displayNumbers}\\n\\t\\t\\t\\t<Colors\\n\\t\\t\\t\\t\\tcolorType={task.answerType}\\n\\t\\t\\t\\t\\ton:answer={(event) => handleAnswer(false, event)}\\n\\t\\t\\t\\t\\t{selected}\\n\\t\\t\\t\\t/>\\n\\t\\t\\t{/if}\\n\\t\\t{:else}\\n\\t\\t\\t<div class=\\"cursor-pointer justify-self-center self-center my-auto\\">\\n\\t\\t\\t\\t<img\\n\\t\\t\\t\\t\\tclass:pulse\\n\\t\\t\\t\\t\\tsrc=\\"/star.png\\"\\n\\t\\t\\t\\t\\talt=\\"Big star\\"\\n\\t\\t\\t\\t\\ton:click={() => {\\n\\t\\t\\t\\t\\t\\tpulse = true;\\n\\t\\t\\t\\t\\t\\tif (!bigStarClicked) {\\n\\t\\t\\t\\t\\t\\t\\tbigStarClicked = true;\\n\\t\\t\\t\\t\\t\\t\\thandleAnswer(true);\\n\\t\\t\\t\\t\\t\\t\\tdisplayNumbers = false;\\n\\t\\t\\t\\t\\t\\t} else {\\n\\t\\t\\t\\t\\t\\t\\tconsole.log('dont click!!!');\\n\\t\\t\\t\\t\\t\\t}\\n\\t\\t\\t\\t\\t}}\\n\\t\\t\\t\\t/>\\n\\t\\t\\t</div>\\n\\t\\t{/if}\\n\\t</div>\\n{/if}\\n\\n<style>.pulse{-webkit-animation:pulse 2s cubic-bezier(.4,0,.6,1) infinite;animation:pulse 2s cubic-bezier(.4,0,.6,1) infinite}</style>\\n"],"names":[],"mappings":"AAoLO,qBAAM,CAAC,kBAAkB,KAAK,CAAC,EAAE,CAAC,aAAa,EAAE,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,QAAQ,CAAC,UAAU,KAAK,CAAC,EAAE,CAAC,aAAa,EAAE,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,QAAQ,CAAC"}`
+  code: "@-webkit-keyframes svelte-1y9y7a5-pulse{50%{opacity:.5}}@keyframes svelte-1y9y7a5-pulse{50%{opacity:.5}}.pulse.svelte-1y9y7a5{-webkit-animation:svelte-1y9y7a5-pulse 1s cubic-bezier(.4,0,.6,1) infinite;animation:svelte-1y9y7a5-pulse 1s cubic-bezier(.4,0,.6,1) infinite}",
+  map: `{"version":3,"file":"TaskRun.svelte","sources":["TaskRun.svelte"],"sourcesContent":["<script lang=\\"ts\\">var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {\\n    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }\\n    return new (P || (P = Promise))(function (resolve, reject) {\\n        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }\\n        function rejected(value) { try { step(generator[\\"throw\\"](value)); } catch (e) { reject(e); } }\\n        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }\\n        step((generator = generator.apply(thisArg, _arguments || [])).next());\\n    });\\n};\\nimport { page, session } from '$app/stores';\\nimport '$lib/audio';\\nimport { selectAudio } from '$lib/audio/selectAudio';\\nimport { tutorials } from '$lib/stores/tutorials';\\nimport { numberComparisonNumbers } from '$lib/tasks';\\nimport { afterUpdate, createEventDispatcher, onMount } from 'svelte';\\nimport Colors from './AnswerInputs/Colors.svelte';\\nimport Numbers from './AnswerInputs/Numbers.svelte';\\nimport VideoModal from './VideoModal.svelte';\\nexport let task;\\nexport let taskIndex;\\nexport let numberComparison;\\nlet pulse = false;\\nlet taskStartTime;\\nlet selected;\\nlet displayNumbers = false;\\nconst dispatch = createEventDispatcher();\\nlet taskAudioPlayed = false;\\nlet taskVideoPlayed = false;\\nlet videoOpen = false;\\nlet videoUrl = undefined;\\nlet answer;\\nfunction handleAnswer(star, userAnswer) {\\n    return __awaiter(this, void 0, void 0, function* () {\\n        // getting a random audio\\n        var sounds = document.getElementsByTagName('audio');\\n        console.log(sounds);\\n        for (let i = 0; i < sounds.length; i++) {\\n            sounds[i].pause();\\n        }\\n        let audio = selectAudio(0, $session.language, true);\\n        const taskEndTime = new Date();\\n        if (!star) {\\n            if (isNaN(parseInt(userAnswer))) {\\n                console.log('janne');\\n                selected = userAnswer;\\n                console.log(selected);\\n            }\\n            else {\\n                selected = parseInt(userAnswer);\\n            }\\n            if (userAnswer === '0') {\\n                // skip, play no sound\\n                answer = {\\n                    answer: 'skip',\\n                    rightAnswer: task.rightAnswer,\\n                    skip: true,\\n                    time: (taskEndTime.getTime() - taskStartTime.getTime()) / 1000,\\n                    taskId: task.id\\n                };\\n                dispatch('taskComplete', {\\n                    answer\\n                });\\n            }\\n            else {\\n                yield new Promise((resolve) => {\\n                    audio.play();\\n                    audio.onended = resolve;\\n                }).then(() => {\\n                    answer = {\\n                        answer: userAnswer,\\n                        rightAnswer: task.rightAnswer,\\n                        time: (taskEndTime.getTime() - taskStartTime.getTime()) / 1000,\\n                        taskId: task.id\\n                    };\\n                    taskStartTime = new Date();\\n                    selected = undefined;\\n                    pulse = false;\\n                    dispatch('taskComplete', {\\n                        answer\\n                    });\\n                });\\n            }\\n        }\\n        else {\\n            setTimeout(() => {\\n                answer = {\\n                    answer: 'star',\\n                    time: (taskEndTime.getTime() - taskStartTime.getTime()) / 1000\\n                };\\n                taskAudioPlayed = false;\\n                taskVideoPlayed = false;\\n                pulse = false;\\n                taskStartTime = new Date();\\n                dispatch('taskComplete', {\\n                    answer\\n                });\\n                selected = undefined;\\n            }, 1000);\\n        }\\n    });\\n}\\nfunction playVideo() {\\n    videoOpen = true;\\n    videoUrl = task.video[$session.language];\\n}\\nonMount(() => {\\n    if (task.video) {\\n        playVideo();\\n    }\\n    else {\\n        taskStartTime = new Date();\\n    }\\n});\\nafterUpdate(() => {\\n    if (!taskVideoPlayed && (task === null || task === void 0 ? void 0 : task.video)) {\\n        playVideo();\\n    }\\n    if (taskIndex % 2 === 0 && !taskAudioPlayed && !task.video && task.audio) {\\n        let audio = document.body.appendChild(new Audio(task.audio[$session.language]));\\n        taskAudioPlayed = true;\\n        if (task.audio) {\\n            audio.play();\\n        }\\n    }\\n});\\n$: console.log(task);\\n<\/script>\\n\\n<VideoModal\\n\\tbind:open={videoOpen}\\n\\t{videoUrl}\\n\\ton:ended={() => {\\n\\t\\tvideoOpen = false;\\n\\t\\ttaskVideoPlayed = true;\\n\\t\\ttaskStartTime = new Date();\\n\\t\\tlet audio = document.body.appendChild(new Audio(task.audio[$session.language]));\\n\\t\\ttaskAudioPlayed = true;\\n\\t\\tif (task.audio[$session.language]) {\\n\\t\\t\\taudio.play();\\n\\t\\t}\\n\\t}}\\n/>\\n{#if $tutorials[$page.params.type].type === 'number'}\\n\\t{#if !numberComparison}\\n\\t\\t<div class=\\"h-screen flex flex-col items-center justify-start \\">\\n\\t\\t\\t{#if taskIndex % 2 === 0}\\n\\t\\t\\t\\t<img\\n\\t\\t\\t\\t\\ton:load={() => {\\n\\t\\t\\t\\t\\t\\tdisplayNumbers = true;\\n\\t\\t\\t\\t\\t}}\\n\\t\\t\\t\\t\\tclass=\\"h-3/4\\"\\n\\t\\t\\t\\t\\tsrc={task.src}\\n\\t\\t\\t\\t\\talt=\\"Task\\"\\n\\t\\t\\t\\t/>\\n\\t\\t\\t\\t{#if displayNumbers}\\n\\t\\t\\t\\t\\t<Numbers\\n\\t\\t\\t\\t\\t\\ton:answer={(event) => handleAnswer(false, event.detail.answer.toString())}\\n\\t\\t\\t\\t\\t\\t{selected}\\n\\t\\t\\t\\t\\t/>\\n\\t\\t\\t\\t{/if}\\n\\t\\t\\t{:else}\\n\\t\\t\\t\\t<div class=\\"cursor-pointer justify-self-center self-center my-auto\\">\\n\\t\\t\\t\\t\\t<img\\n\\t\\t\\t\\t\\t\\tsrc=\\"/star.png\\"\\n\\t\\t\\t\\t\\t\\talt=\\"Big star\\"\\n\\t\\t\\t\\t\\t\\tclass:pulse\\n\\t\\t\\t\\t\\t\\ton:click|once={() => {\\n\\t\\t\\t\\t\\t\\t\\tpulse = true;\\n\\t\\t\\t\\t\\t\\t\\thandleAnswer(true);\\n\\t\\t\\t\\t\\t\\t\\tdisplayNumbers = false;\\n\\t\\t\\t\\t\\t\\t}}\\n\\t\\t\\t\\t\\t/>\\n\\t\\t\\t\\t</div>\\n\\t\\t\\t{/if}\\n\\t\\t</div>\\n\\t{:else}\\n\\t\\t<div class=\\"h-screen flex gap-72 items-center justify-center\\">\\n\\t\\t\\t{#if taskIndex % 2 === 0}\\n\\t\\t\\t\\t{#each numberComparisonNumbers[task.id].numbers as task}\\n\\t\\t\\t\\t\\t<!-- svelte-ignore a11y-invalid-attribute -->\\n\\t\\t\\t\\t\\t<a\\n\\t\\t\\t\\t\\t\\thref=\\"#\\"\\n\\t\\t\\t\\t\\t\\tclass=\\"relative cursor-pointer after:content-[''] after:block after:absolute after:p-40 after:-top-20 after:-left-20\\"\\n\\t\\t\\t\\t\\t\\tstyle={\`margin-top: \${task.margin}rem\`}\\n\\t\\t\\t\\t\\t\\ton:click|once={() => handleAnswer(false, task.answer.toString())}\\n\\t\\t\\t\\t\\t>\\n\\t\\t\\t\\t\\t\\t<img\\n\\t\\t\\t\\t\\t\\t\\ton:load={() => {\\n\\t\\t\\t\\t\\t\\t\\t\\tdisplayNumbers = true;\\n\\t\\t\\t\\t\\t\\t\\t}}\\n\\t\\t\\t\\t\\t\\t\\tclass=\\"h-[70%] w-[70%]\\"\\n\\t\\t\\t\\t\\t\\t\\tsrc={task.src}\\n\\t\\t\\t\\t\\t\\t\\talt=\\"Number comparison number\\"\\n\\t\\t\\t\\t\\t\\t/>\\n\\t\\t\\t\\t\\t</a>\\n\\t\\t\\t\\t{/each}\\n\\t\\t\\t{:else}\\n\\t\\t\\t\\t<div class=\\"cursor-pointer justify-self-center self-center my-auto\\">\\n\\t\\t\\t\\t\\t<img\\n\\t\\t\\t\\t\\t\\tsrc=\\"/star.png\\"\\n\\t\\t\\t\\t\\t\\talt=\\"Big star\\"\\n\\t\\t\\t\\t\\t\\tclass:pulse\\n\\t\\t\\t\\t\\t\\ton:click|once={() => {\\n\\t\\t\\t\\t\\t\\t\\tpulse = true;\\n\\t\\t\\t\\t\\t\\t\\thandleAnswer(true);\\n\\t\\t\\t\\t\\t\\t\\tdisplayNumbers = false;\\n\\t\\t\\t\\t\\t\\t}}\\n\\t\\t\\t\\t\\t/>\\n\\t\\t\\t\\t</div>\\n\\t\\t\\t{/if}\\n\\t\\t</div>\\n\\t{/if}\\n{:else if $tutorials[$page.params.type].type === 'color'}\\n\\t<div class=\\"h-screen flex flex-col items-center justify-start \\">\\n\\t\\t{#if taskIndex % 2 === 0}\\n\\t\\t\\t<img\\n\\t\\t\\t\\ton:load={() => {\\n\\t\\t\\t\\t\\tdisplayNumbers = true;\\n\\t\\t\\t\\t}}\\n\\t\\t\\t\\tclass=\\"h-3/4\\"\\n\\t\\t\\t\\tsrc={task.src}\\n\\t\\t\\t\\talt=\\"Task\\"\\n\\t\\t\\t/>\\n\\t\\t\\t{#if displayNumbers}\\n\\t\\t\\t\\t<Colors\\n\\t\\t\\t\\t\\tcolorType={task.answerType}\\n\\t\\t\\t\\t\\ton:answer={(event) => handleAnswer(false, event.detail.answer)}\\n\\t\\t\\t\\t\\t{selected}\\n\\t\\t\\t\\t/>\\n\\t\\t\\t{/if}\\n\\t\\t{:else}\\n\\t\\t\\t<div class=\\"cursor-pointer justify-self-center self-center my-auto\\">\\n\\t\\t\\t\\t<img\\n\\t\\t\\t\\t\\tclass:pulse\\n\\t\\t\\t\\t\\tsrc=\\"/star.png\\"\\n\\t\\t\\t\\t\\talt=\\"Big star\\"\\n\\t\\t\\t\\t\\ton:click|once={() => {\\n\\t\\t\\t\\t\\t\\tpulse = true;\\n\\t\\t\\t\\t\\t\\thandleAnswer(true);\\n\\t\\t\\t\\t\\t\\tdisplayNumbers = false;\\n\\t\\t\\t\\t\\t}}\\n\\t\\t\\t\\t/>\\n\\t\\t\\t</div>\\n\\t\\t{/if}\\n\\t</div>\\n{/if}\\n\\n<style lang=\\"postcss\\">@-webkit-keyframes pulse{50%{opacity:.5}}@keyframes pulse{50%{opacity:.5}}.pulse{-webkit-animation:pulse 1s cubic-bezier(.4,0,.6,1) infinite;animation:pulse 1s cubic-bezier(.4,0,.6,1) infinite}</style>\\n"],"names":[],"mappings":"AAuPsB,mBAAmB,oBAAK,CAAC,GAAG,CAAC,QAAQ,EAAE,CAAC,CAAC,WAAW,oBAAK,CAAC,GAAG,CAAC,QAAQ,EAAE,CAAC,CAAC,qBAAM,CAAC,kBAAkB,oBAAK,CAAC,EAAE,CAAC,aAAa,EAAE,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,QAAQ,CAAC,UAAU,oBAAK,CAAC,EAAE,CAAC,aAAa,EAAE,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,QAAQ,CAAC"}`
 };
 var TaskRun = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+  let $$unsubscribe_session;
   let $tutorials, $$unsubscribe_tutorials;
   let $page, $$unsubscribe_page;
+  $$unsubscribe_session = subscribe(session, (value) => value);
   $$unsubscribe_tutorials = subscribe(tutorials, (value) => $tutorials = value);
   $$unsubscribe_page = subscribe(page, (value) => $page = value);
   (function(thisArg, _arguments, P, generator) {
@@ -57652,33 +57995,97 @@ var TaskRun = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   });
   let { task } = $$props;
   let { taskIndex } = $$props;
+  let { numberComparison } = $$props;
   createEventDispatcher();
+  let videoOpen = false;
+  let videoUrl = void 0;
   if ($$props.task === void 0 && $$bindings.task && task !== void 0)
     $$bindings.task(task);
   if ($$props.taskIndex === void 0 && $$bindings.taskIndex && taskIndex !== void 0)
     $$bindings.taskIndex(taskIndex);
+  if ($$props.numberComparison === void 0 && $$bindings.numberComparison && numberComparison !== void 0)
+    $$bindings.numberComparison(numberComparison);
   $$result.css.add(css);
+  let $$settled;
+  let $$rendered;
+  do {
+    $$settled = true;
+    {
+      console.log(task);
+    }
+    $$rendered = `${validate_component(VideoModal, "VideoModal").$$render($$result, { videoUrl, open: videoOpen }, {
+      open: ($$value) => {
+        videoOpen = $$value;
+        $$settled = false;
+      }
+    }, {})}
+${$tutorials[$page.params.type].type === "number" ? `${!numberComparison ? `<div class="${"h-screen flex flex-col items-center justify-start "}">${taskIndex % 2 === 0 ? `<img class="${"h-3/4"}"${add_attribute("src", task.src, 0)} alt="${"Task"}">
+				${``}` : `<div class="${"cursor-pointer justify-self-center self-center my-auto"}"><img src="${"/star.png"}" alt="${"Big star"}" class="${["svelte-1y9y7a5", ""].join(" ").trim()}"></div>`}</div>` : `<div class="${"h-screen flex gap-72 items-center justify-center"}">${taskIndex % 2 === 0 ? `${each(numberComparisonNumbers[task.id].numbers, (task2) => `
+					<a href="${"#"}" class="${"relative cursor-pointer after:content-[''] after:block after:absolute after:p-40 after:-top-20 after:-left-20"}"${add_attribute("style", `margin-top: ${task2.margin}rem`, 0)}><img class="${"h-[70%] w-[70%]"}"${add_attribute("src", task2.src, 0)} alt="${"Number comparison number"}">
+					</a>`)}` : `<div class="${"cursor-pointer justify-self-center self-center my-auto"}"><img src="${"/star.png"}" alt="${"Big star"}" class="${["svelte-1y9y7a5", ""].join(" ").trim()}"></div>`}</div>`}` : `${$tutorials[$page.params.type].type === "color" ? `<div class="${"h-screen flex flex-col items-center justify-start "}">${taskIndex % 2 === 0 ? `<img class="${"h-3/4"}"${add_attribute("src", task.src, 0)} alt="${"Task"}">
+			${``}` : `<div class="${"cursor-pointer justify-self-center self-center my-auto"}"><img src="${"/star.png"}" alt="${"Big star"}" class="${["svelte-1y9y7a5", ""].join(" ").trim()}"></div>`}</div>` : ``}`}`;
+  } while (!$$settled);
+  $$unsubscribe_session();
   $$unsubscribe_tutorials();
   $$unsubscribe_page();
-  return `${$tutorials[$page.params.type].type === "number" ? `<div class="${"h-screen flex flex-col items-center justify-start "}">${taskIndex % 2 === 0 ? `<img class="${"h-3/4"}"${add_attribute("src", task.src, 0)} alt="${"Task"}">
-			${``}` : `<div class="${"cursor-pointer justify-self-center self-center my-auto"}"><img src="${"/star.png"}" alt="${"Big star"}" class="${["svelte-1b2m7hp", ""].join(" ").trim()}"></div>`}</div>` : `${$tutorials[$page.params.type].type === "color" ? `<div class="${"h-screen flex flex-col items-center justify-start "}">${taskIndex % 2 === 0 ? `<img class="${"h-3/4"}"${add_attribute("src", task.src, 0)} alt="${"Task"}">
-			${``}` : `<div class="${"cursor-pointer justify-self-center self-center my-auto"}"><img src="${"/star.png"}" alt="${"Big star"}" class="${["svelte-1b2m7hp", ""].join(" ").trim()}"></div>`}</div>` : ``}`}`;
+  return $$rendered;
 });
 var U5Btypeu5D = create_ssr_component(($$result, $$props, $$bindings, slots) => {
-  let $page, $$unsubscribe_page;
   let $tutorials, $$unsubscribe_tutorials;
-  $$unsubscribe_page = subscribe(page, (value) => $page = value);
+  let $$unsubscribe_session;
+  let $page, $$unsubscribe_page;
   $$unsubscribe_tutorials = subscribe(tutorials, (value) => $tutorials = value);
+  $$unsubscribe_session = subscribe(session, (value) => value);
+  $$unsubscribe_page = subscribe(page, (value) => $page = value);
+  (function(thisArg, _arguments, P, generator) {
+    function adopt(value) {
+      return value instanceof P ? value : new P(function(resolve2) {
+        resolve2(value);
+      });
+    }
+    return new (P || (P = Promise))(function(resolve2, reject) {
+      function fulfilled(value) {
+        try {
+          step(generator.next(value));
+        } catch (e) {
+          reject(e);
+        }
+      }
+      function rejected(value) {
+        try {
+          step(generator["throw"](value));
+        } catch (e) {
+          reject(e);
+        }
+      }
+      function step(result) {
+        result.done ? resolve2(result.value) : adopt(result.value).then(fulfilled, rejected);
+      }
+      step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+  });
   let tasks = [];
   let taskIndex = 0;
-  $$unsubscribe_page();
+  let hasSeenTutorial;
+  hasSeenTutorial = $tutorials.tutorial.number.toString();
   $$unsubscribe_tutorials();
+  $$unsubscribe_session();
+  $$unsubscribe_page();
   return `${$tutorials[$page.params.type].type === "number" ? `${tasks.length === 0 ? `<div class="${"h-screen flex items-center justify-center flex-col"}"><h1>Not yet implemented</h1>
-			<a href="${"/"}">Go back</a></div>` : `${!$tutorials.tutorial.number ? `${validate_component(NumberTutorial, "NumberTutorial").$$render($$result, {}, {}, {})}` : `${`
-		${validate_component(TaskRun, "TaskRun").$$render($$result, { task: tasks[taskIndex / 2], taskIndex }, {}, {})}`}`}`}` : `${$tutorials[$page.params.type].type === "color" ? `${tasks.length === 0 ? `<div class="${"h-screen flex items-center justify-center flex-col"}"><h1>Not yet implemented</h1>
+			<a href="${"/"}">Go back</a></div>` : `${hasSeenTutorial === "false" ? `${validate_component(NumberTutorial, "NumberTutorial").$$render($$result, {}, {}, {})}
+		` : `
+		${validate_component(TaskRun, "TaskRun").$$render($$result, {
+    numberComparison: $page.params.type === "numberComparison",
+    task: tasks[taskIndex / 2],
+    taskIndex
+  }, {}, {})}`}`}` : `${$tutorials[$page.params.type].type === "color" ? `${tasks.length === 0 ? `<div class="${"h-screen flex items-center justify-center flex-col"}"><h1>Not yet implemented</h1>
 			<a href="${"/"}">Go back</a></div>` : `${!$tutorials.tutorial.color ? `
-		` : `${`
-		${validate_component(TaskRun, "TaskRun").$$render($$result, { task: tasks[taskIndex / 2], taskIndex }, {}, {})}`}`}`}` : ``}`}`;
+		` : `
+		${validate_component(TaskRun, "TaskRun").$$render($$result, {
+    numberComparison: $page.params.type === "numberComparison",
+    task: tasks[taskIndex / 2],
+    taskIndex
+  }, {}, {})}`}`}` : ``}`}`;
 });
 var _type_ = /* @__PURE__ */ Object.freeze({
   __proto__: null,
