@@ -13,8 +13,6 @@
 			answer
 		});
 	}
-
-	onMount(() => {});
 </script>
 
 <div class="relative grid grid-cols-10 gap-4 mb-10">
@@ -30,9 +28,12 @@
 	<div class="absolute" style="right: -11rem; top: 2.5rem;">
 		<button
 			on:click|once={() => {
-				dispatch('answer', {
-					answer: 0
-				});
+				if (selected === undefined) {
+					selected = 0;
+					dispatch('answer', {
+						answer: 0
+					});
+				}
 			}}
 			class="h-16 w-16 border bg-gray-50 border-gray-400 rounded-xl justify-self-end hover:bg-transparent text-4xl"
 			class:selected={selected === 0}

@@ -48,35 +48,39 @@
 			} else {
 				selected = parseInt(userAnswer);
 			}
-			await new Promise((resolve) => {
-				audio.play();
-				audio.onended = resolve;
-			}).then(() => {
-				if (userAnswer === '0') {
-					// skip
-					answer = {
-						answer: 'skip',
-						rightAnswer: task.rightAnswer,
-						skip: true,
-						time: (taskEndTime.getTime() - taskStartTime.getTime()) / 1000,
-						taskId: task.id
-					};
-				} else {
+			if (userAnswer === '0') {
+				// skip, play no sound
+				answer = {
+					answer: 'skip',
+					rightAnswer: task.rightAnswer,
+					skip: true,
+					time: (taskEndTime.getTime() - taskStartTime.getTime()) / 1000,
+					taskId: task.id
+				};
+
+				dispatch('taskComplete', {
+					answer
+				});
+			} else {
+				await new Promise((resolve) => {
+					audio.play();
+					audio.onended = resolve;
+				}).then(() => {
 					answer = {
 						answer: userAnswer,
 						rightAnswer: task.rightAnswer,
 						time: (taskEndTime.getTime() - taskStartTime.getTime()) / 1000,
 						taskId: task.id
 					};
-				}
-				taskStartTime = new Date();
-				selected = undefined;
-				pulse = false;
+					taskStartTime = new Date();
+					selected = undefined;
+					pulse = false;
 
-				dispatch('taskComplete', {
-					answer
+					dispatch('taskComplete', {
+						answer
+					});
 				});
-			});
+			}
 		} else {
 			setTimeout(() => {
 				answer = {
@@ -175,16 +179,22 @@
 		<div class="h-screen flex gap-72 items-center justify-center">
 			{#if taskIndex % 2 === 0}
 				{#each numberComparisonNumbers[task.id].numbers as task}
-					<img
-						on:load={() => {
-							displayNumbers = true;
-						}}
-						class="cursor-pointer h-1/6"
+					<!-- svelte-ignore a11y-invalid-attribute -->
+					<a
+						href="#"
+						class="relative cursor-pointer after:content-[''] after:block after:absolute after:p-40 after:-top-20 after:-left-20"
 						style={`margin-top: ${task.margin}rem`}
-						src={task.src}
-						alt="Number comparison number"
 						on:click|once={() => handleAnswer(false, task.answer.toString())}
-					/>
+					>
+						<img
+							on:load={() => {
+								displayNumbers = true;
+							}}
+							class="h-[70%] w-[70%]"
+							src={task.src}
+							alt="Number comparison number"
+						/>
+					</a>
 				{/each}
 			{:else}
 				<div class="cursor-pointer justify-self-center self-center my-auto">
@@ -241,4 +251,20 @@
 	.pulse {
 		@apply animate-fast-pulse;
 	}
+
+	/* .comparison-number {
+		@apply cursor-pointer;
+		@apply relative;
+	}
+
+	.comparison-number::after {
+		@apply block;
+		@apply bg-blue-400;
+		@apply p-40;
+		@apply absolute;
+		@apply cursor-pointer;
+		@apply -top-20;
+		@apply -left-20;
+		content: 'apa';
+	} */
 </style>
