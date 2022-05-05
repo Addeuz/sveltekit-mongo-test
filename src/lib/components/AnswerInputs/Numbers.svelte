@@ -25,7 +25,7 @@
 			{number}
 		</button>
 	{/each}
-	<div class="absolute" style="right: -11rem; top: 2.5rem;">
+	<div class="absolute" style="right: -8rem; top: 2.5rem;">
 		<button
 			on:click|once={() => {
 				if (selected === undefined) {
