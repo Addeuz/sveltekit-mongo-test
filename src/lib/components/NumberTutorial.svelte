@@ -31,7 +31,6 @@
 			audio.play();
 			audio.onended = resolve;
 		}).then(() => {
-			console.log('janne');
 			$tutorials.tutorial.number = true;
 			localStorage.setItem(`${$session.user.username}-number`, 'true');
 			pulse = false;
@@ -62,9 +61,9 @@
 			class:pulse
 			src="/star.png"
 			alt="Big star"
-			on:click|once={() => {
+			on:click|once={(event) => {
 				pulse = true;
-				handleTutorialEnd();
+				handleAnswer(event);
 
 				var sounds = document.getElementsByTagName('audio');
 				for (let i = 0; i < sounds.length; i++) {
@@ -72,6 +71,13 @@
 				}
 			}}
 		/>
+	{:else if tutorialIndex === 2}
+		<TextAndAudio
+			src={textAndAudio[7].audio[$session.language]}
+			text={textAndAudio[7].text[$session.language]}
+			autoplay={true}
+		/>
+		<Numbers on:answer={handleTutorialEnd} {selected} />
 	{/if}
 </div>
 
