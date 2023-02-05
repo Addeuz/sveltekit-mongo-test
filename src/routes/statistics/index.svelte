@@ -2,7 +2,7 @@
 	import type { Load } from '@sveltejs/kit';
 
 	export const load: Load = async () => {
-		const res = await fetch('http://localhost:3000/api/statistics');
+		const res = await fetch(getUrl('/api/statistics'));
 
 		const data = await res.json();
 		console.log(data);
@@ -18,6 +18,7 @@
 <script lang="ts">
 	import type { ICompletedRun } from '$lib/database/models/completedTasks.models';
 	import { onMount } from 'svelte';
+	import { getUrl } from '$lib/utils';
 
 	export let runs: ICompletedRun[];
 

@@ -19,6 +19,7 @@
 	import { page, session } from '$app/stores';
 	import { onMount } from 'svelte';
 	import { getCompletedSound } from '$lib/audio/getCompletedSound';
+	import Text from '$lib/components/Text.svelte';
 
 	let completed: string[];
 	let soundIndex = 1;
@@ -63,11 +64,12 @@
 		class:not-completed={!$session.user.completed.includes('quantities')}
 	>
 		<img class="rounded-xl mb-3 w-48" src="/quantities/quantities-01.png" alt="Quantities task" />
-		{#if $session.language === 'de'}
+		<!-- {#if $session.language === 'de'}
 			<span>Mengen</span>
 		{:else if $session.language === 'el_cy'}
 			<span class="font-sans">Ποσότητες</span>
-		{/if}
+		{/if} -->
+		<Text key="quantities" />
 	</button>
 	<button
 		on:click={() => {
@@ -84,11 +86,12 @@
 			src="number_pattern/numberpattern-01.png"
 			alt="Number pattern task"
 		/>
-		{#if $session.language === 'de'}
+		<!-- {#if $session.language === 'de'}
 			<span>Zahlenmuster</span>
 		{:else if $session.language === 'el_cy'}
 			<span class="font-sans">Μοτίβα με αριθμούς</span>
-		{/if}
+		{/if} -->
+		<Text key="number_pattern" />
 	</button>
 	<button
 		on:click={() => {
@@ -101,11 +104,12 @@
 		class:not-completed={!$session.user.completed.includes('numberLine')}
 	>
 		<img class="rounded-xl mb-3 w-48" src="number_line/numberline-01.png" alt="Number line tasks" />
-		{#if $session.language === 'de'}
+		<!-- {#if $session.language === 'de'}
 			<span>Zahlenstrahl</span>
 		{:else if $session.language === 'el_cy'}
 			<span class="font-sans">Αριθμητική γραμμή</span>
-		{/if}
+		{/if} -->
+		<Text key="number_line" />
 	</button>
 	<button
 		on:click={() => {
@@ -122,11 +126,13 @@
 			src="/completion_to_ten/completionto10-01.png"
 			alt="Difference task"
 		/>
-		{#if $session.language === 'de'}
+		<Text key="completion_to_ten" />
+
+		<!-- {#if $session.language === 'de'}
 			<span>Ergänzen zur 10</span>
 		{:else if $session.language === 'el_cy'}
 			<span class="font-sans">Συμπλήρωση μέχρι το 10</span>
-		{/if}
+		{/if} -->
 	</button>
 	<button
 		on:click={() => {
@@ -143,11 +149,12 @@
 			src="/color_pattern/colorpatterns-01.png"
 			alt="Color pattern task"
 		/>
-		{#if $session.language === 'de'}
+		<!-- {#if $session.language === 'de'}
 			<span>Farbmuster</span>
 		{:else if $session.language === 'el_cy'}
 			<span class="font-sans">Μοτίβα με χρώματα</span>
-		{/if}
+		{/if} -->
+		<Text key="color_pattern" />
 	</button>
 	<button
 		on:click={() => {
@@ -164,11 +171,13 @@
 			src="/hidden_number/hiddennumber-01.png"
 			alt="Hidden number task"
 		/>
-		{#if $session.language === 'de'}
+
+		<!-- {#if $session.language === 'de'}
 			<span>Vorgänger und Nachfolger</span>
 		{:else if $session.language === 'el_cy'}
 			<span class="font-sans">Προηγούμενος και επόμενος αριθμός</span>
-		{/if}
+		{/if} -->
+		<Text key="hidden_number" />
 	</button>
 	<button
 		on:click={() => {
@@ -185,11 +194,12 @@
 			src="/number_comparison/numbercomparison-01.jpeg"
 			alt="Number comparison task"
 		/>
-		{#if $session.language === 'de'}
+		<!-- {#if $session.language === 'de'}
 			<span>Zahlvergleich</span>
 		{:else if $session.language === 'el_cy'}
 			<span class="font-sans">Σύγκριση αριθμών</span>
-		{/if}
+		{/if} -->
+		<Text key="number_comparison" />
 	</button>
 	<button
 		on:click={() => {
@@ -206,11 +216,12 @@
 			src="/quantity_comparison/quantitiycomparison-01.png"
 			alt="Quantity comparison task"
 		/>
-		{#if $session.language === 'de'}
+		<!-- {#if $session.language === 'de'}
 			<span>Mengenvergleich</span>
 		{:else if $session.language === 'el_cy'}
 			<span class="font-sans">Σύγκριση ποσοτήτων</span>
-		{/if}
+		{/if} -->
+		<Text key="quantity_comparison" />
 	</button>
 	<button
 		on:click={() => {
@@ -223,11 +234,12 @@
 		class:not-completed={!$session.user.completed.includes('plus')}
 	>
 		<img class="rounded-xl mb-3 w-48" src="/plus/plus-01.jpeg" alt="Plus task" />
-		{#if $session.language === 'de'}
+		<!-- {#if $session.language === 'de'}
 			<span>Plus-Aufgaben</span>
 		{:else if $session.language === 'el_cy'}
 			<span class="font-sans">Πρόσθεση</span>
-		{/if}
+		{/if} -->
+		<Text key="plus" />
 	</button>
 	<button
 		on:click={() => {
@@ -240,11 +252,12 @@
 		class:not-completed={!$session.user.completed.includes('minus')}
 	>
 		<img class="rounded-xl mb-3 w-48" src="/minus/minus-01.jpeg" alt="Minus task" />
-		{#if $session.language === 'de'}
+		<!-- {#if $session.language === 'de'}
 			<span>Minus-Aufgaben</span>
 		{:else if $session.language === 'el_cy'}
 			<span class="font-sans">Αφαίρεση</span>
-		{/if}
+		{/if} -->
+		<Text key="minus" />
 	</button>
 </div>
 

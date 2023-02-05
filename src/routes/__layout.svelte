@@ -21,14 +21,29 @@
 
 	import '../app.postcss';
 	import { goto } from '$app/navigation';
+	import Text from '$lib/components/Text.svelte';
 
 	export let user: IUser;
 
 	let navOpen = false;
+
+	async function logout() {
+		try {
+			const res = await fetch('/api/auth/logout', {
+				method: 'POST'
+			});
+
+			if (res.ok) {
+				location.reload();
+			}
+		} catch (err) {}
+	}
 	$: nav = navOpen;
 </script>
 
-<header class="flex flex-wrap flex-row justify-between lg:items-center lg:space-x-4 p-6">
+<header
+	class="flex flex-wrap flex-row justify-between lg:items-center lg:space-x-4 p-6 drop-shadow-md "
+>
 	<img
 		src="/logo.png"
 		alt="Didunas logo"
@@ -55,11 +70,10 @@
 		} absolute lg:relative lg:block top-16 lg:top-0 left-0 z-20 flex flex-col lg:flex-row lg:space-x-6 font-semibold w-full lg:w-auto bg-white shadow-md rounded-lg lg:shadow-none lg:rounded-none lg:bg-transparent p-6 pt-0 lg:p-0`}
 	>
 		{#if user && user.type}
-			<a href="/profile" class="nav-item">Profile</a>
 			{#if user.type === 'teacher' || user.type === 'researcher'}
-				<a href="/statistics" class="nav-item">Statistics</a>
-				<a href="/new-user" class="nav-item">New user</a>
+				<a href="/profile" class="nav-item"><Text key="profile" /></a>
 			{/if}
+			<button class="nav-item font-medium" on:click={logout}><Text key="logout" /></button>
 			{#if user.type === 'researcher'}
 				<a href="/tasks" class="nav-item">Tasks</a>
 			{/if}

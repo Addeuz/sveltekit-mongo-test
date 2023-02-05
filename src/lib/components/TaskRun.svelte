@@ -124,8 +124,6 @@
 			}
 		}
 	});
-
-	$: console.log(task);
 </script>
 
 <VideoModal
@@ -178,7 +176,7 @@
 	{:else}
 		<div class="h-screen flex gap-72 items-center justify-center">
 			{#if taskIndex % 2 === 0}
-				{#each numberComparisonNumbers[task.id].numbers as task}
+				{#each numberComparisonNumbers[taskIndex].numbers as task}
 					<!-- svelte-ignore a11y-invalid-attribute -->
 					<a
 						href="#"

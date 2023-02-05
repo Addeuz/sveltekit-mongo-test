@@ -8,6 +8,7 @@
 	import TaskRun from '$lib/components/TaskRun.svelte';
 	import TasksComplete from '$lib/components/TasksComplete.svelte';
 	import { dev } from '$app/env';
+	import { getUrl } from '$lib/utils';
 
 	let tasks: TaskAttributes[] = [];
 
@@ -32,9 +33,7 @@
 					'Content-Type': 'application/json'
 				}
 			}).then(() => {
-				location.replace(
-					dev ? 'http://localhost:3000?completed=true' : 'https://didunas.vercel.app?completed=true'
-				);
+				location.replace(getUrl('?completed=true'));
 			});
 		}
 	}

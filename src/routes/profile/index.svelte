@@ -1,10 +1,6 @@
-<script context="module" lang="ts">
-	import type { Load } from '@sveltejs/kit';
-
-	export const load: Load = async ({ session }) => {
-		return {
-			status: 302,
-			redirect: session.authenticated ? `/profile/${session.user.username}` : '/login'
-		};
-	};
+<script lang="ts">
+	import { session } from '$app/stores';
 </script>
+
+{JSON.stringify($session.user)}
+Kossa

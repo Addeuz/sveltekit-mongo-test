@@ -2,28 +2,21 @@
 	import type { Load } from '@sveltejs/kit';
 
 	export const load: Load = async ({ session }) => {
-		if (!session.user || session.user.type === 'student') {
-			return {
-				status: 302,
-				redirect: '/login'
-			};
-		}
-
-		if (session.user.type === 'researcher') {
-			try {
-				const res = await fetch('/api/school');
-				if (res.ok) {
-					const data = await res.json();
-					return {
-						props: {
-							schools: data.schools
-						}
-					};
-				}
-			} catch (error) {
-				console.error(error);
-			}
-		}
+		// if (session.user.type === 'researcher') {
+		// 	try {
+		// 		const res = await fetch('/api/school');
+		// 		if (res.ok) {
+		// 			const data = await res.json();
+		// 			return {
+		// 				props: {
+		// 					classes: data.
+		// 				}
+		// 			};
+		// 		}
+		// 	} catch (error) {
+		// 		console.error(error);
+		// 	}
+		// }
 
 		return {};
 	};
@@ -36,30 +29,26 @@
 	import type { RegisterAttributes } from 'src/global';
 	import { session } from '$app/stores';
 	import SubmitButton from '$lib/components/SubmitButton.svelte';
+	import { languages } from '$lib/i18n';
+	import { goto } from '$app/navigation';
 
-	export let schools: ISchool[];
+	// export let schools: ISchool[];
 
 	let fields: RegisterAttributes = {
 		username: '',
+		firstname: '',
+		lastname: '',
 		password: '',
 		passwordConfirmation: '',
 		language: 'de',
-		type: 'student',
-		school_id: null,
-		firstname: '',
-		lastname: ''
+		type: 'teacher',
+		school_id: null
 	};
 
-	let userTypes = [
-		{ value: 'student', text: 'Student' },
-		{ value: 'teacher', text: 'Teacher' },
-		{ value: 'researcher', text: 'Researcher' }
-	];
-
-	let languageTypes = [
-		{ value: 'de', text: 'German' },
-		{ value: 'el_cy', text: 'Greek' }
-	];
+	// let languageTypes = [
+	// 	{ value: 'de', text: 'German' },
+	// 	{ value: 'el_cy', text: 'Greek' }
+	// ];
 
 	let submitted: boolean = false;
 	let isValid: boolean;
@@ -98,6 +87,7 @@
 				error = null;
 				loading = false;
 				submitted = false;
+				goto('/login/teacher');
 			} else {
 				const data = await res.json();
 				error = data.message;
@@ -120,6 +110,24 @@
 		name="username"
 		bind:value={fields.username}
 		placeholder="Username"
+		on:change={() => {
+			submitted = false;
+		}}
+	/>
+	<input
+		type="text"
+		name="username"
+		bind:value={fields.firstname}
+		placeholder="First name"
+		on:change={() => {
+			submitted = false;
+		}}
+	/>
+	<input
+		type="text"
+		name="username"
+		bind:value={fields.lastname}
+		placeholder="Last name"
 		on:change={() => {
 			submitted = false;
 		}}
@@ -149,31 +157,15 @@
 			submitted = false;
 		}}
 	>
-		{#each languageTypes as languageType}
-			<option value={languageType.value}>
-				{languageType.text}
+		{#each languages as { language, icon, text }}
+			<option value={language}>
+				{icon}
+				{text}
 			</option>
 		{/each}
 	</select>
-	<select
-		bind:value={fields.type}
-		on:change={() => {
-			submitted = false;
-		}}
-	>
-		{#each userTypes as userType}
-			<!-- If the user is a teacher it can not create a researcher only other teachers or students -->
-			{#if $session.user.type === 'teacher' && userType.value === 'researcher'}
-				{null}
-			{:else}
-				<option value={userType.value}>
-					{userType.text}
-				</option>
-			{/if}
-		{/each}
-	</select>
-	{#if $session.user.type === 'researcher' && schools}
-		<!-- svelte-ignore a11y-no-onchange -->
+
+	<!-- {#if $session.user.type === 'researcher' && schools}
 		<select
 			bind:value={fields.school_id}
 			on:change={() => {
@@ -187,8 +179,8 @@
 				</option>
 			{/each}
 		</select>
-	{/if}
-	<SubmitButton disabled={submitted} action={register} {loading}>Add user</SubmitButton>
+	{/if} -->
+	<SubmitButton disabled={submitted} action={register} {loading}>Register</SubmitButton>
 
 	{#if error}
 		<p class="text-red-400">{error}</p>
