@@ -1,5 +1,5 @@
-import mongoose, { model } from 'mongoose';
-
+import mongoose from 'mongoose';
+const { model } = mongoose;
 import type { Model, Schema, Document } from 'mongoose';
 
 export interface ITeacherClass extends Document {
