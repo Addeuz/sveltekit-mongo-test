@@ -65,21 +65,37 @@
 				await new Promise((resolve) => {
 					audio.play();
 					audio.onended = resolve;
-				}).then(() => {
-					answer = {
-						answer: userAnswer,
-						rightAnswer: task.rightAnswer,
-						time: (taskEndTime.getTime() - taskStartTime.getTime()) / 1000,
-						taskId: task.id
-					};
-					taskStartTime = new Date();
-					selected = undefined;
-					pulse = false;
+				})
+					.then(() => {
+						answer = {
+							answer: userAnswer,
+							rightAnswer: task.rightAnswer,
+							time: (taskEndTime.getTime() - taskStartTime.getTime()) / 1000,
+							taskId: task.id
+						};
+						taskStartTime = new Date();
+						selected = undefined;
+						pulse = false;
 
-					dispatch('taskComplete', {
-						answer
+						dispatch('taskComplete', {
+							answer
+						});
+					})
+					.catch(() => {
+						answer = {
+							answer: userAnswer,
+							rightAnswer: task.rightAnswer,
+							time: (taskEndTime.getTime() - taskStartTime.getTime()) / 1000,
+							taskId: task.id
+						};
+						taskStartTime = new Date();
+						selected = undefined;
+						pulse = false;
+
+						dispatch('taskComplete', {
+							answer
+						});
 					});
-				});
 			}
 		} else {
 			setTimeout(() => {
@@ -124,8 +140,6 @@
 			}
 		}
 	});
-
-	$: console.log(task);
 </script>
 
 <VideoModal
@@ -178,7 +192,7 @@
 	{:else}
 		<div class="h-screen flex gap-72 items-center justify-center">
 			{#if taskIndex % 2 === 0}
-				{#each numberComparisonNumbers[task.id].numbers as task}
+				{#each numberComparisonNumbers[taskIndex].numbers as task}
 					<!-- svelte-ignore a11y-invalid-attribute -->
 					<a
 						href="#"

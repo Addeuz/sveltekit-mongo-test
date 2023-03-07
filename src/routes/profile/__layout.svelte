@@ -1,0 +1,51 @@
+<script context="module" lang="ts">
+	import { session } from '$app/stores';
+	import type { Load } from '@sveltejs/kit';
+
+	export const load: Load = async ({ session }) => {
+		if (!session.authenticated) {
+			return {
+				status: 302,
+				redirect: '/login'
+			};
+		}
+
+		return {};
+	};
+</script>
+
+<script lang="ts">
+	import { page } from '$app/stores';
+	import Text from '$lib/components/Text.svelte';
+</script>
+
+<header class="flex flex-wrap flex-row justify-between lg:items-center lg:space-x-4 p-6 ">
+	<a href="/profile" class="nav-item" class:active={$page.path.endsWith('profile')}>
+		<Text key="select_class" />
+	</a>
+	{#if $page.params.class_id}
+		<div class="flex gap-8">
+			<a
+				href={`/profile/${$page.params.class_id}/task-overview`}
+				class="nav-item"
+				class:active={$page.path.endsWith('task-overview')}><Text key="task_overview" /></a
+			>
+			<a
+				href={`/profile/${$page.params.class_id}/student-overview`}
+				class="nav-item"
+				class:active={$page.path.endsWith('student-overview')}
+			>
+				<Text key="student_overview" />
+			</a>
+		</div>
+	{/if}
+	<a
+		href="/profile/create-class"
+		class="nav-item"
+		class:active={$page.path.endsWith('create-class')}
+	>
+		+ <Text key="create_class" />
+	</a>
+</header>
+
+<slot />

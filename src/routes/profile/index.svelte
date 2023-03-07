@@ -1,10 +1,21 @@
-<script context="module" lang="ts">
-	import type { Load } from '@sveltejs/kit';
+<script lang="ts">
+	import { session } from '$app/stores';
+	import Text from '$lib/components/Text.svelte';
+	import type { ITeacherClass } from '$lib/database/models/teacherClass.models';
 
-	export const load: Load = async ({ session }) => {
-		return {
-			status: 302,
-			redirect: session.authenticated ? `/profile/${session.user.username}` : '/login'
-		};
-	};
+	$: classes = $session.user.classes as ITeacherClass[];
 </script>
+
+<h5><Text key="select_class" /></h5>
+<div class="flex flex-col items-start w-1/4">
+	{#each classes as { name, _id, students }}
+		<a href={`/profile/${_id}`} class="grid grid-cols-2 p-2 w-full hover:bg-gray-200">
+			<span>
+				{name}
+			</span>
+			<span>
+				{students.length} students
+			</span>
+		</a>
+	{/each}
+</div>

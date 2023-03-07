@@ -17,4 +17,4 @@ const CookieSchema: Schema = new mongoose.Schema({
 	}
 });
 
-export const Cookie: Model<ICookie> = mongoose.models.Cookie || model('Cookie', CookieSchema);
+export const Cookie: Model<ICookie> = mongoose.models?.Cookie || model('Cookie', CookieSchema);

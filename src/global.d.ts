@@ -2,6 +2,8 @@
 
 export interface RegisterAttributes {
 	username: string;
+	firstname: string;
+	lastname: string;
 	password: string;
 	passwordConfirmation: string;
 	language: 'de' | 'el';
@@ -29,4 +31,9 @@ export interface AnswerAttributes {
 export interface CompletionAttributes {
 	completions: AnswerAttributes[];
 	taskType: string;
+}
+
+export interface ClassAttributes {
+	name: string;
+	students: string[];
 }

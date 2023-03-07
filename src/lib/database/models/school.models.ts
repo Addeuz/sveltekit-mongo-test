@@ -21,4 +21,4 @@ const SchoolSchema: Schema = new mongoose.Schema({
 	}
 });
 
-export const School: Model<ISchool> = mongoose.models.School || model('School', SchoolSchema);
+export const School: Model<ISchool> = mongoose.models?.School || model('School', SchoolSchema);

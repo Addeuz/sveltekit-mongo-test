@@ -15,16 +15,17 @@ function makeJSONIntoString(v: AnswerAttributes[]) {
 	});
 }
 
-// function getJSONFromString(v: string[]): AnswerAttributes[] {
-// 	return v.map((value) => {
-// 		return JSON.parse(value);
-// 	});
-// }
+export function getJSONFromString(v: string[]): AnswerAttributes[] {
+	return v.map((value) => {
+		return JSON.parse(value);
+	});
+}
 export interface ICompletedRun extends Document {
-	tasks: AnswerAttributes[];
+	tasks: string[];
 	totalTime: number;
 	taskType: string;
 	user_id: IUser;
+	createdAt: string;
 }
 
 const CompletetedRunSchema: Schema = new mongoose.Schema(
@@ -38,7 +39,6 @@ const CompletetedRunSchema: Schema = new mongoose.Schema(
 		tasks: {
 			type: [String],
 			set: makeJSONIntoString
-			// get: getJSONFromString
 		},
 		user_id: {
 			ref: 'User',
@@ -51,4 +51,4 @@ const CompletetedRunSchema: Schema = new mongoose.Schema(
 );
 
 export const CompletedRun: Model<ICompletedRun> =
-	mongoose.models.CompletedRun || model('CompletedRun', CompletetedRunSchema);
+	mongoose.models?.CompletedRun || model('CompletedRun', CompletetedRunSchema);

@@ -8,7 +8,7 @@
 	{disabled}
 	on:click={action}
 	class={disabled
-		? `bg-green-600 p-4 w-full md:w-72 rounded-xl`
+		? `bg-green-600 p-4 w-full md:w-72 rounded-xl cursor-not-allowed`
 		: `bg-green-300 p-4 w-full md:w-72 rounded-xl`}
 	type="submit"
 >

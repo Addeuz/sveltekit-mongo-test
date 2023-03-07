@@ -15,8 +15,6 @@ worker.addEventListener('install', (event) => {
 		caches
 			.open(FILES)
 			.then((cache) => {
-				console.log(to_cache);
-				console.log(cache);
 				return cache.addAll(to_cache).catch((e) => {
 					console.error(e);
 				});

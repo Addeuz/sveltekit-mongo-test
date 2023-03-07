@@ -4,6 +4,7 @@
 	import { page, session } from '$app/stores';
 
 	import { textAndAudio } from '$lib/audio';
+	import { getUrl } from '$lib/utils';
 
 	import type { AnswerAttributes } from 'src/global';
 	import { onMount } from 'svelte';
@@ -36,10 +37,7 @@
 	<div>
 		<span>Congratulations, you have completed {$session.user.completed.length} task(s)!</span>
 	</div>
-	<button
-		class="bg-green-400 py-4 px-6 rounded-xl"
-		on:click={() => location.replace(dev ? 'http://localhost:3000' : 'https://didunas.vercel.app/')}
-	>
+	<button class="bg-green-400 py-4 px-6 rounded-xl" on:click={() => location.replace(getUrl())}>
 		Home
 	</button>
 </div>

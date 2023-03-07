@@ -30,7 +30,6 @@
 </script>
 
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import bcrypt from 'bcryptjs';
 
 	import type { ISchool } from '$lib/database/models/school.models';
@@ -46,7 +45,9 @@
 		passwordConfirmation: '',
 		language: 'de',
 		type: 'student',
-		school_id: null
+		school_id: null,
+		firstname: '',
+		lastname: ''
 	};
 
 	let userTypes = [
