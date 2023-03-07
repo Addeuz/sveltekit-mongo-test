@@ -1,10 +1,11 @@
 import mongoose from 'mongoose';
 const { model } = mongoose;
 import type { Model, Schema, Document } from 'mongoose';
+import type { IUser } from './users.models';
 
 export interface ITeacherClass extends Document {
 	name: string;
-	students: string[];
+	students: IUser[];
 }
 
 const TeacherClassSchema: Schema = new mongoose.Schema({
@@ -22,4 +23,4 @@ const TeacherClassSchema: Schema = new mongoose.Schema({
 });
 
 export const TeacherClass: Model<ITeacherClass> =
-	mongoose.models.TeacherClass || model('TeacherClass', TeacherClassSchema);
+	mongoose.models?.TeacherClass || model('TeacherClass', TeacherClassSchema);

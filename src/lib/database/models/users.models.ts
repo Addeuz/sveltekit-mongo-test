@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import type { Model, Schema, Document } from 'mongoose';
 import type { ITeacherClass } from './teacherClass.models';
+import type { Languages } from '$lib/i18n';
 const { model } = mongoose;
 
 export interface IUser extends Document {
@@ -10,6 +11,7 @@ export interface IUser extends Document {
 	password: string;
 	type: 'student' | 'teacher' | 'researcher';
 	completed: string[];
+	language: Languages;
 	school_id: string;
 	classes: ITeacherClass[];
 }
@@ -48,4 +50,4 @@ const UserSchema: Schema = new mongoose.Schema({
 	]
 });
 
-export const User: Model<IUser> = mongoose.models.User || model('User', UserSchema);
+export const User: Model<IUser> = mongoose.models?.User || model('User', UserSchema);

@@ -1,30 +1,5 @@
-<script context="module" lang="ts">
-	import type { Load } from '@sveltejs/kit';
-
-	export const load: Load = async ({ session }) => {
-		// if (session.user.type === 'researcher') {
-		// 	try {
-		// 		const res = await fetch('/api/school');
-		// 		if (res.ok) {
-		// 			const data = await res.json();
-		// 			return {
-		// 				props: {
-		// 					classes: data.
-		// 				}
-		// 			};
-		// 		}
-		// 	} catch (error) {
-		// 		console.error(error);
-		// 	}
-		// }
-
-		return {};
-	};
-</script>
-
 <script lang="ts">
 	import bcrypt from 'bcryptjs';
-
 	import type { ISchool } from '$lib/database/models/school.models';
 	import type { RegisterAttributes } from 'src/global';
 	import { session } from '$app/stores';
@@ -119,15 +94,6 @@
 		name="username"
 		bind:value={fields.firstname}
 		placeholder="First name"
-		on:change={() => {
-			submitted = false;
-		}}
-	/>
-	<input
-		type="text"
-		name="username"
-		bind:value={fields.lastname}
-		placeholder="Last name"
 		on:change={() => {
 			submitted = false;
 		}}

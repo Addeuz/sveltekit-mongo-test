@@ -13,7 +13,8 @@ export const post: RequestHandler = async (request) => {
 		return {
 			status: 409,
 			body: {
-				message: 'Class already exists'
+				message: 'Class already exists',
+				classId: teacherClass._id
 			}
 		};
 	}

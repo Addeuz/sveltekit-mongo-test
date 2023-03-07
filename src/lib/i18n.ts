@@ -4,18 +4,21 @@ export type I18NKey =
 	| 'create_user'
 	| 'profile'
 	| 'create_class'
+	| 'select_class'
 	| 'overview'
 	| 'logout'
 	| 'quantities'
-	| 'number_pattern'
-	| 'number_line'
-	| 'completion_to_ten'
-	| 'color_pattern'
-	| 'hidden_number'
-	| 'number_comparison'
-	| 'quantity_comparison'
+	| 'numberPattern'
+	| 'numberLine'
+	| 'completionToTen'
+	| 'colorPattern'
+	| 'hiddenNumber'
+	| 'numberComparison'
+	| 'quantityComparison'
 	| 'plus'
-	| 'minus';
+	| 'minus'
+	| 'task_overview'
+	| 'student_overview';
 
 export const i18n: {
 	[key in I18NKey]: {
@@ -33,7 +36,7 @@ export const i18n: {
 	},
 	login_student: {
 		en: 'Log in as a student',
-		sv: 'Logga in som lärare',
+		sv: 'Logga in som elev',
 		de: 'Melden Sie sich als Student an',
 		el_cy: 'Είσοδος μαθητή'
 	},
@@ -49,43 +52,43 @@ export const i18n: {
 		de: 'Mengen',
 		el_cy: 'Ποσότητες'
 	},
-	number_pattern: {
+	numberPattern: {
 		en: 'Number pattern',
 		sv: 'Siffer mönster',
 		de: 'Zahlenmuster',
 		el_cy: 'Μοτίβα με αριθμούς'
 	},
-	number_line: {
+	numberLine: {
 		en: 'Number line',
 		sv: 'Tallinje',
 		de: 'Zahlenstrahl',
 		el_cy: 'Αριθμητική γραμμή'
 	},
-	completion_to_ten: {
+	completionToTen: {
 		en: 'Completion to 10',
 		sv: 'Upp till 10',
 		de: 'Ergänzen zur 10',
 		el_cy: 'Συμπλήρωση μέχρι το 10'
 	},
-	color_pattern: {
-		en: 'Quantities',
+	colorPattern: {
+		en: 'Color pattern',
 		sv: 'Färgmönster',
 		de: 'Farbmuster',
 		el_cy: 'Μοτίβα με χρώματα'
 	},
-	hidden_number: {
-		en: 'Quantities',
+	hiddenNumber: {
+		en: 'Hidden number',
 		sv: 'Föregående och nästa nummer',
 		de: 'Vorgänger und Nachfolger',
 		el_cy: 'Προηγούμενος και επόμενος αριθμός'
 	},
-	number_comparison: {
+	numberComparison: {
 		en: 'Number comparison',
 		sv: 'Sifferjämförelse',
 		de: 'Zahlvergleich',
 		el_cy: 'Σύγκριση αριθμών'
 	},
-	quantity_comparison: {
+	quantityComparison: {
 		en: 'Quantity comparison',
 		sv: 'Mängd jämförelse',
 		de: 'Mengenvergleich',
@@ -126,9 +129,28 @@ export const i18n: {
 		sv: 'Skapa en klass',
 		de: 'Erstellen Sie eine Klasse',
 		el_cy: 'Δημιουργήστε μια τάξη'
+	},
+	select_class: {
+		en: 'Select a class',
+		sv: 'Välj en klass',
+		de: 'Klasse auswählen',
+		el_cy: 'Επιλέξτε μια τάξη'
+	},
+	task_overview: {
+		en: 'Task overview',
+		sv: 'Uppgiftsöversikt',
+		de: 'Aufgabenübersicht',
+		el_cy: 'Επισκόπηση εργασιών'
+	},
+	student_overview: {
+		en: 'Student overview',
+		sv: 'Elevöversikt',
+		de: 'Schülerübersicht',
+		el_cy: 'Επισκόπηση μαθητή'
 	}
 };
 
+export type Languages = 'en' | 'de' | 'sv' | 'el_cy';
 export const languages = [
 	{
 		language: 'en',

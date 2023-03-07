@@ -16,12 +16,16 @@
 		let audio = selectAudio(21, $session.language);
 		selected = event.detail.answer;
 
-		await new Promise((resolve) => {
+		await new Promise((resolve): void => {
 			audio.play();
 			audio.onended = resolve;
-		}).then(() => {
-			tutorialIndex = tutorialIndex + 1;
-		});
+		})
+			.then(() => {
+				tutorialIndex = tutorialIndex + 1;
+			})
+			.catch(() => {
+				tutorialIndex = tutorialIndex + 1;
+			});
 	}
 
 	async function handleTutorialEnd() {
@@ -30,11 +34,17 @@
 		await new Promise((resolve) => {
 			audio.play();
 			audio.onended = resolve;
-		}).then(() => {
-			$tutorials.tutorial.number = true;
-			localStorage.setItem(`${$session.user.username}-number`, 'true');
-			pulse = false;
-		});
+		})
+			.then(() => {
+				$tutorials.tutorial.number = true;
+				localStorage.setItem(`${$session.user.username}-number`, 'true');
+				pulse = false;
+			})
+			.catch(() => {
+				$tutorials.tutorial.number = true;
+				localStorage.setItem(`${$session.user.username}-number`, 'true');
+				pulse = false;
+			});
 	}
 </script>
 

@@ -65,21 +65,37 @@
 				await new Promise((resolve) => {
 					audio.play();
 					audio.onended = resolve;
-				}).then(() => {
-					answer = {
-						answer: userAnswer,
-						rightAnswer: task.rightAnswer,
-						time: (taskEndTime.getTime() - taskStartTime.getTime()) / 1000,
-						taskId: task.id
-					};
-					taskStartTime = new Date();
-					selected = undefined;
-					pulse = false;
+				})
+					.then(() => {
+						answer = {
+							answer: userAnswer,
+							rightAnswer: task.rightAnswer,
+							time: (taskEndTime.getTime() - taskStartTime.getTime()) / 1000,
+							taskId: task.id
+						};
+						taskStartTime = new Date();
+						selected = undefined;
+						pulse = false;
 
-					dispatch('taskComplete', {
-						answer
+						dispatch('taskComplete', {
+							answer
+						});
+					})
+					.catch(() => {
+						answer = {
+							answer: userAnswer,
+							rightAnswer: task.rightAnswer,
+							time: (taskEndTime.getTime() - taskStartTime.getTime()) / 1000,
+							taskId: task.id
+						};
+						taskStartTime = new Date();
+						selected = undefined;
+						pulse = false;
+
+						dispatch('taskComplete', {
+							answer
+						});
 					});
-				});
 			}
 		} else {
 			setTimeout(() => {

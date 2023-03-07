@@ -11,6 +11,10 @@ const config = {
 			},
 			animation: {
 				'fast-pulse': 'pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite'
+			},
+			gridTemplateColumns: {
+				// Complex site-specific column configuration
+				'1/3-2/3': '1fr 2fr'
 			}
 		}
 	},

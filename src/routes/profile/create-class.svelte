@@ -1,28 +1,12 @@
-<script context="module" lang="ts">
-	import Text from '$lib/components/Text.svelte';
-	import type { IUser } from '$lib/database/models/users.models';
-	import { getUrl } from '$lib/utils';
-	import type { Load } from '@sveltejs/kit';
-	import type { ClassAttributes } from 'src/global';
-
-	export const load: Load = async () => {
-		const res = await fetch(getUrl('/api/users'));
-
-		const students = await res.json();
-
-		return {
-			props: {
-				students: students.students
-			}
-		};
-	};
-</script>
-
 <script lang="ts">
 	import SubmitButton from '$lib/components/SubmitButton.svelte';
-	import { activeClass } from '$lib/stores/activeClass';
-
-	export let students: IUser[];
+	import { goto } from '$app/navigation';
+	import AddUser from '$lib/components/profile/AddUser.svelte';
+	import type { ObjectId } from 'mongoose';
+	import type { ClassAttributes } from 'src/global';
+	import type { IUser } from '$lib/database/models/users.models';
+	import Text from '$lib/components/Text.svelte';
+	import { getUrl } from '$lib/utils';
 
 	let submitted: boolean = false;
 	let isValid: boolean;
@@ -34,6 +18,7 @@
 		name: '',
 		students: []
 	};
+	let addedStudents: (IUser & { _id: ObjectId })[] = [];
 
 	async function createClass() {
 		error = undefined;
@@ -62,7 +47,7 @@
 				success = data.message;
 				loading = false;
 				submitted = false;
-				$activeClass = data.class;
+				goto(`/profile/${data.classId}`);
 				fields = {
 					name: '',
 					students: []
@@ -80,55 +65,48 @@
 			submitted = false;
 		}
 	}
-
-	$: selectedStudentNames = fields.students.map(
-		(id) => students.find(({ _id }) => id === _id).username
-	);
 </script>
 
 <h2><Text key="create_class" /></h2>
-<div class="flex flex-col gap-4">
-	<input
-		type="text"
-		name="username"
-		bind:value={fields.name}
-		placeholder="Username"
-		on:change={() => {
-			submitted = false;
-		}}
-	/>
-	<h5>Select students</h5>
-	{#if selectedStudentNames.length > 0}
-		<p>
-			Selected students: {selectedStudentNames.join(', ')}
-		</p>
-	{:else}
-		<p>No students selected</p>
-	{/if}
-	<div id="student-select">
-		<input type="text" bind:value={studentFilter} placeholder="Search for students" />
-		<div id="students" class="grid grid-cols-6 h-80 overflow-y-auto items-start">
-			{#each students.filter((student) => {
-				if (studentFilter.length > 0) {
-					return student.username.toLowerCase().includes(studentFilter.toLowerCase());
-				}
-
-				return student;
-			}) as student}
-				<label class="flex items-center gap-2">
-					<input type="checkbox" bind:group={fields.students} name="flavours" value={student._id} />
-					{student.username}
-				</label>
+<input
+	type="text"
+	name="class_name"
+	bind:value={fields.name}
+	placeholder="Class name"
+	on:change={() => {
+		submitted = false;
+	}}
+/>
+<div class="grid grid-cols-1/3-2/3 mt-4">
+	<div class="left">
+		<h5>Added students</h5>
+		<div class="flex flex-col">
+			{#each addedStudents as { firstname }}
+				<p>{firstname}</p>
+			{:else}
+				<p>No students added</p>
 			{/each}
 		</div>
 	</div>
-	<SubmitButton disabled={submitted || fields.name.length === 0} action={createClass} {loading}>
-		<Text key="create_class" />
-	</SubmitButton>
-	{#if error}
-		<p class="text-red-400">{error}</p>
-	{/if}
-	{#if success}
-		<p class="text-green-500">{success}</p>
-	{/if}
+	<div class="right">
+		<AddUser
+			on:new-user={({ detail }) => {
+				addedStudents = [...addedStudents, detail];
+				fields.students = [...fields.students, detail._id];
+			}}
+		/>
+	</div>
+</div>
+<div class="flex justify-start mt-8">
+	<div class="flex flex-row justify-center gap-4">
+		<SubmitButton disabled={submitted || fields.name.length === 0} action={createClass} {loading}>
+			<Text key="create_class" />
+		</SubmitButton>
+		{#if error}
+			<p class="text-red-400">{error}</p>
+		{/if}
+		{#if success}
+			<p class="text-green-500">{success}</p>
+		{/if}
+	</div>
 </div>

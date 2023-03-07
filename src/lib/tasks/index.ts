@@ -7,20 +7,144 @@
 // }
 
 import type { TaskAttributes } from 'src/global';
+import type { ICompletedRun } from '$lib/database/models/completedTasks.models';
 
-type TaskKeys =
-	| 'quantities'
-	| 'numberPattern'
-	| 'numberLine'
-	| 'hiddenNumber'
-	| 'numberComparison'
-	| 'plus'
-	| 'minus'
-	| 'colorPattern'
-	| 'quantityComparison'
-	| 'completionToTen';
+export const taskKeys = [
+	'quantities',
+	'numberPattern',
+	'numberLine',
+	'hiddenNumber',
+	'numberComparison',
+	'plus',
+	'minus',
+	'colorPattern',
+	'quantityComparison',
+	'completionToTen'
+] as const;
+export type TaskKey = typeof taskKeys[number];
+export function isTaskKey(key: unknown): key is TaskKey {
+	return typeof key === 'string' && taskKeys.includes(key as TaskKey);
+}
 
-export const sampleTasks: { [key in TaskKeys]: TaskAttributes[] } = {
+export function keyToThumbnailIdentifier(key: TaskKey): { name: string; extension: string } {
+	switch (key) {
+		case 'quantities':
+			return { name: 'quantities', extension: 'png' };
+		case 'numberPattern':
+			return {
+				name: 'numberpattern',
+				extension: 'png'
+			};
+		case 'numberLine':
+			return {
+				name: 'numberline',
+				extension: 'png'
+			};
+		case 'hiddenNumber':
+			return {
+				name: 'predecessor-successor',
+				extension: 'png'
+			};
+		case 'numberComparison':
+			return {
+				name: 'numbercomparison',
+				extension: 'jpeg'
+			};
+		case 'plus':
+			return {
+				name: 'plus',
+				extension: 'jpeg'
+			};
+		case 'minus':
+			return {
+				name: 'minus',
+				extension: 'jpeg'
+			};
+		case 'colorPattern':
+			return {
+				name: 'colorpatterns',
+				extension: 'png'
+			};
+		case 'quantityComparison':
+			return {
+				name: 'quantitycomparison',
+				extension: 'png'
+			};
+		case 'completionToTen':
+			return {
+				name: 'completionto10',
+				extension: 'png'
+			};
+	}
+}
+
+export type TaskColors = 'green' | 'yellow' | 'red';
+
+export type TaskOverview = { [key in TaskKey]: ICompletedRun[] };
+
+export type StudentOverview = Map<
+	string,
+	{ overall: TaskColors[]; tasks: { [key in TaskKey]: { color: TaskColors; date: Date }[] } }
+>;
+
+export type Threshold = { red: number; yellow: number; green: number };
+
+export const thresholds: { [key in TaskKey]: Threshold } = {
+	quantities: {
+		red: 6,
+		yellow: 12,
+		green: 18
+	},
+	numberPattern: {
+		red: 2,
+		yellow: 4,
+		green: 7
+	},
+	numberLine: {
+		red: 6,
+		yellow: 12,
+		green: 19
+	},
+	hiddenNumber: {
+		red: 2,
+		yellow: 4,
+		green: 6
+	},
+	numberComparison: {
+		red: 2,
+		yellow: 4,
+		green: 6
+	},
+	plus: {
+		red: 1,
+		yellow: 2,
+		green: 4
+	},
+	minus: {
+		red: 1,
+		yellow: 2,
+		green: 4
+	},
+	colorPattern: {
+		red: 2,
+		yellow: 4,
+		green: 7
+	},
+	quantityComparison: {
+		red: 4,
+		yellow: 8,
+		green: 13
+	},
+	completionToTen: {
+		red: 3,
+		yellow: 6,
+		green: 10
+	}
+};
+
+// export function parseTasks
+
+export const sampleTasks: { [key in TaskKey]: TaskAttributes[] } = {
 	// vvvvvvv done vvvvvvvv
 	quantities: [
 		{

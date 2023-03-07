@@ -3,7 +3,6 @@ import type { Handle, GetSession } from '@sveltejs/kit';
 import { User, Cookie, TeacherClass } from '$lib/database/models';
 import { connect } from '$lib/database/db';
 import { browser } from '$app/env';
-import { activeClass } from '$lib/stores/activeClass';
 
 export const handle: Handle = async ({ request, resolve }) => {
 	await connect();
@@ -17,9 +16,6 @@ export const handle: Handle = async ({ request, resolve }) => {
 		).populate({ path: 'classes', model: TeacherClass });
 		request.locals.user = JSON.parse(JSON.stringify(user));
 		request.locals.authenticated = true;
-
-		console.log('JANNE', user);
-		activeClass.set(user.classes[0]);
 	} else {
 		request.locals.authenticated = false;
 	}

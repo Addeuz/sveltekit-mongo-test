@@ -91,7 +91,7 @@
 		{:else if $session.language === 'el_cy'}
 			<span class="font-sans">Μοτίβα με αριθμούς</span>
 		{/if} -->
-		<Text key="number_pattern" />
+		<Text key="numberPattern" />
 	</button>
 	<button
 		on:click={() => {
@@ -109,7 +109,7 @@
 		{:else if $session.language === 'el_cy'}
 			<span class="font-sans">Αριθμητική γραμμή</span>
 		{/if} -->
-		<Text key="number_line" />
+		<Text key="numberLine" />
 	</button>
 	<button
 		on:click={() => {
@@ -126,7 +126,7 @@
 			src="/completion_to_ten/completionto10-01.png"
 			alt="Difference task"
 		/>
-		<Text key="completion_to_ten" />
+		<Text key="completionToTen" />
 
 		<!-- {#if $session.language === 'de'}
 			<span>Ergänzen zur 10</span>
@@ -154,7 +154,7 @@
 		{:else if $session.language === 'el_cy'}
 			<span class="font-sans">Μοτίβα με χρώματα</span>
 		{/if} -->
-		<Text key="color_pattern" />
+		<Text key="colorPattern" />
 	</button>
 	<button
 		on:click={() => {
@@ -177,7 +177,7 @@
 		{:else if $session.language === 'el_cy'}
 			<span class="font-sans">Προηγούμενος και επόμενος αριθμός</span>
 		{/if} -->
-		<Text key="hidden_number" />
+		<Text key="hiddenNumber" />
 	</button>
 	<button
 		on:click={() => {
@@ -199,7 +199,7 @@
 		{:else if $session.language === 'el_cy'}
 			<span class="font-sans">Σύγκριση αριθμών</span>
 		{/if} -->
-		<Text key="number_comparison" />
+		<Text key="numberComparison" />
 	</button>
 	<button
 		on:click={() => {
@@ -221,7 +221,7 @@
 		{:else if $session.language === 'el_cy'}
 			<span class="font-sans">Σύγκριση ποσοτήτων</span>
 		{/if} -->
-		<Text key="quantity_comparison" />
+		<Text key="quantityComparison" />
 	</button>
 	<button
 		on:click={() => {
