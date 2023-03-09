@@ -55,7 +55,7 @@
 	on:change={() => {
 		submitted = false;
 	}}
-	placeholder="Username"
+	placeholder="E-mail"
 />
 <input
 	type="password"
