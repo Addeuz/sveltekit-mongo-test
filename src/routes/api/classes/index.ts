@@ -33,6 +33,7 @@ export const post: RequestHandler = async (request) => {
 			class: {
 				name,
 				students,
+				newClass,
 				id: newClass.id
 			}
 		}

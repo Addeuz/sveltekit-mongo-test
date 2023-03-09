@@ -7,6 +7,7 @@
 	import type { IUser } from '$lib/database/models/users.models';
 	import Text from '$lib/components/Text.svelte';
 	import { getUrl } from '$lib/utils';
+	import { session } from '$app/stores';
 
 	let submitted: boolean = false;
 	let isValid: boolean;
@@ -47,6 +48,7 @@
 				success = data.message;
 				loading = false;
 				submitted = false;
+				$session.user.classes = [...$session.user.classes, data.class.newClass];
 				goto(`/profile/${data.class.id}`);
 				fields = {
 					name: '',
