@@ -82,9 +82,9 @@
 	<h1>Create new user</h1>
 	<input
 		type="text"
-		name="username"
+		name="email"
 		bind:value={fields.username}
-		placeholder="Username"
+		placeholder="E-mail"
 		on:change={() => {
 			submitted = false;
 		}}
