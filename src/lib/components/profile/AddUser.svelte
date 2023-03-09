@@ -99,7 +99,7 @@
 			}}
 		/>
 		<SubmitButton
-			disabled={submitted || fields.firstname.length === 0 || fields.lastname.length === 0}
+			disabled={submitted || fields.firstname.length === 0}
 			action={addStudent}
 			{loading}
 		>

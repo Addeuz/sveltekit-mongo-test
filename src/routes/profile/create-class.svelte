@@ -47,7 +47,7 @@
 				success = data.message;
 				loading = false;
 				submitted = false;
-				goto(`/profile/${data.classId}`);
+				goto(`/profile/${data.class.id}`);
 				fields = {
 					name: '',
 					students: []
