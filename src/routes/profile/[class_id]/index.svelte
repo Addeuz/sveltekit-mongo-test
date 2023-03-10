@@ -25,6 +25,7 @@
 
 <script lang="ts">
 	import UserQrCode from '$lib/components/profile/UserQrCode.svelte';
+	import Text from '$lib/components/Text.svelte';
 
 	export let classInfo: ITeacherClass;
 
@@ -33,7 +34,7 @@
 </script>
 
 <h4>{classInfo.name}</h4>
-<h5>Students</h5>
+<h5><Text key="students" /></h5>
 <div class="flex">
 	<div class="flex flex-col">
 		{#each classInfo.students as student}

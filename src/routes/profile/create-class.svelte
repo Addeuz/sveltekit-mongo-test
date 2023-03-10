@@ -81,12 +81,12 @@
 />
 <div class="grid grid-cols-1/3-2/3 mt-4">
 	<div class="left">
-		<h5>Added students</h5>
+		<h5><Text key="added_students" /></h5>
 		<div class="flex flex-col">
 			{#each addedStudents as { firstname }}
 				<p>{firstname}</p>
 			{:else}
-				<p>No students added</p>
+				<p><Text key="no_students" /></p>
 			{/each}
 		</div>
 	</div>

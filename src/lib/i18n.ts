@@ -2,6 +2,7 @@ export type I18NKey =
 	| 'login_teacher'
 	| 'login_student'
 	| 'create_user'
+	| 'what_is'
 	| 'profile'
 	| 'create_class'
 	| 'select_class'
@@ -18,7 +19,12 @@ export type I18NKey =
 	| 'plus'
 	| 'minus'
 	| 'task_overview'
-	| 'student_overview';
+	| 'student_overview'
+	| 'language_info'
+	| 'added_students'
+	| 'no_students'
+	| 'students'
+	| 'add_student';
 
 export const i18n: {
 	[key in I18NKey]: {
@@ -31,19 +37,25 @@ export const i18n: {
 	login_teacher: {
 		en: 'Log in as a teacher',
 		sv: 'Logga in som lärare',
-		de: 'Melden Sie sich als Lehrer an',
+		de: 'Anmelden als Lehrkraft',
 		el_cy: 'Συνδεθείτε δάσκαλος'
 	},
 	login_student: {
 		en: 'Log in as a student',
 		sv: 'Logga in som elev',
-		de: 'Melden Sie sich als Student an',
+		de: 'Anmelden als Schüler*in (Anmeldecode)',
 		el_cy: 'Είσοδος μαθητή'
+	},
+	what_is: {
+		en: 'What is DIDUNAS?',
+		sv: 'Vad är DIDUNAS?',
+		de: 'Was ist DIDUNAS?',
+		el_cy: 'Τι είναι το DIDUNAS?'
 	},
 	create_user: {
 		en: 'Create new user',
 		sv: 'Skapa ny användare',
-		de: 'Neuen Benutzer anlegen',
+		de: 'Registrieren als Lehrkraft',
 		el_cy: 'Δημιουργία νέου χρήστη'
 	},
 	quantities: {
@@ -127,13 +139,13 @@ export const i18n: {
 	create_class: {
 		en: 'Create a class',
 		sv: 'Skapa en klass',
-		de: 'Erstellen Sie eine Klasse',
+		de: 'Klasse erstellen',
 		el_cy: 'Δημιουργήστε μια τάξη'
 	},
 	select_class: {
 		en: 'Select a class',
 		sv: 'Välj en klass',
-		de: 'Klasse auswählen',
+		de: 'Klasse wechseln',
 		el_cy: 'Επιλέξτε μια τάξη'
 	},
 	task_overview: {
@@ -145,8 +157,38 @@ export const i18n: {
 	student_overview: {
 		en: 'Student overview',
 		sv: 'Elevöversikt',
-		de: 'Schülerübersicht',
+		de: 'Schüler*innenübersicht',
 		el_cy: 'Επισκόπηση μαθητή'
+	},
+	language_info: {
+		en: 'This is the language in which the tasks are given to the students',
+		sv: 'Detta är språket som eleverna får sina uppgifter i',
+		de: 'Dies ist die Sprache, in der die Aufgaben an die Schüler*innen gestellt werden.',
+		el_cy: 'Αυτή είναι η γλώσσα στην οποία δίνονται οι εργασίες στους μαθητές'
+	},
+	added_students: {
+		en: 'Added students',
+		sv: 'Tillagda elever',
+		de: 'Schüler*innen',
+		el_cy: 'Προστέθηκαν μαθητές'
+	},
+	no_students: {
+		en: 'No students added',
+		sv: 'Inga elever har blivit tillagda',
+		de: 'Keine Schüler*innen hinzugefügt',
+		el_cy: 'Προστέθηκαν μαθητές'
+	},
+	students: {
+		en: 'Students',
+		sv: 'Elever',
+		de: 'Schüler*innen',
+		el_cy: 'Φοιτητές'
+	},
+	add_student: {
+		en: 'Add student',
+		sv: 'Lägg till elev',
+		de: 'Schüler*in hinzufügen',
+		el_cy: 'Προσθήκη μαθητή'
 	}
 };
 

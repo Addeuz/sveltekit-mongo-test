@@ -1,5 +1,6 @@
 <script lang="ts" context="module">
 	import { goto } from '$app/navigation';
+	import Text from '$lib/components/Text.svelte';
 	import type { Load } from '@sveltejs/kit';
 
 	export const load: Load = async ({ session }) => {
@@ -19,4 +20,10 @@
 	<div class="form flex flex-col items-center space-y-5 my-6">
 		<slot />
 	</div>
+	<a
+		target="_blank"
+		rel="noopener noreferrer"
+		href="https://didunas.eu/"
+		class="mt-20 text-blue-500 underline"><Text key="what_is" /></a
+	>
 </div>
