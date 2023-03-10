@@ -191,8 +191,10 @@
 		</div>
 	{:else}
 		<div class="h-screen flex gap-72 items-center justify-center">
+			{taskIndex}
 			{#if taskIndex % 2 === 0}
-				{#each numberComparisonNumbers[taskIndex].numbers as task}
+				<!-- Divide taskIndex by 2 because there are stars that don't count -->
+				{#each numberComparisonNumbers[taskIndex / 2].numbers as task}
 					<!-- svelte-ignore a11y-invalid-attribute -->
 					<a
 						href="#"

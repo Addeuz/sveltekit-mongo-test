@@ -6,6 +6,7 @@
 	import SubmitButton from '$lib/components/SubmitButton.svelte';
 	import { languages } from '$lib/i18n';
 	import { goto } from '$app/navigation';
+	import Text from '$lib/components/Text.svelte';
 
 	// export let schools: ISchool[];
 
@@ -117,19 +118,26 @@
 			submitted = false;
 		}}
 	/>
-	<select
-		bind:value={fields.language}
-		on:change={() => {
-			submitted = false;
-		}}
+	<div
+		class="flex flex-col
+		items-center
+	"
 	>
-		{#each languages as { language, icon, text }}
-			<option value={language}>
-				{icon}
-				{text}
-			</option>
-		{/each}
-	</select>
+		<select
+			bind:value={fields.language}
+			on:change={() => {
+				submitted = false;
+			}}
+		>
+			{#each languages as { language, icon, text }}
+				<option value={language}>
+					{icon}
+					{text}
+				</option>
+			{/each}
+		</select>
+		<Text key="language_info" />
+	</div>
 
 	<!-- {#if $session.user.type === 'researcher' && schools}
 		<select
