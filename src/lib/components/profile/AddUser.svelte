@@ -7,6 +7,7 @@
 	import type { RegisterAttributes } from 'src/global';
 	import { createEventDispatcher } from 'svelte';
 	import SubmitButton from '../SubmitButton.svelte';
+	import Text from '../Text.svelte';
 	import UserQrCode from './UserQrCode.svelte';
 
 	let submitted: boolean = false;
@@ -88,7 +89,7 @@
 
 <div class="flex flex-col md:items-center gap-3">
 	{#if createdStudent === undefined && createdQRCode === undefined}
-		<h5>Add a student</h5>
+		<h5><Text key="add_student" /></h5>
 		<input
 			type="text"
 			name="Name"
@@ -103,7 +104,7 @@
 			action={addStudent}
 			{loading}
 		>
-			Add student
+			<Text key="add_student" />
 		</SubmitButton>
 
 		{#if error}

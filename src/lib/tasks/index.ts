@@ -84,7 +84,11 @@ export type TaskOverview = { [key in TaskKey]: ICompletedRun[] };
 
 export type StudentOverview = Map<
 	string,
-	{ overall: TaskColors[]; tasks: { [key in TaskKey]: { color: TaskColors; date: Date }[] } }
+	{
+		overall: TaskColors[];
+		tasks: { [key in TaskKey]: { color: TaskColors; date: Date }[] };
+		firstname: string;
+	}
 >;
 
 export type Threshold = { red: number; yellow: number; green: number };

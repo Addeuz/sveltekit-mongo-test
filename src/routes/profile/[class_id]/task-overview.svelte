@@ -35,15 +35,21 @@
 		| {
 				key: TaskKey;
 				tasks: ICompletedRun[];
-				studentTasks: Map<string, { date: Date; name: string; color: TaskColors }[]>;
+				studentTasks: Map<
+					string,
+					{ tasks: { date: Date; name: string; color: TaskColors }[]; firstname: string }
+				>;
 		  }
 		| undefined = undefined;
 
 	function calculateStudentTasks(
 		completed: ICompletedRun[],
 		key: TaskKey
-	): Map<string, { date: Date; name: string; color: TaskColors }[]> {
-		const studentTasks = new Map<string, { date: Date; name: string; color: TaskColors }[]>();
+	): Map<string, { tasks: { date: Date; name: string; color: TaskColors }[]; firstname: string }> {
+		const studentTasks = new Map<
+			string,
+			{ tasks: { date: Date; name: string; color: TaskColors }[]; firstname: string }
+		>();
 		const threshold = thresholds[key];
 
 		let color: TaskColors = 'green';
@@ -65,13 +71,13 @@
 				color = 'green';
 			}
 			const old = studentTasks.get(complete.user_id.username);
-			studentTasks.set(
-				complete.user_id.username,
-				[
-					...(old ?? []),
+			studentTasks.set(complete.user_id.username, {
+				tasks: [
+					...(old?.tasks ?? []),
 					{ date: new Date(complete.createdAt), color, name: complete.user_id.firstname }
-				].sort((a, b) => a.date.getTime() - b.date.getTime())
-			);
+				].sort((a, b) => a.date.getTime() - b.date.getTime()),
+				firstname: complete.user_id.firstname
+			});
 		}
 
 		return studentTasks;
@@ -122,9 +128,9 @@
 			<TaskStats completed={selectedTasks.tasks} taskType={selectedTasks.key} />
 		</div>
 
-		{#each [...selectedTasks.studentTasks] as [username, tasks]}
+		{#each [...selectedTasks.studentTasks.values()] as { tasks, firstname }}
 			<div class="grid items-center gap-8" style="grid-template-columns: 150px 1fr;">
-				<p>{username}</p>
+				<p>{firstname}</p>
 				<div>
 					{#each tasks as { date, color }}
 						<ColorDate {color} {date} />

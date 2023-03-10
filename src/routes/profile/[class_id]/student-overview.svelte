@@ -79,7 +79,8 @@
 								tasks: {
 									[key]: [{ color, date: new Date(complete.createdAt) }],
 									...colors?.tasks
-								}
+								},
+								firstname: complete.user_id.firstname
 							});
 						}
 					}
@@ -119,9 +120,9 @@
 		/>
 	{/each}
 
-	{#each [...studentOverview] as [username, { overall, tasks }]}
-		<div class="grid grid-cols-2">
-			<p>{username}</p>
+	{#each [...studentOverview.values()] as { overall, tasks, firstname }}
+		<div class="grid grid-cols-2 items-center">
+			<p>{firstname}</p>
 			<ColorDate color={overall?.[0]} />
 		</div>
 		{#each taskKeys as key}

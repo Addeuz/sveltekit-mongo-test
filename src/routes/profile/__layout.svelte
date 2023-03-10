@@ -39,13 +39,24 @@
 			</a>
 		</div>
 	{/if}
-	<a
-		href="/profile/create-class"
-		class="nav-item"
-		class:active={$page.path.endsWith('create-class')}
-	>
-		+ <Text key="create_class" />
-	</a>
+	<div class="flex gap-4">
+		{#if $page.params.class_id}
+			<a
+				href={`/profile/${$page.params.class_id}/add-users`}
+				class="nav-item"
+				class:active={$page.path.endsWith('add-users')}
+			>
+				+ <Text key="add_student" />
+			</a>
+		{/if}
+		<a
+			href="/profile/create-class"
+			class="nav-item"
+			class:active={$page.path.endsWith('create-class')}
+		>
+			+ <Text key="create_class" />
+		</a>
+	</div>
 </header>
 
 <slot />
