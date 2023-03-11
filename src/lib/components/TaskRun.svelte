@@ -191,7 +191,6 @@
 		</div>
 	{:else}
 		<div class="h-screen flex gap-72 items-center justify-center">
-			{taskIndex}
 			{#if taskIndex % 2 === 0}
 				<!-- Divide taskIndex by 2 because there are stars that don't count -->
 				{#each numberComparisonNumbers[taskIndex / 2].numbers as task}
