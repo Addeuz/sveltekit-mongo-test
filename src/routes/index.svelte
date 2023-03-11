@@ -55,9 +55,9 @@
 >
 	<button
 		on:click={() => {
-			if (!$session.user.completed.includes('quantities')) {
-				goto('/running/quantities');
-			}
+			// if (!$session.user.completed.includes('quantities')) {
+			goto('/running/quantities');
+			// }
 		}}
 		class="flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl"
 		class:complete={$session.user.completed.includes('quantities')}
@@ -73,9 +73,9 @@
 	</button>
 	<button
 		on:click={() => {
-			if (!$session.user.completed.includes('numberPattern')) {
-				goto('/running/numberPattern');
-			}
+			// if (!$session.user.completed.includes('numberPattern')) {
+			goto('/running/numberPattern');
+			// }
 		}}
 		class="flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl"
 		class:complete={$session.user.completed.includes('numberPattern')}
@@ -95,9 +95,9 @@
 	</button>
 	<button
 		on:click={() => {
-			if (!$session.user.completed.includes('numberLine')) {
-				goto('/running/numberLine');
-			}
+			// if (!$session.user.completed.includes('numberLine')) {
+			goto('/running/numberLine');
+			// }
 		}}
 		class="flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl"
 		class:complete={$session.user.completed.includes('numberLine')}
@@ -113,9 +113,9 @@
 	</button>
 	<button
 		on:click={() => {
-			if (!$session.user.completed.includes('completionToTen')) {
-				goto('/running/completionToTen');
-			}
+			// if (!$session.user.completed.includes('completionToTen')) {
+			goto('/running/completionToTen');
+			// }
 		}}
 		class="flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl"
 		class:complete={$session.user.completed.includes('completionToTen')}
@@ -136,9 +136,9 @@
 	</button>
 	<button
 		on:click={() => {
-			if (!$session.user.completed.includes('colorPattern')) {
-				goto('/running/colorPattern');
-			}
+			// if (!$session.user.completed.includes('colorPattern')) {
+			goto('/running/colorPattern');
+			// }
 		}}
 		class="flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl"
 		class:complete={$session.user.completed.includes('colorPattern')}
@@ -158,9 +158,9 @@
 	</button>
 	<button
 		on:click={() => {
-			if (!$session.user.completed.includes('hiddenNumber')) {
-				goto('/running/hiddenNumber');
-			}
+			// if (!$session.user.completed.includes('hiddenNumber')) {
+			goto('/running/hiddenNumber');
+			// }
 		}}
 		class="flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl"
 		class:complete={$session.user.completed.includes('hiddenNumber')}
@@ -181,9 +181,9 @@
 	</button>
 	<button
 		on:click={() => {
-			if (!$session.user.completed.includes('numberComparison')) {
-				goto('/running/numberComparison');
-			}
+			// if (!$session.user.completed.includes('numberComparison')) {
+			goto('/running/numberComparison');
+			// }
 		}}
 		class="flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl"
 		class:complete={$session.user.completed.includes('numberComparison')}
@@ -203,9 +203,9 @@
 	</button>
 	<button
 		on:click={() => {
-			if (!$session.user.completed.includes('quantityComparison')) {
-				goto('/running/quantityComparison');
-			}
+			// if (!$session.user.completed.includes('quantityComparison')) {
+			goto('/running/quantityComparison');
+			// }
 		}}
 		class="flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl"
 		class:complete={$session.user.completed.includes('quantityComparison')}
@@ -225,9 +225,9 @@
 	</button>
 	<button
 		on:click={() => {
-			if (!$session.user.completed.includes('plus')) {
-				goto('/running/plus');
-			}
+			// if (!$session.user.completed.includes('plus')) {
+			goto('/running/plus');
+			// }
 		}}
 		class="flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl"
 		class:complete={$session.user.completed.includes('plus')}
@@ -243,9 +243,9 @@
 	</button>
 	<button
 		on:click={() => {
-			if (!$session.user.completed.includes('minus')) {
-				goto('/running/minus');
-			}
+			// if (!$session.user.completed.includes('minus')) {
+			goto('/running/minus');
+			// }
 		}}
 		class="flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 w-60 h-52 rounded-xl"
 		class:complete={$session.user.completed.includes('minus')}
