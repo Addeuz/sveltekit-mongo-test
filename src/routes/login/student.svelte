@@ -1,6 +1,9 @@
 <script lang="ts">
-	import { page } from '$app/stores';
+	import { browser } from '$app/env';
+	import { page, session } from '$app/stores';
 	import SubmitButton from '$lib/components/SubmitButton.svelte';
+	import Text from '$lib/components/Text.svelte';
+	import { i18n } from '$lib/i18n';
 
 	let fields = { username: $page.query.get('username') ?? '', password: 'MonkeyApple543!' };
 	let submitted: boolean = false;
@@ -34,6 +37,8 @@
 			submitted = false;
 		}
 	}
+
+	$: lang = $session?.user?.language ?? (browser && localStorage.getItem('language')) ?? 'en';
 </script>
 
 <input
@@ -43,12 +48,12 @@
 	on:change={() => {
 		submitted = false;
 	}}
-	placeholder="Username"
+	placeholder={i18n['student_username'][lang]}
 />
 
 {#if error}
 	<p class="text-red-400">{error}</p>
 {/if}
 <SubmitButton action={login} disabled={submitted || fields.username.length === 0} {loading}>
-	Login
+	<Text key="user_login" />
 </SubmitButton>

@@ -3,6 +3,9 @@
 	import { onMount } from 'svelte';
 	import { browser } from '$app/env';
 	import { goto } from '$app/navigation';
+	import { i18n } from '$lib/i18n';
+	import { session } from '$app/stores';
+	import Text from '$lib/components/Text.svelte';
 
 	onMount(() => {
 		if (browser) {
@@ -46,6 +49,8 @@
 			submitted = false;
 		}
 	}
+
+	$: lang = $session?.user?.language ?? (browser && localStorage.getItem('language')) ?? 'en';
 </script>
 
 <input
@@ -55,7 +60,7 @@
 	on:change={() => {
 		submitted = false;
 	}}
-	placeholder="E-mail"
+	placeholder={i18n['email'][lang]}
 />
 <input
 	type="password"
@@ -64,10 +69,10 @@
 	on:change={() => {
 		submitted = false;
 	}}
-	placeholder="Password"
+	placeholder={i18n['password'][lang]}
 />
 
 {#if error}
 	<p class="text-red-400">{error}</p>
 {/if}
-<SubmitButton action={login} disabled={submitted} {loading}>Login</SubmitButton>
+<SubmitButton action={login} disabled={submitted} {loading}><Text key="login" /></SubmitButton>

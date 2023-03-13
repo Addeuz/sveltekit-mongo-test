@@ -104,6 +104,8 @@
 <script lang="ts">
 	import ColorDate from '$lib/components/overview/ColorDate.svelte';
 	import { taskKeys } from '$lib/tasks';
+	import { languages } from '$lib/i18n';
+	import { session } from '$app/stores';
 
 	export let studentOverview: StudentOverview;
 </script>
@@ -120,7 +122,7 @@
 		/>
 	{/each}
 
-	{#each [...studentOverview.values()] as { overall, tasks, firstname }}
+	{#each [...studentOverview.values()].sort( (a, b) => (a?.firstname ?? '').localeCompare(b.firstname, $session.languages) ) as { overall, tasks, firstname }}
 		<div class="grid grid-cols-2 items-center">
 			<p>{firstname}</p>
 			<ColorDate color={overall?.[0]} />

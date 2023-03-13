@@ -1,6 +1,8 @@
 <script lang="ts">
+	import { browser } from '$app/env';
 	import { session } from '$app/stores';
 	import type { IUser } from '$lib/database/models/users.models';
+	import { i18n } from '$lib/i18n';
 	import { generateUserId } from '$lib/utils';
 	import bcrypt from 'bcryptjs';
 	import type { ObjectId } from 'mongoose';
@@ -85,6 +87,8 @@
 			submitted = false;
 		}
 	}
+
+	$: lang = $session?.user?.language ?? (browser && localStorage.getItem('language')) ?? 'en';
 </script>
 
 <div class="flex flex-col md:items-center gap-3">
@@ -94,7 +98,7 @@
 			type="text"
 			name="Name"
 			bind:value={fields.firstname}
-			placeholder="First name"
+			placeholder={i18n['nickname'][lang]}
 			on:change={() => {
 				submitted = false;
 			}}

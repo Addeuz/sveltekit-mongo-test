@@ -4,9 +4,10 @@
 	import type { RegisterAttributes } from 'src/global';
 	import { session } from '$app/stores';
 	import SubmitButton from '$lib/components/SubmitButton.svelte';
-	import { languages } from '$lib/i18n';
+	import { i18n, languages } from '$lib/i18n';
 	import { goto } from '$app/navigation';
 	import Text from '$lib/components/Text.svelte';
+	import { browser } from '$app/env';
 
 	// export let schools: ISchool[];
 
@@ -77,6 +78,8 @@
 			submitted = false;
 		}
 	}
+
+	$: lang = $session?.user?.language ?? (browser && localStorage.getItem('language')) ?? 'en';
 </script>
 
 <div class="flex flex-col md:items-center gap-3">
@@ -85,16 +88,16 @@
 		type="text"
 		name="email"
 		bind:value={fields.username}
-		placeholder="E-mail"
+		placeholder={i18n['email'][lang]}
 		on:change={() => {
 			submitted = false;
 		}}
 	/>
 	<input
 		type="text"
-		name="username"
+		name="firstname"
 		bind:value={fields.firstname}
-		placeholder="First name"
+		placeholder={i18n['firstname'][lang]}
 		on:change={() => {
 			submitted = false;
 		}}
@@ -102,9 +105,9 @@
 
 	<input
 		type="password"
-		name="username"
+		name="password"
 		bind:value={fields.password}
-		placeholder="Password"
+		placeholder={i18n['password'][lang]}
 		on:change={() => {
 			submitted = false;
 		}}
@@ -113,7 +116,7 @@
 		type="password"
 		name="passwordConfirmation"
 		bind:value={fields.passwordConfirmation}
-		placeholder="Confirm password"
+		placeholder={i18n['confirm_password'][lang]}
 		on:change={() => {
 			submitted = false;
 		}}
@@ -154,7 +157,9 @@
 			{/each}
 		</select>
 	{/if} -->
-	<SubmitButton disabled={submitted} action={register} {loading}>Register</SubmitButton>
+	<SubmitButton disabled={submitted} action={register} {loading}
+		><Text key="register" /></SubmitButton
+	>
 
 	{#if error}
 		<p class="text-red-400">{error}</p>

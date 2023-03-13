@@ -22,6 +22,7 @@
 	import '../app.postcss';
 	import { goto } from '$app/navigation';
 	import Text from '$lib/components/Text.svelte';
+	import { session } from '$app/stores';
 
 	export let user: IUser;
 
@@ -42,7 +43,7 @@
 </script>
 
 <header
-	class="flex flex-wrap flex-row justify-between lg:items-center lg:space-x-4 p-6 drop-shadow-md "
+	class="flex flex-wrap relative flex-row justify-between lg:items-center lg:space-x-4 p-6 drop-shadow-md "
 >
 	<img
 		src="/logo.png"
@@ -52,6 +53,11 @@
 			goto('/');
 		}}
 	/>
+	{#if $session.user}
+		<span>
+			{$session?.user?.firstname ?? $session?.user.username}
+		</span>
+	{/if}
 	<button
 		on:click={() => (navOpen = !navOpen)}
 		class="inline-block lg:hidden w-8 h-8 bg-gray-200 text-gray-600 p-1 rounded"
