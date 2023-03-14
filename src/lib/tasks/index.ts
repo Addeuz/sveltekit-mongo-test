@@ -95,7 +95,7 @@ export type Threshold = { red: number; yellow: number; green: number };
 
 export const thresholds: { [key in TaskKey]: Threshold } = {
 	quantities: {
-		red: 12,
+		red: 11,
 		yellow: 16,
 		green: 18
 	},
@@ -110,38 +110,38 @@ export const thresholds: { [key in TaskKey]: Threshold } = {
 		green: 19
 	},
 	hiddenNumber: {
-		red: 1,
-		yellow: 3,
+		red: 0,
+		yellow: 4,
 		green: 7
 	},
 	numberComparison: {
-		red: 1,
-		yellow: 3,
+		red: 2,
+		yellow: 5,
 		green: 6
 	},
 	plus: {
-		red: 5,
-		yellow: 10,
+		red: 1,
+		yellow: 3,
 		green: 4
 	},
 	minus: {
 		red: 1,
-		yellow: 2,
+		yellow: 3,
 		green: 4
 	},
 	colorPattern: {
 		red: 2,
 		yellow: 5,
-		green: 6
+		green: 7
 	},
 	quantityComparison: {
-		red: 2,
-		yellow: 5,
+		red: 5,
+		yellow: 10,
 		green: 13
 	},
 	completionToTen: {
-		red: 0,
-		yellow: 4,
+		red: 2,
+		yellow: 5,
 		green: 10
 	}
 };

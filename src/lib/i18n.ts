@@ -35,7 +35,9 @@ export type I18NKey =
 	| 'student_username'
 	| 'user_login'
 	| 'classes'
-	| 'back';
+	| 'back'
+	| 'overall_risk'
+	| 'risk_description';
 
 export const i18n: {
 	[key in I18NKey]: {
@@ -266,6 +268,18 @@ export const i18n: {
 		sv: 'Tillbaka',
 		de: 'Zurück',
 		el_cy: 'Πίσω'
+	},
+	overall_risk: {
+		en: 'Risk',
+		sv: 'Risk',
+		de: 'Risiko',
+		el_cy: 'κίνδυνος'
+	},
+	risk_description: {
+		en: 'Risk for developing mathematical difficulties',
+		sv: 'Risken för att utveckla matematiska svårigheter',
+		de: 'Risko für die Entwicklung besonderer Schwierigkeiter beim Mathematiklernen',
+		el_cy: 'Κίνδυνος για ανάπτυξη μαθηματικών δυσκολιών'
 	}
 };
 

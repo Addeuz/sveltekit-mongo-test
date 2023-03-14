@@ -104,14 +104,22 @@
 <script lang="ts">
 	import ColorDate from '$lib/components/overview/ColorDate.svelte';
 	import { taskKeys } from '$lib/tasks';
-	import { languages } from '$lib/i18n';
 	import { session } from '$app/stores';
+	import Text from '$lib/components/Text.svelte';
+	import { browser } from '$app/env';
+	import { i18n } from '$lib/i18n';
 
 	export let studentOverview: StudentOverview;
+
+	$: lang = $session?.user?.language ?? (browser && localStorage.getItem('language')) ?? 'en';
 </script>
 
 <div class="grid gap-2" style="grid-template-columns: 2fr repeat(10, 1fr);">
-	<div class="grid grid-cols-2"><span>&nbsp;</span><span class="mx-auto">Overall</span></div>
+	<div class="grid grid-cols-2">
+		<span>&nbsp;</span><abbr title={i18n['risk_description'][lang]} class="mx-auto"
+			><Text key="overall_risk" /></abbr
+		>
+	</div>
 	{#each taskKeys as key}
 		<img
 			src={`/thumbnails/${keyToThumbnailIdentifier(key).name}-01.${
