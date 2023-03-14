@@ -24,7 +24,20 @@ export type I18NKey =
 	| 'added_students'
 	| 'no_students'
 	| 'students'
-	| 'add_student';
+	| 'add_student'
+	| 'email'
+	| 'password'
+	| 'login'
+	| 'confirm_password'
+	| 'register'
+	| 'nickname'
+	| 'firstname'
+	| 'student_username'
+	| 'user_login'
+	| 'classes'
+	| 'back'
+	| 'overall_risk'
+	| 'risk_description';
 
 export const i18n: {
 	[key in I18NKey]: {
@@ -39,6 +52,12 @@ export const i18n: {
 		sv: 'Logga in som lärare',
 		de: 'Anmelden als Lehrkraft',
 		el_cy: 'Συνδεθείτε δάσκαλος'
+	},
+	student_username: {
+		en: 'Username',
+		sv: 'Användarnamn',
+		de: 'Anmeldecode',
+		el_cy: 'Όνομα χρήστη'
 	},
 	login_student: {
 		en: 'Log in as a student',
@@ -189,6 +208,78 @@ export const i18n: {
 		sv: 'Lägg till elev',
 		de: 'Schüler*in hinzufügen',
 		el_cy: 'Προσθήκη μαθητή'
+	},
+	email: {
+		en: 'E-mail',
+		sv: 'E-mail',
+		de: 'E-Mail-Adresse',
+		el_cy: 'ΗΛΕΚΤΡΟΝΙΚΗ ΔΙΕΥΘΥΝΣΗ'
+	},
+	password: {
+		en: 'Password',
+		sv: 'Lösenord',
+		de: 'Passwort',
+		el_cy: 'Κωδικός πρόσβασης'
+	},
+	login: {
+		en: 'Login',
+		sv: 'Logga in',
+		de: 'Anmelden',
+		el_cy: 'Σύνδεση'
+	},
+	user_login: {
+		en: 'Login',
+		sv: 'Logga in',
+		de: 'Weiter',
+		el_cy: 'Σύνδεση'
+	},
+	confirm_password: {
+		en: 'Confirm password',
+		sv: 'Bekräfta lösenord',
+		de: 'Passwort besträtigen',
+		el_cy: 'Επιβεβαίωση Κωδικού'
+	},
+	register: {
+		en: 'Register',
+		sv: 'Registrera',
+		de: 'Registrieren',
+		el_cy: 'Κανω ΕΓΓΡΑΦΗ'
+	},
+	nickname: {
+		en: 'Nickname',
+		sv: 'Smeknamn',
+		de: 'Spitzname',
+		el_cy: 'Παρατσούκλι'
+	},
+	firstname: {
+		en: 'Firstname',
+		sv: 'Förnamn',
+		de: 'Vorname',
+		el_cy: 'Ονομα'
+	},
+	classes: {
+		en: 'Classes',
+		sv: 'Klasser',
+		de: 'Klassen',
+		el_cy: 'Τάξεις'
+	},
+	back: {
+		en: 'Back',
+		sv: 'Tillbaka',
+		de: 'Zurück',
+		el_cy: 'Πίσω'
+	},
+	overall_risk: {
+		en: 'Risk',
+		sv: 'Risk',
+		de: 'Risiko',
+		el_cy: 'κίνδυνος'
+	},
+	risk_description: {
+		en: 'Risk for developing mathematical difficulties',
+		sv: 'Risken för att utveckla matematiska svårigheter',
+		de: 'Risko für die Entwicklung besonderer Schwierigkeiter beim Mathematiklernen',
+		el_cy: 'Κίνδυνος για ανάπτυξη μαθηματικών δυσκολιών'
 	}
 };
 

@@ -112,7 +112,7 @@
 		{/each}
 	{:else}
 		<button class="p-4 hover:bg-gray-400 self-start" on:click={() => (selectedTasks = undefined)}
-			>&lt; Tillbaka</button
+			>&lt; <Text key="back" /></button
 		>
 		<div class="grid grid-cols-2 items-center gap-4 p-2">
 			<div class="grid items-center" style="grid-template-columns: 2fr 1fr;">

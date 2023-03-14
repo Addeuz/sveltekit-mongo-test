@@ -6,7 +6,7 @@
 	$: classes = $session.user.classes as ITeacherClass[];
 </script>
 
-<h5><Text key="select_class" /></h5>
+<h5><Text key="classes" /></h5>
 <div class="flex flex-col items-start w-1/4">
 	{#each classes as { name, _id, students }}
 		<a href={`/profile/${_id}`} class="grid grid-cols-2 p-2 w-full hover:bg-gray-200">
@@ -14,7 +14,8 @@
 				{name}
 			</span>
 			<span>
-				{students.length} students
+				{students.length}
+				<Text key="students" lowercase />
 			</span>
 		</a>
 	{/each}

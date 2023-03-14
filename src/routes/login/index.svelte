@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { browser } from '$app/env';
 	import { goto } from '$app/navigation';
+	import { session } from '$app/stores';
 	import Text from '$lib/components/Text.svelte';
 	import { onMount } from 'svelte';
 
