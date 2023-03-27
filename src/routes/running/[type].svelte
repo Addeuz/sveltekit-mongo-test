@@ -21,10 +21,10 @@
 
 	async function handleTaskAnswer(event) {
 		completions.push(event.detail.answer);
-		// Needs times 2 here because there is double amount of "tasks" when there are stars between every task
-		if (taskIndex !== tasks.length * 2 - 1) {
-			taskIndex++;
-		} else {
+
+		// Completions include stars and skips so we divide by 2, (18 tasks = 36 completions)
+		// Then we do tasks.length - 0.5 because we don't want the extra star in the end.
+		if (completions.length / 2 === tasks.length - 0.5) {
 			allTaskComplete = true;
 			const res = await fetch('/api/run/complete', {
 				method: 'POST',
@@ -35,6 +35,8 @@
 			}).then(() => {
 				location.replace(getUrl('?completed=true'));
 			});
+		} else {
+			taskIndex++;
 		}
 	}
 	onMount(() => {

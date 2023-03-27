@@ -42,7 +42,6 @@
 		const taskEndTime = new Date();
 		if (!star) {
 			if (isNaN(parseInt(userAnswer))) {
-				console.log('janne');
 				selected = userAnswer;
 				console.log(selected);
 			} else {

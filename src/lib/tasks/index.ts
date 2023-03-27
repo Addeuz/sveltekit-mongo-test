@@ -782,7 +782,7 @@ export const numberComparisonNumbers: {
 	'2': {
 		numbers: [
 			{ answer: 5, src: '/number_comparison/numbers/numbercomparison-3-5.jpeg', margin: 0 },
-			{ answer: 6, src: '/number_comparison/numbers/numbercomparison-3-16.jpeg', margin: 7 }
+			{ answer: 16, src: '/number_comparison/numbers/numbercomparison-3-16.jpeg', margin: 7 }
 		]
 	},
 	'3': {
@@ -795,7 +795,7 @@ export const numberComparisonNumbers: {
 		numbers: [
 			{ answer: 5, src: '/number_comparison/numbers/numbercomparison-5-5.jpeg', margin: -2 },
 			{ answer: 3, src: '/number_comparison/numbers/numbercomparison-5-3.jpeg', margin: 15 },
-			{ answer: 15, src: '/number_comparison/numbers/numbercomparison-5-14.jpeg', margin: -10 }
+			{ answer: 14, src: '/number_comparison/numbers/numbercomparison-5-14.jpeg', margin: -10 }
 		]
 	},
 	'5': {
