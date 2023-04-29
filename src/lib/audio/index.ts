@@ -55,7 +55,7 @@ export const textAndAudio = {
 		text: {
 			de: 'Bei welcher Zahl ist das rote Kreuz?\nDrück auf die Zahl auf dem Zahlenfeld.',
 			el_cy:
-				'Ποιον αριθμό δείχνει το τόξο;\nΠάτησε τον ορθό αριθμό από τον πίνακα με τους αριθμούς.'
+				'Ποιον αριθμό δείχνει το κόκκινο χι; Πάτησε τον ορθό αριθμό από τον πίνακα με τους αριθμούς.'
 		}
 	},
 	'10': {
@@ -85,8 +85,7 @@ export const textAndAudio = {
 		audio: { de: '/audio/13_de.MP3', el_cy: '/audio/13_el_cy.m4a' },
 		text: {
 			de: 'Welche Zahl ist größer?\nDrück auf die größere Zahl.',
-			el_cy:
-				'Ποιος αριθμός είναι ο μεγαλύτερος;\nΠάτησε τον ορθό αριθμό από τον πίνακα με τους αριθμούς.'
+			el_cy: 'Ποιος αριθμός είναι ο μεγαλύτερος;\nΕπέλεξε τον ορθό αριθμό.'
 		}
 	},
 	'14': {
@@ -146,15 +145,15 @@ export const textAndAudio = {
 	},
 	'21': {
 		audio: { de: '/audio/21_de.MP3', el_cy: '/audio/21_el_cy.m4a' },
-		text: { de: 'Super!', el_cy: 'Τέλεια!' }
+		text: { de: 'Super!', el_cy: 'Υπέροχα!' }
 	},
 	'22': {
 		audio: { de: '/audio/22_de.MP3', el_cy: '/audio/22_el_cy.m4a' },
-		text: { de: 'Super!', el_cy: 'Τέλεια!' }
+		text: { de: 'Super!', el_cy: 'Υπέροχα!' }
 	},
 	'23': {
 		audio: { de: '/audio/23_de.MP3', el_cy: '/audio/23_el_cy.m4a' },
-		text: { de: 'Super!', el_cy: 'Τέλεια!' }
+		text: { de: 'Super!', el_cy: 'Υπέροχα!' }
 	},
 	'24': {
 		audio: { de: '/audio/24_de.MP3', el_cy: '/audio/24_el_cy.m4a' },
@@ -182,15 +181,15 @@ export const textAndAudio = {
 	},
 	'30': {
 		audio: { de: '/audio/30_de.MP3', el_cy: '/audio/30_el_cy.m4a' },
-		text: { de: 'Klasse!', el_cy: 'Καταπληκτικά!' }
+		text: { de: 'Klasse!', el_cy: 'Καλή προσπάθεια!' }
 	},
 	'31': {
 		audio: { de: '/audio/31_de.MP3', el_cy: '/audio/31_el_cy.m4a' },
-		text: { de: 'Klasse!', el_cy: 'Καταπληκτικά!' }
+		text: { de: 'Klasse!', el_cy: 'Καλή προσπάθεια!' }
 	},
 	'32': {
 		audio: { de: '/audio/32_de.MP3', el_cy: '/audio/32_el_cy.m4a' },
-		text: { de: 'Klasse!', el_cy: 'Καταπληκτικά!' }
+		text: { de: 'Klasse!', el_cy: 'Καλή προσπάθεια!' }
 	},
 	'33': {
 		audio: { de: '/audio/33_de.MP3', el_cy: '/audio/33_el_cy.m4a' },
