@@ -100,6 +100,7 @@
 			value={$session.user.language}
 			on:change={async (e) => {
 				localStorage.setItem('language', e.currentTarget.value);
+				console.log('language change');
 				await fetch('/api/user', {
 					method: 'PUT',
 					body: JSON.stringify({
