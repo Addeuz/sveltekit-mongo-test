@@ -123,7 +123,7 @@
 				createdStudent = undefined;
 			}}
 		>
-			Create new user
+			{i18n['create_new_student'][lang]}
 		</button>
 	{/if}
 </div>

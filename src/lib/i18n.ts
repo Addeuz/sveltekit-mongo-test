@@ -37,7 +37,10 @@ export type I18NKey =
 	| 'classes'
 	| 'back'
 	| 'overall_risk'
-	| 'risk_description';
+	| 'risk_description'
+	| 'class_name'
+	| 'no_students_with_tasks'
+	| 'create_new_student';
 
 export const i18n: {
 	[key in I18NKey]: {
@@ -161,6 +164,12 @@ export const i18n: {
 		de: 'Klasse erstellen',
 		el_cy: 'Δημιουργήστε μια τάξη'
 	},
+	class_name: {
+		en: 'Classname',
+		sv: 'Klassens namn',
+		de: 'Klasse',
+		el_cy: 'όνομα της τάξης'
+	},
 	select_class: {
 		en: 'Select a class',
 		sv: 'Välj en klass',
@@ -198,8 +207,8 @@ export const i18n: {
 		el_cy: 'Προστέθηκαν μαθητές'
 	},
 	students: {
-		en: 'Students',
-		sv: 'Elever',
+		en: 'students',
+		sv: 'elever',
 		de: 'Schüler*innen',
 		el_cy: 'Φοιτητές'
 	},
@@ -249,7 +258,7 @@ export const i18n: {
 		en: 'Nickname',
 		sv: 'Smeknamn',
 		de: 'Spitzname',
-		el_cy: 'Παρατσούκλι'
+		el_cy: 'Ψευδώνυμο'
 	},
 	firstname: {
 		en: 'Firstname',
@@ -280,6 +289,18 @@ export const i18n: {
 		sv: 'Risken för att utveckla matematiska svårigheter',
 		de: 'Risko für die Entwicklung besonderer Schwierigkeiter beim Mathematiklernen',
 		el_cy: 'Κίνδυνος για ανάπτυξη μαθηματικών δυσκολιών'
+	},
+	no_students_with_tasks: {
+		en: 'No students have completed tasks',
+		sv: 'Inga elever har slutfört uppgifter',
+		de: 'Keine Schüler*innen haben diese Aufgabe bearbeitet',
+		el_cy: 'Κανένας μαθητής δεν έχει ολοκληρώσει εργασίες'
+	},
+	create_new_student: {
+		en: 'Create new student',
+		sv: 'Skapa ny elev',
+		de: 'Neue Schüler*innen hinzufügen',
+		el_cy: 'Δημιουργία νέου μαθητή'
 	}
 };
 

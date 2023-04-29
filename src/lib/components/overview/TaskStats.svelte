@@ -1,5 +1,8 @@
 <script lang="ts">
+	import { browser } from '$app/env';
+	import { session } from '$app/stores';
 	import { getJSONFromString, ICompletedRun } from '$lib/database/models/completedTasks.models';
+	import { i18n } from '$lib/i18n';
 	import { TaskKey, Threshold, thresholds } from '$lib/tasks';
 	import { onMount } from 'svelte';
 
@@ -39,6 +42,8 @@
 	$: red = data.red / total;
 	$: yellow = data.yellow / total;
 	$: green = data.green / total;
+
+	$: lang = $session?.user?.language ?? (browser && localStorage.getItem('language')) ?? 'en';
 </script>
 
 {#if total > 0}
@@ -54,5 +59,5 @@
 		/>
 	</div>
 {:else}
-	No students have completed tasks
+	{i18n['no_students_with_tasks'][lang]}
 {/if}

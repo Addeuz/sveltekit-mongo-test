@@ -23,6 +23,7 @@
 	import { goto } from '$app/navigation';
 	import Text from '$lib/components/Text.svelte';
 	import { session } from '$app/stores';
+	import { languages } from '$lib/i18n';
 
 	export let user: IUser;
 
@@ -89,6 +90,36 @@
 	</nav>
 </header>
 
-<div class="mx-6 max-w-screen-lg xl:max-w-screen-xl md:mx-auto">
+<div class="mx-6 max-w-screen-lg xl:max-w-screen-xl md:mx-auto relative">
 	<slot />
 </div>
+{#if $session.authenticated}
+	<div class="fixed bottom-2 right-3">
+		<select
+			class="w-32"
+			value={$session.user.language}
+			on:change={async (e) => {
+				localStorage.setItem('language', e.currentTarget.value);
+				await fetch('/api/user', {
+					method: 'PUT',
+					body: JSON.stringify({
+						language: e.currentTarget.value,
+						user_id: $session.user._id
+					}),
+					headers: {
+						'Content-Type': 'application/json'
+					}
+				}).then(() => {
+					location.reload();
+				});
+			}}
+		>
+			{#each languages as { language, icon, text }}
+				<option value={language}>
+					{icon}
+					{text}
+				</option>
+			{/each}
+		</select>
+	</div>
+{/if}

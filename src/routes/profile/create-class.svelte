@@ -8,6 +8,8 @@
 	import Text from '$lib/components/Text.svelte';
 	import { getUrl } from '$lib/utils';
 	import { session } from '$app/stores';
+	import { browser } from '$app/env';
+	import { i18n } from '$lib/i18n';
 
 	let submitted: boolean = false;
 	let isValid: boolean;
@@ -67,6 +69,8 @@
 			submitted = false;
 		}
 	}
+
+	$: lang = $session?.user?.language ?? (browser && localStorage.getItem('language')) ?? 'en';
 </script>
 
 <h2><Text key="create_class" /></h2>
@@ -74,7 +78,7 @@
 	type="text"
 	name="class_name"
 	bind:value={fields.name}
-	placeholder="Class name"
+	placeholder={i18n['class_name'][lang]}
 	on:change={() => {
 		submitted = false;
 	}}

@@ -15,7 +15,7 @@
 			</span>
 			<span>
 				{students.length}
-				<Text key="students" lowercase />
+				<Text key="students" />
 			</span>
 		</a>
 	{/each}
