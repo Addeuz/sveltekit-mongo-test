@@ -285,7 +285,7 @@ export const textAndAudio = {
 	},
 	'46': {
 		audio: { de: '/audio/46_de.MP3', el_cy: '/audio/46_el_cy.m4a' },
-		text: { de: 'Mengen', el_cy: 'Ποσότητες' }
+		text: { de: 'Anzahlen', el_cy: 'Ποσότητες' }
 	},
 	'47': {
 		audio: { de: '/audio/47_de.MP3', el_cy: '/audio/47_el_cy.m4a' },

@@ -11,15 +11,15 @@ export const get: RequestHandler = async (request) => {
 
 		const taskOverview: TaskOverview = {
 			quantities: [],
-			numberPattern: [],
-			numberLine: [],
-			hiddenNumber: [],
-			numberComparison: [],
-			plus: [],
-			minus: [],
-			colorPattern: [],
 			quantityComparison: [],
-			completionToTen: []
+			numberComparison: [],
+			colorPattern: [],
+			numberPattern: [],
+			hiddenNumber: [],
+			numberLine: [],
+			completionToTen: [],
+			plus: [],
+			minus: []
 		};
 
 		for (const student of classInfo.students) {
