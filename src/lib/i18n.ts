@@ -40,7 +40,13 @@ export type I18NKey =
 	| 'risk_description'
 	| 'class_name'
 	| 'no_students_with_tasks'
-	| 'create_new_student';
+	| 'create_new_student'
+	| 'red_explanation'
+	| 'yellow_explanation'
+	| 'green_explanation'
+	| 'support_material'
+	| 'basic_support'
+	| 'supplementary_material';
 
 export const i18n: {
 	[key in I18NKey]: {
@@ -83,7 +89,7 @@ export const i18n: {
 	quantities: {
 		en: 'Quantities',
 		sv: 'Mängder',
-		de: 'Mengen',
+		de: 'Anzahlen',
 		el_cy: 'Ποσότητες'
 	},
 	numberPattern: {
@@ -301,6 +307,44 @@ export const i18n: {
 		sv: 'Skapa ny elev',
 		de: 'Neue Schüler*innen hinzufügen',
 		el_cy: 'Δημιουργία νέου μαθητή'
+	},
+	red_explanation: {
+		en: 'The child has shown greater difficulty in this area. It is important for this child to be fostered in this area in order to acquire these mathematical skills.',
+		sv: 'Barnet har haft stora svårigheter på detta område. Det är viktigt för detta barn att fostras inom detta område för att skaffa sig dessa matematiska färdigheter.',
+		de: 'Das Kind hat in diesem Bereich größere Schwierigkeiten gezeigt. Für dieses Kind ist es wichtig, in diesem Bereich gefördert zu werden, um diese mathematischen Fähigkeiten erwerben zu können.',
+		el_cy:
+			'Το παιδί έχει δείξει μεγαλύτερη δυσκολία σε αυτόν τον τομέα. Είναι σημαντικό αυτό το παιδί να ανατραφεί σε αυτόν τον τομέα για να αποκτήσει αυτές τις μαθηματικές δεξιότητες.'
+	},
+	yellow_explanation: {
+		en: "The child has shown partial difficulty in this area. It would be useful to review the child's mathematical skills in this area and foster them if necessary.",
+		sv: 'Barnet har delvis haft svårt på detta område. Det skulle vara användbart att se över barnets matematiska färdigheter inom detta område och främja dem vid behov.',
+		de: 'Das Kind hat in diesem Bereich teilweise Schwierigkeiten gezeigt. Es wäre sinnvoll, die mathematischen Fähigkeiten des Kindes in diesem Bereich zu überprüfen und gegebenenfalls zu fördern.',
+		el_cy:
+			'Το παιδί έχει δείξει μερική δυσκολία σε αυτόν τον τομέα. Θα ήταν χρήσιμο να επανεξετάσουμε τις μαθηματικές δεξιότητες του παιδιού σε αυτόν τον τομέα και να τις καλλιεργήσουμε αν χρειαστεί.'
+	},
+	green_explanation: {
+		en: 'The child has not shown any difficulties in this area.',
+		sv: 'Barnet har inte visat några svårigheter på detta område.',
+		de: 'Das Kind hat in dem Bereich keine Schwierigkeiten gezeigt.',
+		el_cy: 'Το παιδί δεν έχει παρουσιάσει δυσκολίες σε αυτόν τον τομέα.'
+	},
+	support_material: {
+		en: 'Support material',
+		sv: 'Stödmaterial',
+		de: 'Fördermaterial',
+		el_cy: 'Υλικό υποστήριξης'
+	},
+	basic_support: {
+		en: 'Basic support',
+		sv: 'Grundläggande stöd',
+		de: 'Basisförderung',
+		el_cy: 'Βασική υποστήριξη'
+	},
+	supplementary_material: {
+		en: 'Supplementary material',
+		sv: 'Kompletterande stöd',
+		de: 'Zusatzmaterial',
+		el_cy: 'Συμπληρωματική υποστήριξη'
 	}
 };
 

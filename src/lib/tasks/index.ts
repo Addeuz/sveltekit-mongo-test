@@ -11,15 +11,15 @@ import type { ICompletedRun } from '$lib/database/models/completedTasks.models';
 
 export const taskKeys = [
 	'quantities',
-	'numberPattern',
-	'numberLine',
-	'hiddenNumber',
-	'numberComparison',
-	'plus',
-	'minus',
-	'colorPattern',
 	'quantityComparison',
-	'completionToTen'
+	'numberComparison',
+	'colorPattern',
+	'numberPattern',
+	'hiddenNumber',
+	'numberLine',
+	'completionToTen',
+	'plus',
+	'minus'
 ] as const;
 export type TaskKey = typeof taskKeys[number];
 export function isTaskKey(key: unknown): key is TaskKey {

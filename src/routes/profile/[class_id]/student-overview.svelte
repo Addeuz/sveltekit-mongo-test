@@ -140,3 +140,16 @@
 		{/each}
 	{/each}
 </div>
+<div class="flex justify-center mt-4 w-full">
+	<div
+		class="grid items-center"
+		style="grid-template-columns: 100px 1fr; column-gap: 1rem; row-gap: 0.5rem;"
+	>
+		<span class="h-10 bg-green-500" />
+		<span>{i18n['green_explanation'][lang]}</span>
+		<span class="h-10 bg-yellow-500" />
+		<span>{i18n['yellow_explanation'][lang]}</span>
+		<span class="h-10 bg-red-500" />
+		<span>{i18n['red_explanation'][lang]}</span>
+	</div>
+</div>

@@ -37,6 +37,13 @@
 			>
 				<Text key="student_overview" />
 			</a>
+			<a
+				href={`/profile/${$page.params.class_id}/support-material`}
+				class="nav-item"
+				class:active={$page.path.endsWith('support-material')}
+			>
+				<Text key="student_overview" />
+			</a>
 		</div>
 	{/if}
 	<div class="flex gap-4">
