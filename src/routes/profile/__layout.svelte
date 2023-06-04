@@ -42,7 +42,7 @@
 				class="nav-item"
 				class:active={$page.path.endsWith('support-material')}
 			>
-				<Text key="student_overview" />
+				<Text key="support_material" />
 			</a>
 		</div>
 	{/if}

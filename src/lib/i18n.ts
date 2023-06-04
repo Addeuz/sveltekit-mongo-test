@@ -46,7 +46,8 @@ export type I18NKey =
 	| 'green_explanation'
 	| 'support_material'
 	| 'basic_support'
-	| 'supplementary_material';
+	| 'supplementary_material'
+	| 'legend';
 
 export const i18n: {
 	[key in I18NKey]: {
@@ -251,7 +252,7 @@ export const i18n: {
 	confirm_password: {
 		en: 'Confirm password',
 		sv: 'Bekräfta lösenord',
-		de: 'Passwort besträtigen',
+		de: 'Passwort bestätigen',
 		el_cy: 'Επιβεβαίωση Κωδικού'
 	},
 	register: {
@@ -325,7 +326,7 @@ export const i18n: {
 	green_explanation: {
 		en: 'The child has not shown any difficulties in this area.',
 		sv: 'Barnet har inte visat några svårigheter på detta område.',
-		de: 'Das Kind hat in dem Bereich keine Schwierigkeiten gezeigt.',
+		de: 'Das Kind hat in diesem Bereich keine Schwierigkeiten gezeigt.',
 		el_cy: 'Το παιδί δεν έχει παρουσιάσει δυσκολίες σε αυτόν τον τομέα.'
 	},
 	support_material: {
@@ -345,6 +346,12 @@ export const i18n: {
 		sv: 'Kompletterande stöd',
 		de: 'Zusatzmaterial',
 		el_cy: 'Συμπληρωματική υποστήριξη'
+	},
+	legend: {
+		en: 'Legend',
+		sv: 'Färgförklaring',
+		de: 'Legende',
+		el_cy: 'Εξήγηση'
 	}
 };
 

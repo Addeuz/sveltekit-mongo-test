@@ -140,7 +140,8 @@
 		{/each}
 	{/each}
 </div>
-<div class="flex justify-center mt-4 w-full">
+<div class="flex flex-col justify-center mt-4 w-full">
+	<h4>{i18n['legend'][lang]}</h4>
 	<div
 		class="grid items-center"
 		style="grid-template-columns: 100px 1fr; column-gap: 1rem; row-gap: 0.5rem;"

@@ -29,7 +29,14 @@
 					alt="Link to a key"
 				/>
 			</div>
-			<a class="text-blue-400 underline" href="#">
+			<a
+				class="text-blue-400 underline"
+				target="_blank"
+				href={key === 'colorPattern' || key === 'numberPattern'
+					? 'https://didunas.eu/wp-content/uploads/2023/06/Didunas_Muster.pdf'
+					: '#'}
+				rel="noreferer noopener"
+			>
 				{i18n['support_material'][lang]}
 				<Text {key} />
 			</a>
