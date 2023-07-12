@@ -24,6 +24,9 @@
 	import Text from '$lib/components/Text.svelte';
 	import { session } from '$app/stores';
 	import { languages } from '$lib/i18n';
+	import { browser } from '$app/env';
+	import Modal from '$lib/components/Modal.svelte';
+	import PrivacyPolicy from '$lib/components/PrivacyPolicy.svelte';
 
 	export let user: IUser;
 
@@ -40,6 +43,10 @@
 			}
 		} catch (err) {}
 	}
+
+	let accepted = browser && localStorage.getItem('privacy-policy') === 'accepted';
+
+	$: open = !accepted;
 	$: nav = navOpen;
 </script>
 
@@ -124,3 +131,7 @@
 		</select>
 	</div>
 {/if}
+
+<Modal bind:open>
+	<PrivacyPolicy bind:accepted />
+</Modal>
