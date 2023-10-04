@@ -54,7 +54,12 @@ export type I18NKey =
 	| 'no'
 	| 'remove_class'
 	| 'sure_remove_class'
-	| 'icon_title';
+	| 'icon_title'
+	| 'select_tasks'
+	| 'no_selected_tasks'
+	| 'edit_tasks'
+	| 'close'
+	| 'save';
 
 export const i18n: {
 	[key in I18NKey]: {
@@ -403,6 +408,36 @@ export const i18n: {
 		sv: 'Elevernas uppgiftsvy',
 		de: 'Kinderansicht der Aufgaben',
 		el_cy: 'Η άποψη των παιδιών για τις εργασίες'
+	},
+	select_tasks: {
+		en: 'Select tasks',
+		sv: 'Välj uppgifter',
+		de: 'Wählen Sie Aufgaben aus',
+		el_cy: 'Επιλέξτε εργασίες'
+	},
+	no_selected_tasks: {
+		en: 'The user has no selected tasks',
+		sv: 'Användaren har inga valda uppgifter',
+		de: 'Der Benutzer hat keine ausgewählten Aufgaben',
+		el_cy: 'Ο χρήστης δεν έχει επιλεγμένες εργασίες'
+	},
+	edit_tasks: {
+		en: 'Edit tasks',
+		sv: 'Ändra uppgifter',
+		de: 'Aufgaben bearbeiten',
+		el_cy: 'Επεξεργασία εργασιών'
+	},
+	close: {
+		en: 'Close',
+		sv: 'Stäng',
+		de: 'Schließen',
+		el_cy: 'Κλείσε'
+	},
+	save: {
+		en: 'Save',
+		sv: 'Spara',
+		de: 'Speichern',
+		el_cy: 'Αποθηκεύσετε'
 	}
 };
 

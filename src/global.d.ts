@@ -1,5 +1,7 @@
 /// <reference types="@sveltejs/kit" />
 
+import type { TaskKey } from '$lib/tasks';
+
 export interface RegisterAttributes {
 	username: string;
 	firstname: string;
@@ -7,6 +9,7 @@ export interface RegisterAttributes {
 	password: string;
 	passwordConfirmation: string;
 	language: 'de' | 'el';
+	tasks: TaskKey[];
 	type: 'student' | 'teacher' | 'researcher';
 	school_id: string;
 }

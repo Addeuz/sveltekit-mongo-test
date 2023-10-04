@@ -1,11 +1,3 @@
-// export interface TaskAttributes {
-// 	id: number;
-// 	imageString: string;
-// 	rightAnswer: string;
-// 	difficulty: number;
-// 	answerType: 'numbers' | 'twoColors' | 'threeColors';
-// }
-
 import type { TaskAttributes } from 'src/global';
 import type { ICompletedRun } from '$lib/database/models/completedTasks.models';
 

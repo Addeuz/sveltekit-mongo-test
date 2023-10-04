@@ -19,7 +19,19 @@
 		passwordConfirmation: '',
 		language: 'de',
 		type: 'teacher',
-		school_id: null
+		school_id: null,
+		tasks: [
+			'quantities',
+			'quantityComparison',
+			'numberComparison',
+			'colorPattern',
+			'numberPattern',
+			'hiddenNumber',
+			'numberLine',
+			'completionToTen',
+			'plus',
+			'minus'
+		]
 	};
 
 	// let languageTypes = [

@@ -47,7 +47,19 @@
 		type: 'student',
 		school_id: null,
 		firstname: '',
-		lastname: ''
+		lastname: '',
+		tasks: [
+			'quantities',
+			'quantityComparison',
+			'numberComparison',
+			'colorPattern',
+			'numberPattern',
+			'hiddenNumber',
+			'numberLine',
+			'completionToTen',
+			'plus',
+			'minus'
+		]
 	};
 
 	let userTypes = [

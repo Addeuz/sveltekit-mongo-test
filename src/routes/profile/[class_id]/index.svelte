@@ -31,6 +31,7 @@
 	import { browser } from '$app/env';
 	import Modal from '$lib/components/Modal.svelte';
 	import { goto } from '$app/navigation';
+	import { TaskKey, keyToThumbnailIdentifier, taskKeys } from '$lib/tasks';
 
 	export let classInfo: ITeacherClass;
 
@@ -40,6 +41,9 @@
 	let removeClassSelectedId: string | undefined = undefined;
 	let studentQrCode: string | undefined = undefined;
 	let selectedStudent: IUser | undefined = undefined;
+	let editTasksOpen = false;
+	let editTasks: { [key: string]: TaskKey[] } = {};
+	let working = false;
 
 	async function removeStudent(user_id: string) {
 		return await fetch('/api/user', {
@@ -55,11 +59,13 @@
 	}
 
 	$: lang = $session?.user?.language ?? (browser && localStorage.getItem('language')) ?? 'en';
+
+	$: console.log('tasks', editTasks);
 </script>
 
-<h4>{classInfo.name}</h4>
-<h5><Text key="students" /></h5>
-<div class="flex">
+<h4 class="ml-4">{classInfo.name}</h4>
+<h5 class="ml-4"><Text key="students" /></h5>
+<div class="grid mx-4" style="grid-template-columns: 150px 1fr;">
 	<div class="flex flex-col">
 		{#each classInfo.students.sort( (a, b) => a.firstname.localeCompare(b.firstname, $session.languages) ) as student}
 			<button
@@ -80,13 +86,25 @@
 			</button>
 		{/each}
 		<button
-			class=" border border-red-400 p-2 rounded-xl text-red-400 flex self-center justify-center mt-4 hover:bg-red-200"
+			class="border border-red-400 p-2 rounded-xl text-red-400 flex self-center justify-center mt-4 hover:bg-red-200 w-full"
 			on:click={async () => {
 				removeClassOpen = true;
 				removeClassSelectedId = $page.params.class_id;
 			}}
 		>
 			{i18n['remove_class'][lang]}
+		</button>
+		<button
+			class="border border-blue-400 p-2 rounded-xl text-blue-400 flex self-center justify-center mt-4 hover:bg-blue-200 w-full"
+			on:click={() => {
+				editTasksOpen = true;
+				for (const { _id, tasks } of classInfo.students) {
+					console.log(_id, tasks);
+					editTasks[_id] = tasks;
+				}
+			}}
+		>
+			{i18n['edit_tasks'][lang]}
 		</button>
 	</div>
 	{#if studentQrCode && selectedStudent}
@@ -121,8 +139,10 @@
 				{i18n['no'][lang]}
 			</button>
 			<button
+				disabled={working}
 				class="bg-red-400 p-2 rounded-xl text-white flex self-center justify-center w-24"
 				on:click={async () => {
+					working = true;
 					if (removeStudentSelectedId) {
 						const res = await removeStudent(removeStudentSelectedId);
 
@@ -130,6 +150,7 @@
 							location.reload();
 						}
 					}
+					working = false;
 				}}
 			>
 				{i18n['yes'][lang]}
@@ -153,7 +174,9 @@
 			</button>
 			<button
 				class="bg-red-400 p-2 rounded-xl text-white flex self-center justify-center w-24"
+				disabled={working}
 				on:click={async () => {
+					working = true;
 					if (removeClassSelectedId) {
 						for await (const student of classInfo.students) {
 							await removeStudent(student._id);
@@ -173,10 +196,113 @@
 							goto('/profile');
 						}
 					}
+					working = false;
 				}}
 			>
 				{i18n['yes'][lang]}
 			</button>
 		</div>
+	</div>
+</Modal>
+<Modal bind:open={editTasksOpen}>
+	<div
+		class="grid mb-8 items-center"
+		style={`grid-template-columns: repeat(11, minmax(0, 1fr)); grid-template-rows: repeat(${
+			classInfo.students.length + 1
+		}, minmax(0, 30px))`}
+	>
+		<span />
+		{#each taskKeys as task}
+			<img
+				src={`/thumbnails/${keyToThumbnailIdentifier(task).name}-01.${
+					keyToThumbnailIdentifier(task).extension
+				}`}
+				class="self-center mix-blend-multiply"
+				alt=""
+				on:click={() => {
+					const hasAllTasks = Object.values(editTasks).every((tasks) => tasks.includes(task));
+					console.log(hasAllTasks);
+
+					for (const [id, tasks] of Object.entries(editTasks)) {
+						if (hasAllTasks) {
+							editTasks[id] = tasks.filter((t) => t !== task);
+						} else {
+							const hasTask = tasks.includes(task);
+							if (!hasTask) {
+								editTasks[id] = [...tasks, task];
+							}
+						}
+					}
+				}}
+			/>
+		{/each}
+		{#each classInfo.students as { _id: id, firstname, tasks }}
+			<button
+				on:click={() => {
+					const hasAllTasks = taskKeys.every((t) => tasks.includes(t));
+					if (hasAllTasks) {
+						editTasks[id] = [];
+					} else {
+						editTasks[id] = [...taskKeys];
+					}
+				}}>{firstname}</button
+			>
+			{#each taskKeys as task}
+				<input
+					class="mx-auto"
+					type="checkbox"
+					checked={editTasks[id].includes(task)}
+					on:click={() => {
+						classInfo.students = classInfo.students.map((student) => {
+							if (student._id === id) {
+								if (editTasks[id].includes(task)) {
+									editTasks[id] = editTasks[id].filter((t) => t !== task);
+								} else {
+									editTasks[id] = [...editTasks[id], task];
+								}
+							}
+
+							return student;
+						});
+					}}
+				/>
+			{/each}
+		{/each}
+	</div>
+	<div class="flex justify-between gap-3">
+		<button
+			class="border border-red-400 text-red-400 p-2 rounded-xl flex self-center justify-center w-24 hover:bg-red-200"
+			on:click={() => {
+				editTasksOpen = false;
+				editTasks = {};
+			}}
+		>
+			{i18n['close'][lang]}
+		</button>
+		<button
+			class="border border-green-400 text-green-400 p-2 rounded-xl flex self-center justify-center w-24 hover:bg-green-200"
+			disabled={working}
+			on:click={async () => {
+				classInfo.students = classInfo.students.map((student) => {
+					student.tasks = editTasks[student._id];
+
+					return student;
+				});
+				working = true;
+				await fetch('/api/user/update-task', {
+					method: 'PUT',
+					body: JSON.stringify({
+						editTasks
+					}),
+					headers: {
+						'Content-Type': 'application/json'
+					}
+				});
+				working = false;
+				editTasksOpen = false;
+			}}
+		>
+			{i18n['save'][lang]}
+		</button>
 	</div>
 </Modal>
