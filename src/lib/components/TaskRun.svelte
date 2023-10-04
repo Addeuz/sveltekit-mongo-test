@@ -163,7 +163,7 @@
 					on:load={() => {
 						displayNumbers = true;
 					}}
-					class="h-3/4"
+					class="h-3/4 select-none pointer-events-none"
 					src={task.src}
 					alt="Task"
 				/>
@@ -174,22 +174,20 @@
 					/>
 				{/if}
 			{:else}
-				<div class="cursor-pointer justify-self-center self-center my-auto">
-					<img
-						src="/star.png"
-						alt="Big star"
-						class:pulse
-						on:click|once={() => {
-							pulse = true;
-							handleAnswer(true);
-							displayNumbers = false;
-						}}
-					/>
+				<div
+					class="cursor-pointer justify-self-center self-center my-auto"
+					on:click|once={() => {
+						pulse = true;
+						handleAnswer(true);
+						displayNumbers = false;
+					}}
+				>
+					<img src="/star.png" alt="Big star" class:pulse class="select-none pointer-events-none" />
 				</div>
 			{/if}
 		</div>
 	{:else}
-		<div class="h-screen flex gap-72 items-center justify-center">
+		<div class="h-screen flex gap-72 items-center justify-center relative">
 			{#if taskIndex % 2 === 0}
 				<!-- Divide taskIndex by 2 because there are stars that don't count -->
 				{#each numberComparisonNumbers[taskIndex / 2].numbers as task}
@@ -198,30 +196,47 @@
 						href="#"
 						class="relative cursor-pointer after:content-[''] after:block after:absolute after:p-40 after:-top-20 after:-left-20"
 						style={`margin-top: ${task.margin}rem`}
-						on:click|once={() => handleAnswer(false, task.answer.toString())}
+						on:click|once={() => {
+							handleAnswer(false, task.answer.toString());
+							displayNumbers = false;
+						}}
 					>
 						<img
 							on:load={() => {
 								displayNumbers = true;
 							}}
-							class="h-[70%] w-[70%]"
+							class="h-[70%] w-[70%] select-none pointer-events-none"
 							src={task.src}
 							alt="Number comparison number"
 						/>
 					</a>
 				{/each}
 			{:else}
-				<div class="cursor-pointer justify-self-center self-center my-auto">
-					<img
-						src="/star.png"
-						alt="Big star"
-						class:pulse
+				<div
+					class="cursor-pointer justify-self-center self-center my-auto"
+					on:click|once={() => {
+						pulse = true;
+						handleAnswer(true);
+						displayNumbers = false;
+					}}
+				>
+					<img src="/star.png" alt="Big star" class:pulse class="select-none pointer-events-none" />
+				</div>
+			{/if}
+			{#if displayNumbers}
+				<div class="absolute" style="right: 50%; bottom: 5%;">
+					<button
 						on:click|once={() => {
-							pulse = true;
-							handleAnswer(true);
+							if (selected === undefined) {
+								handleAnswer(false, '0');
+							}
 							displayNumbers = false;
 						}}
-					/>
+						class="h-16 w-16 border bg-gray-50 border-gray-400 rounded-xl justify-self-end hover:bg-transparent text-4xl"
+						class:selected={selected === 0}
+					>
+						<img src="/star.png" alt="Skip star" class="w-16 cursor-pointer" />
+					</button>
 				</div>
 			{/if}
 		</div>
@@ -233,7 +248,7 @@
 				on:load={() => {
 					displayNumbers = true;
 				}}
-				class="h-3/4"
+				class="h-3/4 select-none pointer-events-none"
 				src={task.src}
 				alt="Task"
 			/>
@@ -245,17 +260,15 @@
 				/>
 			{/if}
 		{:else}
-			<div class="cursor-pointer justify-self-center self-center my-auto">
-				<img
-					class:pulse
-					src="/star.png"
-					alt="Big star"
-					on:click|once={() => {
-						pulse = true;
-						handleAnswer(true);
-						displayNumbers = false;
-					}}
-				/>
+			<div
+				class="cursor-pointer justify-self-center self-center my-auto"
+				on:click|once={() => {
+					pulse = true;
+					handleAnswer(true);
+					displayNumbers = false;
+				}}
+			>
+				<img class:pulse src="/star.png" alt="Big star" class="select-none pointer-events-none" />
 			</div>
 		{/if}
 	</div>

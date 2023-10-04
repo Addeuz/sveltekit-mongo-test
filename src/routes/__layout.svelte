@@ -23,7 +23,7 @@
 	import { goto } from '$app/navigation';
 	import Text from '$lib/components/Text.svelte';
 	import { session } from '$app/stores';
-	import { languages } from '$lib/i18n';
+	import { i18n, languages } from '$lib/i18n';
 	import { browser } from '$app/env';
 	import Modal from '$lib/components/Modal.svelte';
 	import PrivacyPolicy from '$lib/components/PrivacyPolicy.svelte';
@@ -48,6 +48,7 @@
 
 	$: open = !accepted;
 	$: nav = navOpen;
+	$: lang = $session?.user?.language ?? (browser && localStorage.getItem('language')) ?? 'en';
 </script>
 
 <header
@@ -57,6 +58,7 @@
 		src="/logo.png"
 		alt="Didunas logo"
 		class="w-1/12 cursor-pointer"
+		title={i18n['icon_title'][lang]}
 		on:click={() => {
 			goto('/');
 		}}

@@ -47,7 +47,14 @@ export type I18NKey =
 	| 'support_material'
 	| 'basic_support'
 	| 'supplementary_material'
-	| 'legend';
+	| 'legend'
+	| 'remove'
+	| 'sure_remove_student'
+	| 'yes'
+	| 'no'
+	| 'remove_class'
+	| 'sure_remove_class'
+	| 'icon_title';
 
 export const i18n: {
 	[key in I18NKey]: {
@@ -352,6 +359,50 @@ export const i18n: {
 		sv: 'Färgförklaring',
 		de: 'Legende',
 		el_cy: 'Εξήγηση'
+	},
+	remove: {
+		en: 'Remove student',
+		sv: 'Ta bort elev',
+		de: 'Schüler entfernen',
+		el_cy: 'Αφαίρεση μαθητή'
+	},
+	sure_remove_student: {
+		en: 'Are you sure you want to remove the student? All data for the student will be removed.',
+		sv: 'Är du säker på att du vill ta bort eleven? All data för eleven kommer att tas bort.',
+		de: 'Möchten Sie den Schüler wirklich entfernen? Alle Daten des Studierenden werden gelöscht.',
+		el_cy:
+			'Είστε βέβαιοι ότι θέλετε να αφαιρέσετε τον μαθητή; Όλα τα δεδομένα για τον μαθητή θα αφαιρεθούν.'
+	},
+	yes: {
+		en: 'Yes',
+		sv: 'Ja',
+		de: 'Ja',
+		el_cy: 'Ναί'
+	},
+	no: {
+		en: 'No',
+		sv: 'Nej',
+		de: 'Nein',
+		el_cy: 'Οχι'
+	},
+	remove_class: {
+		en: 'Remove class',
+		sv: 'Ta bort klass',
+		de: 'Klasse entfernen',
+		el_cy: 'Κατάργηση τάξης'
+	},
+	sure_remove_class: {
+		en: 'Are you sure you want to remove this class? All students and their completed tasks will be REMOVED!',
+		sv: 'Är du säker på att du vill ta bort den här klassen? Alla elever och deras utförda uppgifter kommer att TAS BORT!',
+		de: 'Möchten Sie diese Klasse wirklich entfernen? Alle Schüler und ihre erledigten Aufgaben werden ENTFERNT!',
+		el_cy:
+			'Είστε βέβαιοι ότι θέλετε να καταργήσετε αυτήν την τάξη; Όλοι οι μαθητές και οι ολοκληρωμένες εργασίες τους θα ΑΦΑΙΡΟΥΝΤΑΙ!'
+	},
+	icon_title: {
+		en: 'Kids’ view on the tasks',
+		sv: 'Elevernas uppgiftsvy',
+		de: 'Kinderansicht der Aufgaben',
+		el_cy: 'Η άποψη των παιδιών για τις εργασίες'
 	}
 };
 
