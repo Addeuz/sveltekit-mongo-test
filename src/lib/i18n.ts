@@ -59,7 +59,9 @@ export type I18NKey =
 	| 'no_selected_tasks'
 	| 'edit_tasks'
 	| 'close'
-	| 'save';
+	| 'save'
+	| 'print_users'
+	| 'print_overview';
 
 export const i18n: {
 	[key in I18NKey]: {
@@ -226,8 +228,8 @@ export const i18n: {
 		el_cy: 'Προστέθηκαν μαθητές'
 	},
 	students: {
-		en: 'students',
-		sv: 'elever',
+		en: 'Students',
+		sv: 'Elever',
 		de: 'Schüler*innen',
 		el_cy: 'Φοιτητές'
 	},
@@ -438,6 +440,36 @@ export const i18n: {
 		sv: 'Spara',
 		de: 'Speichern',
 		el_cy: 'Αποθηκεύσετε'
+	},
+	print_users: {
+		en: 'Print student list',
+		sv: 'Skriv ut studentlista',
+		de: 'Studentenliste drucken',
+		el_cy: 'Εκτύπωση λίστας μαθητών'
+	},
+	print_overview: {
+		en: 'Print student overview',
+		sv: 'Skriv ut elevöversikt',
+		de: 'Schüler*innenübersicht drucken',
+		el_cy: 'Εκτύπωση επισκόπησης μαθητή'
+	}
+};
+
+export type I18NPrintKey = 'student_list_header';
+
+export const i18nPrint: {
+	[key in I18NPrintKey]: {
+		en: string;
+		sv: string;
+		de: string;
+		el_cy: string;
+	};
+} = {
+	student_list_header: {
+		en: 'Students',
+		sv: 'Elever',
+		de: 'Schüler*innen',
+		el_cy: 'Φοιτητές'
 	}
 };
 

@@ -108,12 +108,30 @@
 	import Text from '$lib/components/Text.svelte';
 	import { browser } from '$app/env';
 	import { i18n } from '$lib/i18n';
+	import printLayout from '$lib/print/layout.html?raw';
+	import { getStudentOverviewMarkup } from '$lib/print';
 
 	export let studentOverview: StudentOverview;
 
+	let iframe: HTMLIFrameElement;
+
 	$: lang = $session?.user?.language ?? (browser && localStorage.getItem('language')) ?? 'en';
+	$: printMarkup = printLayout.replace(
+		'[[replace]]',
+		getStudentOverviewMarkup(studentOverview, lang)
+	);
 </script>
 
+<div class="flex justify-end">
+	<button
+		class="border border-blue-400 p-2 rounded-xl text-blue-400 flex self-center justify-center mb-4 hover:bg-blue-200"
+		on:click={() => {
+			iframe.contentWindow.print();
+		}}
+	>
+		{i18n['print_overview'][lang]}
+	</button>
+</div>
 <div class="grid gap-2" style="grid-template-columns: 2fr repeat(10, 1fr);">
 	<div class="grid grid-cols-2">
 		<span>&nbsp;</span><abbr title={i18n['risk_description'][lang]} class="mx-auto"
@@ -130,7 +148,7 @@
 		/>
 	{/each}
 
-	{#each [...studentOverview.values()].sort( (a, b) => (a?.firstname ?? '').localeCompare(b.firstname, $session.languages) ) as { overall, tasks, firstname }}
+	{#each [...studentOverview.values()].sort( (a, b) => (a?.firstname ?? '').localeCompare(b.firstname, $session.languages) ) as { tasks, firstname }}
 		<div class="grid grid-cols-2 items-center">
 			<p>{firstname}</p>
 			<ColorDate color={undefined} />
@@ -154,3 +172,10 @@
 		<span>{i18n['red_explanation'][lang]}</span>
 	</div>
 </div>
+
+<iframe
+	bind:this={iframe}
+	title="print"
+	srcdoc={printMarkup}
+	style="width: 850px; height: 1200px; display: none;"
+/>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>[[title]]</title>
+		<style>
+			.page {
+				position: relative;
+				margin: 1em auto;
+				padding: 25.4mm;
+				border: 1px solid rgb(240, 240, 240);
+				border-image: none;
+				line-height: 1.2;
+				min-width: 246.2mm;
+				max-width: 246.2mm;
+				height: 159.2mm;
+				box-shadow: 0.25em 0.25em 0.3em #999;
+			}
+
+			.rotate {
+				transform: rotate(90deg) translateY(-159.2mm);
+				transform-origin: 0 0;
+				margin-top: -30px;
+			}
+
+			@media print {
+				@page {
+					size: landscape;
+				}
+
+				html,
+				body {
+					height: 210mm;
+					width: 297mm;
+				}
+
+				.page {
+					padding: 20.4mm;
+					page-break-after: always;
+					margin: 0;
+					border: initial;
+					border-image: initial;
+					min-height: auto;
+					max-width: 246.2mm;
+					min-width: auto;
+					max-height: 159.2mm;
+					box-shadow: initial;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		[[replace]]
+	</body>
+</html>

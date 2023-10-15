@@ -32,6 +32,8 @@
 	import Modal from '$lib/components/Modal.svelte';
 	import { goto } from '$app/navigation';
 	import { TaskKey, keyToThumbnailIdentifier, taskKeys } from '$lib/tasks';
+	import printLayout from '$lib/print/layout.html?raw';
+	import { getStudentListMarkup } from '$lib/print/index';
 
 	export let classInfo: ITeacherClass;
 
@@ -44,6 +46,8 @@
 	let editTasksOpen = false;
 	let editTasks: { [key: string]: TaskKey[] } = {};
 	let working = false;
+
+	let iframe: HTMLIFrameElement;
 
 	async function removeStudent(user_id: string) {
 		return await fetch('/api/user', {
@@ -58,9 +62,15 @@
 		});
 	}
 
-	$: lang = $session?.user?.language ?? (browser && localStorage.getItem('language')) ?? 'en';
+	let printMarkup = '';
 
-	$: console.log('tasks', editTasks);
+	$: lang = $session?.user?.language ?? (browser && localStorage.getItem('language')) ?? 'en';
+	$: (async () => {
+		printMarkup = printLayout.replace(
+			'[[replace]]',
+			await getStudentListMarkup(classInfo.students)
+		);
+	})();
 </script>
 
 <h4 class="ml-4">{classInfo.name}</h4>
@@ -86,13 +96,12 @@
 			</button>
 		{/each}
 		<button
-			class="border border-red-400 p-2 rounded-xl text-red-400 flex self-center justify-center mt-4 hover:bg-red-200 w-full"
-			on:click={async () => {
-				removeClassOpen = true;
-				removeClassSelectedId = $page.params.class_id;
+			class="border border-blue-400 p-2 rounded-xl text-blue-400 flex self-center justify-center mt-4 hover:bg-blue-200 w-full"
+			on:click={() => {
+				iframe.contentWindow.print();
 			}}
 		>
-			{i18n['remove_class'][lang]}
+			{i18n['print_users'][lang]}
 		</button>
 		<button
 			class="border border-blue-400 p-2 rounded-xl text-blue-400 flex self-center justify-center mt-4 hover:bg-blue-200 w-full"
@@ -105,6 +114,15 @@
 			}}
 		>
 			{i18n['edit_tasks'][lang]}
+		</button>
+		<button
+			class="border border-red-400 p-2 rounded-xl text-red-400 flex self-center justify-center mt-4 hover:bg-red-200 w-full"
+			on:click={async () => {
+				removeClassOpen = true;
+				removeClassSelectedId = $page.params.class_id;
+			}}
+		>
+			{i18n['remove_class'][lang]}
 		</button>
 	</div>
 	{#if studentQrCode && selectedStudent}
@@ -124,6 +142,13 @@
 		<div />
 	{/if}
 </div>
+
+<iframe
+	bind:this={iframe}
+	title="print"
+	srcdoc={printMarkup}
+	style="width: 850px; height: 1200px; display: none;"
+/>
 
 <Modal bind:open={removeStudentOpen}>
 	<div class="flex flex-col">
