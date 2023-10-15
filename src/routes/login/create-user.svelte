@@ -169,6 +169,13 @@
 			{/each}
 		</select>
 	{/if} -->
+	<div>
+		<span>
+			Die Datenschutzbestimmungen findest du <a class="text-blue-500" href="/integrity-policy"
+				>hier</a
+			>
+		</span>
+	</div>
 	<SubmitButton disabled={submitted} action={register} {loading}
 		><Text key="register" /></SubmitButton
 	>

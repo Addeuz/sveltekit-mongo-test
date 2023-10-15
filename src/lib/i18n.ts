@@ -61,7 +61,8 @@ export type I18NKey =
 	| 'close'
 	| 'save'
 	| 'print_users'
-	| 'print_overview';
+	| 'print_overview'
+	| 'reset_password';
 
 export const i18n: {
 	[key in I18NKey]: {
@@ -302,13 +303,13 @@ export const i18n: {
 	overall_risk: {
 		en: 'Risk',
 		sv: 'Risk',
-		de: 'Risiko',
+		de: 'Unterstütz-ungsbedarf',
 		el_cy: 'κίνδυνος'
 	},
 	risk_description: {
 		en: 'Risk for developing mathematical difficulties',
 		sv: 'Risken för att utveckla matematiska svårigheter',
-		de: 'Risko für die Entwicklung besonderer Schwierigkeiter beim Mathematiklernen',
+		de: 'größerer Unterstützungsbedarf in den mathematischen Vorläuferfähigkeiten',
 		el_cy: 'Κίνδυνος για ανάπτυξη μαθηματικών δυσκολιών'
 	},
 	no_students_with_tasks: {
@@ -452,6 +453,12 @@ export const i18n: {
 		sv: 'Skriv ut elevöversikt',
 		de: 'Schüler*innenübersicht drucken',
 		el_cy: 'Εκτύπωση επισκόπησης μαθητή'
+	},
+	reset_password: {
+		en: 'Reset password',
+		sv: 'Återställ lösenord',
+		de: 'Passwort zurücksetzen',
+		el_cy: 'Επαναφέρετε τον κωδικό πρόσβασης'
 	}
 };
 

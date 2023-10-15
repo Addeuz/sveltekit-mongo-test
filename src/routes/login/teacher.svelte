@@ -76,3 +76,11 @@
 	<p class="text-red-400">{error}</p>
 {/if}
 <SubmitButton action={login} disabled={submitted} {loading}><Text key="login" /></SubmitButton>
+<a
+	href={`mailto:maike.schindler@uni-koeln.de?subject=Forgot%20DIDUNAS%20password&body=Hi,%0A%0AI%20forgot%20my%20password%0A%0AMy%20email%20is:%20${
+		fields.username.length > 0 ? fields.username : '[[PLEASE REPLACE]]'
+	}`}
+	class="text-blue-500"
+>
+	<Text key="reset_password" />
+</a>

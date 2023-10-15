@@ -33,7 +33,7 @@
 					'Content-Type': 'application/json'
 				}
 			}).then(() => {
-				location.replace(getUrl('?completed=true'));
+				// location.replace(getUrl('?completed=true'));
 			});
 		} else {
 			taskIndex++;
@@ -56,8 +56,8 @@
 		</div>
 	{:else if hasSeenTutorial === 'false'}
 		<NumberTutorial />
-		<!-- {:else if allTaskComplete}
-		<TasksComplete {completions} /> -->
+	{:else if allTaskComplete}
+		<TasksComplete {completions} />
 	{:else}
 		<!-- If taskIndex is even it means that there should be a real task not a star -->
 		<TaskRun

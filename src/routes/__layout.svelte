@@ -25,8 +25,6 @@
 	import { session } from '$app/stores';
 	import { i18n, languages } from '$lib/i18n';
 	import { browser } from '$app/env';
-	import Modal from '$lib/components/Modal.svelte';
-	import PrivacyPolicy from '$lib/components/PrivacyPolicy.svelte';
 
 	export let user: IUser;
 
@@ -134,6 +132,6 @@
 	</div>
 {/if}
 
-<Modal bind:open>
+<!-- <Modal bind:open>
 	<PrivacyPolicy bind:accepted />
-</Modal>
+</Modal> -->
