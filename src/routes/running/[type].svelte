@@ -57,7 +57,7 @@
 	{:else if hasSeenTutorial === 'false'}
 		<NumberTutorial />
 	{:else if allTaskComplete}
-		<TasksComplete {completions} />
+		<TasksComplete />
 	{:else}
 		<!-- If taskIndex is even it means that there should be a real task not a star -->
 		<TaskRun

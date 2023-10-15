@@ -1,29 +1,9 @@
 <script lang="ts">
-	import { dev } from '$app/env';
-
-	import { page, session } from '$app/stores';
-
-	import { textAndAudio } from '$lib/audio';
 	import { getUrl } from '$lib/utils';
-
-	import type { AnswerAttributes } from 'src/global';
 	import { onMount } from 'svelte';
-	import TextAndAudio from './TextAndAudio.svelte';
-
-	export let completions: AnswerAttributes[];
 
 	onMount(async () => {
 		const audio = new Audio('/audio/complete_harp.mp3');
-		const res = await fetch('/api/run/complete', {
-			method: 'POST',
-			body: JSON.stringify({ completions, taskType: $page.params.type }),
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		});
-		if (res.ok) {
-			console.log(await res.json());
-		}
 
 		await new Promise((resolve) => {
 			audio.play();
