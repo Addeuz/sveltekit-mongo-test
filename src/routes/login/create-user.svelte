@@ -19,7 +19,19 @@
 		passwordConfirmation: '',
 		language: 'de',
 		type: 'teacher',
-		school_id: null
+		school_id: null,
+		tasks: [
+			'quantities',
+			'quantityComparison',
+			'numberComparison',
+			'colorPattern',
+			'numberPattern',
+			'hiddenNumber',
+			'numberLine',
+			'completionToTen',
+			'plus',
+			'minus'
+		]
 	};
 
 	// let languageTypes = [
@@ -157,6 +169,13 @@
 			{/each}
 		</select>
 	{/if} -->
+	<div>
+		<span>
+			Die Datenschutzbestimmungen findest du <a class="text-blue-500" href="/integrity-policy"
+				>hier</a
+			>
+		</span>
+	</div>
 	<SubmitButton disabled={submitted} action={register} {loading}
 		><Text key="register" /></SubmitButton
 	>

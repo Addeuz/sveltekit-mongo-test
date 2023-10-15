@@ -1,8 +1,6 @@
 <script lang="ts" context="module">
 	import { browser } from '$app/env';
 	import { goto } from '$app/navigation';
-	import Modal from '$lib/components/Modal.svelte';
-	import PrivacyPolicy from '$lib/components/PrivacyPolicy.svelte';
 	import Text from '$lib/components/Text.svelte';
 	import type { Load } from '@sveltejs/kit';
 
@@ -36,7 +34,7 @@
 		class="mt-20 text-blue-500 underline"><Text key="what_is" /></a
 	>
 </div>
-
+<!--
 <Modal bind:open>
 	<PrivacyPolicy bind:accepted />
-</Modal>
+</Modal> -->

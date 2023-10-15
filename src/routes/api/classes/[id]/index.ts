@@ -8,8 +8,6 @@ export const get: RequestHandler = async (request) => {
 			model: User
 		});
 
-		console.log(classInfo.students[0]);
-
 		if (classInfo) {
 			return {
 				status: 200,
@@ -26,4 +24,16 @@ export const get: RequestHandler = async (request) => {
 			}
 		};
 	}
+};
+
+export const del: RequestHandler = async (request) => {
+	const user = await User.findById(request.locals.user._id);
+	user.classes = user.classes.filter((c) => c.toString() !== request.params.id);
+	user.save();
+
+	await TeacherClass.findByIdAndDelete(request.params.id);
+
+	return {
+		status: 200
+	};
 };

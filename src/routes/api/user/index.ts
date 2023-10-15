@@ -1,13 +1,13 @@
-import { User } from '$lib/database/models';
+import { CompletedRun, TeacherClass, User } from '$lib/database/models';
 import type { Languages } from '$lib/i18n';
 import { generateQRCode, getUrl } from '$lib/utils';
 import type { RequestHandler } from '@sveltejs/kit';
 import type { RegisterAttributes } from 'src/global';
 
+// Add new user
 export const post: RequestHandler = async (request) => {
-	const { username, firstname, lastname, password, language, type, school_id } =
+	const { username, firstname, lastname, password, language, type, school_id, tasks } =
 		request.body.valueOf() as RegisterAttributes;
-
 	const user = await User.findOne({ username });
 
 	if (user) {
@@ -19,12 +19,18 @@ export const post: RequestHandler = async (request) => {
 		};
 	}
 
-	const newUser = new User({ username, firstname, lastname, password, language, type, school_id });
+	const newUser = new User({
+		username,
+		firstname,
+		lastname,
+		password,
+		language,
+		type,
+		school_id,
+		tasks
+	});
 	await newUser.save();
 
-	// const qrCode = await generateQRCode(
-	// 	`http://192.168.50.66:3000/login/student?username=${newUser.username}`
-	// );
 	const qrCode = await generateQRCode(getUrl(`/login/student?username=${newUser.username}`));
 
 	return {
@@ -47,5 +53,29 @@ export const put: RequestHandler = async (request) => {
 
 	return {
 		status: 200
+	};
+};
+
+export const del: RequestHandler = async (request) => {
+	const data = request.body.valueOf() as { user_id: string; class_id: string };
+
+	const teacherClass = await TeacherClass.findById(data.class_id).populate({
+		path: 'students',
+		model: User
+	});
+	teacherClass.students = teacherClass.students.filter((student) => {
+		return student.id !== data.user_id;
+	});
+	teacherClass.save();
+
+	await CompletedRun.deleteMany({ user_id: data.user_id });
+
+	await User.findByIdAndDelete(data.user_id);
+
+	return {
+		status: 200,
+		body: {
+			message: 'Successfully deleted user'
+		}
 	};
 };

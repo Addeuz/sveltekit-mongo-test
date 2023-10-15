@@ -1,7 +1,16 @@
 <script lang="ts">
-	import { session } from '$app/stores';
+	import { goto, invalidate } from '$app/navigation';
+	import { page, session } from '$app/stores';
 	import Text from '$lib/components/Text.svelte';
 	import type { ITeacherClass } from '$lib/database/models/teacherClass.models';
+	import { onMount } from 'svelte';
+
+	onMount(() => {
+		if ($page.query.get('invalidate')) {
+			invalidate('/');
+			goto('/profile');
+		}
+	});
 
 	$: classes = $session.user.classes as ITeacherClass[];
 </script>

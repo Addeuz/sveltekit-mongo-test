@@ -47,7 +47,22 @@ export type I18NKey =
 	| 'support_material'
 	| 'basic_support'
 	| 'supplementary_material'
-	| 'legend';
+	| 'legend'
+	| 'remove'
+	| 'sure_remove_student'
+	| 'yes'
+	| 'no'
+	| 'remove_class'
+	| 'sure_remove_class'
+	| 'icon_title'
+	| 'select_tasks'
+	| 'no_selected_tasks'
+	| 'edit_tasks'
+	| 'close'
+	| 'save'
+	| 'print_users'
+	| 'print_overview'
+	| 'reset_password';
 
 export const i18n: {
 	[key in I18NKey]: {
@@ -214,8 +229,8 @@ export const i18n: {
 		el_cy: 'Προστέθηκαν μαθητές'
 	},
 	students: {
-		en: 'students',
-		sv: 'elever',
+		en: 'Students',
+		sv: 'Elever',
 		de: 'Schüler*innen',
 		el_cy: 'Φοιτητές'
 	},
@@ -288,13 +303,13 @@ export const i18n: {
 	overall_risk: {
 		en: 'Risk',
 		sv: 'Risk',
-		de: 'Risiko',
+		de: 'Unterstütz-ungsbedarf',
 		el_cy: 'κίνδυνος'
 	},
 	risk_description: {
 		en: 'Risk for developing mathematical difficulties',
 		sv: 'Risken för att utveckla matematiska svårigheter',
-		de: 'Risko für die Entwicklung besonderer Schwierigkeiter beim Mathematiklernen',
+		de: 'größerer Unterstützungsbedarf in den mathematischen Vorläuferfähigkeiten',
 		el_cy: 'Κίνδυνος για ανάπτυξη μαθηματικών δυσκολιών'
 	},
 	no_students_with_tasks: {
@@ -352,6 +367,116 @@ export const i18n: {
 		sv: 'Färgförklaring',
 		de: 'Legende',
 		el_cy: 'Εξήγηση'
+	},
+	remove: {
+		en: 'Remove student',
+		sv: 'Ta bort elev',
+		de: 'Schüler entfernen',
+		el_cy: 'Αφαίρεση μαθητή'
+	},
+	sure_remove_student: {
+		en: 'Are you sure you want to remove the student? All data for the student will be removed.',
+		sv: 'Är du säker på att du vill ta bort eleven? All data för eleven kommer att tas bort.',
+		de: 'Möchten Sie den Schüler wirklich entfernen? Alle Daten des Studierenden werden gelöscht.',
+		el_cy:
+			'Είστε βέβαιοι ότι θέλετε να αφαιρέσετε τον μαθητή; Όλα τα δεδομένα για τον μαθητή θα αφαιρεθούν.'
+	},
+	yes: {
+		en: 'Yes',
+		sv: 'Ja',
+		de: 'Ja',
+		el_cy: 'Ναί'
+	},
+	no: {
+		en: 'No',
+		sv: 'Nej',
+		de: 'Nein',
+		el_cy: 'Οχι'
+	},
+	remove_class: {
+		en: 'Remove class',
+		sv: 'Ta bort klass',
+		de: 'Klasse entfernen',
+		el_cy: 'Κατάργηση τάξης'
+	},
+	sure_remove_class: {
+		en: 'Are you sure you want to remove this class? All students and their completed tasks will be REMOVED!',
+		sv: 'Är du säker på att du vill ta bort den här klassen? Alla elever och deras utförda uppgifter kommer att TAS BORT!',
+		de: 'Möchten Sie diese Klasse wirklich entfernen? Alle Schüler und ihre erledigten Aufgaben werden ENTFERNT!',
+		el_cy:
+			'Είστε βέβαιοι ότι θέλετε να καταργήσετε αυτήν την τάξη; Όλοι οι μαθητές και οι ολοκληρωμένες εργασίες τους θα ΑΦΑΙΡΟΥΝΤΑΙ!'
+	},
+	icon_title: {
+		en: 'Kids’ view on the tasks',
+		sv: 'Elevernas uppgiftsvy',
+		de: 'Kinderansicht der Aufgaben',
+		el_cy: 'Η άποψη των παιδιών για τις εργασίες'
+	},
+	select_tasks: {
+		en: 'Select tasks',
+		sv: 'Välj uppgifter',
+		de: 'Wählen Sie Aufgaben aus',
+		el_cy: 'Επιλέξτε εργασίες'
+	},
+	no_selected_tasks: {
+		en: 'The user has no selected tasks',
+		sv: 'Användaren har inga valda uppgifter',
+		de: 'Der Benutzer hat keine ausgewählten Aufgaben',
+		el_cy: 'Ο χρήστης δεν έχει επιλεγμένες εργασίες'
+	},
+	edit_tasks: {
+		en: 'Edit tasks',
+		sv: 'Ändra uppgifter',
+		de: 'Aufgaben bearbeiten',
+		el_cy: 'Επεξεργασία εργασιών'
+	},
+	close: {
+		en: 'Close',
+		sv: 'Stäng',
+		de: 'Schließen',
+		el_cy: 'Κλείσε'
+	},
+	save: {
+		en: 'Save',
+		sv: 'Spara',
+		de: 'Speichern',
+		el_cy: 'Αποθηκεύσετε'
+	},
+	print_users: {
+		en: 'Print student list',
+		sv: 'Skriv ut studentlista',
+		de: 'Studentenliste drucken',
+		el_cy: 'Εκτύπωση λίστας μαθητών'
+	},
+	print_overview: {
+		en: 'Print student overview',
+		sv: 'Skriv ut elevöversikt',
+		de: 'Schüler*innenübersicht drucken',
+		el_cy: 'Εκτύπωση επισκόπησης μαθητή'
+	},
+	reset_password: {
+		en: 'Reset password',
+		sv: 'Återställ lösenord',
+		de: 'Passwort zurücksetzen',
+		el_cy: 'Επαναφέρετε τον κωδικό πρόσβασης'
+	}
+};
+
+export type I18NPrintKey = 'student_list_header';
+
+export const i18nPrint: {
+	[key in I18NPrintKey]: {
+		en: string;
+		sv: string;
+		de: string;
+		el_cy: string;
+	};
+} = {
+	student_list_header: {
+		en: 'Students',
+		sv: 'Elever',
+		de: 'Schüler*innen',
+		el_cy: 'Φοιτητές'
 	}
 };
 

@@ -9,7 +9,6 @@ export const handle: Handle = async ({ request, resolve }) => {
 	const cookies = cookie.parse(request.headers.cookie || '');
 
 	if (cookies.session_id) {
-		// const userCookie = await Cookie.findOne({ where: { cookieId: cookies.session_id } });
 		const userCookie = await Cookie.findOne({ cookie_id: cookies.session_id });
 		const user = await (
 			await User.findById(userCookie.user_id)

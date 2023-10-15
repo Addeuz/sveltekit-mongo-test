@@ -11,6 +11,7 @@
 	import SubmitButton from '../SubmitButton.svelte';
 	import Text from '../Text.svelte';
 	import UserQrCode from './UserQrCode.svelte';
+	import { taskKeys } from '$lib/tasks';
 
 	let submitted: boolean = false;
 	let error: string;
@@ -23,6 +24,18 @@
 		passwordConfirmation: 'MonkeyApple543!',
 		language: $session.user.language,
 		type: 'student',
+		tasks: [
+			'quantities',
+			'quantityComparison',
+			'numberComparison',
+			'colorPattern',
+			'numberPattern',
+			'hiddenNumber',
+			'numberLine',
+			'completionToTen',
+			'plus',
+			'minus'
+		],
 		school_id: null
 	};
 	let createdStudent: (IUser & { _id: ObjectId }) | undefined = undefined;
@@ -72,6 +85,18 @@
 					passwordConfirmation: 'MonkeyApple543!',
 					language: $session.user.language,
 					type: 'student',
+					tasks: [
+						'quantities',
+						'quantityComparison',
+						'numberComparison',
+						'colorPattern',
+						'numberPattern',
+						'hiddenNumber',
+						'numberLine',
+						'completionToTen',
+						'plus',
+						'minus'
+					],
 					school_id: null
 				};
 				dispatch('new-user', createdStudent);
@@ -103,6 +128,27 @@
 				submitted = false;
 			}}
 		/>
+		<div>
+			<h5><Text key="select_tasks" /></h5>
+			{#each taskKeys as task}
+				<div>
+					<input
+						checked={fields.tasks.includes(task)}
+						id={task}
+						type="checkbox"
+						on:change={(e) => {
+							const checked = e.currentTarget.checked;
+							if (checked) {
+								fields.tasks = [...fields.tasks, task];
+							} else {
+								fields.tasks = fields.tasks.filter((t) => t !== task);
+							}
+						}}
+					/>
+					<label for={task}>{i18n[task][lang]}</label>
+				</div>
+			{/each}
+		</div>
 		<SubmitButton
 			disabled={submitted || fields.firstname.length === 0}
 			action={addStudent}

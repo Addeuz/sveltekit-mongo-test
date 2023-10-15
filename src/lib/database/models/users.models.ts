@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import type { Model, Schema, Document } from 'mongoose';
 import type { ITeacherClass } from './teacherClass.models';
 import type { Languages } from '$lib/i18n';
+import type { TaskKey } from '$lib/tasks';
 const { model } = mongoose;
 
 export interface IUser extends Document {
@@ -11,6 +12,7 @@ export interface IUser extends Document {
 	password: string;
 	type: 'student' | 'teacher' | 'researcher';
 	completed: string[];
+	tasks: TaskKey[];
 	language: Languages;
 	school_id: string;
 	classes: ITeacherClass[];
@@ -36,6 +38,9 @@ const UserSchema: Schema = new mongoose.Schema({
 		type: String
 	},
 	completed: {
+		type: [String]
+	},
+	tasks: {
 		type: [String]
 	},
 	school_id: {

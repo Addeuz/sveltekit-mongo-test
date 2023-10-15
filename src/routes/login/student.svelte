@@ -50,7 +50,12 @@
 	}}
 	placeholder={i18n['student_username'][lang]}
 />
-
+<div>
+	<span>
+		Die Datenschutzbestimmungen findest du <a class="text-blue-500" href="/integrity-policy">hier</a
+		>
+	</span>
+</div>
 {#if error}
 	<p class="text-red-400">{error}</p>
 {/if}
