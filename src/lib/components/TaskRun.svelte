@@ -33,7 +33,6 @@
 	async function handleAnswer(star: Boolean, userAnswer?: string) {
 		// getting a random audio
 		var sounds = document.getElementsByTagName('audio');
-		console.log(sounds);
 		for (let i = 0; i < sounds.length; i++) {
 			sounds[i].pause();
 		}
