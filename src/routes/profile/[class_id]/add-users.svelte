@@ -48,7 +48,7 @@
 <h5><Text key="students" /></h5>
 <div class="flex">
 	<div class="flex flex-col">
-		{#each classInfo.students.sort( (a, b) => a.firstname.localeCompare(b.firstname, $session.languages) ) as student}
+		{#each classInfo.students.sort( (a, b) => a.firstname.localeCompare(b.firstname, $session.languages.replace('_', '-')) ) as student}
 			<button
 				class="p-2 hover:bg-gray-200"
 				on:click={async () => {
