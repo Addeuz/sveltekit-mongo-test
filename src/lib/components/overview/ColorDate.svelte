@@ -8,7 +8,8 @@
 </script>
 
 <span
-	class={`inline-flex justify-center items-center p-2 h-full ${
+	on:click
+	class={`cursor-pointer inline-flex justify-center items-center p-2 h-full ${
 		color === 'green'
 			? 'bg-green-500'
 			: color === 'yellow'

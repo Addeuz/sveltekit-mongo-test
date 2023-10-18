@@ -28,20 +28,12 @@
 	import UserQrCode from '$lib/components/profile/UserQrCode.svelte';
 	import Text from '$lib/components/Text.svelte';
 	import { page, session } from '$app/stores';
+	import { updateTeacherClasses } from '$lib/classes';
 
 	export let classInfo: ITeacherClass;
 
 	let studentQrCode: string | undefined = undefined;
 	let selectedStudent: IUser | undefined = undefined;
-
-	function updateTeacherClasses(newClass: ITeacherClass) {
-		const classes = $session.user.classes as ITeacherClass[];
-		const classIndex = classes.findIndex(({ _id }) => newClass._id === _id);
-		if (classIndex !== -1) {
-			classes[classIndex] = newClass;
-			$session.user.classes = classes;
-		}
-	}
 </script>
 
 <h4>{classInfo.name}</h4>
@@ -65,6 +57,8 @@
 			>
 				{student.firstname}
 			</button>
+		{:else}
+			<Text key="no_students" />
 		{/each}
 	</div>
 	<div class="flex justify-center items-start w-full">
@@ -82,7 +76,7 @@
 					});
 					if (res.ok) {
 						classInfo.students = [...classInfo.students, newUser];
-						updateTeacherClasses(classInfo);
+						$session.user.classes = updateTeacherClasses(classInfo, $session);
 					}
 				}}
 			/>
