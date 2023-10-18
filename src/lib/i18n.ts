@@ -62,7 +62,13 @@ export type I18NKey =
 	| 'save'
 	| 'print_users'
 	| 'print_overview'
-	| 'reset_password';
+	| 'reset_password'
+	| 'create_class_first'
+	| 'show_class'
+	| 'student_answers'
+	| 'answer'
+	| 'right_answer'
+	| 'time_to_answer';
 
 export const i18n: {
 	[key in I18NKey]: {
@@ -371,13 +377,13 @@ export const i18n: {
 	remove: {
 		en: 'Remove student',
 		sv: 'Ta bort elev',
-		de: 'Schüler entfernen',
+		de: 'Schüler*in entfernen',
 		el_cy: 'Αφαίρεση μαθητή'
 	},
 	sure_remove_student: {
 		en: 'Are you sure you want to remove the student? All data for the student will be removed.',
 		sv: 'Är du säker på att du vill ta bort eleven? All data för eleven kommer att tas bort.',
-		de: 'Möchten Sie den Schüler wirklich entfernen? Alle Daten des Studierenden werden gelöscht.',
+		de: 'Möchten Sie den Schüler*in wirklich entfernen? Alle Daten des Schüler*innen werden gelöscht.',
 		el_cy:
 			'Είστε βέβαιοι ότι θέλετε να αφαιρέσετε τον μαθητή; Όλα τα δεδομένα για τον μαθητή θα αφαιρεθούν.'
 	},
@@ -445,7 +451,7 @@ export const i18n: {
 	print_users: {
 		en: 'Print student list',
 		sv: 'Skriv ut studentlista',
-		de: 'Studentenliste drucken',
+		de: 'Schüler*innenliste drucken',
 		el_cy: 'Εκτύπωση λίστας μαθητών'
 	},
 	print_overview: {
@@ -459,6 +465,42 @@ export const i18n: {
 		sv: 'Återställ lösenord',
 		de: 'Passwort zurücksetzen',
 		el_cy: 'Επαναφέρετε τον κωδικό πρόσβασης'
+	},
+	create_class_first: {
+		en: 'Create the class first, and then you can add students',
+		sv: 'Skapa en klass först, sen kan du lägga till elever',
+		de: 'Erstellen Sie zuerst die Klasse und dann können Sie Schüler*innen hinzufügen',
+		el_cy: 'Δημιουργήστε πρώτα την τάξη και μετά μπορείτε να προσθέσετε μαθητές'
+	},
+	show_class: {
+		en: 'Show class',
+		sv: 'Visa klassen',
+		de: 'Klasse zeigen',
+		el_cy: 'Εμφάνιση τάξης'
+	},
+	student_answers: {
+		en: 'Student answers',
+		sv: 'Elevens svar',
+		de: 'Antworten der Schüler*in',
+		el_cy: 'Απαντάει ο μαθητής'
+	},
+	answer: {
+		en: 'Student answer',
+		sv: 'Elevens svar',
+		de: 'Antwort der Schüler*in',
+		el_cy: 'Απάντηση μαθητή'
+	},
+	right_answer: {
+		en: 'Right answer',
+		sv: 'Rätt svar',
+		de: 'Richtige Antwort',
+		el_cy: 'Σωστή απάντηση'
+	},
+	time_to_answer: {
+		en: 'Time to answer',
+		sv: 'Tid för att svar',
+		de: 'Zeit zu antworten',
+		el_cy: 'Ώρα να απαντήσω'
 	}
 };
 

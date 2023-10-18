@@ -26,7 +26,7 @@
 		// Then we do tasks.length - 0.5 because we don't want the extra star in the end.
 		if (completions.length / 2 === tasks.length - 0.5) {
 			allTaskComplete = true;
-			const res = await fetch('/api/run/complete', {
+			await fetch('/api/run/complete', {
 				method: 'POST',
 				body: JSON.stringify({ completions, taskType: $page.params.type }),
 				headers: {
@@ -40,7 +40,6 @@
 		}
 	}
 	onMount(() => {
-		console.log($page.params);
 		tasks = sampleTasks[$page.params.type];
 		hasSeenTutorial = localStorage.getItem(`${$session.user.username}-number`);
 	});
@@ -76,6 +75,8 @@
 	{:else if !$tutorials.tutorial.color}
 		<!-- Color tutorial -->
 		<!-- <NumberTutorial /> -->
+	{:else if allTaskComplete}
+		<TasksComplete />
 	{:else}
 		<!-- If taskIndex is even it means that there should be a real task not a star -->
 		<TaskRun

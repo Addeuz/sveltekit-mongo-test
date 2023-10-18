@@ -148,7 +148,7 @@
 		/>
 	{/each}
 
-	{#each [...studentOverview.values()].sort( (a, b) => (a?.firstname ?? '').localeCompare(b.firstname, $session.languages) ) as { tasks, firstname }}
+	{#each [...studentOverview.values()].sort( (a, b) => (a?.firstname ?? '').localeCompare(b.firstname, $session.language.replace('_', '-')) ) as { tasks, firstname }}
 		<div class="grid grid-cols-2 items-center">
 			<p>{firstname}</p>
 			<ColorDate color={undefined} />

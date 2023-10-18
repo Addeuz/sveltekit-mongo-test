@@ -9,12 +9,25 @@
 </script>
 
 <div class="w-3/4 mx-auto flex flex-col">
+	<span class="flex justify-center"
+		>Eine Übersicht über alle Fördermaterialien findest du&nbsp;<a
+			class="text-blue-400 underline mb-4"
+			href="https://didunas.eu/de/fordermaterial-deutsch/"
+			target="_blank"
+			rel="noopener noreferrer">hier.</a
+		></span
+	>
 	<div class="grid grid-cols-2 items-center gap-4 p-2">
 		<div class="grid items-center" style="grid-template-columns: 2fr 1fr;">
 			<h5 class="mb-0"><Text key="basic_support" /></h5>
 			<span />
 		</div>
-		<a class="text-blue-400 underline" href="#">
+		<a
+			class="text-blue-400 underline"
+			target="_blank"
+			rel="noopener noreferrer"
+			href="https://didunas.eu/de/fordermaterial-deutsch/"
+		>
 			{i18n['support_material'][lang]}
 			<Text key="basic_support" />
 		</a>
@@ -34,8 +47,8 @@
 				target="_blank"
 				href={key === 'colorPattern' || key === 'numberPattern'
 					? 'https://didunas.eu/wp-content/uploads/2023/06/Didunas_Muster.pdf'
-					: '#'}
-				rel="noreferer noopener"
+					: 'https://didunas.eu/de/fordermaterial-deutsch/'}
+				rel="noreferrer noopener"
 			>
 				{i18n['support_material'][lang]}
 				<Text {key} />
@@ -45,7 +58,12 @@
 			<h5 class="mb-0"><Text key="supplementary_material" /></h5>
 			<span />
 		</div>
-		<a class="text-blue-400 underline" href="#">
+		<a
+			class="text-blue-400 underline"
+			target="_blank"
+			rel="noopener noreferrer"
+			href="https://didunas.eu/de/fordermaterial-deutsch/"
+		>
 			{i18n['support_material'][lang]}
 			<Text key="supplementary_material" />
 		</a>

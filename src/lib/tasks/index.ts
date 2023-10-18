@@ -424,14 +424,14 @@ export const sampleTasks: { [key in TaskKey]: TaskAttributes[] } = {
 	hiddenNumber: [
 		{
 			id: 0,
-			rightAnswer: '10',
+			rightAnswer: '3',
 			src: '/hidden_number/hiddennumber-01.png',
 			answerType: 'numbers',
 			audio: { de: '/audio/10_de.MP3', el_cy: '/audio/10_el_cy.m4a' }
 		},
 		{
 			id: 1,
-			rightAnswer: '4',
+			rightAnswer: '5',
 			src: '/hidden_number/hiddennumber-02.png',
 			answerType: 'numbers'
 		},
@@ -725,7 +725,7 @@ export const sampleTasks: { [key in TaskKey]: TaskAttributes[] } = {
 		},
 		{
 			id: 5,
-			rightAnswer: '4',
+			rightAnswer: '3',
 			src: '/completion_to_ten/completionto10-06.png',
 			answerType: 'numbers'
 		},

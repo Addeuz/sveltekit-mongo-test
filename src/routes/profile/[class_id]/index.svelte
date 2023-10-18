@@ -77,7 +77,7 @@
 <h5 class="ml-4"><Text key="students" /></h5>
 <div class="grid mx-4" style="grid-template-columns: 150px 1fr;">
 	<div class="flex flex-col">
-		{#each classInfo.students.sort( (a, b) => a.firstname.localeCompare(b.firstname, $session.languages) ) as student}
+		{#each classInfo.students.sort( (a, b) => a.firstname.localeCompare(b.firstname, lang.replace('_', '-')) ) as student}
 			<button
 				class="p-2 hover:bg-gray-200"
 				on:click={async () => {

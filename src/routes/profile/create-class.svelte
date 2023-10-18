@@ -1,10 +1,7 @@
 <script lang="ts">
 	import SubmitButton from '$lib/components/SubmitButton.svelte';
 	import { goto } from '$app/navigation';
-	import AddUser from '$lib/components/profile/AddUser.svelte';
-	import type { ObjectId } from 'mongoose';
 	import type { ClassAttributes } from 'src/global';
-	import type { IUser } from '$lib/database/models/users.models';
 	import Text from '$lib/components/Text.svelte';
 	import { getUrl } from '$lib/utils';
 	import { session } from '$app/stores';
@@ -12,16 +9,13 @@
 	import { i18n } from '$lib/i18n';
 
 	let submitted: boolean = false;
-	let isValid: boolean;
 	let error: string;
 	let success: string;
 	let loading: boolean = false;
-	let studentFilter = '';
 	let fields: ClassAttributes = {
 		name: '',
 		students: []
 	};
-	let addedStudents: (IUser & { _id: ObjectId })[] = [];
 
 	async function createClass() {
 		error = undefined;
@@ -51,11 +45,7 @@
 				loading = false;
 				submitted = false;
 				$session.user.classes = [...$session.user.classes, data.class.newClass];
-				goto(`/profile/${data.class.id}`);
-				fields = {
-					name: '',
-					students: []
-				};
+				goto(`/profile/${data.class.id}/add-users`);
 			} else {
 				const data = await res.json();
 				error = data.message;
@@ -74,6 +64,7 @@
 </script>
 
 <h2><Text key="create_class" /></h2>
+
 <input
 	type="text"
 	name="class_name"
@@ -85,34 +76,16 @@
 />
 <div class="grid grid-cols-1/3-2/3 mt-4">
 	<div class="left">
-		<h5><Text key="added_students" /></h5>
-		<div class="flex flex-col">
-			{#each addedStudents as { firstname }}
-				<p>{firstname}</p>
-			{:else}
-				<p><Text key="no_students" /></p>
-			{/each}
+		<div class="flex flex-row justify-start items-center gap-4">
+			<SubmitButton disabled={submitted || fields.name.length === 0} action={createClass} {loading}>
+				<Text key="create_class" />
+			</SubmitButton>
+			{#if error}
+				<p class="text-red-400">{error}</p>
+			{/if}
+			{#if success}
+				<p class="text-green-500">{success}</p>
+			{/if}
 		</div>
-	</div>
-	<div class="right">
-		<AddUser
-			on:new-user={({ detail }) => {
-				addedStudents = [...addedStudents, detail];
-				fields.students = [...fields.students, detail._id];
-			}}
-		/>
-	</div>
-</div>
-<div class="flex justify-start mt-8">
-	<div class="flex flex-row justify-center gap-4">
-		<SubmitButton disabled={submitted || fields.name.length === 0} action={createClass} {loading}>
-			<Text key="create_class" />
-		</SubmitButton>
-		{#if error}
-			<p class="text-red-400">{error}</p>
-		{/if}
-		{#if success}
-			<p class="text-green-500">{success}</p>
-		{/if}
 	</div>
 </div>

@@ -42,7 +42,6 @@
 		if (!star) {
 			if (isNaN(parseInt(userAnswer))) {
 				selected = userAnswer;
-				console.log(selected);
 			} else {
 				selected = parseInt(userAnswer);
 			}

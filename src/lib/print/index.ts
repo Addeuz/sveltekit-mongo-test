@@ -30,7 +30,9 @@ export function getStudentOverviewMarkup(overview: StudentOverview, lang: Langua
 									})
 									.join('')}
                 ${[...overview.values()]
-									.sort((a, b) => (a?.firstname ?? '').localeCompare(b.firstname, lang))
+									.sort((a, b) =>
+										(a?.firstname ?? '').localeCompare(b.firstname, lang.replace('_', '-'))
+									)
 									.map(
 										({ tasks, firstname }) => `
                                         <span style="padding: 0.5rem;">${firstname}</span>
