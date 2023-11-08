@@ -112,14 +112,15 @@
 		}
 	}
 
-	function playVideo() {
+	function playVideo(url: string) {
 		videoOpen = true;
-		videoUrl = task.video[$session.language];
+		videoUrl = url;
 	}
 
 	onMount(() => {
-		if (task.video) {
-			playVideo();
+		const url = task.video?.[$session.language];
+		if (task.video && url) {
+			playVideo(url);
 		} else {
 			taskStartTime = new Date();
 		}
@@ -127,7 +128,10 @@
 
 	afterUpdate(() => {
 		if (!taskVideoPlayed && task?.video) {
-			playVideo();
+			const url = task.video[$session.language];
+			if (url) {
+				playVideo(url);
+			}
 		}
 		if (taskIndex % 2 === 0 && !taskAudioPlayed && !task.video && task.audio) {
 			let audio = document.body.appendChild(new Audio(task.audio[$session.language]));
