@@ -1,4 +1,4 @@
-import type { TaskAttributes } from 'src/global';
+import type { AnswerAttributes, TaskAttributes } from 'src/global';
 import type { ICompletedRun } from '$lib/database/models/completedTasks.models';
 
 export const taskKeys = [
@@ -78,7 +78,7 @@ export type StudentOverview = Map<
 	string,
 	{
 		overall: TaskColors[];
-		tasks: { [key in TaskKey]: { color: TaskColors; date: Date }[] };
+		tasks: { [key in TaskKey]: { color: TaskColors; date: Date; answers: AnswerAttributes[] }[] };
 		firstname: string;
 	}
 >;

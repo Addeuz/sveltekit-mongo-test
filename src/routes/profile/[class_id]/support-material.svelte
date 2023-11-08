@@ -9,14 +9,30 @@
 </script>
 
 <div class="w-3/4 mx-auto flex flex-col">
-	<span class="flex justify-center"
-		>Eine Übersicht über alle Fördermaterialien findest du&nbsp;<a
-			class="text-blue-400 underline mb-4"
-			href="https://didunas.eu/de/fordermaterial-deutsch/"
-			target="_blank"
-			rel="noopener noreferrer">hier.</a
-		></span
-	>
+	<span class="flex justify-center">
+		{#if lang === 'sv'}
+			<a
+				class="text-blue-400 underline mb-4"
+				href="https://didunas.eu/de/fordermaterial-deutsch/"
+				target="_blank"
+				rel="noopener noreferrer">Här</a
+			>&nbsp;hittar du en översikt över allt stödmaterial.
+		{:else if lang === 'de'}
+			Eine Übersicht über alle Fördermaterialien findest du&nbsp;<a
+				class="text-blue-400 underline mb-4"
+				href="https://didunas.eu/de/fordermaterial-deutsch/"
+				target="_blank"
+				rel="noopener noreferrer">hier.</a
+			>
+		{:else if lang === 'en'}
+			You can find an overview of all support materials&nbsp;<a
+				class="text-blue-400 underline mb-4"
+				href="https://didunas.eu/de/fordermaterial-deutsch/"
+				target="_blank"
+				rel="noopener noreferrer">here.</a
+			>
+		{/if}
+	</span>
 	<div class="grid grid-cols-2 items-center gap-4 p-2">
 		<div class="grid items-center" style="grid-template-columns: 2fr 1fr;">
 			<h5 class="mb-0"><Text key="basic_support" /></h5>
