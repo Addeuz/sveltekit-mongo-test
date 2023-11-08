@@ -68,7 +68,12 @@ export type I18NKey =
 	| 'student_answers'
 	| 'answer'
 	| 'right_answer'
-	| 'time_to_answer';
+	| 'time_to_answer'
+	| 'equal'
+	| 'yellow'
+	| 'blue'
+	| 'red'
+	| 'skip';
 
 export const i18n: {
 	[key in I18NKey]: {
@@ -116,7 +121,7 @@ export const i18n: {
 	},
 	numberPattern: {
 		en: 'Number pattern',
-		sv: 'Siffer mönster',
+		sv: 'Talmönster',
 		de: 'Zahlenmuster',
 		el_cy: 'Μοτίβα με αριθμούς'
 	},
@@ -140,19 +145,19 @@ export const i18n: {
 	},
 	hiddenNumber: {
 		en: 'Hidden number',
-		sv: 'Föregående och nästa nummer',
+		sv: 'Föregående och nästa tal',
 		de: 'Vorgänger und Nachfolger',
 		el_cy: 'Προηγούμενος και επόμενος αριθμός'
 	},
 	numberComparison: {
 		en: 'Number comparison',
-		sv: 'Sifferjämförelse',
+		sv: 'Jämföra tal',
 		de: 'Zahlvergleich',
 		el_cy: 'Σύγκριση αριθμών'
 	},
 	quantityComparison: {
 		en: 'Quantity comparison',
-		sv: 'Mängd jämförelse',
+		sv: 'Jämföra mängder',
 		de: 'Mengenvergleich',
 		el_cy: 'Σύγκριση ποσοτήτων'
 	},
@@ -230,7 +235,7 @@ export const i18n: {
 	},
 	no_students: {
 		en: 'No students added',
-		sv: 'Inga elever har blivit tillagda',
+		sv: 'Inga elever har lagts till',
 		de: 'Keine Schüler*innen hinzugefügt',
 		el_cy: 'Προστέθηκαν μαθητές'
 	},
@@ -314,7 +319,7 @@ export const i18n: {
 	},
 	risk_description: {
 		en: 'Risk for developing mathematical difficulties',
-		sv: 'Risken för att utveckla matematiska svårigheter',
+		sv: 'Större behov av stöd när det gäller matematiska förkunskaper',
 		de: 'größerer Unterstützungsbedarf in den mathematischen Vorläuferfähigkeiten',
 		el_cy: 'Κίνδυνος για ανάπτυξη μαθηματικών δυσκολιών'
 	},
@@ -332,21 +337,21 @@ export const i18n: {
 	},
 	red_explanation: {
 		en: 'The child has shown greater difficulty in this area. It is important for this child to be fostered in this area in order to acquire these mathematical skills.',
-		sv: 'Barnet har haft stora svårigheter på detta område. Det är viktigt för detta barn att fostras inom detta område för att skaffa sig dessa matematiska färdigheter.',
+		sv: 'Eleven har delvis haft svårt på detta område. Det kan vara bra om elevens matematiska färdigheter inom detta område ses över och att eleven får stöd vid behov.',
 		de: 'Das Kind hat in diesem Bereich größere Schwierigkeiten gezeigt. Für dieses Kind ist es wichtig, in diesem Bereich gefördert zu werden, um diese mathematischen Fähigkeiten erwerben zu können.',
 		el_cy:
 			'Το παιδί έχει δείξει μεγαλύτερη δυσκολία σε αυτόν τον τομέα. Είναι σημαντικό αυτό το παιδί να ανατραφεί σε αυτόν τον τομέα για να αποκτήσει αυτές τις μαθηματικές δεξιότητες.'
 	},
 	yellow_explanation: {
 		en: "The child has shown partial difficulty in this area. It would be useful to review the child's mathematical skills in this area and foster them if necessary.",
-		sv: 'Barnet har delvis haft svårt på detta område. Det skulle vara användbart att se över barnets matematiska färdigheter inom detta område och främja dem vid behov.',
+		sv: 'Eleven har delvis haft svårt på detta område. Det kan vara bra om elevens matematiska färdigheter inom detta område ses över och att eleven får stöd vid behov.',
 		de: 'Das Kind hat in diesem Bereich teilweise Schwierigkeiten gezeigt. Es wäre sinnvoll, die mathematischen Fähigkeiten des Kindes in diesem Bereich zu überprüfen und gegebenenfalls zu fördern.',
 		el_cy:
 			'Το παιδί έχει δείξει μερική δυσκολία σε αυτόν τον τομέα. Θα ήταν χρήσιμο να επανεξετάσουμε τις μαθηματικές δεξιότητες του παιδιού σε αυτόν τον τομέα και να τις καλλιεργήσουμε αν χρειαστεί.'
 	},
 	green_explanation: {
 		en: 'The child has not shown any difficulties in this area.',
-		sv: 'Barnet har inte visat några svårigheter på detta område.',
+		sv: 'Eleven har inte visat några svårigheter på detta område.',
 		de: 'Das Kind hat in diesem Bereich keine Schwierigkeiten gezeigt.',
 		el_cy: 'Το παιδί δεν έχει παρουσιάσει δυσκολίες σε αυτόν τον τομέα.'
 	},
@@ -364,7 +369,7 @@ export const i18n: {
 	},
 	supplementary_material: {
 		en: 'Supplementary material',
-		sv: 'Kompletterande stöd',
+		sv: 'Kompletterande material',
 		de: 'Zusatzmaterial',
 		el_cy: 'Συμπληρωματική υποστήριξη'
 	},
@@ -450,7 +455,7 @@ export const i18n: {
 	},
 	print_users: {
 		en: 'Print student list',
-		sv: 'Skriv ut studentlista',
+		sv: 'Skriv ut elevlista',
 		de: 'Schüler*innenliste drucken',
 		el_cy: 'Εκτύπωση λίστας μαθητών'
 	},
@@ -501,6 +506,36 @@ export const i18n: {
 		sv: 'Tid för att svar',
 		de: 'Zeit zu antworten',
 		el_cy: 'Ώρα να απαντήσω'
+	},
+	equal: {
+		en: 'Equal',
+		sv: 'Lika',
+		de: 'Gleich',
+		el_cy: 'Ισος'
+	},
+	yellow: {
+		en: 'Yellow',
+		sv: 'Gul',
+		de: 'Gelb',
+		el_cy: 'Κίτρινος'
+	},
+	blue: {
+		en: 'Blue',
+		sv: 'Blå',
+		de: 'Blau',
+		el_cy: 'Μπλε'
+	},
+	red: {
+		en: 'Red',
+		sv: 'Röd',
+		de: 'Rot',
+		el_cy: 'το κόκκινο'
+	},
+	skip: {
+		en: 'Skip',
+		sv: 'Hoppa över',
+		de: 'Überspringen',
+		el_cy: 'Παραλείπω'
 	}
 };
 

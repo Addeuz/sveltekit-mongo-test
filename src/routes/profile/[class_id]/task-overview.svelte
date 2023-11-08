@@ -1,12 +1,11 @@
 <script lang="ts" context="module">
+	import { keyToThumbnailIdentifier, TaskColors, TaskOverview } from '$lib/tasks';
 	import {
-		keyToThumbnailIdentifier,
-		sampleTasks,
-		TaskColors,
-		TaskOverview,
-		thresholds
-	} from '$lib/tasks';
-	import { getUrl } from '$lib/utils';
+		calculateStudentTasks,
+		calculateTaskModalData,
+		getUrl,
+		TaskModalAnswers
+	} from '$lib/utils';
 	import type { Load } from '@sveltejs/kit';
 
 	export const load: Load = async ({ page }) => {
@@ -29,14 +28,13 @@
 </script>
 
 <script lang="ts">
-	import Modal from '$lib/components/Modal.svelte';
 	import ColorDate from '$lib/components/overview/ColorDate.svelte';
+	import TaskDataModal from '$lib/components/overview/TaskDataModal.svelte';
 	import TaskStats from '$lib/components/overview/TaskStats.svelte';
 	import Text from '$lib/components/Text.svelte';
-	import { getJSONFromString, ICompletedRun } from '$lib/database/models/completedTasks.models';
 	import { TaskKey, taskKeys } from '$lib/tasks';
-	import type { AnswerAttributes, TaskAttributes } from 'src/global';
-	import Button from '$lib/components/Button.svelte';
+	import type { AnswerAttributes } from 'src/global';
+	import type { ICompletedRun } from '$lib/database/models/completedTasks.models';
 
 	export let taskOverview: TaskOverview;
 
@@ -54,68 +52,8 @@
 		  }
 		| undefined = undefined;
 
-	let selectedAnswers:
-		| {
-				type: TaskKey;
-				answers: AnswerAttributes[];
-				images: { [key: string]: string };
-		  }
-		| undefined = undefined;
-
-	function calculateStudentTasks(
-		completed: ICompletedRun[],
-		key: TaskKey
-	): Map<
-		string,
-		{
-			tasks: { date: Date; name: string; color: TaskColors; answers: AnswerAttributes[] }[];
-			firstname: string;
-		}
-	> {
-		const studentTasks = new Map<
-			string,
-			{
-				tasks: { date: Date; name: string; color: TaskColors; answers: AnswerAttributes[] }[];
-				firstname: string;
-			}
-		>();
-		const threshold = thresholds[key];
-
-		let color: TaskColors = 'green';
-		for (const complete of completed) {
-			const tasks = getJSONFromString(complete.tasks);
-			let correct = 0;
-			for (const { answer, rightAnswer } of tasks) {
-				if (answer !== 'skip' && answer !== 'star') {
-					if (answer === rightAnswer) {
-						correct++;
-					}
-				}
-			}
-			if (correct <= threshold.red) {
-				color = 'red';
-			} else if (correct <= threshold.yellow) {
-				color = 'yellow';
-			} else if (correct <= threshold.green) {
-				color = 'green';
-			}
-			const old = studentTasks.get(complete.user_id.username);
-			studentTasks.set(complete.user_id.username, {
-				tasks: [
-					...(old?.tasks ?? []),
-					{
-						date: new Date(complete.createdAt),
-						color,
-						name: complete.user_id.firstname,
-						answers: tasks
-					}
-				].sort((a, b) => a.date.getTime() - b.date.getTime()),
-				firstname: complete.user_id.firstname
-			});
-		}
-
-		return studentTasks;
-	}
+	let selectedAnswers: [Date, TaskModalAnswers] | undefined = undefined;
+	let selectedName: string | undefined = undefined;
 
 	$: modalOpen = selectedAnswers !== undefined;
 </script>
@@ -173,29 +111,8 @@
 							{color}
 							{date}
 							on:click={() => {
-								const filteredAnswers = answers.filter((answer) => answer.taskId !== undefined);
-								selectedAnswers = {
-									type: selectedTasks.key,
-									answers: filteredAnswers.map((answer) => {
-										const task = sampleTasks[selectedTasks.key].find(
-											(task) => task.id === answer.taskId
-										);
-
-										return {
-											...answer,
-											rightAnswer: task.rightAnswer
-										};
-									}),
-									images: Object.fromEntries(
-										filteredAnswers.map((answer) => {
-											const imageSrc = sampleTasks[selectedTasks.key].find(
-												(task) => task.id === answer.taskId
-											).src;
-
-											return [answer.taskId, imageSrc];
-										})
-									)
-								};
+								selectedAnswers = calculateTaskModalData(selectedTasks.key, answers, date);
+								selectedName = firstname;
 							}}
 						/>
 					{/each}
@@ -205,61 +122,11 @@
 	{/if}
 </div>
 
-<Modal open={modalOpen}>
-	<h2><Text key="student_answers" /></h2>
-	{#if selectedAnswers}
-		<div class="grid grid-cols-4 items-center pr-4">
-			<span />
-			<span class="font-bold inline-flex justify-end"><Text key="answer" /></span>
-			<span class="font-bold inline-flex justify-end"><Text key="right_answer" /></span>
-			<span class="font-bold inline-flex justify-end"><Text key="time_to_answer" /></span>
-		</div>
-		<div class="max-h-[600px] overflow-y-scroll">
-			{#each selectedAnswers.answers as { taskId, time, rightAnswer, answer, skip }}
-				<div
-					class="grid grid-cols-4 items-center hover:bg-gray-200 pr-4"
-					class:right={rightAnswer === answer}
-					class:wrong={rightAnswer !== answer && answer !== 'skip'}
-					class:skip
-				>
-					<img
-						src={selectedAnswers.images[taskId]}
-						alt=""
-						style="width: 150px;
-			object-fit: cover;
-			object-position: 25% 25%; "
-					/>
-					<span class="inline-flex justify-end">{answer[0].toUpperCase() + answer.slice(1)}</span>
-					<span class="inline-flex justify-end"
-						>{rightAnswer[0].toUpperCase() + rightAnswer.slice(1)}</span
-					>
-					<span class="inline-flex justify-end">{time} s</span>
-				</div>
-			{/each}
-		</div>
-	{:else}
-		<span>This should not be possible</span>
-	{/if}
-
-	<div class="flex justify-end mt-4">
-		<Button
-			on:click={() => {
-				selectedAnswers = undefined;
-			}}
-		>
-			<Text key="close" />
-		</Button>
-	</div>
-</Modal>
-
-<style lang="postcss">
-	.right {
-		@apply text-green-500;
-	}
-	.skip {
-		@apply text-black;
-	}
-	.wrong {
-		@apply text-red-500;
-	}
-</style>
+<TaskDataModal
+	bind:open={modalOpen}
+	answers={[selectedAnswers]}
+	name={selectedName}
+	on:close={() => {
+		modalOpen = false;
+	}}
+/>

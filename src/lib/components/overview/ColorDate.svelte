@@ -1,10 +1,13 @@
 <script lang="ts">
+	import { browser } from '$app/env';
 	import { session } from '$app/stores';
 	import type { TaskColors } from '$lib/tasks';
 
 	export let color: TaskColors | undefined;
 	export let date: Date | undefined = undefined;
 	export let text: string | undefined = undefined;
+
+	$: lang = $session?.user?.language ?? (browser && localStorage.getItem('language')) ?? 'en';
 </script>
 
 <span
@@ -20,7 +23,7 @@
 	}`}
 >
 	{#if date}
-		{date.toLocaleDateString($session.language)}
+		{date.toLocaleDateString(lang.replace('_', '-'))}
 	{:else if text && text.length > 0}
 		{text}
 	{/if}

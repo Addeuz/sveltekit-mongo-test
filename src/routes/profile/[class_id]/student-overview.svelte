@@ -8,7 +8,7 @@
 		TaskOverview,
 		thresholds
 	} from '$lib/tasks';
-	import { getUrl } from '$lib/utils';
+	import { calculateTaskModalData, getUrl, TaskModalAnswers } from '$lib/utils';
 	import type { Load } from '@sveltejs/kit';
 	import { onMount } from 'svelte';
 
@@ -69,7 +69,7 @@
 							colors.overall = [...(colors?.overall ?? []), color];
 							colors.tasks[key] = [
 								...(colors?.tasks[key] ?? []),
-								{ color, date: new Date(complete.createdAt) }
+								{ color, date: new Date(complete.createdAt), answers: tasks }
 							].sort((a, b) => b.date.getTime() - a.date.getTime());
 
 							studentOverview.set(complete.user_id.username, colors);
@@ -77,7 +77,7 @@
 							studentOverview.set(complete.user_id.username, {
 								overall: [color],
 								tasks: {
-									[key]: [{ color, date: new Date(complete.createdAt) }],
+									[key]: [{ color, date: new Date(complete.createdAt), answers: tasks }],
 									...colors?.tasks
 								},
 								firstname: complete.user_id.firstname
@@ -110,16 +110,20 @@
 	import { i18n } from '$lib/i18n';
 	import printLayout from '$lib/print/layout.html?raw';
 	import { getStudentOverviewMarkup } from '$lib/print';
+	import TaskDataModal from '$lib/components/overview/TaskDataModal.svelte';
 
 	export let studentOverview: StudentOverview;
 
 	let iframe: HTMLIFrameElement;
+	let selectedAnswers: [Date, TaskModalAnswers][] | undefined = undefined;
+	let selectedName: string | undefined = undefined;
 
 	$: lang = $session?.user?.language ?? (browser && localStorage.getItem('language')) ?? 'en';
 	$: printMarkup = printLayout.replace(
 		'[[replace]]',
 		getStudentOverviewMarkup(studentOverview, lang)
 	);
+	$: modalOpen = selectedAnswers !== undefined;
 </script>
 
 <div class="flex justify-end">
@@ -154,7 +158,16 @@
 			<ColorDate color={undefined} />
 		</div>
 		{#each taskKeys as key}
-			<ColorDate color={tasks[key]?.[0].color} text={tasks[key]?.length.toString()} />
+			<ColorDate
+				color={tasks[key]?.[0].color}
+				text={tasks[key]?.length.toString()}
+				on:click={() => {
+					selectedAnswers = tasks[key]?.map(({ date, answers }) =>
+						calculateTaskModalData(key, answers, date)
+					);
+					selectedName = firstname;
+				}}
+			/>
 		{/each}
 	{/each}
 </div>
@@ -172,6 +185,16 @@
 		<span>{i18n['red_explanation'][lang]}</span>
 	</div>
 </div>
+
+<TaskDataModal
+	bind:open={modalOpen}
+	bind:answers={selectedAnswers}
+	name={selectedName}
+	on:close={() => {
+		modalOpen = false;
+		selectedName = undefined;
+	}}
+/>
 
 <iframe
 	bind:this={iframe}
