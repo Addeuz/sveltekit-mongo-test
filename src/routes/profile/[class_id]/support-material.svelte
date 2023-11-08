@@ -45,9 +45,7 @@
 			<a
 				class="text-blue-400 underline"
 				target="_blank"
-				href={key === 'colorPattern' || key === 'numberPattern'
-					? 'https://didunas.eu/wp-content/uploads/2023/06/Didunas_Muster.pdf'
-					: 'https://didunas.eu/de/fordermaterial-deutsch/'}
+				href="https://didunas.eu/de/fordermaterial-deutsch/"
 				rel="noreferrer noopener"
 			>
 				{i18n['support_material'][lang]}

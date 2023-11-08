@@ -29,18 +29,21 @@
 	import Text from '$lib/components/Text.svelte';
 	import { page, session } from '$app/stores';
 	import { updateTeacherClasses } from '$lib/classes';
+	import { browser } from '$app/env';
 
 	export let classInfo: ITeacherClass;
 
 	let studentQrCode: string | undefined = undefined;
 	let selectedStudent: IUser | undefined = undefined;
+
+	$: lang = $session?.user?.language ?? (browser && localStorage.getItem('language')) ?? 'en';
 </script>
 
 <h4>{classInfo.name}</h4>
 <h5><Text key="students" /></h5>
 <div class="flex">
 	<div class="flex flex-col">
-		{#each classInfo.students.sort( (a, b) => a.firstname.localeCompare(b.firstname, $session.languages.replace('_', '-')) ) as student}
+		{#each classInfo.students.sort( (a, b) => a.firstname.localeCompare(b.firstname, lang.replace('_', '-')) ) as student}
 			<button
 				class="p-2 hover:bg-gray-200"
 				on:click={async () => {
