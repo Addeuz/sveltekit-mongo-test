@@ -148,7 +148,12 @@ export const sampleTasks: { [key in TaskKey]: TaskAttributes[] } = {
 			rightAnswer: '3',
 			src: '/quantities/quantities-01.png',
 			answerType: 'numbers',
-			audio: { de: '/audio/08_de.MP3', el_cy: '/audio/08_el_cy.m4a', sv: '/audio/08_sv.mp3' }
+			audio: {
+				de: '/audio/08_de.MP3',
+				el_cy: '/audio/08_el_cy.m4a',
+				sv: '/audio/08_sv.mp3',
+				tr: '/audio/08_tr.WAV'
+			}
 		},
 		{
 			id: 1,
@@ -260,7 +265,12 @@ export const sampleTasks: { [key in TaskKey]: TaskAttributes[] } = {
 			rightAnswer: '1',
 			src: '/number_pattern/numberpattern-01.png',
 			answerType: 'numbers',
-			audio: { de: '/audio/18_de.MP3', el_cy: '/audio/18_el_cy.m4a', sv: '/audio/18_sv.mp3' }
+			audio: {
+				de: '/audio/18_de.MP3',
+				el_cy: '/audio/18_el_cy.m4a',
+				sv: '/audio/18_sv.mp3',
+				tr: '/audio/18_tr.WAV'
+			}
 		},
 		{
 			id: 1,
@@ -306,8 +316,18 @@ export const sampleTasks: { [key in TaskKey]: TaskAttributes[] } = {
 			rightAnswer: '2',
 			src: '/number_line/numberline-01.png',
 			answerType: 'numbers',
-			audio: { de: '/audio/09_de.MP3', el_cy: '/audio/09_el_cy.m4a', sv: '/audio/09_sv.mp3' },
-			video: { de: '/video/numberline_10_de.mp4', el_cy: '/video/numberline_10_el_cy.mp4' }
+			audio: {
+				de: '/audio/09_de.MP3',
+				el_cy: '/audio/09_el_cy.m4a',
+				sv: '/audio/09_sv.mp3',
+				tr: '/audio/09_tr.WAV'
+			},
+			video: {
+				de: '/video/numberline_10_de.mp4',
+				el_cy: '/video/numberline_10_el_cy.mp4',
+				sv: '/video/numberline_10_sv.mp4',
+				tr: '/video/numberline_10_tr.mp4'
+			}
 		},
 		{
 			id: 1,
@@ -356,8 +376,18 @@ export const sampleTasks: { [key in TaskKey]: TaskAttributes[] } = {
 			rightAnswer: '18',
 			src: '/number_line/numberline-09.png',
 			answerType: 'numbers',
-			audio: { de: '/audio/09_de.MP3', el_cy: '/audio/09_el_cy.m4a', sv: '/audio/09_sv.mp3' },
-			video: { de: '/video/numberline_20_de.mp4', el_cy: '/video/numberline_20_el_cy.mp4' }
+			audio: {
+				de: '/audio/09_de.MP3',
+				el_cy: '/audio/09_el_cy.m4a',
+				sv: '/audio/09_sv.mp3',
+				tr: '/audio/09_tr.WAV'
+			},
+			video: {
+				de: '/video/numberline_20_de.mp4',
+				el_cy: '/video/numberline_20_el_cy.mp4',
+				sv: '/video/numberline_20_sv.mp4',
+				tr: '/video/numberline_20_tr.mp4'
+			}
 		},
 		{
 			id: 9,
@@ -427,7 +457,12 @@ export const sampleTasks: { [key in TaskKey]: TaskAttributes[] } = {
 			rightAnswer: '3',
 			src: '/hidden_number/hiddennumber-01.png',
 			answerType: 'numbers',
-			audio: { de: '/audio/10_de.MP3', el_cy: '/audio/10_el_cy.m4a', sv: '/audio/10_sv.mp3' }
+			audio: {
+				de: '/audio/10_de.MP3',
+				el_cy: '/audio/10_el_cy.m4a',
+				sv: '/audio/10_sv.mp3',
+				tr: '/audio/10_tr.WAV'
+			}
 		},
 		{
 			id: 1,
@@ -472,7 +507,12 @@ export const sampleTasks: { [key in TaskKey]: TaskAttributes[] } = {
 			rightAnswer: '5',
 			src: '/number_comparison/numbercomparison-01.jpeg',
 			answerType: 'numbers',
-			audio: { de: '/audio/13_de.MP3', el_cy: '/audio/13_el_cy.m4a', sv: '/audio/13_sv.mp3' }
+			audio: {
+				de: '/audio/13_de.MP3',
+				el_cy: '/audio/13_el_cy.m4a',
+				sv: '/audio/13_sv.mp3',
+				tr: '/audio/13_tr.WAV'
+			}
 		},
 		{
 			id: 1,
@@ -512,7 +552,12 @@ export const sampleTasks: { [key in TaskKey]: TaskAttributes[] } = {
 			rightAnswer: '8',
 			src: '/plus/plus-01.jpeg',
 			answerType: 'numbers',
-			audio: { de: '/audio/14_de.MP3', el_cy: '/audio/14_el_cy.m4a', sv: '/audio/14_sv.mp3' }
+			audio: {
+				de: '/audio/14_de.MP3',
+				el_cy: '/audio/14_el_cy.m4a',
+				sv: '/audio/14_sv.mp3',
+				tr: '/audio/14_tr.WAV'
+			}
 		},
 		{
 			id: 1,
@@ -540,7 +585,12 @@ export const sampleTasks: { [key in TaskKey]: TaskAttributes[] } = {
 			rightAnswer: '3',
 			src: '/minus/minus-01.jpeg',
 			answerType: 'numbers',
-			audio: { de: '/audio/14_de.MP3', el_cy: '/audio/14_el_cy.m4a', sv: '/audio/14_sv.mp3' }
+			audio: {
+				de: '/audio/14_de.MP3',
+				el_cy: '/audio/14_el_cy.m4a',
+				sv: '/audio/14_sv.mp3',
+				tr: '/audio/14_tr.WAV'
+			}
 		},
 		{
 			id: 1,
@@ -568,7 +618,12 @@ export const sampleTasks: { [key in TaskKey]: TaskAttributes[] } = {
 			rightAnswer: 'red',
 			src: '/color_pattern/colorpatterns-01.png',
 			answerType: 'threeColors',
-			audio: { de: '/audio/16_de.MP3', el_cy: '/audio/16_el_cy.m4a', sv: '/audio/16_sv.mp3' }
+			audio: {
+				de: '/audio/16_de.MP3',
+				el_cy: '/audio/16_el_cy.m4a',
+				sv: '/audio/16_sv.mp3',
+				tr: '/audio/16_tr.WAV'
+			}
 		},
 		{
 			id: 1,
@@ -614,7 +669,12 @@ export const sampleTasks: { [key in TaskKey]: TaskAttributes[] } = {
 			rightAnswer: 'equal',
 			src: '/quantity_comparison/quantitiycomparison-01.png',
 			answerType: 'twoColors',
-			audio: { de: '/audio/15_de.MP3', el_cy: '/audio/15_el_cy.m4a', sv: '/audio/15_sv.mp3' }
+			audio: {
+				de: '/audio/15_de.MP3',
+				el_cy: '/audio/15_el_cy.m4a',
+				sv: '/audio/15_sv.mp3',
+				tr: '/audio/15_tr.WAV'
+			}
 		},
 		{
 			id: 1,
@@ -696,14 +756,24 @@ export const sampleTasks: { [key in TaskKey]: TaskAttributes[] } = {
 			rightAnswer: '10',
 			src: '/completion_to_ten/completionto10-01.png',
 			answerType: 'numbers',
-			audio: { de: '/audio/11_de.MP3', el_cy: '/audio/11_el_cy.m4a', sv: '/audio/11_sv.mp3' }
+			audio: {
+				de: '/audio/11_de.MP3',
+				el_cy: '/audio/11_el_cy.m4a',
+				sv: '/audio/11_sv.mp3',
+				tr: '/audio/11_tr.WAV'
+			}
 		},
 		{
 			id: 1,
 			rightAnswer: '2',
 			src: '/completion_to_ten/completionto10-02.png',
 			answerType: 'numbers',
-			audio: { de: '/audio/12_de.MP3', el_cy: '/audio/12_el_cy.m4a', sv: '/audio/12_sv.mp3' }
+			audio: {
+				de: '/audio/12_de.MP3',
+				el_cy: '/audio/12_el_cy.m4a',
+				sv: '/audio/12_sv.mp3',
+				tr: '/audio/11_tr.WAV'
+			}
 		},
 		{
 			id: 2,
