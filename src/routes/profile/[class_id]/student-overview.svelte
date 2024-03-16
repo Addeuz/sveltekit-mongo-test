@@ -5,6 +5,7 @@
 		keyToThumbnailIdentifier,
 		StudentOverview,
 		TaskColors,
+		TaskKey,
 		TaskOverview,
 		thresholds
 	} from '$lib/tasks';
@@ -87,28 +88,36 @@
 				}
 			}
 
-			const formData: { [key: string]: InternalPredict[] } = {};
+			const jsonData: { [key: string]: Record<TaskKey, number> } = {};
 			for await (const [user_id, { tasks }] of studentOverview) {
-				const scores: InternalPredict[] = [];
+				const scores: Record<TaskKey, number> = {
+					quantities: 0,
+					quantityComparison: 0,
+					numberComparison: 0,
+					colorPattern: 0,
+					numberPattern: 0,
+					hiddenNumber: 0,
+					numberLine: 0,
+					completionToTen: 0,
+					plus: 0,
+					minus: 0
+				};
 				for (const task of taskKeys) {
 					const data: TaskColors = tasks[task]
 						?.sort((a, b) => b.date.getTime() - a.date.getTime())
 						.at(0).color;
 
-					scores.push([task, data === 'green' ? 1 : data === 'yellow' ? 0.5 : 0]);
+					scores[task] = data === 'green' ? 1 : data === 'yellow' ? 0.5 : 0;
 				}
-				formData[user_id] = scores;
+				jsonData[user_id] = scores;
 			}
+
 			const predictionsPromise = fetch(getUrl(`/api/predict`), {
 				method: 'POST',
-				body: JSON.stringify(formData)
-			}).then(async (response) => {
-				const json = await response.json();
-
-				const predictions = json.predictions as { [key: string]: { prediction: 'T' | 'F' } };
-
-				return predictions;
-			});
+				body: JSON.stringify(jsonData)
+			})
+				.then((res) => res.json())
+				.then((res) => res.predictions);
 
 			return {
 				props: {
@@ -139,7 +148,7 @@
 
 	export let studentOverview: StudentOverview;
 	export let predictionsPromise: Promise<{
-		[key: string]: { prediction: 'T' | 'F' };
+		[key: string]: 'T' | 'F';
 	}>;
 
 	let iframe: HTMLIFrameElement;
@@ -204,7 +213,7 @@
 					<span class="sr-only">Loading...</span>
 				</div>
 			{:then predictions}
-				<ColorDate color={predictions[user_id].prediction === 'T' ? 'green' : 'red'} />
+				<ColorDate color={predictions[user_id] === 'T' ? 'green' : 'red'} />
 			{/await}
 		</div>
 		{#each taskKeys as key}
