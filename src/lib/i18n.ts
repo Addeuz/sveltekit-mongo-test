@@ -194,7 +194,7 @@ export const i18n: {
 		sv: 'Profil',
 		de: 'Profil',
 		el_cy: 'Προφίλ',
-		tr: ''
+		tr: 'Profil'
 	},
 	overview: {
 		en: 'Overview',
