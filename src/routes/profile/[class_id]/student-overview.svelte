@@ -87,9 +87,32 @@
 				}
 			}
 
+			const predictions: Map<string, 'T' | 'F'> = new Map();
+
+			for await (const [user_id, { tasks }] of studentOverview) {
+				const formData: InternalPredict[] = [];
+				for (const task of taskKeys) {
+					const data: TaskColors = tasks[task]
+						?.sort((a, b) => b.date.getTime() - a.date.getTime())
+						.at(0).color;
+
+					formData.push([task, data === 'green' ? 1 : data === 'yellow' ? 0.5 : 0]);
+				}
+
+				const res = await fetch(getUrl(`/api/predict`), {
+					method: 'POST',
+					body: JSON.stringify(formData)
+				});
+
+				const response = await res.json();
+
+				predictions.set(user_id, response.prediction);
+			}
+
 			return {
 				props: {
-					studentOverview
+					studentOverview,
+					predictions
 				}
 			};
 		}
@@ -111,8 +134,10 @@
 	import printLayout from '$lib/print/layout.html?raw';
 	import { getStudentOverviewMarkup } from '$lib/print';
 	import TaskDataModal from '$lib/components/overview/TaskDataModal.svelte';
+	import type { InternalPredict } from '$lib/tasks/predict';
 
 	export let studentOverview: StudentOverview;
+	export let predictions: Map<string, 'T' | 'F'>;
 
 	let iframe: HTMLIFrameElement;
 	let selectedAnswers: [Date, TaskModalAnswers][] | undefined = undefined;
@@ -152,10 +177,10 @@
 		/>
 	{/each}
 
-	{#each [...studentOverview.values()].sort( (a, b) => (a?.firstname ?? '').localeCompare(b.firstname, $session.language.replace('_', '-')) ) as { tasks, firstname }}
+	{#each [...studentOverview].sort( ([, a], [, b]) => (a?.firstname ?? '').localeCompare(b.firstname, $session.language.replace('_', '-')) ) as [user_id, { tasks, firstname }]}
 		<div class="grid grid-cols-2 items-center">
 			<p>{firstname}</p>
-			<ColorDate color={undefined} />
+			<ColorDate color={predictions.get(user_id) === 'T' ? 'green' : 'red'} />
 		</div>
 		{#each taskKeys as key}
 			<ColorDate

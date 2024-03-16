@@ -10,6 +10,10 @@ export function getUrl(prefix?: string): string {
 	return dev ? `http://localhost:3000${prefix}` : `https://didunas.vercel.app${prefix}`;
 }
 
+export function predictUrl(): string {
+	return dev ? 'http://localhost:5000/api/predict' : 'http://localhost:5000/api/predict';
+}
+
 export function generateUserId(): string {
 	let left = '';
 	let right = '';
