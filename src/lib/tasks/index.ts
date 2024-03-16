@@ -772,7 +772,7 @@ export const sampleTasks: { [key in TaskKey]: TaskAttributes[] } = {
 				de: '/audio/12_de.MP3',
 				el_cy: '/audio/12_el_cy.m4a',
 				sv: '/audio/12_sv.mp3',
-				tr: '/audio/11_tr.WAV'
+				tr: '/audio/12_tr.WAV'
 			}
 		},
 		{
