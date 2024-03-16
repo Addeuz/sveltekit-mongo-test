@@ -12,7 +12,7 @@ export function getUrl(prefix?: string): string {
 }
 
 export function predictUrl(): string {
-	return dev ? 'http://localhost:5000/api/predict' : `${variables.apiURL}/api/predict`;
+	return dev ? 'http://localhost:8000/api/predict' : `${variables.apiURL}/api/predict`;
 }
 
 export function generateUserId(): string {
