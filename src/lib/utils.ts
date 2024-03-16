@@ -5,9 +5,14 @@ import type { TaskColors, TaskKey } from './tasks';
 import type { AnswerAttributes } from 'src/global';
 import { getJSONFromString } from './database/models/completedTasks.models';
 import type { ICompletedRun } from './database/models/completedTasks.models';
+import { variables } from './environment';
 
 export function getUrl(prefix?: string): string {
 	return dev ? `http://localhost:3000${prefix}` : `https://didunas.vercel.app${prefix}`;
+}
+
+export function predictUrl(): string {
+	return dev ? 'http://localhost:5000/api/predict' : `${variables.apiURL}/api/predict`;
 }
 
 export function generateUserId(): string {
