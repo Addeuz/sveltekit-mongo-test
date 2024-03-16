@@ -87,32 +87,33 @@
 				}
 			}
 
-			const predictions: Map<string, 'T' | 'F'> = new Map();
-
+			const formData: { [key: string]: InternalPredict[] } = {};
 			for await (const [user_id, { tasks }] of studentOverview) {
-				const formData: InternalPredict[] = [];
+				const scores: InternalPredict[] = [];
 				for (const task of taskKeys) {
 					const data: TaskColors = tasks[task]
 						?.sort((a, b) => b.date.getTime() - a.date.getTime())
 						.at(0).color;
 
-					formData.push([task, data === 'green' ? 1 : data === 'yellow' ? 0.5 : 0]);
+					scores.push([task, data === 'green' ? 1 : data === 'yellow' ? 0.5 : 0]);
 				}
-
-				const res = await fetch(getUrl(`/api/predict`), {
-					method: 'POST',
-					body: JSON.stringify(formData)
-				});
-
-				const response = await res.json();
-
-				predictions.set(user_id, response.prediction);
+				formData[user_id] = scores;
 			}
+			const predictionsPromise = fetch(getUrl(`/api/predict`), {
+				method: 'POST',
+				body: JSON.stringify(formData)
+			}).then(async (response) => {
+				const json = await response.json();
+
+				const predictions = json.predictions as { [key: string]: { prediction: 'T' | 'F' } };
+
+				return predictions;
+			});
 
 			return {
 				props: {
 					studentOverview,
-					predictions
+					predictionsPromise: predictionsPromise
 				}
 			};
 		}
@@ -137,7 +138,9 @@
 	import type { InternalPredict } from '$lib/tasks/predict';
 
 	export let studentOverview: StudentOverview;
-	export let predictions: Map<string, 'T' | 'F'>;
+	export let predictionsPromise: Promise<{
+		[key: string]: { prediction: 'T' | 'F' };
+	}>;
 
 	let iframe: HTMLIFrameElement;
 	let selectedAnswers: [Date, TaskModalAnswers][] | undefined = undefined;
@@ -180,7 +183,29 @@
 	{#each [...studentOverview].sort( ([, a], [, b]) => (a?.firstname ?? '').localeCompare(b.firstname, $session.language.replace('_', '-')) ) as [user_id, { tasks, firstname }]}
 		<div class="grid grid-cols-2 items-center">
 			<p>{firstname}</p>
-			<ColorDate color={predictions.get(user_id) === 'T' ? 'green' : 'red'} />
+			{#await predictionsPromise}
+				<div role="status" class="flex justify-center">
+					<svg
+						aria-hidden="true"
+						class="w-6 h-6 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+						viewBox="0 0 100 101"
+						fill="none"
+						xmlns="http://www.w3.org/2000/svg"
+					>
+						<path
+							d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+							fill="currentColor"
+						/>
+						<path
+							d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+							fill="currentFill"
+						/>
+					</svg>
+					<span class="sr-only">Loading...</span>
+				</div>
+			{:then predictions}
+				<ColorDate color={predictions[user_id].prediction === 'T' ? 'green' : 'red'} />
+			{/await}
 		</div>
 		{#each taskKeys as key}
 			<ColorDate
