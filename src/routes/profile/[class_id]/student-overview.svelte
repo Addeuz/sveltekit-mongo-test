@@ -112,17 +112,17 @@
 				jsonData[user_id] = scores;
 			}
 
-			const predictionsPromise = fetch(getUrl(`/api/predict`), {
-				method: 'POST',
-				body: JSON.stringify(jsonData)
-			})
-				.then((res) => res.json())
-				.then((res) => res.predictions);
+			// const predictionsPromise = fetch(getUrl(`/api/predict`), {
+			// 	method: 'POST',
+			// 	body: JSON.stringify(jsonData)
+			// })
+			// 	.then((res) => res.json())
+			// 	.then((res) => res.predictions);
 
 			return {
 				props: {
-					studentOverview,
-					predictionsPromise: predictionsPromise
+					studentOverview
+					// predictionsPromise: predictionsPromise
 				}
 			};
 		}
@@ -147,9 +147,9 @@
 	import type { InternalPredict } from '$lib/tasks/predict';
 
 	export let studentOverview: StudentOverview;
-	export let predictionsPromise: Promise<{
-		[key: string]: 'T' | 'F';
-	}>;
+	// export let predictionsPromise: Promise<{
+	// 	[key: string]: 'T' | 'F';
+	// }>;
 
 	let iframe: HTMLIFrameElement;
 	let selectedAnswers: [Date, TaskModalAnswers][] | undefined = undefined;
@@ -175,9 +175,9 @@
 </div>
 <div class="grid gap-2" style="grid-template-columns: 2fr repeat(10, 1fr);">
 	<div class="grid grid-cols-2">
-		<span>&nbsp;</span><abbr title={i18n['risk_description'][lang]} class="mx-auto"
+		<!-- <span>&nbsp;</span><abbr title={i18n['risk_description'][lang]} class="mx-auto"
 			><Text key="overall_risk" /></abbr
-		>
+		> -->
 	</div>
 	{#each taskKeys as key}
 		<img
@@ -192,7 +192,7 @@
 	{#each [...studentOverview].sort( ([, a], [, b]) => (a?.firstname ?? '').localeCompare(b.firstname, $session.language.replace('_', '-')) ) as [user_id, { tasks, firstname }]}
 		<div class="grid grid-cols-2 items-center">
 			<p>{firstname}</p>
-			{#await predictionsPromise}
+			<!-- {#await predictionsPromise}
 				<div role="status" class="flex justify-center">
 					<svg
 						aria-hidden="true"
@@ -214,7 +214,7 @@
 				</div>
 			{:then predictions}
 				<ColorDate color={predictions[user_id] === 'T' ? 'green' : 'red'} />
-			{/await}
+			{/await} -->
 		</div>
 		{#each taskKeys as key}
 			<ColorDate
